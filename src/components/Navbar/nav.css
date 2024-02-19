@@ -1,0 +1,8 @@
+.nav_bg {
+  /* background-image: url("../public/static/images/new.png"); */
+  background-image: url("../../../static/images/nav_bg.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  /* background-attachment: fixed; */
+}

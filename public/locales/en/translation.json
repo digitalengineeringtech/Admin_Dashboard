@@ -1,10 +1,40 @@
 {
-  "HOME": {
-    "TITLE": "Services that we offer",
-    "DESCRIPTION": {
-      "PART1": "To get started, edit <1>src/App.js</1> and save to reload.",
-      "PART2": "Switch language between english and german using buttons above."
+  "SIDE": [
+    {
+      "name": "Dashboard",
+      "link": "/",
+      "icon": ""
+    },
+    {
+      "name": "Daily Sale",
+      "link": "/daily_sale"
+    },
+    {
+      "name": "Sale Summary",
+      "link": "/sale_summary"
+    },
+    {
+      "name": "Tank Data",
+      "link": "/tank_data"
+    },
+    {
+      "name": "Fuel Balance",
+      "link": "/fuel_balance"
+    },
+    {
+      "name": "Daily List",
+      "link": "/daily_list"
+    },
+    {
+      "name": "Fuel In",
+      "link": "/fuel_in"
+    },
+    {
+      "name": "Price Change",
+      "link": "/price_chg"
     }
-  },
-  "HELLO": "hello"
+  ],
+  "NAV": {
+    "LANGUAGE": "Language"
+  }
 }

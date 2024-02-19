@@ -1,19 +1,21 @@
-/** @type {import('tailwindcss').Config} */
 export default {
-  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
+  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx,mdx}"],
   theme: {
     extend: {
       colors: {
-        primary: "#FAFAFA",
+        primary: "#eff4f2",
         secondary: "#FFFFFF",
-        detail: "#45B54B",
+        detail: "#38b59e",
         text: "#3C3C3C",
         icon: "#7C7C7C",
-        input: "#EEEEEE",
+        inputB: "#99d4c8",
+        input: "#effffc",
         subText: "#DDDDDD",
         danger: "#EB6A6A",
+        shadow: "#3aaf94",
+        nodata: "#38b59e40",
       },
     },
   },
-  plugins: [],
+  plugins: [require("tailwindcss-animated")],
 };

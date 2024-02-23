@@ -29,7 +29,9 @@ const TableCom = ({ data, footer, footer2, label, header, rows }) => {
           <Table.Thead className="text-center">
             <Table.Tr className="text-[1.1rem] font-semibold text-center ">
               {header.map((item, index) => (
-                <Table.Td key={index}>{item}</Table.Td>
+                <Table.Td key={index} className="bg-detail/20">
+                  {item}
+                </Table.Td>
               ))}
             </Table.Tr>
             {/* <Table.Tr className="text-[1.1rem] font-semibold text-center ">
@@ -44,7 +46,7 @@ const TableCom = ({ data, footer, footer2, label, header, rows }) => {
           <Table.Tbody className="text-[1.1rem]">
             {rows}
             {footer ? (
-              <Table.Tr >
+              <Table.Tr>
                 <Table.Td
                   colSpan={4}
                   className="text-center text-lg font-semibold"

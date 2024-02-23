@@ -1,14 +1,45 @@
-import { Outlet, useParams } from "react-router-dom";
+import { Outlet, useParams, useNavigate } from "react-router-dom";
 import Sidebar from "../components/Sidebar/Sidebar";
 import Login from "../pages/Login";
 import Nav from "../components/Navbar/Nav";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import AuthContext from "../services/AuthContext";
 
 const Layout = () => {
+  const navigate = useNavigate();
+  const [auth, setAuth] = useState();
+  let token = localStorage.getItem("encryptedToken");
+  
+  const [isInstalling, setIsInstalling] = useState();
+  const { isAuth, setIsAuth } = useContext(AuthContext);
+
+    useEffect(() => {
+      const check = JSON.parse(localStorage.getItem("installed"));
+      if (check) {
+        setIsInstalling(true);
+      } else {
+        setIsInstalling(false);
+      }
+    }, [isAuth]);
+
+  useEffect(() => {
+    if (token) {
+      setAuth(true);
+    } else {
+      setAuth(false);
+    }
+  }, [token]);
+  // console.log(auth);
+  // useEffect(() => {
+  //   auth ? navigate("/") : navigate("/login");
+  // }, []);
   // console.log(window.location.pathname);
   const path = window.location.pathname;
   const [state, setState] = useState();
   const dd = useParams();
+
+
+
   // console.log(dd);
   useEffect(() => {
     switch (path) {
@@ -41,16 +72,19 @@ const Layout = () => {
 
   return (
     <>
-      {/* <Login /> */}
+      {/* {!auth ? (
+        <Login />
+      ) : ( */}
       <div className="bg-primary w-full  h-screen">
         <Sidebar />
         <div className=" h-screen p-4 pr-6  w-[93%] 2xl:w-[94%] ms-auto">
-          <Nav title={state} />
+          {!isInstalling && <Nav title={state} />}
           <div className="h-[97vh] example overflow-y-scroll">
             <Outlet />
           </div>
         </div>
       </div>
+      {/* )} */}
     </>
   );
 };

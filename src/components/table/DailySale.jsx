@@ -15,15 +15,15 @@ const DailySale = ({ rows2, label, rows }) => {
           className=" text-text"
         >
           <Table.Thead className="text-center">
-            <Table.Tr className="text-[1.1rem] font-semibold text-center ">
-              <Table.Td>No</Table.Td>
-              <Table.Td>Fuel Type</Table.Td>
-              <Table.Td>Liter</Table.Td>
-              <Table.Td>Price</Table.Td>
-              <Table.Td>Amount</Table.Td>
-              <Table.Td>Discount</Table.Td>
-              <Table.Td>Amount</Table.Td>
-              <Table.Td>Credit</Table.Td>
+            <Table.Tr className="text-[1.1rem]  font-semibold text-center ">
+              <Table.Td className="bg-detail/20">No</Table.Td>
+              <Table.Td className="bg-detail/20">Fuel Type</Table.Td>
+              <Table.Td className="bg-detail/20">Liter</Table.Td>
+              <Table.Td className="bg-detail/20">Price</Table.Td>
+              <Table.Td className="bg-detail/20">Amount</Table.Td>
+              <Table.Td className="bg-detail/20">Discount</Table.Td>
+              <Table.Td className="bg-detail/20">Amount</Table.Td>
+              <Table.Td className="bg-detail/20">Credit</Table.Td>
             </Table.Tr>
           </Table.Thead>
           <Table.Tbody className="text-[1.1rem]">

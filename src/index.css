@@ -13,6 +13,7 @@
   @tailwind utilities;
 }
 
+
 .login_bg {
   /* background-image: url("../public/static/images/new.png"); */
   background-image: url("../static/images/login_bg.png");

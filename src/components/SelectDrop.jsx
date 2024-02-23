@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import "react-dropdown/style.css";
 import { FaAngleDown } from "react-icons/fa";
 
-const SelectDrop = ({ data, value, setValue, label }) => {
+const SelectDrop = ({ data, value, setValue, placeholder, label }) => {
   const [con, setCon] = useState(false);
   //   const [value, setValue] = useState("");
   //   const [name, setName] = useState("");
@@ -17,9 +17,9 @@ const SelectDrop = ({ data, value, setValue, label }) => {
     duration: 10,
   };
 
-  console.log("====================================");
-  console.log(value);
-  console.log("====================================");
+  // console.log("====================================");
+  // console.log(value);
+  // console.log("====================================");
 
   return (
     <div className="w-[300px] relative">
@@ -28,7 +28,11 @@ const SelectDrop = ({ data, value, setValue, label }) => {
         onClick={() => setCon((pre) => !pre)}
         className="bg-input border border-inputB z-30 text-text duration-100 select-none items-center w-full p-4 flex justify-between rounded-lg active:scale-95"
       >
-        {value?.name ? value?.name : "Please Select"}
+        {value?.name
+          ? value?.name
+          : placeholder
+          ? placeholder
+          : "Please Select"}
         <FaAngleDown className="text-text" />
       </div>
       {con && (

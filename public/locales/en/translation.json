@@ -1,9 +1,8 @@
 {
-  "SIDE": [
+  "SIDE_MANAGER": [
     {
       "name": "Dashboard",
-      "link": "/",
-      "icon": ""
+      "link": "/"
     },
     {
       "name": "Daily Sale",
@@ -32,6 +31,32 @@
     {
       "name": "Price Change",
       "link": "/price_chg"
+    }
+  ],
+  "SIDE_INSTALLER": [
+    {
+      "name": "Devices",
+      "link": "/"
+    },
+    {
+      "name": "Tanks",
+      "link": "/tank"
+    },
+    {
+      "name": "Totalizer",
+      "link": "/totallizer"
+    },
+    {
+      "name": "Manager",
+      "link": "/manager"
+    },
+    {
+      "name": "Cashier",
+      "link": "/cashier"
+    },
+    {
+      "name": "Role",
+      "link": "/role"
     }
   ],
   "NAV": {

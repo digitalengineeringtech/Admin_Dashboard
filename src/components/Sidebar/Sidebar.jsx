@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { FaCaretLeft } from "react-icons/fa6";
 import { MdAccountCircle } from "react-icons/md";
@@ -14,13 +14,37 @@ import { BiLogOutCircle } from "react-icons/bi";
 import { IoFileTrayFull } from "react-icons/io5";
 import { MdPropaneTank } from "react-icons/md";
 import { IoMdPricetag } from "react-icons/io";
-
+import { BsFillFuelPumpFill } from "react-icons/bs";
+import { MdSpaceDashboard } from "react-icons/md";
+import { FaCashRegister } from "react-icons/fa6";
+import useTokenStorage from "../../utils/useDecrypt";
+import { useNavigate } from "react-router-dom";
+import AuthContext from "../../services/AuthContext";
 const Sidebar = () => {
+  const navigate = useNavigate();
+  const { clearToken } = useTokenStorage();
+
+  const [isInstalling, setIsInstalling] = useState();
+  const { isAuth, setIsAuth } = useContext(AuthContext);
   const { t, i18n } = useTranslation();
+
+  const ins = i18n.store.data.en.translation.SIDE_INSTALLER;
+  const manag = i18n.store.data.en.translation.SIDE_MANAGER;
+
+  useEffect(() => {
+    const check = JSON.parse(localStorage.getItem("installed"));
+    if (check) {
+      setIsInstalling(true);
+    } else {
+      setIsInstalling(false);
+    }
+  }, [isAuth]);
+
+  // const [data, setData] = useState(i18n.store.data.en.translation.SIDE_MANAGER);
   //   console.log(t("SIDE"));
-  const data = i18n.store.data.en.translation.SIDE;
+  // const data = i18n.store.data.en.translation.SIDE_MANAGER;
   // console.log(data);
-  const icon = [
+  const managerIcon = [
     <MdAccountCircle />,
     <TbCoinFilled />,
     <IoFileTrayFull />,
@@ -29,6 +53,15 @@ const Sidebar = () => {
     <FaChartPie />,
     <FaPlusCircle />,
     <IoMdPricetag />,
+  ];
+  const installerIcon = [
+    <MdSpaceDashboard />,
+    <BsFillFuelPumpFill />,
+    <GiFuelTank />,
+    <MdPropaneTank />,
+    <MdAccountCircle />,
+    <FaCashRegister />,
+    <FaPlusCircle />,
   ];
   const [isBouncing, setBouncing] = useState(true);
 
@@ -92,15 +125,15 @@ const Sidebar = () => {
           transition={{ duration: 0.2, type: "tween" }}
           className=" mx-auto rounded-lg ml-[-73px] w-[220px]  mt-5"
         >
-          <div className="flex scroll_bar_right pl-3  h-[62vh] overflow-y-scroll flex-col">
-            {data.map((e, index) => (
+          <div className="flex scroll_bar_right pl-3 gap-y-2 h-[62vh] overflow-y-scroll flex-col">
+            {(isInstalling ? ins : manag).map((e, index) => (
               <NavLink
                 onClick={() => setState(false)}
                 to={e.link}
                 className="py-4 scroll_bar_left flex gap-3 duration-150 items-center text-gray-600 px-4 group rounded-md hover:bg-secondary"
               >
                 <div className="text-2xl duration-150 group-hover:text-detail">
-                  {icon[index]}
+                  {isInstalling ? installerIcon[index] : managerIcon[index]}
                 </div>
                 <div className=" text-xl duration-150 group-hover:text-detail ">
                   {e.name}
@@ -121,6 +154,11 @@ const Sidebar = () => {
         <motion.button
           animate={state ? "open" : "close"}
           variants={pfp2}
+          onClick={() => {
+            clearToken(),
+              localStorage.setItem("installed", false),
+              navigate("/login");
+          }}
           transition={{ duration: 0.2, type: "tween" }}
           className="bg-secondary hover:border active:border-0 text-lg cursor-pointer gap-4 text-danger border-danger mb-4 ml-[-55px] justify-center items-center flex left-0 absolute bottom-0 w-[200px] h-12 rounded-lg"
         >

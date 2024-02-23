@@ -1,6 +1,6 @@
 import React from "react";
-import TextInput from "../components/inputbox/TextInput";
-import Button from "../components/inputbox/Button";
+import TextInput from "../../components/inputbox/TextInput";
+import Button from "../../components/inputbox/Button";
 
 const PriceChg = () => {
   return (

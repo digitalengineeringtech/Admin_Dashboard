@@ -1,12 +1,14 @@
 import React from "react";
 import { Table } from "@mantine/core";
 
-const StockTable = ({ header, label, rows }) => {
+const FilterTable = ({ header, label, rows, tableRef }) => {
+  // console.log(tableRef);
   return (
     <div className="">
       <h3 className="text-text ms-3 mb-3 text-xl">{label}</h3>
       <div className=" p-4 rounded-xl bg-secondary  shadow-md shadow-shadow/20 ">
         <Table
+          ref={tableRef}
           verticalSpacing="md"
           striped
           withTableBorder
@@ -15,7 +17,7 @@ const StockTable = ({ header, label, rows }) => {
           className=" text-text"
         >
           <Table.Thead className="text-center">
-            <Table.Tr className="text-[1.1rem] font-semibold text-center ">
+            <Table.Tr className="text-[1rem] font-semibold text-center ">
               {header.map((item, index) => (
                 <Table.Td key={index} className="bg-detail/20">
                   {item}
@@ -30,4 +32,4 @@ const StockTable = ({ header, label, rows }) => {
   );
 };
 
-export default StockTable;
+export default FilterTable;

@@ -1,13 +1,13 @@
 import React, { useState } from "react";
-import Nav from "../components/Navbar/Nav";
-import SearchButton from "../components/SearchButton";
-import SelectDrop from "../components/SelectDrop";
-import purpose from "../testBeforeApi/data/pou";
-import CalendarPick from "../components/CalendarPick";
+import Nav from "../../components/Navbar/Nav";
+import SearchButton from "../../components/SearchButton";
+import SelectDrop from "../../components/SelectDrop";
+import purpose from "../../testBeforeApi/data/pou";
+import CalendarPick from "../../components/CalendarPick";
 import { RiErrorWarningLine } from "react-icons/ri";
-import Footer from "../components/footer/Footer";
-import TableCom from "../components/table/TableCom";
-import elements, { office_use } from "../testBeforeApi/tableData/dailyList";
+import Footer from "../../components/footer/Footer";
+import TableCom from "../../components/table/TableCom";
+import elements, { office_use } from "../../testBeforeApi/tableData/dailyList";
 import { NavLink, Outlet, useParams } from "react-router-dom";
 import { Table } from "@mantine/core";
 

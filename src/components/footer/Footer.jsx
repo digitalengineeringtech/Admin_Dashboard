@@ -1,14 +1,14 @@
 import React from "react";
 import Button from "./Button";
-import Paginator from "./Paginator";
 import { RiFileExcel2Fill } from "react-icons/ri";
 import { IoPrintSharp } from "react-icons/io5";
-
-const Footer = () => {
+import { Pagination } from "@mantine/core";
+const Footer = ({ onPageChange, totalPages, download }) => {
   return (
     <div className="flex items-center justify-between mb-4 px-3 mt-7">
       <div className="flex gap-4">
         <Button
+          onClick={() => download()}
           className="flex"
           icon={<RiFileExcel2Fill className="text-xl" />}
           text="To Excel"
@@ -19,7 +19,12 @@ const Footer = () => {
           text="To Print"
         />
       </div>
-      <Paginator />
+      <Pagination
+        total={totalPages}
+        onChange={onPageChange}
+        color="#38b59e"
+        withEdges
+      />
     </div>
   );
 };

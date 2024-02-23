@@ -1,22 +1,73 @@
-import React from "react";
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import {
+  RouterProvider,
+  Navigate,
+  createBrowserRouter,
+} from "react-router-dom";
 import Layout from "./layout/Layout";
-import DailyList from "./pages/DailyList";
-import DailySale from "./pages/DailySale";
-import FuelBalance from "./pages/FuelBalance";
-import FuelIn from "./pages/FuelIn";
-import Manager from "./pages/Manager";
-import SaleSummary from "./pages/SaleSummary";
-import TankData from "./pages/TankData";
-import PriceChg from "./pages/PriceChg";
+import DailyList from "./pages/manager/DailyList";
+import DailySale from "./pages/manager/DailySale";
+import FuelBalance from "./pages/manager/FuelBalance";
+import FuelIn from "./pages/manager/FuelIn";
+import Manager from "./pages/manager/Manager";
+import SaleSummary from "./pages/manager/SaleSummary";
+import TankData from "./pages/manager/TankData";
+import PriceChg from "./pages/manager/PriceChg";
 import Report from "./components/nested/Report";
 import Stock from "./components/nested/Stock";
+import Welcome from "./pages/installer/Welcome";
+import Device from "./pages/installer/Device";
+import Cashier from "./pages/installer/Cashier";
+import Role from "./pages/installer/Role";
+import Tank from "./pages/installer/Tank";
+import Totallizer from "./pages/installer/Totallizer";
+import Login from "./pages/Login";
+import InstallerManager from "./pages/installer/InstallerManager";
+import AuthContext from "./services/AuthContext";
 
 const App = () => {
-  const router = createBrowserRouter([
+  const [isInstalling, setIsInstalling] = useState(false);
+  const [isAuth, setIsAuth] = useState(false);
+
+  const [auth, setAuth] = useState(true);
+
+  useEffect(() => {
+    let token = localStorage.getItem("encryptedToken");
+    if (token) {
+      setAuth(true);
+    } else {
+      setAuth(false);
+    }
+  }, [isAuth]);
+
+  useEffect(() => {
+    const check = JSON.parse(localStorage.getItem("installed"));
+    if (check) {
+      setIsInstalling(true);
+    } else {
+      setIsInstalling(false);
+    }
+  }, [isAuth]);
+
+  console.log("install", isInstalling);
+
+  // useEffect(() => {
+  //   if (localStorage.getItem("installed") === null) {
+  //     localStorage.setItem("installed", false);
+  //     setIsInstalling(true);
+  //   } else {
+  //     setIsInstalling(JSON.parse(localStorage.getItem("installed")));
+  //   }
+  // }, []);
+
+  const managerRouter = createBrowserRouter([
+    {
+      path: "/login",
+      element: <Login />,
+    },
     {
       path: "/",
-      element: <Layout />,
+      element: auth ? <Layout /> : <Navigate to="/login" />,
       children: [
         {
           index: true,
@@ -63,7 +114,48 @@ const App = () => {
       ],
     },
   ]);
-  return <RouterProvider router={router} />;
+
+  const installerRouter = createBrowserRouter([
+    {
+      path: "/login",
+      element: <Login />,
+    },
+    {
+      path: "/",
+      element: auth ? <Layout /> : <Navigate to="/login" />,
+      children: [
+        {
+          index: true,
+          element: <Device />,
+        },
+        {
+          path: "/cashier",
+          element: <Cashier />,
+        },
+        {
+          path: "/manager",
+          element: <InstallerManager />,
+        },
+        {
+          path: "/role",
+          element: <Role />,
+        },
+        {
+          path: "/tank",
+          element: <Tank />,
+        },
+        {
+          path: "/totallizer",
+          element: <Totallizer />,
+        },
+      ],
+    },
+  ]);
+  return (
+    <AuthContext.Provider value={{ isAuth, setIsAuth }}>
+      <RouterProvider router={isInstalling ? installerRouter : managerRouter} />
+    </AuthContext.Provider>
+  );
 };
 
 export default App;

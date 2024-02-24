@@ -15,6 +15,16 @@ import nozzleData from "../installer/drop_data/manager/nozzle";
 import { useDownloadExcel } from "react-export-table-to-excel";
 
 const DailySale = () => {
+  let start = new Date();
+  start.setHours(0);
+  start.setMinutes(0);
+  start = new Date(start);
+
+  let end = new Date();
+  end.setHours(23);
+  end.setMinutes(0);
+  end = new Date(end);
+
   const [token, setToken] = useState("none");
   const { loadToken } = useTokenStorage();
   useEffect(() => {
@@ -30,8 +40,8 @@ const DailySale = () => {
   const [date, setDate] = useState(null);
   const [isData, setIsData] = useState(false);
 
-  const [sDate, setSDate] = useState();
-  const [eDate, setEDate] = useState();
+  const [sDate, setSDate] = useState(start);
+  const [eDate, setEDate] = useState(end);
   const [fuelType, setFuelType] = useState();
   const [purposeUse, setPurposeUse] = useState();
   const [noz, setNoz] = useState();
@@ -107,6 +117,12 @@ const DailySale = () => {
     </Table.Tr>
   ));
 
+  useEffect(() => {
+    fetchItGet(route, token);
+    console.log("hello");
+    console.log(data_g);
+  }, []);
+
   console.log(
     "start",
     sDate,
@@ -119,6 +135,7 @@ const DailySale = () => {
     "nozzle",
     noz?.value
   );
+
   console.log(data_g);
   console.log(data_g?.length > 0);
   console.log(pagi_g);
@@ -169,7 +186,11 @@ const DailySale = () => {
       </div>
       {isData ? (
         <div className="mt-8">
-          <FilterTable tableRef={tableRef} header={tableHeader} rows={tableRow} />
+          <FilterTable
+            tableRef={tableRef}
+            header={tableHeader}
+            rows={tableRow}
+          />
         </div>
       ) : (
         <div className="w-full h-[250px] gap-5 text-nodata flex items-center justify-center border-2 border-nodata mt-10 rounded-xl">

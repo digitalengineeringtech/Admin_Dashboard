@@ -105,7 +105,7 @@ const Device = () => {
       <Table.Td>{element.dep_no}</Table.Td>
       <Table.Td>{element.nozzle_no}</Table.Td>
       <Table.Td>{element.fuel_type}</Table.Td>
-      <Table.Td>{element.brand}</Table.Td>
+      <Table.Td>{element.dep_type}</Table.Td>
       <Table.Td
         onClick={() => console.log(element._id)}
         className="bg-detail text-white cursor-pointer duration-75 select-none active:scale-95"

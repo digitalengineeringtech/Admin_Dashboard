@@ -36,7 +36,7 @@ const Login = () => {
   };
 
   const handleInstallerSubmit = () => {
-    if (email == null || pswd == null) {
+    if (inEmail == null || inPswd == null) {
       setEErrorIn("email require !");
       setPErrorIn("password require !");
     } else {
@@ -51,7 +51,7 @@ const Login = () => {
   };
   console.log(email, pswd);
   const handleManagerSubmit = () => {
-    if (inEmail == null || inPswd == null) {
+    if (email == null || pswd == null) {
       setEError("email require !");
       setPError("password require !");
     } else {

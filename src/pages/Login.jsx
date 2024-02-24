@@ -11,11 +11,13 @@ import useLocalLogin from "../api/hooks/UseLocalLogin";
 const Login = () => {
   const { isAuth, setIsAuth } = useContext(AuthContext);
   const [email, setEmail] = useState();
-  const [eError, setEError] = useState();
   const [inEmail, setInEmail] = useState();
   const [inPswd, setInPswd] = useState();
   const [pswd, setPswd] = useState();
+  const [pErrorIn, setPErrorIn] = useState();
+  const [eErrorIn, setEErrorIn] = useState();
   const [pError, setPError] = useState();
+  const [eError, setEError] = useState();
   const [state, setState] = useState(true);
   const navigate = useNavigate();
   console.log("auth is", isAuth);
@@ -35,11 +37,11 @@ const Login = () => {
 
   const handleInstallerSubmit = () => {
     if (email == null || pswd == null) {
-      setEError("email require !");
-      setPError("password require !");
+      setEErrorIn("email require !");
+      setPErrorIn("password require !");
     } else {
-      setEError(null);
-      setPError(null);
+      setEErrorIn(null);
+      setPErrorIn(null);
       const user = {
         email: inEmail,
         password: inPswd,
@@ -49,7 +51,7 @@ const Login = () => {
   };
   console.log(email, pswd);
   const handleManagerSubmit = () => {
-    if (email == null || pswd == null) {
+    if (inEmail == null || inPswd == null) {
       setEError("email require !");
       setPError("password require !");
     } else {
@@ -175,7 +177,7 @@ const Login = () => {
               />
               {eError && (
                 <div className="text-red-300 me-auto ms-[80px] mt-[-13px] mb-[-10px]">
-                  {eError}
+                  {eErrorIn}
                 </div>
               )}
 
@@ -187,7 +189,7 @@ const Login = () => {
               />
               {pError && (
                 <div className="text-red-300 me-auto ms-[80px] mt-[-13px] mb-[-10px]">
-                  {pError}
+                  {pErrorIn}
                 </div>
               )}
               <Button

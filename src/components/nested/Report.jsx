@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import TableCom from "../table/TableCom";
 import elements, {
   daily_sale,
@@ -6,15 +6,78 @@ import elements, {
 } from "../../testBeforeApi/tableData/dailyList";
 import { Table } from "@mantine/core";
 import DailySale from "../table/DailySale";
+import { useOutletContext } from "react-router-dom";
 
 const Report = () => {
+  const [totalPTest, totalOTest, totalCredit, notCredit] = useOutletContext();
+  const [totalSaleAmount, setTotalSaleAmount] = useState();
+  const [noCreditTotal, setNoCreditTotal] = useState();
+  const [creditTotal, setCreditTotal] = useState();
+
+  useEffect(() => {
+    setTotalSaleAmount(
+      notCredit
+        ?.map((e) => Number(e.totalAmount))
+        .reduce((pv, cv) => pv + cv, 0)
+    );
+  }, [totalCredit, notCredit]);
+
+  useEffect(() => {
+    const data = () => {
+      const totalAmount = notCredit
+        ?.map((e) => Number(e.totalAmount))
+        .reduce((pv, cv) => pv + cv, 0);
+
+      const totalDis = notCredit
+        ?.map((e) => Number(e.totalAmount) - (e.totalAmount * e.discount) / 100)
+        .reduce((pv, cv) => pv + cv, 0);
+
+      return {
+        totalAmount: totalAmount,
+        disAmount: totalDis,
+      };
+    };
+
+    const data2 = () => {
+      const totalAmount = totalCredit
+        ?.map((e) => Number(e.totalAmount))
+        .reduce((pv, cv) => pv + cv, 0);
+
+      const totalDis = totalCredit
+        ?.map((e) => Number(e.totalAmount) - (e.totalAmount * e.discount) / 100)
+        .reduce((pv, cv) => pv + cv, 0);
+
+      return {
+        totalAmount: totalAmount,
+        disAmount: totalDis,
+      };
+    };
+
+    setNoCreditTotal(data);
+    setCreditTotal(data2);
+  }, [totalCredit, notCredit]);
+
+  console.log(creditTotal, "qqqqqqqqqqqqqqqqqq");
+
+  const PumpTotalAmount = totalPTest
+    ?.map((data) => Number(data.totalAmount))
+    .reduce((pv, cv) => pv + cv);
+  const OfficeTotalAmount = totalOTest
+    ?.map((data) => Number(data.totalAmount))
+    .reduce((pv, cv) => pv + cv);
+  const totalCreditAmount = totalCredit
+    ?.map((data) => Number(data.totalAmount))
+    .reduce((pv, cv) => pv + cv);
+
+  console.log(totalOTest, "ggggggg");
+
   const pumpTestFooter = {
     desc: "Total Pump Test",
-    total: "100,000",
+    total: PumpTotalAmount,
   };
   const officeUseFooter = {
     desc: "Total Office Use",
-    total: "300,000",
+    total: OfficeTotalAmount,
   };
   const dailySaleFooter = {
     desc: "Total Office Use",
@@ -40,36 +103,57 @@ const Report = () => {
     "Credit Balance",
   ];
 
-  const pumpTestRows = elements?.map((element) => (
-    <Table.Tr key={element.price} className=" duration-150 text-center">
-      <Table.Td>{element.no}</Table.Td>
-      <Table.Td>{element.type}</Table.Td>
-      <Table.Td>{element.liter}</Table.Td>
-      <Table.Td>{element.price}</Table.Td>
-      <Table.Td>{element.amount}</Table.Td>
-      <Table.Td>{element.description}</Table.Td>
+  const pumpTestRows = totalPTest?.map((element, index) => (
+    <Table.Tr key={index} className=" duration-150 text-center">
+      <Table.Td>{index + 1}</Table.Td>
+      <Table.Td>{element.fueltype}</Table.Td>
+      <Table.Td>{element.totalLiter}</Table.Td>
+      <Table.Td>{element.pricePerLiter}</Table.Td>
+      <Table.Td>{element.totalAmount}</Table.Td>
+      <Table.Td>{element.description || "-"}</Table.Td>
     </Table.Tr>
   ));
-  const officeUseRow = office_use?.map((element) => (
+  const officeUseRow = totalOTest?.map((element, index) => (
     <Table.Tr key={element.price} className=" duration-150 text-center">
-      <Table.Td>{element.no}</Table.Td>
-      <Table.Td>{element.type}</Table.Td>
-      <Table.Td>{element.liter}</Table.Td>
-      <Table.Td>{element.price}</Table.Td>
-      <Table.Td>{element.amount}</Table.Td>
-      <Table.Td>{element.description}</Table.Td>
+      <Table.Td>{index + 1}</Table.Td>
+      <Table.Td>{element.fueltype}</Table.Td>
+      <Table.Td>{element.totalLiter}</Table.Td>
+      <Table.Td>{element.pricePerLiter}</Table.Td>
+      <Table.Td>{element.totalAmount}</Table.Td>
+      <Table.Td>{element.description || "-"}</Table.Td>
     </Table.Tr>
   ));
-  const dailySale = daily_sale?.map((element) => (
-    <Table.Tr key={element.no} className=" duration-150 text-center">
-      <Table.Td>{element.no}</Table.Td>
-      <Table.Td>{element.type}</Table.Td>
-      <Table.Td>{element.liter}</Table.Td>
-      <Table.Td>{element.price}</Table.Td>
-      <Table.Td>{element.amount}</Table.Td>
-      <Table.Td>{element.discount}</Table.Td>
-      <Table.Td>{element.tamount}</Table.Td>
-      <Table.Td>{element.credit}</Table.Td>
+
+  const dailySale = notCredit?.map((element, index) => (
+    <Table.Tr key={index} className=" duration-150 text-center">
+      <Table.Td>{index + 1}</Table.Td>
+      <Table.Td>{element.fueltype}</Table.Td>
+      <Table.Td>{element.totalLiter}</Table.Td>
+      <Table.Td>{element.pricePerLiter}</Table.Td>
+      <Table.Td>{element.totalAmount}</Table.Td>
+      <Table.Td>{element.discount}%</Table.Td>
+      <Table.Td>
+        {element.discount > 0
+          ? element.totalAmount - (element.totalAmount * element.discount) / 100
+          : element.totalAmount}
+      </Table.Td>
+      <Table.Td>-</Table.Td>
+    </Table.Tr>
+  ));
+  const secDailySale = totalCredit?.map((element, index) => (
+    <Table.Tr key={index} className=" duration-150 text-center">
+      <Table.Td>{index + 1}</Table.Td>
+      <Table.Td>{element.fueltype}</Table.Td>
+      <Table.Td>{element.totalLiter}</Table.Td>
+      <Table.Td>{element.pricePerLiter}</Table.Td>
+      <Table.Td>{element.totalAmount}</Table.Td>
+      <Table.Td>{element.discount}%</Table.Td>
+      <Table.Td>
+        {element.discount > 0
+          ? element.totalAmount - (element.totalAmount * element.discount) / 100
+          : element.totalAmount}
+      </Table.Td>
+      <Table.Td>-</Table.Td>
     </Table.Tr>
   ));
 
@@ -94,7 +178,14 @@ const Report = () => {
         </div>
       </div>
       <div className="w-[100%] mt-10">
-        <DailySale rows={dailySale} label={"Daily Sale"} rows2={dailySale} />
+        <DailySale
+          footer={noCreditTotal}
+          footer2={creditTotal}
+          rows={dailySale}
+          notCreditTotal={totalSaleAmount}
+          label={"Daily Sale"}
+          rows2={secDailySale}
+        />
       </div>
     </div>
   );

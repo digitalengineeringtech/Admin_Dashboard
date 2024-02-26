@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Nav from "../../components/Navbar/Nav";
 import SearchButton from "../../components/SearchButton";
 import SelectDrop from "../../components/SelectDrop";
@@ -10,17 +10,153 @@ import TableCom from "../../components/table/TableCom";
 import elements, { office_use } from "../../testBeforeApi/tableData/dailyList";
 import { NavLink, Outlet, useParams } from "react-router-dom";
 import { Table } from "@mantine/core";
+import useTokenStorage from "../../utils/useDecrypt";
+import UseGet from "../../api/hooks/UseGet";
+import UseGet2 from "../../api/hooks/UseGet2";
+import fuelData from "../../pages/installer/drop_data/fuel";
 
 const DailyList = () => {
-  console.log(elements);
+  const [{ data_g, loading_g, error_g }, fetchItGet] = UseGet();
+  const [{ data_g_2, loading_g_2, error_g_2 }, fetchItGet2] = UseGet2();
+
+  const [token, setToken] = useState("none");
+  const { loadToken } = useTokenStorage();
+  useEffect(() => {
+    const token = loadToken();
+    if (token) {
+      setToken(token);
+    }
+  }, []);
+
+  let start = new Date();
+  start.setHours(0);
+  start.setMinutes(0);
+  start = new Date(start);
+
+  let end = new Date();
+  end.setHours(23);
+  end.setMinutes(0);
+  end = new Date(end);
+
+  const [sDate, setSDate] = useState(start);
+  const [eDate, setEDate] = useState(end);
+  const [totalPTest, setTotalPTest] = useState();
+  const [totalOTest, setTotalOTest] = useState();
+  const [totalCredit, setTotalCredit] = useState();
+  const [notCredit, setNotCredit] = useState();
+
+  // console.log(elements);
   const [isData, setIsData] = useState(true);
+
+  useEffect(() => {
+    fetchItGet(`detail-sale/by-date/?sDate=${sDate}&eDate=${eDate}`, token);
+    fetchItGet2("/device", token);
+
+    console.log("wkwk");
+  }, [sDate, eDate, token]);
+
+  console.log(data_g, data_g_2);
+
+  if (data_g.length > 0) {
+    console.log("sksksks");
+  }
+
+  useEffect(() => {
+    const fuelCalcu = fuelData.map((e, index) => {
+      const calcuLiter = data_g
+        .filter((fuel) => fuel.fuelType == e.value)
+        .filter((type) => type.vehicleType == "Pump Test")
+        .map((element) => element.saleLiter)
+        .reduce((pv, cv) => pv + cv, 0);
+      const unitPrice = data_g_2.filter((unit) => unit.fuel_type == e.value)[0]
+        ?.daily_price;
+
+      return {
+        fueltype: e.value,
+        totalLiter: calcuLiter,
+        pricePerLiter: unitPrice || "0",
+        totalAmount: calcuLiter * unitPrice || "0",
+        // totalAmount: `${calcuLiter * unitPrice}`.replace(".", ",") || "0",
+      };
+    });
+    setTotalPTest(fuelCalcu);
+  }, [data_g, fuelData]);
+
+  useEffect(() => {
+    const fuelCalcu = fuelData.map((e, index) => {
+      const calcuLiter = data_g
+        .filter((fuel) => fuel.fuelType == e.value)
+        .filter((type) => type.vehicleType == "Office Use ( Bowser Car )")
+        .map((element) => element.saleLiter)
+        .reduce((pv, cv) => pv + cv, 0);
+      const unitPrice = data_g_2.filter((unit) => unit.fuel_type == e.value)[0]
+        ?.daily_price;
+
+      return {
+        fueltype: e.value,
+        totalLiter: calcuLiter,
+        pricePerLiter: unitPrice || "0",
+        totalAmount: calcuLiter * unitPrice || "0",
+        // totalAmount: `${calcuLiter * unitPrice}`.replace(".", ",") || "0",
+      };
+    });
+    setTotalOTest(fuelCalcu);
+  }, [data_g, fuelData]);
+
+  useEffect(() => {
+    const fuelCalcu = fuelData.map((e, index) => {
+      const calcuLiter = data_g
+        .filter((fuel) => fuel.fuelType == e.value)
+        .filter((type) => type.cashType == "Credit Card")
+        .map((element) => element.saleLiter)
+        .reduce((pv, cv) => pv + cv, 0);
+      const unitPrice = data_g_2.filter((unit) => unit.fuel_type == e.value)[0]
+        ?.daily_price;
+
+      return {
+        fueltype: e.value,
+        totalLiter: calcuLiter,
+        pricePerLiter: unitPrice || "0",
+        totalAmount: calcuLiter * unitPrice || "0",
+        discount: 0,
+        // totalAmount: `${calcuLiter * unitPrice}`.replace(".", ",") || "0",
+      };
+    });
+    setTotalCredit(fuelCalcu);
+  }, [data_g, fuelData]);
+
+  useEffect(() => {
+    const fuelCalcu = fuelData.map((e, index) => {
+      const calcuLiter = data_g
+        .filter((fuel) => fuel.fuelType == e.value)
+        .filter((type) => type.cashType != "Credit Card")
+        .map((element) => element.saleLiter)
+        .reduce((pv, cv) => pv + cv, 0);
+      const unitPrice = data_g_2.filter((unit) => unit.fuel_type == e.value)[0]
+        ?.daily_price;
+
+      return {
+        fueltype: e.value,
+        totalLiter: calcuLiter,
+        pricePerLiter: unitPrice || "0",
+        totalAmount: calcuLiter * unitPrice || "0",
+        discount: 0,
+        // totalAmount: `${calcuLiter * unitPrice}`.replace(".", ",") || "0",
+      };
+    });
+    setNotCredit(fuelCalcu);
+  }, [data_g, fuelData]);
+
+  console.log(totalPTest, "lllllllllllllllll");
+  console.log(totalCredit, "lddddddddddd");
+  console.log(data_g, "ggggggggggggggg");
 
   return (
     <div className="w-full pt-28">
       <div className="flex  flex-wrap gap-4 gap-x-10  justify-between">
-        <CalendarPick label="Start Date" />
+        <CalendarPick date={sDate} setDate={setSDate} label="Start Date" />
         <div className="">
-          <CalendarPick label="End Date" />
+          <CalendarPick date={eDate} setDate={setEDate} label="End Date" />
         </div>
         <SearchButton />
       </div>
@@ -37,7 +173,7 @@ const DailyList = () => {
       </div>
       {isData ? (
         <div className="mt-2">
-          <Outlet />
+          <Outlet context={[totalPTest, totalOTest, totalCredit, notCredit]} />
         </div>
       ) : (
         <div className="w-full h-[250px] gap-5 text-gray-300 flex items-center justify-center border-2 border-[#38b59e] mt-10 rounded-xl">

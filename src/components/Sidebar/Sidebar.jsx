@@ -143,6 +143,7 @@ const Sidebar = () => {
           </div>
         </motion.div>
         <motion.div
+          onClick={() => setState(true)}
           animate={!state ? "open" : "close"}
           variants={pfp}
           className={`bg-secondary animate-duration-[360ms] ${

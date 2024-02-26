@@ -2,7 +2,7 @@ import React from "react";
 import { Table } from "@mantine/core";
 
 const TableCom = ({ data, footer, footer2, label, header, rows }) => {
-  console.log(data);
+  // console.log(data);
   // const rows = data?.map((element) => (
   //   <Table.Tr key={element.price} className=" duration-150 text-center">
   //     <Table.Td>{element.no}</Table.Td>

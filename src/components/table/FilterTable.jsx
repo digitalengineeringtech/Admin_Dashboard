@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useRef } from "react";
 import { Table } from "@mantine/core";
 
 const FilterTable = ({ header, label, rows, tableRef }) => {
-  // console.log(tableRef);
+  // const tableRef = useRef();
+
+  // console.log(tableRef, ".........................");
+  console.log("hh");
   return (
     <div className="">
       <h3 className="text-text ms-3 mb-3 text-xl">{label}</h3>

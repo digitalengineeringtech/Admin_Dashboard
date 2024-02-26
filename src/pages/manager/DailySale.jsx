@@ -63,6 +63,12 @@ const DailySale = () => {
   const [{ data_g, loading_g, error_g, pagi_g }, fetchItGet] = UseGet();
 
   useEffect(() => {
+    fetchItGet(route, token);
+    console.log("hello");
+    console.log(data_g);
+  }, []);
+
+  useEffect(() => {
     if (data_g?.length > 0) {
       setIsData(true);
     } else {
@@ -117,12 +123,6 @@ const DailySale = () => {
     </Table.Tr>
   ));
 
-  useEffect(() => {
-    fetchItGet(route, token);
-    console.log("hello");
-    console.log(data_g);
-  }, []);
-
   console.log(
     "start",
     sDate,
@@ -149,6 +149,9 @@ const DailySale = () => {
   };
 
   const tableRef = useRef(null);
+
+  console.log(tableRef, "ooooooooooooooooo");
+  console.log(data_g, "..............................");
 
   const { onDownload } = useDownloadExcel({
     currentTableRef: tableRef.current,
@@ -187,7 +190,7 @@ const DailySale = () => {
       {isData ? (
         <div className="mt-8">
           <FilterTable
-            tableRef={tableRef}
+            // tableRef={tableRef}
             header={tableHeader}
             rows={tableRow}
           />
@@ -209,6 +212,13 @@ const DailySale = () => {
           // rows={rows}
         />
       </div>
+      <table ref={tableRef}>
+        <tr>
+          <td>kjk</td>
+          <td>kjk</td>
+          <td>kjk</td>
+        </tr>
+      </table>
     </div>
   );
 };

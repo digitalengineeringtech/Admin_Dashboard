@@ -14,7 +14,19 @@ import FilterTable from "../../components/table/FilterTable";
 import { Table } from "@mantine/core";
 
 const SaleSummary = () => {
+  let start = new Date();
+  start.setHours(0);
+  start.setMinutes(0);
+  start = new Date(start);
+
+  // let end = new Date();
+  // end.setHours(23);
+  // end.setMinutes(0);
+  // end = new Date(end);
+
   const [{ data_g, loading_g, error_g, pagi_g }, fetchItGet] = UseGet();
+  const [{ data_g_2, loading_g_2, error_g_2, pagi_g_2 }, fetchItGet2] =
+    UseGet2();
   const [{ data_g_3, loading_g_3, error_g_3, pagi_g_3 }, fetchItGet3] =
     UseGet3();
 
@@ -39,8 +51,18 @@ const SaleSummary = () => {
     }
   }, []);
 
-  const [sDate, setSDate] = useState();
-  const [eDate, setEDate] = useState();
+  const [sDate, setSDate] = useState(start);
+
+  const currentDate = sDate;
+
+  const year = currentDate.getFullYear();
+  const month = String(currentDate.getMonth() + 1).padStart(2, "0"); // Months are zero-indexed
+  const day = String(currentDate.getDate()).padStart(2, "0");
+
+  const formattedDate = `${year}-${month}-${day}`;
+
+  console.log(formattedDate, "............");
+  // const [eDate, setEDate] = useState(end);
 
   useEffect(() => {
     if (data_g?.length > 0) {
@@ -61,7 +83,8 @@ const SaleSummary = () => {
   const summaryRow = (
     <Table.Tr className=" duration-150 text-sm text-center">
       <Table.Td>
-        {sDate?.toDateString()} | {eDate?.toDateString()}
+        {/* {sDate?.toDateString()} | {eDate?.toDateString()} */}
+        {sDate?.toDateString()}
       </Table.Td>
       <Table.Td>
         {ninety2LotalLiter ? ninety2LotalLiter.toFixed(3) : "-"}
@@ -106,25 +129,6 @@ const SaleSummary = () => {
     }
   }, [data_g_3]);
 
-  // useEffect(() => {
-  //   if (nozzle.length > 0) {
-  //     nozzle.forEach((e) => {
-  //       const totalLiter = data_g
-  //         .filter((d) => d.nozzleNo == e)
-  //         .map((g) => g.saleLiter)
-  //         .reduce((pv, cv) => pv + cv, 0);
-
-  //       setLiterByNoz((prev) => [
-  //         ...prev,
-  //         {
-  //           nozzle_no: e,
-  //           totalLiter: totalLiter,
-  //         },
-  //       ]);
-  //     });
-  //   }
-  // }, [nozzle, data_g]);
-
   useEffect(() => {
     if (nozzle.length > 0) {
       const updatedLiterByNoz = nozzle.map((e) => {
@@ -146,14 +150,14 @@ const SaleSummary = () => {
   console.log(data_g_3, nozzle);
 
   const handleClick = () => {
-    fetchItGet(`/detail-sale/by-date/?sDate=${sDate}&eDate=${eDate}`, token);
+    fetchItGet(`/detail-sale/by-date/?sDate=${sDate}`, token);
+    fetchItGet2(`detail-sale/total_statement?reqDate=${formattedDate}`, token);
+    // fetchItGet(`/detail-sale/by-date/?sDate=${sDate}&eDate=${eDate}`, token);
 
     fetchItGet3(`/device`, token);
-    // fetchItGet2(
-    //   `/detail-sale/statement-report?sDate=${sDate}&eDate=${eDate}`,
-    //   token
-    // );
   };
+
+  console.log(data_g_2, "22222222222222");
 
   useEffect(() => {
     let ninety2 = 0;
@@ -163,7 +167,9 @@ const SaleSummary = () => {
     let totalLiter = 0;
     let totalPrice = 0;
 
-    data_g?.map((obj) => {
+    // fetchfrom detailsale statement
+    data_g_2?.map((obj) => {
+      // data_g?.map((obj) => {
       if (obj.fuelType === "001-Octane Ron(92)") {
         ninety2 += obj.saleLiter;
       }
@@ -186,7 +192,7 @@ const SaleSummary = () => {
     SetphshLotalLiter(premium);
     // SettotalLiter(totalLiter);
     SetTotalPrice(totalPrice);
-  }, [data_g, sDate, eDate]);
+  }, [data_g, data_g_2, data_g_3]);
 
   useEffect(() => {
     if (data_g) {
@@ -221,10 +227,10 @@ const SaleSummary = () => {
   return (
     <div className="w-full pt-28">
       <div className="flex  flex-wrap gap-4 gap-x-10  justify-between">
-        <CalendarPick date={sDate} setDate={setSDate} label="Start Date" />
-        <div className="">
+        <CalendarPick date={sDate} setDate={setSDate} label="Date" />
+        {/* <div className="">
           <CalendarPick date={eDate} setDate={setEDate} label="End Date" />
-        </div>
+        </div> */}
         <SearchButton onClick={handleClick} />
       </div>
       {isData ? (

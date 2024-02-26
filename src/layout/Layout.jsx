@@ -9,18 +9,18 @@ const Layout = () => {
   const navigate = useNavigate();
   const [auth, setAuth] = useState();
   let token = localStorage.getItem("encryptedToken");
-  
+
   const [isInstalling, setIsInstalling] = useState();
   const { isAuth, setIsAuth } = useContext(AuthContext);
 
-    useEffect(() => {
-      const check = JSON.parse(localStorage.getItem("installed"));
-      if (check) {
-        setIsInstalling(true);
-      } else {
-        setIsInstalling(false);
-      }
-    }, [isAuth]);
+  useEffect(() => {
+    const check = JSON.parse(localStorage.getItem("installed"));
+    if (check) {
+      setIsInstalling(true);
+    } else {
+      setIsInstalling(false);
+    }
+  }, [isAuth]);
 
   useEffect(() => {
     if (token) {
@@ -37,8 +37,6 @@ const Layout = () => {
   const path = window.location.pathname;
   const [state, setState] = useState();
   const dd = useParams();
-
-
 
   // console.log(dd);
   useEffect(() => {
@@ -77,7 +75,7 @@ const Layout = () => {
       ) : ( */}
       <div className="bg-primary w-full  h-screen">
         <Sidebar />
-        <div className=" h-screen p-4 pr-6  w-[93%] 2xl:w-[94%] ms-auto">
+        <div className=" h-screen p-4 pr-6 w-[90%] mr-5 xl:mr-0 xl:w-[93%] 2xl:w-[94%] ms-auto">
           {!isInstalling && <Nav title={state} />}
           <div className="h-[97vh] example overflow-y-scroll">
             <Outlet />

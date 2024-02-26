@@ -2,10 +2,15 @@ import React, { useEffect, useState } from "react";
 import Chart from "chart.js/auto";
 import fuelData from "../../pages/installer/drop_data/fuel";
 import UseGet from "../../api/hooks/UseGet";
+import UseGet2 from "../../api/hooks/UseGet2";
 import useTokenStorage from "../../utils/useDecrypt";
+import color from "../../pages/installer/drop_data/color";
+
 const Manager = () => {
+  const [totalCalcu, setTotalCalcu] = useState([]);
   const [token, setToken] = useState("none");
   const { loadToken } = useTokenStorage();
+
   useEffect(() => {
     const token = loadToken();
     if (token) {
@@ -24,6 +29,7 @@ const Manager = () => {
   end = new Date(end);
 
   const [{ data_g, loading_g, error_g }, fetchItGet] = UseGet();
+  const [{ data_g_2, loading_g_2, error_g_2 }, fetchItGet2] = UseGet2();
 
   // eslint-disable-next-line no-unused-vars
   const [endDate, setEndDate] = useState(end);
@@ -67,182 +73,104 @@ const Manager = () => {
     })();
   });
 
+  console.log(fuelData);
+
   useEffect(() => {
     fuelData.length > 4 ? setCon(true) : setCon(false);
     fetchItGet(
       `detail-sale/by-date/?sDate=${startDate}&eDate=${endDate}`,
       token
     );
+    fetchItGet2("/device", token);
+
+    console.log("wkwk");
   }, [startDate, endDate, token]);
 
-  console.log("====================================");
+  console.log("====llllll================================");
   console.log(startDate, endDate);
-  console.log(data_g);
-  console.log("====================================");
+  console.log(data_g, data_g_2);
+  console.log("====llllll================================");
+
+  const [size, setSize] = useState();
+
+  useEffect(() => {
+    if (window.innerWidth < 1460) {
+      setSize(true);
+    }
+  }, [window.innerWidth]);
+  console.log(size);
+
+  useEffect(() => {
+    const fuelCalcu = fuelData.map((e, index) => {
+      const calcuLiter = data_g
+        .filter((fuel) => fuel.fuelType == e.value)
+        .map((element) => element.saleLiter)
+        .reduce((pv, cv) => pv + cv, 0);
+      const unitPrice = data_g_2.filter((unit) => unit.fuel_type == e.value)[0]
+        ?.daily_price;
+
+      return {
+        fueltype: e.value,
+        totalLiter: calcuLiter,
+        pricePerLiter: unitPrice || "0",
+        totalAmount: calcuLiter * unitPrice || "0",
+        textColor: color[index].textColor,
+        bgColor: color[index].bgColor,
+        borderColor: color[index].borderColor,
+        // totalAmount: `${calcuLiter * unitPrice}`.replace(".", ",") || "0",
+      };
+    });
+    setTotalCalcu(fuelCalcu);
+  }, [data_g, fuelData]);
+
+  console.log("==ggggg==================================");
+  console.log(totalCalcu);
+  console.log("==ggggg==================================");
 
   return (
     <div className="w-full pt-28">
       <div className="pb-6">
-        {con ? (
-          <div className="grid grid-rows-10 h-[300px]  grid-cols-12 gap-8 w-full ">
-            {fuelData.map(() => (
-              <div className="bg-[#e8f4ee] shadow-shadow/10 border-2 gap-4 p-4 border-[#94d99a] shadow-xl  flex items-center justify-center row-span-5 col-span-4 rounded-2xl ">
+        {size ? (
+          <div className="grid grid-rows-10  grid-cols-12 gap-8 w-full ">
+            {totalCalcu.map((e, index) => (
+              <div
+                style={{
+                  borderColor: e.borderColor,
+                  backgroundColor: e.bgColor,
+                }}
+                className={` shadow-shadow/10 border-2 gap-4 p-4  shadow-xl  flex items-center justify-center row-span-5 col-span-6 rounded-2xl `}
+              >
                 <div className="w-full h-full 2xl:gap-2 items-center flex ps-3 bg-secondary rounded-xl ">
                   <img
-                    src="../../public/static/images/gasoline.png"
+                    src={`../../public/static/images/gasoline (${index}).png`}
                     className="h-14 2xl:ms-2 mr-2"
                     alt=""
                   />
-                  <div className="flex flex-col">
-                    <div className="font-semibold text-detail">
-                      002-Octane Ron (92)
+                  <div className="flex flex-col" style={{ color: e.textColor }}>
+                    <div className={`font-semibold `}>{e.fueltype}</div>
+                    <div className={` `}>
+                      Total - {Number(e?.totalAmount).toFixed(2)} MMK
                     </div>
-                    <div className=" text-detail">Total - 100,000 MMK</div>
-                    <div className=" text-detail">Total - 10 Liter</div>
+                    <div className={` `}>
+                      Total - {Number(e?.totalLiter).toFixed(2)} Liter
+                    </div>
                   </div>
                 </div>
                 <div className="w-[170px] h-full bg-secondary rounded-xl ">
-                  {" "}
-                  <div className="flex flex-col items-center justify-center h-full">
-                    <div className=" text-detail">Price</div>
-                    <div className=" text-detail font-semibold text-xl">
-                      2,000
+                  <div
+                    style={{ color: e.textColor }}
+                    className="flex flex-col items-center justify-center h-full"
+                  >
+                    <div className={` `}>Price</div>
+                    <div className={`text-xl font-semibold `}>
+                      {Number(e?.pricePerLiter).toFixed(2)}
                     </div>
-                    <div className=" text-detail">MMK</div>
+                    <div className={` `}>MMK</div>
                   </div>
                 </div>
               </div>
             ))}
-            <div className="bg-[#e8f4ee] shadow-shadow/10 border-2 gap-4 p-4 border-[#94d99a] shadow-xl  flex items-center justify-center row-span-5 col-span-4 rounded-2xl ">
-              <div className="w-full h-full 2xl:gap-2 items-center flex ps-3 bg-secondary rounded-xl ">
-                <img
-                  src="../../public/static/images/gasoline.png"
-                  className="h-14 2xl:ms-2 mr-2"
-                  alt=""
-                />
-                <div className="flex flex-col">
-                  <div className="font-semibold text-detail">
-                    002-Octane Ron (92)
-                  </div>
-                  <div className=" text-detail">Total - 100,000 MMK</div>
-                  <div className=" text-detail">Total - 10 Liter</div>
-                </div>
-              </div>
-              <div className="w-[170px] h-full bg-secondary rounded-xl ">
-                {" "}
-                <div className="flex flex-col items-center justify-center h-full">
-                  <div className=" text-detail">Price</div>
-                  <div className=" text-detail font-semibold text-xl">
-                    2,000
-                  </div>
-                  <div className=" text-detail">MMK</div>
-                </div>
-              </div>
-            </div>
-            <div className="bg-[#e1f2f4] shadow-shadow/10 border-2 gap-4 p-4 border-[#76b5bd] shadow-xl  flex items-center justify-center row-span-5 col-span-4 rounded-2xl">
-              <div className="w-full h-full 2xl:gap-2 items-center flex ps-3 bg-secondary rounded-xl ">
-                <img
-                  src="../../public/static/images/gasoline (1).png"
-                  className="h-14 2xl:ms-2 mr-2"
-                  alt=""
-                />
-                <div className="flex flex-col">
-                  <div className="font-semibold text-[#005b68]">
-                    002-Octane Ron (92)
-                  </div>
-                  <div className=" text-[#005b68]">Total - 100,000 MMK</div>
-                  <div className=" text-[#005b68]">Total - 10 Liter</div>
-                </div>
-              </div>
-              <div className="w-[170px] h-full bg-secondary rounded-xl ">
-                {" "}
-                <div className="flex flex-col items-center justify-center h-full">
-                  <div className=" text-[#005b68]">Price</div>
-                  <div className=" text-[#005b68] font-semibold text-xl">
-                    2,000
-                  </div>
-                  <div className=" text-[#005b68]">MMK</div>
-                </div>
-              </div>
-            </div>
-            {/* <div className="bg-[#ffebfd] shadow-shadow/10 gap-4 p-4 border-2 border-[#e9a2e1] shadow-xl  flex items-center justify-center row-span-5 col-span-4 rounded-2xl ">
-              <div className="w-full h-full 2xl:gap-2 items-center flex ps-3 bg-secondary rounded-xl ">
-                <img
-                  src="../../public/static/images/gasoline (2).png"
-                  className="h-14 2xl:ms-2 mr-2"
-                  alt=""
-                />
-                <div className="flex flex-col">
-                  <div className="font-semibold text-[#d05ac4]">
-                    002-Octane Ron (92)
-                  </div>
-                  <div className=" text-[#d05ac4]">Total - 100,000 MMK</div>
-                  <div className=" text-[#d05ac4]">Total - 10 Liter</div>
-                </div>
-              </div>
-              <div className="w-[170px] h-full bg-secondary rounded-xl ">
-                {" "}
-                <div className="flex flex-col items-center justify-center h-full">
-                  <div className=" text-[#d05ac4]">Price</div>
-                  <div className=" text-[#d05ac4] font-semibold text-xl">
-                    2,000
-                  </div>
-                  <div className=" text-[#d05ac4]">MMK</div>
-                </div>
-              </div>
-            </div>
-            <div className="bg-[#d8dcff] shadow-shadow/10 gap-4 p-4 border-2 border-[#838de6] shadow-xl  flex items-center justify-center row-span-5 col-span-4 rounded-2xl">
-              <div className="w-full h-full 2xl:gap-2 items-center flex ps-3 bg-secondary rounded-xl ">
-                <img
-                  src="../../public/static/images/gasoline (5).png"
-                  className="h-14 2xl:ms-2 mr-2"
-                  alt=""
-                />
-                <div className="flex flex-col">
-                  <div className="font-semibold text-[#6973d2]">
-                    002-Octane Ron (92)
-                  </div>
-                  <div className=" text-[#6973d2]">Total - 100,000 MMK</div>
-                  <div className=" text-[#6973d2]">Total - 10 Liter</div>
-                </div>
-              </div>
-              <div className="w-[170px] h-full bg-secondary rounded-xl ">
-                {" "}
-                <div className="flex flex-col items-center justify-center h-full">
-                  <div className=" text-[#6973d2]">Price</div>
-                  <div className=" text-[#6973d2] font-semibold text-xl">
-                    2,000
-                  </div>
-                  <div className=" text-[#6973d2]">MMK</div>
-                </div>
-              </div>
-            </div>
-            <div className="bg-[#ffe2e4] shadow-shadow/10 gap-4 p-4 border-2 border-[#f0848d] shadow-xl  flex items-center justify-center row-span-5 col-span-4 rounded-2xl">
-              <div className="w-full h-full 2xl:gap-2 items-center flex ps-3 bg-secondary rounded-xl ">
-                <img
-                  src="../../public/static/images/gasoline (4).png"
-                  className="h-14 2xl:ms-2 mr-2"
-                  alt=""
-                />
-                <div className="flex flex-col">
-                  <div className="font-semibold text-[#e25864]">
-                    002-Octane Ron (92)
-                  </div>
-                  <div className=" text-[#e25864]">Total - 100,000 MMK</div>
-                  <div className=" text-[#e25864]">Total - 10 Liter</div>
-                </div>
-              </div>
-              <div className="w-[170px] h-full bg-secondary rounded-xl ">
-                {" "}
-                <div className="flex flex-col items-center justify-center h-full">
-                  <div className=" text-[#e25864]">Price</div>
-                  <div className=" text-[#e25864] font-semibold text-xl">
-                    2,000
-                  </div>
-                  <div className=" text-[#e25864]">MMK</div>
-                </div>
-              </div>
-            </div>
+            {/* 
             <div className="bg-[#f8f4dd] shadow-shadow/10 gap-4 p-4 border-2 border-[#e7d477] shadow-xl  flex items-center justify-center row-span-5 col-span-4 rounded-2xl">
               <div className="w-full h-full 2xl:gap-2 items-center flex ps-3 bg-secondary rounded-xl ">
                 <img
@@ -250,7 +178,8 @@ const Manager = () => {
                   className="h-14 2xl:ms-2 mr-2"
                   alt=""
                 />
-                <div className="flex flex-col">
+                <div className="flex flex-col"
+                        style={{ color: e.textColor }}>
                   <div className="font-semibold text-[#d6b438]">
                     002-Octane Ron (92)
                   </div>
@@ -260,7 +189,8 @@ const Manager = () => {
               </div>
               <div className="w-[170px] h-full bg-secondary rounded-xl ">
                 {" "}
-                <div className="flex flex-col items-center justify-center h-full">
+                <div style={{ color: e.textColor }}
+                        className="flex flex-col items-center justify-center h-full">
                   <div className=" text-[#d6b438]">Price</div>
                   <div className=" text-[#eccf40] font-semibold text-xl">
                     2,000
@@ -269,6 +199,47 @@ const Manager = () => {
                 </div>
               </div>
             </div> */}
+          </div>
+        ) : con ? (
+          <div className="grid grid-rows-10 h-[300px]  grid-cols-12 gap-8 w-full ">
+            {totalCalcu.map((e, index) => (
+              <div
+                style={{
+                  borderColor: e.borderColor,
+                  backgroundColor: e.bgColor,
+                }}
+                className={` shadow-shadow/10 border-2 gap-4 p-4  shadow-xl  flex items-center justify-center row-span-5 col-span-4 rounded-2xl `}
+              >
+                <div className="w-full h-full 2xl:gap-2 items-center flex ps-3 bg-secondary rounded-xl ">
+                  <img
+                    src={`../../public/static/images/gasoline (${index}).png`}
+                    className="h-14 2xl:ms-2 mr-2"
+                    alt=""
+                  />
+                  <div className="flex flex-col" style={{ color: e.textColor }}>
+                    <div className={`font-semibold `}>{e.fueltype}</div>
+                    <div className={` `}>
+                      Total - {Number(e?.totalAmount).toFixed(2)} MMK
+                    </div>
+                    <div className={` `}>
+                      Total - {Number(e?.totalLiter).toFixed(2)} Liter
+                    </div>
+                  </div>
+                </div>
+                <div className="w-[170px] h-full bg-secondary rounded-xl ">
+                  <div
+                    style={{ color: e.textColor }}
+                    className="flex flex-col items-center justify-center h-full"
+                  >
+                    <div className={` `}>Price</div>
+                    <div className={`text-xl font-semibold `}>
+                      {Number(e?.pricePerLiter).toFixed(2)}
+                    </div>
+                    <div className={` `}>MMK</div>
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
         ) : (
           <div className="grid grid-rows-10 h-[300px]  grid-cols-12 gap-8 w-full ">
@@ -279,85 +250,66 @@ const Manager = () => {
                     Today Total Sale
                   </h1>
                   <h1 className="text-[3rem] font-bold text-detail my-3 mb-4">
-                    100,000
+                    {totalCalcu
+                      .map((e) => Number(e.totalAmount))
+                      .reduce((pv, cv) => pv + cv, 0)}
                   </h1>
                   <h1 className="text-[2.5rem]  text-detail/80">MMK</h1>
                 </div>
               </div>
             </div>
-            {fuelData.map((e, index) => (
-              <div
-                className={`bg-[${e.bgColor}] shadow-shadow/10 border-2 gap-4 p-4 border-[${e.borderColor}] shadow-xl  flex items-center justify-center row-span-5 col-span-4 rounded-2xl `}
-              >
-                <div className="w-full h-full 2xl:gap-2 items-center flex ps-3 bg-secondary rounded-xl ">
-                  <img
-                    src={`../../public/static/images/gasoline (${index}).png`}
-                    className="h-14 2xl:ms-2 mr-2"
-                    alt=""
-                  />
-                  <div className="flex flex-col">
-                    <div
-                      className={
-                        e.textColor == ""
-                          ? "text-[#45B54B] font-semibold "
-                          : `text-[${e.textColor}]`
-                      }
-                    >
-                      {e.name}
+            {totalCalcu.map(
+              (e, index) => (
+                console.log(
+                  `Index: ${index}, textColor: ${e.textColor}, bgColor: ${e.bgColor}, borderColor: ${e.borderColor}`
+                ),
+                (
+                  <div
+                    style={{
+                      borderColor: e.borderColor,
+                      backgroundColor: e.bgColor,
+                    }}
+                    className={` shadow-shadow/10 border-2 gap-4 p-4  shadow-xl  flex items-center justify-center row-span-5 col-span-4 rounded-2xl `}
+                  >
+                    <div className="w-full h-full 2xl:gap-2 items-center flex ps-3 bg-secondary rounded-xl ">
+                      <img
+                        src={`../../public/static/images/gasoline (${index}).png`}
+                        className="h-14 2xl:ms-2 mr-2"
+                        alt=""
+                      />
+                      <div
+                        className="flex flex-col"
+                        style={{ color: e.textColor }}
+                      >
+                        <div className={`font-semibold `}>{e.fueltype}</div>
+                        {/* className=
+                        {!e.textColor == ""
+                          ? `font-semibold `
+                          : `font-semibold text-[#31a55b]`} */}
+                        <div className={` `}>
+                          Total - {Number(e?.totalAmount).toFixed(2)} MMK
+                        </div>
+                        <div className={` `}>
+                          Total - {Number(e?.totalLiter).toFixed(2)} Liter
+                        </div>
+                      </div>
                     </div>
-                    <div
-                      className={
-                        e.textColor == ""
-                          ? "text-[#45B54B]"
-                          : ` text-[${e.textColor}]`
-                      }
-                    >
-                      Total - 100,000 MMK
-                    </div>
-                    <div
-                      className={
-                        e.textColor == ""
-                          ? "text-[#45B54B]"
-                          : ` text-[${e.textColor}]`
-                      }
-                    >
-                      Total - 10 Liter
-                    </div>
-                  </div>
-                </div>
-                <div className="w-[170px] h-full bg-secondary rounded-xl ">
-                  <div className="flex flex-col items-center justify-center h-full">
-                    <div
-                      className={
-                        e.textColor == ""
-                          ? "text-[#45B54B]"
-                          : ` text-[${e.textColor}]`
-                      }
-                    >
-                      Price
-                    </div>
-                    <div
-                      className={
-                        e.textColor == ""
-                          ? "text-[#45B54B] text-xl font-semibold"
-                          : ` text-[${e.textColor}]`
-                      }
-                    >
-                      2,000
-                    </div>
-                    <div
-                      className={
-                        e.textColor == ""
-                          ? "text-[#45B54B]"
-                          : ` text-[${e.textColor}]`
-                      }
-                    >
-                      MMK
+                    <div className="w-[170px] h-full bg-secondary rounded-xl ">
+                      <div
+                        style={{ color: e.textColor }}
+                        className="flex flex-col items-center justify-center h-full"
+                      >
+                        <div className={` `}>Price</div>
+                        <div className={`text-xl font-semibold `}>
+                          {Number(e?.pricePerLiter).toFixed(2)}
+                        </div>
+                        <div className={` `}>MMK</div>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </div>
-            ))}
+                )
+              )
+            )}
           </div>
         )}
 
@@ -367,22 +319,16 @@ const Manager = () => {
           </div>
           {con ? (
             <div className=" manager_bg flex-col p-10 h-full w-[500px] 2xl:w-[820px] rounded-xl flex items-center justify-center shadow-lg shadow-shadow/20">
-              <div className="bg-secondary 2xl:justify-around rounded-2xl 2xl:flex-row  flex-col w-full h-[100%] flex items-center justify-end">
-                <div className="flex flex-col leading-10 mb-[-40px] justify-center items-center">
-                  <h1 className="text-[2rem] 2xl:mr-[-30px] text-detail/80">
+              <div className="bg-secondary 2xl:justify-around rounded-2xl 2xl:flex-row pt-2 flex-col w-full h-[100%] flex items-center justify-center">
+                <div className="flex flex-col leading-10 justify-center items-center">
+                  <h1 className="text-[2.5rem] 2xl:mr-[-30px] text-detail/80">
                     Today Total Sale
                   </h1>
-                  <h1 className="text-[3rem] font-bold text-detail my-2">
+                  <h1 className="text-[3.6rem] font-bold text-detail my-6">
                     100,000
                   </h1>
-                  <h1 className="text-[2.5rem]  text-detail/80">MMK</h1>
+                  <h1 className="text-[3rem]  text-detail/80">MMK</h1>
                 </div>
-
-                <img
-                  src="../../public/static/images/Fuel station-pana.png"
-                  alt=""
-                  className="w-[60%] 2xl:w-[43%]"
-                />
               </div>
               {/* <div className="bg-secondary 2xl:justify-around rounded-2xl 2xl:flex-row  flex-col w-full h-[100%] flex items-center justify-end">
               <div className="flex flex-col leading-10 mb-[-40px] justify-center items-center">

@@ -8,7 +8,7 @@ const Footer = ({ onPageChange, totalPages, download }) => {
     <div className="flex items-center justify-between mb-4 px-3 mt-7">
       <div className="flex gap-4">
         <Button
-          onClick={() => download()}
+          onClick={download}
           className="flex"
           icon={<RiFileExcel2Fill className="text-xl" />}
           text="To Excel"

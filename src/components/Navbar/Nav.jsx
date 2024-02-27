@@ -8,9 +8,9 @@ const Nav = ({ title }) => {
         <div className="text-[1.7rem] text-text font-bold font-sans">
           {title}
         </div>
-        <div className="">
+        {/* <div className="">
           <LanguagePicker />
-        </div>
+        </div> */}
       </div>
     </div>
   );

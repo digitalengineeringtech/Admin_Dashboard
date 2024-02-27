@@ -21,7 +21,7 @@ const FilterTable = ({ header, label, rows, tableRef }) => {
         >
           <Table.Thead className="text-center">
             <Table.Tr className="text-[1rem] font-semibold text-center ">
-              {header.map((item, index) => (
+              {header?.map((item, index) => (
                 <Table.Td key={index} className="bg-detail/20">
                   {item}
                 </Table.Td>

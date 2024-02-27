@@ -1,12 +1,21 @@
 import React from "react";
 import { Table } from "@mantine/core";
 
-const DailySale = ({ rows2, label, rows, notCreditTotal, footer, footer2 }) => {
+const DailySale = ({
+  rows2,
+  label,
+  rows,
+  notCreditTotal,
+  footer,
+  footer2,
+  tableRef,
+}) => {
   return (
     <div className=" mt-3">
       <h3 className="text-text ms-3 mb-3 text-xl">{label}</h3>
       <div className=" p-4 rounded-xl bg-secondary  shadow-md shadow-shadow/20 ">
         <Table
+          ref={tableRef}
           verticalSpacing="md"
           striped
           withTableBorder

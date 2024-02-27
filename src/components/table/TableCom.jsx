@@ -1,7 +1,7 @@
 import React from "react";
 import { Table } from "@mantine/core";
 
-const TableCom = ({ data, footer, footer2, label, header, rows }) => {
+const TableCom = ({ data, tableRef, footer, footer2, label, header, rows }) => {
   // console.log(data);
   // const rows = data?.map((element) => (
   //   <Table.Tr key={element.price} className=" duration-150 text-center">
@@ -19,6 +19,7 @@ const TableCom = ({ data, footer, footer2, label, header, rows }) => {
       <h3 className="text-text ms-3 mb-3 text-xl">{label}</h3>
       <div className=" p-4 rounded-xl bg-secondary  shadow-md shadow-shadow/20 ">
         <Table
+          ref={tableRef}
           verticalSpacing="md"
           striped
           withTableBorder
@@ -34,14 +35,6 @@ const TableCom = ({ data, footer, footer2, label, header, rows }) => {
                 </Table.Td>
               ))}
             </Table.Tr>
-            {/* <Table.Tr className="text-[1.1rem] font-semibold text-center ">
-              <Table.Td>No</Table.Td>
-              <Table.Td className="">Fuel Type</Table.Td>
-              <Table.Td>Liter</Table.Td>
-              <Table.Td>Price</Table.Td>
-              <Table.Td>Amount</Table.Td>
-              <Table.Td>Description</Table.Td>
-            </Table.Tr> */}
           </Table.Thead>
           <Table.Tbody className="text-[1.1rem]">
             {rows}

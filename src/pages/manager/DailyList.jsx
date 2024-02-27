@@ -47,13 +47,24 @@ const DailyList = () => {
 
   // console.log(elements);
   const [isData, setIsData] = useState(true);
+  const [con, setCon] = useState(false);
+
+  useEffect(() => {
+    setCon(true);
+  }, []);
 
   useEffect(() => {
     fetchItGet(`detail-sale/by-date/?sDate=${sDate}&eDate=${eDate}`, token);
     fetchItGet2("/device", token);
 
     console.log("wkwk");
-  }, [sDate, eDate, token]);
+  }, [con]);
+
+  const handleClick = () => {
+    fetchItGet(`detail-sale/by-date/?sDate=${sDate}&eDate=${eDate}`, token);
+    fetchItGet2("/device", token);
+    console.log("........................");
+  };
 
   console.log(data_g, data_g_2);
 
@@ -158,7 +169,7 @@ const DailyList = () => {
         <div className="">
           <CalendarPick date={eDate} setDate={setEDate} label="End Date" />
         </div>
-        <SearchButton />
+        <SearchButton onClick={handleClick} />
       </div>
       <div className="border-b-2 text-text border-gray-300 pb-3 mt-8 flex">
         <NavLink className="text-xl px-6 py-2 rounded-md" to="/daily_list" end>
@@ -183,7 +194,6 @@ const DailyList = () => {
           </div>
         </div>
       )}
-      <Footer />
     </div>
   );
 };

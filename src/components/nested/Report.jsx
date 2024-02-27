@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import TableCom from "../table/TableCom";
 import elements, {
   daily_sale,
@@ -7,6 +7,9 @@ import elements, {
 import { Table } from "@mantine/core";
 import DailySale from "../table/DailySale";
 import { useOutletContext } from "react-router-dom";
+import Footer from "../footer/Footer";
+import { useDownloadExcel } from "react-export-table-to-excel";
+import { useReactToPrint } from "react-to-print";
 
 const Report = () => {
   const [totalPTest, totalOTest, totalCredit, notCredit] = useOutletContext();
@@ -157,28 +160,64 @@ const Report = () => {
     </Table.Tr>
   ));
 
+  const tableRef = useRef(null);
+  const pumptest = useDownloadExcel({
+    currentTableRef: tableRef.current,
+    filename: "Pump Test",
+    sheet: "Pump Test",
+  });
+
+  const tableRef2 = useRef(null);
+  const officeuse = useDownloadExcel({
+    currentTableRef: tableRef2.current,
+    filename: "OfficeUse ",
+    sheet: "OfficeUse ",
+  });
+
+  const tableRef3 = useRef(null);
+  const detail = useDownloadExcel({
+    currentTableRef: tableRef3.current,
+    filename: "OfficeUse ",
+    sheet: "OfficeUse ",
+  });
+
+  const handlePrint = useReactToPrint({
+    content: () => tableRef.current,
+  });
+  const handlePrint2 = useReactToPrint({
+    content: () => tableRef2.current,
+  });
+  const handlePrint3 = useReactToPrint({
+    content: () => tableRef3.current,
+  });
+
   return (
     <div className="">
       <div className="flex gap-6">
         <div className="w-[50%]">
           <TableCom
+            tableRef={tableRef}
             label={"Pump Test"}
             footer={pumpTestFooter}
             header={pumpTestHeader}
             rows={pumpTestRows}
           />
+          <Footer print={handlePrint} onClick={pumptest.onDownload} />
         </div>
         <div className="w-[50%]">
           <TableCom
             label={"Office Use"}
+            tableRef={tableRef2}
             footer={officeUseFooter}
             header={pumpTestHeader}
             rows={officeUseRow}
           />
+          <Footer print={handlePrint2} onClick={officeuse.onDownload} />
         </div>
       </div>
       <div className="w-[100%] mt-10">
         <DailySale
+          tableRef={tableRef3}
           footer={noCreditTotal}
           footer2={creditTotal}
           rows={dailySale}
@@ -186,6 +225,7 @@ const Report = () => {
           label={"Daily Sale"}
           rows2={secDailySale}
         />
+        <Footer print={handlePrint3} onClick={detail.onDownload} />
       </div>
     </div>
   );

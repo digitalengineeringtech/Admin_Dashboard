@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Nav from "../../components/Navbar/Nav";
 import SearchButton from "../../components/SearchButton";
 import SelectDrop from "../../components/SelectDrop";
@@ -12,6 +12,8 @@ import UseGet3 from "../../api/hooks/UseGet3";
 import UseGet from "../../api/hooks/UseGet";
 import FilterTable from "../../components/table/FilterTable";
 import { Table } from "@mantine/core";
+import { downloadExcel } from "react-export-table-to-excel";
+import { useReactToPrint } from "react-to-print";
 
 const SaleSummary = () => {
   let start = new Date();
@@ -63,6 +65,20 @@ const SaleSummary = () => {
 
   console.log(formattedDate, "............");
   // const [eDate, setEDate] = useState(end);
+
+  const [con, setCon] = useState(false);
+
+  useEffect(() => {
+    setCon(true);
+  }, []);
+
+  useEffect(() => {
+    fetchItGet(`/detail-sale/by-date/?sDate=${sDate}`, token);
+    fetchItGet2(`detail-sale/total_statement?reqDate=${formattedDate}`, token);
+    // fetchItGet(`/detail-sale/by-date/?sDate=${sDate}&eDate=${eDate}`, token);
+
+    fetchItGet3(`/device`, token);
+  }, [con]);
 
   useEffect(() => {
     if (data_g?.length > 0) {
@@ -168,8 +184,8 @@ const SaleSummary = () => {
     let totalPrice = 0;
 
     // fetchfrom detailsale statement
-    data_g_2?.map((obj) => {
-      // data_g?.map((obj) => {
+    // data_g_2?.map((obj) => {
+    data_g?.map((obj) => {
       if (obj.fuelType === "001-Octane Ron(92)") {
         ninety2 += obj.saleLiter;
       }
@@ -224,6 +240,67 @@ const SaleSummary = () => {
     );
   });
 
+  function handleDownloadExcel() {
+    downloadExcel({
+      fileName: "Sale Summary",
+      sheet: "Sale Summary",
+      tablePayload: {
+        header: summaryHeader,
+        // accept two different data structures
+        body: [
+          [
+            sDate?.toDateString(),
+            ninety2LotalLiter ? ninety2LotalLiter.toFixed(3) : "-",
+            ninety5LotalLiter ? ninety5LotalLiter.toFixed(3) : "-",
+            dieselLotalLiter ? dieselLotalLiter.toFixed(3) : "-",
+            phsdLotalLiter ? phsdLotalLiter.toFixed(3) : "-",
+            totalPrice
+              ? totalPrice?.toLocaleString(undefined, {
+                  maximumFractionDigits: 3,
+                })
+              : "-",
+          ],
+        ],
+      },
+    });
+  }
+  function handleDownloadExcel2() {
+    downloadExcel({
+      fileName: "Sale Summary by Nozzle",
+      sheet: "Sale Summary by Nozzle",
+      tablePayload: {
+        header: detailHeader,
+        // accept two different data structures
+        body: data_g_3.map((element) => {
+          const matchingEntry = literByNoz.find(
+            (entry) => entry.nozzle_no === element.nozzle_no
+          );
+          const totalLiter = matchingEntry ? matchingEntry.totalLiter : 0;
+
+          return [
+            element.nozzle_no || "-",
+            element.fuel_type || "-",
+            element.daily_price || "-",
+            totalLiter.toFixed(3) || "-",
+            (element.daily_price * totalLiter).toLocaleString(undefined, {
+              maximumFractionDigits: 3,
+            }) || "-",
+          ];
+        }),
+      },
+    });
+  }
+
+  const tableRef = useRef();
+  const handlePrint = useReactToPrint({
+    content: () => tableRef.current,
+  });
+
+  const tableRef2 = useRef();
+  const handlePrint2 = useReactToPrint({
+    content: () => tableRef2.current,
+  });
+
   return (
     <div className="w-full pt-28">
       <div className="flex  flex-wrap gap-4 gap-x-10  justify-between">
@@ -236,13 +313,21 @@ const SaleSummary = () => {
       {isData ? (
         <div className="">
           <div className="mt-8">
-            <FilterTable header={summaryHeader} rows={summaryRow} />
-            <Footer />
+            <FilterTable
+              tableRef={tableRef}
+              header={summaryHeader}
+              rows={summaryRow}
+            />
+            <Footer print={handlePrint} onClick={handleDownloadExcel} />
           </div>
           <div className="">
             <div className="mt-8">
-              <FilterTable header={detailHeader} rows={detailRow} />
-              <Footer />
+              <FilterTable
+                tableRef={tableRef2}
+                header={detailHeader}
+                rows={detailRow}
+              />
+              <Footer print={handlePrint2} onClick={handleDownloadExcel2} />
             </div>
           </div>
         </div>

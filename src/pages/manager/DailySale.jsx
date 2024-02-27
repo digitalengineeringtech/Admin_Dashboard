@@ -13,6 +13,12 @@ import useTokenStorage from "../../utils/useDecrypt";
 import fuelData from "../installer/drop_data/manager/managerFuel";
 import nozzleData from "../installer/drop_data/manager/nozzle";
 import { useDownloadExcel } from "react-export-table-to-excel";
+import { DownloadTableExcel } from "react-export-table-to-excel";
+import Button from "../../components/footer/Button";
+import { RiFileExcel2Fill } from "react-icons/ri";
+import { IoPrintSharp } from "react-icons/io5";
+import { downloadExcel } from "react-export-table-to-excel";
+import { useReactToPrint } from "react-to-print";
 
 const DailySale = () => {
   let start = new Date();
@@ -34,10 +40,6 @@ const DailySale = () => {
     }
   }, []);
 
-  const [pou, setPou] = useState();
-  const [startDate, setStartDate] = useState();
-  const [endDate, setEndDate] = useState();
-  const [date, setDate] = useState(null);
   const [isData, setIsData] = useState(false);
 
   const [sDate, setSDate] = useState(start);
@@ -46,27 +48,26 @@ const DailySale = () => {
   const [purposeUse, setPurposeUse] = useState();
   const [noz, setNoz] = useState();
 
-  const [totalLength, setTotalLength] = useState(0);
-  const [first, setFirst] = useState(0);
-  const [rows, setRows] = useState(50);
-
   const purposeRoute = purposeUse?.value
     ? `&vehicleType=${purposeUse?.value}`
     : "";
   const fuelRoute = fuelType?.value ? `&fuelType=${fuelType?.value}` : "";
   const nozzleRoute = noz?.value ? `&nozzleNo=${noz?.value}` : "";
 
-  // http://192.168.0.100:9000/api/detail-sale/pagi/1?sDate=2024-02-20T13:27:15.000Z&eDate=2024-02-21T13:27:15.000Z
-  // const route = `/detail-sale/pagi/by-date/1?sDate=${sDate}&eDate=${eDate}&vehicleType=${purposeUse?.value}&fuelType=${fuelType?.value}&nozzleNo=${noz?.value}`;
-  // http://192.168.0.100:9000/api/detail-sale/pagi/by-date/1?sDate=Thu Feb 22 2024 00:00:42 GMT+0630 (Myanmar Time)&eDate=Thu Feb 22 2024 23:00:42 GMT+0630 (Myanmar Time)&vehicleType=Cycle&fuelType=004-Disel&nozzleNo=02
   const route = `detail-sale/pagi/by-date/1?sDate=${sDate}&eDate=${eDate}${purposeRoute}${fuelRoute}${nozzleRoute}`;
   const [{ data_g, loading_g, error_g, pagi_g }, fetchItGet] = UseGet();
+  const [con, setCon] = useState(false);
 
   useEffect(() => {
-    fetchItGet(route, token);
-    console.log("hello");
-    console.log(data_g);
+    setCon(true);
   }, []);
+
+  useEffect(() => {
+    fetchItGet(`detail-sale/pagi/by-date/1?sDate=${start}&eDate=${end}`, token);
+    console.log("hello");
+  }, [con]);
+
+  console.log(data_g, "dddddddddddddddd");
 
   useEffect(() => {
     if (data_g?.length > 0) {
@@ -76,9 +77,7 @@ const DailySale = () => {
     }
   }, [data_g, loading_g, error_g, fetchItGet]);
 
-  const recordsPerPage = 50;
-  const totalPages = Math.ceil(pagi_g / recordsPerPage);
-  console.log(totalPages);
+  // console.log(totalPages);
 
   const tableHeader = [
     "Vocno",
@@ -123,22 +122,22 @@ const DailySale = () => {
     </Table.Tr>
   ));
 
-  console.log(
-    "start",
-    sDate,
-    "end",
-    eDate,
-    "fuel",
-    fuelType?.name,
-    "purpose",
-    purposeUse?.name,
-    "nozzle",
-    noz?.value
-  );
+  // console.log(
+  //   "start",
+  //   sDate,
+  //   "end",
+  //   eDate,
+  //   "fuel",
+  //   fuelType?.name,
+  //   "purpose",
+  //   purposeUse?.name,
+  //   "nozzle",
+  //   noz?.value
+  // );
 
-  console.log(data_g);
-  console.log(data_g?.length > 0);
-  console.log(pagi_g);
+  // console.log(data_g);
+  // console.log(data_g?.length > 0);
+  // console.log(pagi_g);
 
   const onPageChange = (event) => {
     console.log(event);
@@ -147,16 +146,57 @@ const DailySale = () => {
       token
     );
   };
-
+  const [down, setDown] = useState(null);
+  const [d, setD] = useState(false);
   const tableRef = useRef(null);
+  const fun = () => {
+    const { onDownload } = useDownloadExcel({
+      currentTableRef: tableRef.current,
+      filename: "Users table",
+      sheet: "Users",
+    });
+    return onDownload;
+  };
 
-  console.log(tableRef, "ooooooooooooooooo");
-  console.log(data_g, "..............................");
+  console.log(tableRef.current != null, "ooooooooooooooooo");
+  console.log(tableRef.current, "..............................");
 
-  const { onDownload } = useDownloadExcel({
-    currentTableRef: tableRef.current,
-    filename: "Users table",
-    sheet: "Users",
+  const recordsPerPage = 50;
+  const totalPages = Math.ceil(pagi_g / recordsPerPage);
+
+  function handleDownloadExcel() {
+    downloadExcel({
+      fileName: "Daily Sale Report",
+      sheet: "Daily Sale Report",
+      tablePayload: {
+        header: tableHeader,
+        // accept two different data structures
+        body: data_g.map((e) => [
+          e.vocono,
+          e.createAt,
+          e.carNo,
+          e.vehicleType,
+          e.nozzleNo,
+          e.fuelType,
+          (parseFloat(e?.saleLiter) / 4.16).toFixed(3),
+          e.saleLiter,
+          e.salePrice.toLocaleString(undefined, {
+            maximumFractionDigits: 3,
+          }),
+          e.totalPrice.toLocaleString(undefined, {
+            maximumFractionDigits: 3,
+          }),
+          e.totalizer_liter.toFixed(3),
+          e.totalizer_amount.toLocaleString(undefined, {
+            maximumFractionDigits: 3,
+          }),
+        ]),
+      },
+    });
+  }
+
+  const handlePrint = useReactToPrint({
+    content: () => tableRef.current,
   });
 
   return (
@@ -190,7 +230,7 @@ const DailySale = () => {
       {isData ? (
         <div className="mt-8">
           <FilterTable
-            // tableRef={tableRef}
+            tableRef={tableRef}
             header={tableHeader}
             rows={tableRow}
           />
@@ -203,22 +243,19 @@ const DailySale = () => {
           </div>
         </div>
       )}
-      <div className="">
-        <Footer
-          download={onDownload}
-          totalPages={totalPages}
-          onPageChange={onPageChange}
-          // first={first}
-          // rows={rows}
-        />
-      </div>
-      <table ref={tableRef}>
-        <tr>
-          <td>kjk</td>
-          <td>kjk</td>
-          <td>kjk</td>
-        </tr>
-      </table>
+      {data_g && (
+        <div className="">
+          <Footer
+            print={handlePrint}
+            onClick={handleDownloadExcel}
+            totalPages={totalPages}
+            onPageChange={onPageChange}
+            pagi="true"
+            // first={first}
+            // rows={rows}
+          />
+        </div>
+      )}
     </div>
   );
 };

@@ -20,6 +20,8 @@ import { FaCashRegister } from "react-icons/fa6";
 import useTokenStorage from "../../utils/useDecrypt";
 import { useNavigate } from "react-router-dom";
 import AuthContext from "../../services/AuthContext";
+import { MdOutlineControlCamera } from "react-icons/md";
+
 const Sidebar = () => {
   const navigate = useNavigate();
   const { clearToken } = useTokenStorage();
@@ -46,6 +48,7 @@ const Sidebar = () => {
   // console.log(data);
   const managerIcon = [
     <MdAccountCircle />,
+    <MdOutlineControlCamera />,
     <TbCoinFilled />,
     <IoFileTrayFull />,
     <MdPropaneTank />,

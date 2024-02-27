@@ -5,6 +5,10 @@
       "link": "/"
     },
     {
+      "name": "Device Control",
+      "link": "/device"
+    },
+    {
       "name": "Daily Sale",
       "link": "/daily_sale"
     },

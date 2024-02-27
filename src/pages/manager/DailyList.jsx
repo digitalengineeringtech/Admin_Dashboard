@@ -162,6 +162,8 @@ const DailyList = () => {
   console.log(totalCredit, "lddddddddddd");
   console.log(data_g, "ggggggggggggggg");
 
+  const total = totalPTest?.concat(totalOTest);
+
   return (
     <div className="w-full pt-28">
       <div className="flex  flex-wrap gap-4 gap-x-10  justify-between">
@@ -184,7 +186,9 @@ const DailyList = () => {
       </div>
       {isData ? (
         <div className="mt-2">
-          <Outlet context={[totalPTest, totalOTest, totalCredit, notCredit]} />
+          <Outlet
+            context={[totalPTest, totalOTest, totalCredit, notCredit, total]}
+          />
         </div>
       ) : (
         <div className="w-full h-[250px] gap-5 text-gray-300 flex items-center justify-center border-2 border-[#38b59e] mt-10 rounded-xl">

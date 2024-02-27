@@ -1,0 +1,7 @@
+.tb,
+.tb tr,
+.tb td {
+  padding: 20px;
+  border: 1px solid black;
+  margin: 1px;
+}

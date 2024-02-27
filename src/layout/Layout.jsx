@@ -56,6 +56,9 @@ const Layout = () => {
       case "/fuel_balance":
         setState("Fuel Balance");
         break;
+      case "/device":
+        setState("Device Control");
+        break;
       case "/daily_list":
         setState("Daily List");
         break;

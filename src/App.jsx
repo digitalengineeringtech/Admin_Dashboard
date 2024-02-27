@@ -24,6 +24,7 @@ import Totallizer from "./pages/installer/Totallizer";
 import Login from "./pages/Login";
 import InstallerManager from "./pages/installer/InstallerManager";
 import AuthContext from "./services/AuthContext";
+import DeviceControl from "./pages/manager/DeviceControl";
 
 const App = () => {
   const [isInstalling, setIsInstalling] = useState(false);
@@ -90,6 +91,10 @@ const App = () => {
         {
           path: "/daily_sale",
           element: <DailySale />,
+        },
+        {
+          path: "/device",
+          element: <DeviceControl />,
         },
         {
           path: "/fuel_balance",

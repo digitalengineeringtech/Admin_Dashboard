@@ -1,7 +1,6 @@
 import React from "react";
-import { ImSearch } from "react-icons/im";
 
-const SearchButton = ({ onClick, title, icon }) => {
+const SearchButton = ({ onClick, title }) => {
   const con = window.innerWidth < 1240;
   // console.log(con);
   return (
@@ -10,9 +9,8 @@ const SearchButton = ({ onClick, title, icon }) => {
       onClick={onClick}
       className={`w-[300px]  mt-auto  text-secondary  items-center justify-center gap-3 flex  ${
         !con ? "mr-auto" : ""
-      } font-mono text-lg active:scale-95 duration-100 bg-[#38b59e] h-[56px] rounded-md`}
+      } font-mono text-xl active:scale-95 duration-100 bg-[#38b59e] h-[56px] rounded-md`}
     >
-      {icon ? icon : <ImSearch className="ms-[-18px] text-secondary" />}
       {title ? title : "SEARCH"}
     </button>
   );

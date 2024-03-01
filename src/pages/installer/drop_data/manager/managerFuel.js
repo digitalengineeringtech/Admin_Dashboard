@@ -12,12 +12,12 @@ const data = [
     value: "002-Octane ron(95)",
   },
   {
-    name: "004-Disel",
-    value: "004-Disel",
+    name: "004-Diesel",
+    value: "004-Diesel",
   },
   {
     name: "005-Premium Disel",
-    value: "005-Premium Disel",
+    value: "005-Premium Diesel",
   },
 ];
 export default data;

@@ -131,6 +131,7 @@ const Sidebar = () => {
           <div className="flex scroll_bar_right pl-3 gap-y-2 h-[62vh] overflow-y-scroll flex-col">
             {(isInstalling ? ins : manag).map((e, index) => (
               <NavLink
+                key={index}
                 onClick={() => setState(false)}
                 to={e.link}
                 className="py-4 scroll_bar_left flex gap-3 duration-150 items-center text-gray-600 px-4 group rounded-md hover:bg-secondary"

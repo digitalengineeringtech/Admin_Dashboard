@@ -184,8 +184,8 @@ const SaleSummary = () => {
     let totalPrice = 0;
 
     // fetchfrom detailsale statement
-    // data_g_2?.map((obj) => {
-    data_g?.map((obj) => {
+    data_g_2?.map((obj) => {
+      // data_g?.map((obj) => {
       if (obj.fuelType === "001-Octane Ron(92)") {
         ninety2 += obj.saleLiter;
       }

@@ -1,0 +1,32 @@
+.card3 {
+  border-radius: 20px;
+  background: linear-gradient(145deg, #d9cbff, #7a4df1);
+  box-shadow: 7px 7px 12px #d0d0d0, -7px -7px 12px #ffffff;
+}
+.card {
+  border-radius: 20px;
+  background: linear-gradient(145deg, #ffffff, #e2e2e2);
+  box-shadow: 7px 7px 12px #d0d0d0, -7px -7px 12px #ffffff;
+}
+.card5 {
+  border-radius: 20px;
+  background: linear-gradient(145deg, #fcffc5, #dde249);
+  box-shadow: 7px 7px 12px #d0d0d0, -7px -7px 12px #ffffff;
+}
+.card4 {
+  border-radius: 20px;
+  background: linear-gradient(145deg, #bffff2, #37d3b4);
+  box-shadow: 7px 7px 12px #d0d0d0, -7px -7px 12px #ffffff;
+}
+
+.box {
+  border-radius: 9px;
+  background: #efefef;
+  box-shadow: inset 5px 5px 4px #d9d9d9, inset -5px -5px 4px #f8f8f8;
+}
+
+.card2 {
+  border-radius: 20px;
+  background: linear-gradient(145deg, #ffb7b7, #e96c6c);
+  box-shadow: 7px 7px 12px #d0d0d0, -7px -7px 12px #ffffff;
+}

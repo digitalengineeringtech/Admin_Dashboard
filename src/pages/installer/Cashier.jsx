@@ -11,7 +11,9 @@ import Swal from "sweetalert2";
 
 const Cashier = () => {
   const [cCode, setCCode] = useState("");
-  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [cardId, setCardId] = useState("");
+  const [nrcNo, setNrcNo] = useState("");
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
   const [ComPassword, setComPassword] = useState("");
@@ -19,7 +21,7 @@ const Cashier = () => {
   const [success, setSuccess] = useState(false);
   const [load, setLoad] = useState(false);
   const [stationNo, setStationNo] = useState("");
-  const [stationId, setStationId] = useState("none");
+  const [stationId, setStationId] = useState("6464e9d2c45b82216ab1e654");
 
   const [{ data, loading, error }, fetchIt] = UsePost();
 
@@ -28,8 +30,10 @@ const Cashier = () => {
   const handleClick = () => {
     if (
       cCode === "" ||
-      name === "" ||
+      email === "" ||
       phone === "" ||
+      cardId === "" ||
+      nrcNo === "" ||
       password === "" ||
       stationId === "none" ||
       stationNo === "" ||
@@ -42,14 +46,14 @@ const Cashier = () => {
       if (token) {
         const managerObj = {
           name: cCode,
-          email: name,
+          email: email,
           phone: phone,
           password: password,
           comparePassword: ComPassword,
           stationNo: stationNo,
-          stationId: stationId._id,
-          cardId: "022",
-          nrcNo: "3456886",
+          stationId: stationId,
+          cardId: cardId,
+          nrcNo: nrcNo,
         };
         console.log(managerObj);
         fetchIt("user/register", managerObj, token);
@@ -70,12 +74,13 @@ const Cashier = () => {
     console.log(error);
     if (data.con) {
       setCCode("");
-      setName("");
+      setEmail("");
+      setCardId("");
+      setNrcNo("");
       setPhone("");
       setPassword("");
       setComPassword("");
       setStationNo("");
-      setStationId("none");
       setSuccess(true);
     }
   }, [data, loading, error]);
@@ -110,11 +115,18 @@ const Cashier = () => {
       <div className="w-[1320px] shadow-shadow/20 shadow-md rounded-2xl p-6 flex flex-col gap-6 gap-y-4 bg-white">
         <div className="flex flex-col gap-y-6 gap-x-16 justify-between">
           <div className="flex gap-x-14 justify-between">
-            <SelectDrop
+            {/* <SelectDrop
               label="Station Id"
               data={stationData()}
               value={stationId}
               setValue={setStationId}
+            /> */}
+            <TextInput
+              value={stationId}
+              onChange={(e) => setStationId(e.target.value)}
+              style="!w-[300px]"
+              label="Station Id"
+              placeholder="Station Id"
             />
             <TextInput
               value={cCode}
@@ -124,11 +136,11 @@ const Cashier = () => {
               placeholder="Cashier Code"
             />
             <TextInput
-              value={name}
-              onChange={(e) => setName(e.target.value)}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               style="!w-[300px]"
-              label="Name"
-              placeholder="Name"
+              label="Email"
+              placeholder="Email"
             />
             <TextInput
               value={phone}
@@ -160,6 +172,22 @@ const Cashier = () => {
               label="Station Number"
               placeholder="Station Number"
             />
+            <TextInput
+              value={cardId}
+              onChange={(e) => setCardId(e.target.value)}
+              style="!w-[300px]"
+              label="Card Id"
+              placeholder="Card Id"
+            />
+          </div>
+          <div className="flex gap-x-14 justify-start">
+            <TextInput
+              value={nrcNo}
+              onChange={(e) => setNrcNo(e.target.value)}
+              style="!w-[275px]"
+              label="NRC No"
+              placeholder="NRC No"
+            />
             <Button
               title="SET UP"
               // onClick={Alert("Are you sure ?", () => {
@@ -167,8 +195,10 @@ const Cashier = () => {
               // })}
               onClick={
                 cCode !== "" ||
-                name !== "" ||
+                email !== "" ||
                 phone !== "" ||
+                cardId !== "" ||
+                nrcNo !== "" ||
                 password !== "" ||
                 stationId !== "none" ||
                 stationNo !== "" ||
@@ -176,7 +206,7 @@ const Cashier = () => {
                   ? ConAlert("Are you sure ?", data.con, handleClick)
                   : () => ErrorAlert("Some Fields are Empty")
               }
-              style=" bg-detail mt-auto w-[300px] border border-detail text-secondary"
+              style=" bg-detail mt-auto w-[275px] border border-detail text-secondary"
             />
           </div>
         </div>

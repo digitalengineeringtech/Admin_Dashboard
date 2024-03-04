@@ -252,7 +252,8 @@ const Manager = () => {
                   <h1 className="text-[3rem] font-bold text-detail my-3 mb-4">
                     {totalCalcu
                       .map((e) => Number(e.totalAmount))
-                      .reduce((pv, cv) => pv + cv, 0)}
+                      .reduce((pv, cv) => pv + cv, 0)
+                      .toFixed(2)}
                   </h1>
                   <h1 className="text-[2.5rem]  text-detail/80">MMK</h1>
                 </div>
@@ -325,7 +326,10 @@ const Manager = () => {
                     Today Total Sale
                   </h1>
                   <h1 className="text-[3.6rem] font-bold text-detail my-6">
-                    100,000
+                    {totalCalcu
+                      .map((e) => Number(e.totalAmount))
+                      .reduce((pv, cv) => pv + cv, 0)
+                      .toFixed(2)}
                   </h1>
                   <h1 className="text-[3rem]  text-detail/80">MMK</h1>
                 </div>

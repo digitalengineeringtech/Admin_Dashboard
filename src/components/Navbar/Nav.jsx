@@ -29,6 +29,8 @@ const Nav = ({ title }) => {
     );
   };
 
+  const path = window.location.pathname;
+
   // console.log(token);
 
   // .post(url, user, {
@@ -46,13 +48,15 @@ const Nav = ({ title }) => {
         {/* <div className="">
           <LanguagePicker />
         </div> */}
-        <div
-          onClick={() => handleClick(token)}
-          className="hover:scale-105 flex gap-2 items-center active:scale-95 duration-100 select-none font-mono text-lg font-semibold py-3 bg-detail text-secondary px-4 rounded-lg text"
-        >
-          <IoLinkSharp className="text-2xl" />
-          CONNECT
-        </div>
+        {path == "/device" && (
+          <div
+            onClick={() => handleClick(token)}
+            className="hover:scale-105 flex gap-2 items-center active:scale-95 duration-100 select-none font-mono text-lg font-semibold py-3 bg-detail text-secondary px-4 rounded-lg text"
+          >
+            <IoLinkSharp className="text-2xl" />
+            CONNECT
+          </div>
+        )}
       </div>
     </div>
   );

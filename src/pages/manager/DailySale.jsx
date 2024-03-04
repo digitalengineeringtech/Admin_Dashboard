@@ -104,18 +104,18 @@ const DailySale = () => {
       <Table.Td>{(parseFloat(element?.saleLiter) / 4.16).toFixed(3)}</Table.Td>
       <Table.Td>{element.saleLiter}</Table.Td>
       <Table.Td>
-        {element.salePrice.toLocaleString(undefined, {
+        {element.salePrice.toFixed(2).toLocaleString(undefined, {
           maximumFractionDigits: 3,
         })}
       </Table.Td>
       <Table.Td>
-        {element.totalPrice.toLocaleString(undefined, {
+        {element.totalPrice.toFixed(2).toLocaleString(undefined, {
           maximumFractionDigits: 3,
         })}
       </Table.Td>
       <Table.Td>{element.totalizer_liter.toFixed(3)}</Table.Td>
       <Table.Td>
-        {element.totalizer_amount.toLocaleString(undefined, {
+        {element.totalizer_amount.toFixed(2).toLocaleString(undefined, {
           maximumFractionDigits: 3,
         })}
       </Table.Td>

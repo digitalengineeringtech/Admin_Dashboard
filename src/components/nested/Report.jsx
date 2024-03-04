@@ -115,9 +115,9 @@ const Report = () => {
     <Table.Tr key={index} className=" duration-150 text-center">
       <Table.Td>{index + 1}</Table.Td>
       <Table.Td>{element.fueltype}</Table.Td>
-      <Table.Td>{element.totalLiter}</Table.Td>
+      <Table.Td>{element.totalLiter.toFixed(2)}</Table.Td>
       <Table.Td>{element.pricePerLiter}</Table.Td>
-      <Table.Td>{element.totalAmount}</Table.Td>
+      <Table.Td>{Number(element.totalAmount)?.toFixed(2)}</Table.Td>
       <Table.Td>{element.description || "-"}</Table.Td>
     </Table.Tr>
   ));
@@ -125,9 +125,9 @@ const Report = () => {
     <tr key={index} className=" duration-150 text-center">
       <td>{index + 1}</td>
       <td>{element.fueltype}</td>
-      <td>{element.totalLiter}</td>
+      <td>{element.totalLiter.toFixed(2)}</td>
       <td>{element.pricePerLiter}</td>
-      <td>{element.totalAmount}</td>
+      <td>{Number(element.totalAmount)?.toFixed(2)}</td>
       <td>{element.description || "-"}</td>
     </tr>
   ));
@@ -135,9 +135,9 @@ const Report = () => {
     <Table.Tr key={element.price} className=" duration-150 text-center">
       <Table.Td>{index + 1}</Table.Td>
       <Table.Td>{element.fueltype}</Table.Td>
-      <Table.Td>{element.totalLiter}</Table.Td>
+      <Table.Td>{element.totalLiter.toFixed(2)}</Table.Td>
       <Table.Td>{element.pricePerLiter}</Table.Td>
-      <Table.Td>{element.totalAmount}</Table.Td>
+      <Table.Td>{Number(element.totalAmount)?.toFixed(2)}</Table.Td>
       <Table.Td>{element.description || "-"}</Table.Td>
     </Table.Tr>
   ));
@@ -145,7 +145,7 @@ const Report = () => {
     <tr key={element.price} className=" duration-150 text-center">
       <td>{index + 1}</td>
       <td>{element.fueltype}</td>
-      <td>{element.totalLiter}</td>
+      <td>{element.totalLiter.toFixed(2)}</td>
       <td>{element.pricePerLiter}</td>
       <td>{element.totalAmount}</td>
       <td>{element.description || "-"}</td>
@@ -156,14 +156,17 @@ const Report = () => {
     <Table.Tr key={index} className=" duration-150 text-center">
       <Table.Td>{index + 1}</Table.Td>
       <Table.Td>{element.fueltype}</Table.Td>
-      <Table.Td>{element.totalLiter}</Table.Td>
+      <Table.Td>{element.totalLiter.toFixed(2)}</Table.Td>
       <Table.Td>{element.pricePerLiter}</Table.Td>
-      <Table.Td>{element.totalAmount}</Table.Td>
+      <Table.Td>{Number(element.totalAmount).toFixed(2)}</Table.Td>
       <Table.Td>{element.discount}%</Table.Td>
       <Table.Td>
         {element.discount > 0
-          ? element.totalAmount - (element.totalAmount * element.discount) / 100
-          : element.totalAmount}
+          ? (
+              element.totalAmount -
+              (element.totalAmount * element.discount) / 100
+            ).toFixed(2)
+          : Number(element.totalAmount)?.toFixed(2)}
       </Table.Td>
       <Table.Td>-</Table.Td>
     </Table.Tr>
@@ -174,11 +177,14 @@ const Report = () => {
       <td colspan={2}>{element.fueltype}</td>
       <td>{element.totalLiter}</td>
       <td colspan={2}>{element.pricePerLiter}</td>
-      <td colspan={2}>{element.totalAmount}</td>
+      <td colspan={2}>{Number(element.totalAmount).toFixed(2)}</td>
       <td>{element.discount}%</td>
       <td colspan={2}>
         {element.discount > 0
-          ? element.totalAmount - (element.totalAmount * element.discount) / 100
+          ? (
+              element.totalAmount -
+              (element.totalAmount * element.discount) / 100
+            ).toFixed(2)
           : element.totalAmount}
       </td>
       <td colspan={2}>-</td>

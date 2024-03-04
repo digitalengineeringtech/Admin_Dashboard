@@ -117,7 +117,13 @@ const Sidebar = () => {
           transition={{ duration: 0.2, type: "tween" }}
           className="bg-secondary mx-auto rounded-lg ml-[-35px] pt-3 w-[150px] h-[150px] mt-5"
         >
-          <div className="bg-[#69eccf] w-24 h-24 mx-auto  rounded-full"></div>
+          <div className="bg-[#69eccf] w-24 h-24 mx-auto overflow-hidden flex items-center justify-center rounded-full">
+            <img
+              src="../../../public/static/images/manager(2).png"
+              alt=""
+              className="w-[80%] mb-[-20px]"
+            />
+          </div>
           <div className="mt-1 text-[#69eccf] text-lg font-semibold text-center">
             Manager{" "}
           </div>
@@ -175,9 +181,14 @@ const Sidebar = () => {
           animate={!state ? "open" : "close"}
           variants={pfp}
           transition={{ duration: 0.2, type: "tween" }}
-          className="bg-[#69eccf] z-50 mt-4 justify-center items-center flex fixed left-3 w-16 h-16 rounded-lg"
+          className="bg-[#69eccf] z-50 mt-4 overflow-hidden justify-center items-center flex fixed left-3 w-16 h-16 rounded-lg"
         >
           {/* <MdAccountCircle /> */}
+          <img
+            src="../../../public/static/images/manager(2).png"
+            alt=""
+            className="w-[80%] mb-[-12px]"
+          />
         </motion.div>
       </div>
     </>

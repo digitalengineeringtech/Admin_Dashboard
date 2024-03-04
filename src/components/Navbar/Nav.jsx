@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./nav.css";
 import { LanguagePicker } from "./LanguagePicker";
 import { IoLinkSharp } from "react-icons/io5";
 import { localInstance } from "../../api/axios";
 import useTokenStorage from "../../utils/useDecrypt";
+import LoadContext from "../../services/LoadContext";
 
 const Nav = ({ title }) => {
+  const { loading, setLoading } = useContext(LoadContext);
   const [token, setToken] = useState("none");
   const { loadToken } = useTokenStorage();
   useEffect(() => {
@@ -17,6 +19,7 @@ const Nav = ({ title }) => {
 
   const handleClick = async (token) => {
     console.log(token, "lllllllllllllllllllllllllllll");
+    setLoading(true);
     const response = await localInstance.post(
       "/device-connection/whreq",
       {},
@@ -27,6 +30,7 @@ const Nav = ({ title }) => {
         },
       }
     );
+    setLoading(false);
   };
 
   const path = window.location.pathname;

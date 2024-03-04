@@ -54,11 +54,8 @@ const DeviceControl = () => {
     });
   });
 
-  const [permitData, setPermitData] = useState([]);
-  const [approveData, setApproveData] = useState([]);
-
   console.log("====================================");
-  console.log("permit req is", permitData, "and approve is ", approveData);
+  console.log(loading);
   console.log("====================================");
 
   client.on("message", (topic, message) => {
@@ -79,17 +76,9 @@ const DeviceControl = () => {
       const topicCount = payloadHistoryRef.current.filter(
         (t) => t === parseInt(prefix)
       ).length;
-      // if (topicCount < 2) {
-      //   setPayloadHistory((prevTopics) => [...prevTopics, parseInt(prefix)]);
-      // }
-      // if (topicCount < 2) {
-      console.log(permitData.includes(parseInt(prefix)), "...............");
-      if (!permitData.includes(parseInt(prefix))) {
-        // Update state only if the prefix is not in permitData
+      if (topicCount < 2) {
         setPayloadHistory((prevTopics) => [...prevTopics, parseInt(prefix)]);
-        setPermitData((prevData) => [...prevData, parseInt(prefix)]);
       }
-      // }
       setNoMorePermit("hhh");
     }
 
@@ -126,10 +115,6 @@ const DeviceControl = () => {
           ...prevTopics,
           parseInt(prefix),
         ]);
-        setApproveData((prevData) => [...prevData, parseInt(prefix)]);
-        setPermitData((prevData) =>
-          prevData.filter((item) => item !== parseInt(prefix))
-        );
       }
     }
 
@@ -152,9 +137,6 @@ const DeviceControl = () => {
     if (topic === "detpos/device/req") {
       const prefix = message.toString().substring(0, 2); // "01"
       const suffix = message.toString().substring(2); // "cancel"
-      setPermitData((prevData) =>
-        prevData.filter((item) => item !== parseInt(prefix))
-      );
 
       setNoMorePermit(prefix);
     }
@@ -164,32 +146,32 @@ const DeviceControl = () => {
       setFinalData(data[0]);
     }
 
-    // if (topic.startsWith("detpos/device/livedata/") && /[1-8]$/.test(topic)) {
-    //   let data = message.toString().split(regex);
-    //   const updatedNozzle1FuelDetail = {
-    //     liter: data[1],
-    //     price: data[2],
-    //     nozzleNo: data[0],
-    //   };
+    if (topic.startsWith("detpos/device/livedata/") && /[1-8]$/.test(topic)) {
+      let data = message.toString().split(regex);
+      const updatedNozzle1FuelDetail = {
+        liter: data[1],
+        price: data[2],
+        nozzleNo: data[0],
+      };
 
-    //   const checkLive = {
-    //     nozzleNo: data[0],
-    //   };
+      const checkLive = {
+        nozzleNo: data[0],
+      };
 
-    //   checkLiveRef.current = {
-    //     ...checkLiveRef.current,
-    //     ...checkLive,
-    //   };
+      checkLiveRef.current = {
+        ...checkLiveRef.current,
+        ...checkLive,
+      };
 
-    //   nozzle1FuelDetailRef.current = {
-    //     ...nozzle1FuelDetailRef.current,
-    //     ...updatedNozzle1FuelDetail,
-    //   };
-    // }
+      nozzle1FuelDetailRef.current = {
+        ...nozzle1FuelDetailRef.current,
+        ...updatedNozzle1FuelDetail,
+      };
+    }
     // client.end();
   });
 
-  console.log(data_g.map((e) => parseInt(e.nozzle_no)));
+  // console.log(data_g);
 
   return (
     <>
@@ -201,9 +183,6 @@ const DeviceControl = () => {
       <div className="w-full h-screen flex gap-8 flex-wrap items-center justify-center">
         {data_g?.map((obj, index) => (
           <Card
-            Client={client}
-            permitReq={permitData.includes(parseInt(obj.nozzle_no))}
-            ///upper is my update
             loading
             setloading
             // setFetchNew={setFetchNew} need

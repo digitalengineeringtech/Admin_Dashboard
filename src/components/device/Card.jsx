@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./card.css";
 import { motion } from "framer-motion";
 import { useDisclosure } from "@mantine/hooks";
@@ -12,7 +12,9 @@ import { localInstance } from "../../api/axios";
 import useTokenStorage from "../../utils/useDecrypt";
 
 const Card = ({
+  Client,
   dis,
+  permitReq,
   num,
   onClick,
   title = "1",
@@ -27,54 +29,17 @@ const Card = ({
   setFinalData,
   setAllDone,
   // setFetchNew,
-  checkLiveRef,
+  // checkLiveRef,
   approve,
   setApprove,
+  loading,
+  setLoading,
   liveDespenserHistory,
 }) => {
-  const [isClosed, setIsClosed] = useState(false);
-  const [visible, setVisible] = useState(false);
-  const [isAlready, setIsAlready] = useState(false);
-  const [opened, { open, close }] = useDisclosure(false);
-  const [price, setPrice] = useState(0);
-  const [liter, setLiter] = useState(0);
-
-  useEffect(() => {
-    setSaleLiter(liter);
-    setSalePrice(price);
-  }, [price, liter]);
-
-  console.log("con for ", parseInt(finalData), "and ", parseInt(obj.nozzle_no));
-
-  // useEffect(() => {
-  //   const interval = setInterval(() => {
-  //     const { liter, price, nozzleNo } = nozzle1FuelDetail.current;
-
-  //     if (parseInt(nozzleNo) === parseInt(printFormInfo.nozzle_no)) {
-  //       setPrice(price);
-  //       setLiter(liter);
-  //     }
-  //   }, 100); // Update the values every second
-
-  //   return () => {
-  //     clearInterval(interval);
-  //   };
-  // }, []);
-
-  const [myInfo, setMyInfo] = useState({
-    objectId: null,
-    saleLiter: 0,
-    salePrice: 0,
-    couObjId: null,
-    vehicleType: null,
-    cashType: null,
-    vocono: null,
-  });
   const [isPermit, setIsPermit] = useState(false);
   const [isErrorCon, setIsErrorCon] = useState(false);
   const [premitFormInfo, setPremitFormInfo] = useState();
   const [printFormInfo, setPrintFormInfo] = useState();
-  const [loading, setLoading] = useState(false);
   const [noPermit, setNopermit] = useState(false);
   const [saleLiter, setSaleLiter] = useState(0);
   const [salePrice, setSalePrice] = useState(0);
@@ -111,10 +76,119 @@ const Card = ({
       setToken(token);
     }
   }, []);
+  const [isClosed, setIsClosed] = useState(false);
+  const [visible, setVisible] = useState(false);
+  const [isAlready, setIsAlready] = useState(false);
+  const [opened, { open, close }] = useDisclosure(false);
+  const [price, setPrice] = useState(0);
+  const [liter, setLiter] = useState(0);
+  const checkLiveRef = useRef({
+    nozzle: "",
+  });
+
+  const regex = /[A-Z]/g;
+
+  const nozzle1FuelDetailRef = useRef({ liter: "", price: "" });
+
+  Client.on("message", (topic, message) => {
+    if (topic.startsWith("detpos/device/livedata/") && /[1-8]$/.test(topic)) {
+      let data = message.toString().split(regex);
+      const updatedNozzle1FuelDetail = {
+        liter: data[1],
+        price: data[2],
+        nozzleNo: data[0],
+      };
+
+      const checkLive = {
+        nozzleNo: data[0],
+      };
+
+      checkLiveRef.current = {
+        ...checkLiveRef.current,
+        ...checkLive,
+      };
+
+      nozzle1FuelDetailRef.current = {
+        ...nozzle1FuelDetailRef.current,
+        ...updatedNozzle1FuelDetail,
+      };
+
+      if (parseInt(data[0]) === parseInt(obj.nozzle_no)) {
+        setLiter(parseFloat(data[1])); // assuming liter is a numeric value
+        setPrice(parseFloat(data[2])); // assuming price is a numeric value
+        console.log("llllll");
+      }
+      console.log(price, liter);
+      console.log(
+        nozzle1FuelDetailRef.current,
+        "----------------------------------------"
+      );
+    }
+  });
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const { nozzleNo } = checkLiveRef.current;
+
+      if (parseInt(nozzleNo) === parseInt(obj.nozzle_no)) {
+        setNozzleActive(true);
+        setNopermit(false);
+
+        if (active) {
+          if (parseInt(nozzleNo) === parseInt(obj.nozzle_no)) {
+            setNozzleActive(true);
+            setNopermit(false);
+          }
+        }
+        // checkLiveRef.current.nozzleNo = 0;
+      }
+    }, 200); // Update the values every second
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
+
+  // useEffect(() => {
+  //   setSaleLiter(liter);
+  //   setSalePrice(price);
+  // }, [price, liter]);
+
+  // console.log(permitReq, obj.nozzle_no, ".........................");
+
+  // console.log("con for ", parseInt(finalData), "and ", parseInt(obj.nozzle_no));
+
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     const { liter, price, nozzleNo } = nozzle1FuelDetail.current;
+
+  //     if (parseInt(nozzleNo) == parseInt(printFormInfo.nozzle_no)) {
+  //       setPrice(price);
+  //       setLiter(liter);
+  //     } else {
+  //       console.log("err");
+  //     }
+  //   }, 100); // Update the values every second
+
+  //   return () => {
+  //     clearInterval(interval);
+  //   };
+  // }, []);
+
+  const [myInfo, setMyInfo] = useState({
+    objectId: null,
+    saleLiter: 0,
+    salePrice: 0,
+    couObjId: null,
+    vehicleType: null,
+    cashType: null,
+    vocono: null,
+  });
+
   const handleCardClick = () => {
     open();
   };
-  console.log(finalData, "and final is", final, "and all done is ", allDone);
+  // console.log(finalData, "and final is", final, "and all done is ", allDone);
 
   // console.log(printFormInfo, "......................");
   // console.log(token);
@@ -273,10 +347,6 @@ const Card = ({
     }, 3000);
   };
 
-  // console.log("====================================");
-  // console.log(loading);
-  // console.log("====================================");
-
   const handlePermit = async () => {
     if (
       premitFormInfo.couObjId == undefined &&
@@ -288,7 +358,7 @@ const Card = ({
       if (!permitButtonDisable) {
         setPermitButtonDisable(true);
       }
-      setLoading(true);
+      // setLoading(true);
       setChooseOne(false);
 
       // const permitObject = await PermitApi.permit(
@@ -320,7 +390,7 @@ const Card = ({
         }
       );
 
-      setLoading(false);
+      // setLoading(false);
 
       if (permitObject) {
         setPermitButtonDisable(false);
@@ -507,28 +577,7 @@ const Card = ({
   //   }
   // }, [active]);
 
-  // useEffect(() => {
-  //   const interval = setInterval(() => {
-  //     const { nozzleNo } = checkLiveRef.current;
-
-  //     if (parseInt(nozzleNo) === parseInt(obj.nozzle_no)) {
-  //       setNozzleActive(true);
-  //       setNopermit(false);
-
-  //       if (active) {
-  //         if (parseInt(nozzleNo) === parseInt(obj.nozzle_no)) {
-  //           setNozzleActive(true);
-  //           setNopermit(false);
-  //         }
-  //       }
-  //       checkLiveRef.current.nozzleNo = 0;
-  //     }
-  //   }, 200); // Update the values every second
-
-  //   return () => {
-  //     clearInterval(interval);
-  //   };
-  // }, []);
+  console.log(liter, price);
 
   // useEffect(() => {
   //   const updateValues = () => {
@@ -545,25 +594,25 @@ const Card = ({
   //   parseInt(allDone) === parseInt(obj.nozzle_no) && clearInterval(interval);
   // }, [nozzle1FuelDetail.current]);
 
-  useEffect(() => {
-    const updateValues = () => {
-      const { liter, price, nozzleNo } = nozzle1FuelDetail.current;
+  // useEffect(() => {
+  //   const updateValues = () => {
+  //     const { liter, price, nozzleNo } = nozzle1FuelDetail.current;
 
-      if (parseInt(nozzleNo) === parseInt(printFormInfo?.nozzle_no)) {
-        setPrice(price);
-        setLiter(liter);
-      }
-    };
+  //     if (parseInt(nozzleNo) === parseInt(printFormInfo?.nozzle_no)) {
+  //       setPrice(price);
+  //       setLiter(liter);
+  //     }
+  //   };
+  //   console.log(liter, price, "gggggggggggggggggggggggggggggggggggg");
+  //   const interval = setInterval(updateValues, 100);
 
-    const interval = setInterval(updateValues, 100);
+  //   // Cleanup function to clear the interval when the component is unmounted or finished
+  //   // return () => clearInterval(interval);
 
-    // Cleanup function to clear the interval when the component is unmounted or finished
-    return () => clearInterval(interval);
+  //   // Dependencies array should include variables that are used inside the effect
+  // }, []);
 
-    // Dependencies array should include variables that are used inside the effect
-  }, [nozzle1FuelDetail.current, printFormInfo?.nozzle_no]);
-
-  console.log(nozzle1FuelDetail.current);
+  // console.log(nozzle1FuelDetail.current);
 
   const handleUpdate = () => {
     if (managerPassword == undefined && managerUserName == undefined) {
@@ -650,10 +699,22 @@ const Card = ({
               ? "card3"
               : nozzleActive
               ? "card4"
-              : approve
+              : !permitReq
               ? "card5"
               : "card2"
             : "card"
+          // active
+          //   ? noPermit
+          //     ? "card"
+          //     : final
+          //     ? "card3"
+          //     : nozzleActive
+          //     ? "card4"
+          //     : // : !permitReq
+          //     approve
+          //     ? "card5"
+          //     : "card2"
+          //   : "card"
         } h-32 w-32 border-detail border cursor-pointer flex  flex-col items-center justify-center gap-1 rounded-3xl`}
       >
         <div className="flex items-center w-full justify-center gap-3 ">

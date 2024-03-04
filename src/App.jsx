@@ -25,10 +25,12 @@ import Login from "./pages/Login";
 import InstallerManager from "./pages/installer/InstallerManager";
 import AuthContext from "./services/AuthContext";
 import DeviceControl from "./pages/manager/DeviceControl";
+import LoadContext from "./services/LoadContext";
 
 const App = () => {
   const [isInstalling, setIsInstalling] = useState(false);
   const [isAuth, setIsAuth] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const [auth, setAuth] = useState(true);
 
@@ -158,7 +160,11 @@ const App = () => {
   ]);
   return (
     <AuthContext.Provider value={{ isAuth, setIsAuth }}>
-      <RouterProvider router={isInstalling ? installerRouter : managerRouter} />
+      <LoadContext.Provider value={{ loading, setLoading }}>
+        <RouterProvider
+          router={isInstalling ? installerRouter : managerRouter}
+        />
+      </LoadContext.Provider>
     </AuthContext.Provider>
   );
 };

@@ -10,6 +10,8 @@ import RealTime from "./RealTime";
 
 const RealTimeCounting = ({
   handleErrorCon,
+  liter,
+  price,
   printFormInfo,
   setSaleLiter,
   setSalePrice,
@@ -88,6 +90,8 @@ const RealTimeCounting = ({
   return (
     <div>
       <RealTime
+        liter={liter}
+        price={price}
         printFormInfo={printFormInfo}
         setSaleLiter={setSaleLiter}
         setSalePrice={setSalePrice}
@@ -98,7 +102,7 @@ const RealTimeCounting = ({
           <TextInput
             value={printFormInfo.vocono}
             selectedItem={readyStateItem}
-            label="Car Number"
+            label="Vocno Number"
             // onChange={(value) => setCarNo(value.target.value)}
             placeholder="Car Number"
           />

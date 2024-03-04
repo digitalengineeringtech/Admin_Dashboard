@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import "./card.css";
 import { motion } from "framer-motion";
 import { useDisclosure } from "@mantine/hooks";
@@ -10,6 +10,7 @@ import ReadyState from "./ReadyState";
 import { ImCross } from "react-icons/im";
 import { localInstance } from "../../api/axios";
 import useTokenStorage from "../../utils/useDecrypt";
+import LoadContext from "../../services/LoadContext";
 
 const Card = ({
   Client,
@@ -32,10 +33,12 @@ const Card = ({
   // checkLiveRef,
   approve,
   setApprove,
-  loading,
-  setLoading,
+  // loading,
+  // setLoading,
   liveDespenserHistory,
 }) => {
+  const { loading, setLoading } = useContext(LoadContext);
+
   const [isPermit, setIsPermit] = useState(false);
   const [isErrorCon, setIsErrorCon] = useState(false);
   const [premitFormInfo, setPremitFormInfo] = useState();
@@ -358,7 +361,7 @@ const Card = ({
       if (!permitButtonDisable) {
         setPermitButtonDisable(true);
       }
-      // setLoading(true);
+      setLoading(true);
       setChooseOne(false);
 
       // const permitObject = await PermitApi.permit(
@@ -390,7 +393,7 @@ const Card = ({
         }
       );
 
-      // setLoading(false);
+      setLoading(false);
 
       if (permitObject) {
         setPermitButtonDisable(false);
@@ -802,6 +805,8 @@ const Card = ({
         ) : (
           <RealTimeCounting
             obj={obj}
+            liter={liter}
+            price={price}
             fetchObj={fetchObj}
             setSaleLiter={setSaleLiter}
             setSalePrice={setSalePrice}

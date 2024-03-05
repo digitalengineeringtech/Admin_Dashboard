@@ -194,7 +194,7 @@ const Card = ({
   const handleCardClick = () => {
     open();
   };
-  // console.log(finalData, "and final is", final, "and all done is ", allDone);
+  console.log(finalData, "and final is", final, "and all done is ", allDone);
 
   // console.log(printFormInfo, "......................");
   // console.log(token);
@@ -514,7 +514,7 @@ const Card = ({
   // useEffect(() => {
   //   console.log(liveDespenserHistory);
   // },[liveDespenserHistory])
-
+  console.log(noMorePermit, "no more permit and obj.nozzle ", obj.nozzle_no);
   useEffect(() => {
     if (parseInt(noMorePermit) === parseInt(obj.nozzle_no)) {
       setNopermit(true);
@@ -543,8 +543,10 @@ const Card = ({
     }
   }, [finalData]);
 
+  console.log(allDone, "all done in permits");
+  console.log(nozzleActive, "active nozzle active?", obj.nozzle_no);
   useEffect(() => {
-    if (parseInt(allDone) === parseInt(obj.nozzle_no)) {
+    if (parseInt(allDone) == parseInt(obj.nozzle_no)) {
       setLiveData("");
       setNozzleActive(false);
       setVisible(false);
@@ -686,6 +688,8 @@ const Card = ({
     setReadyState(true);
     open();
   };
+
+  console.log(premitFormInfo, "........................................");
 
   const handleReadyPermit = () => {};
 

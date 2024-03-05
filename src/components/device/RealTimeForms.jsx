@@ -55,7 +55,7 @@ const RealTimeForms = ({
 
   const [readyStateItem, setReadyStateItem] = useState("Kyats");
   const [customer, setCustomer] = useState(customers[0]);
-  const [category, setCategory] = useState({ label: "Cycle", value: 1 });
+  const [category, setCategory] = useState({ name: "Cycle", value: 1 });
   const [carNo, setCarNo] = useState("");
   const [paymentNo, setPyamentNo] = useState("Cash");
   const [numberValue, setNumberValue] = useState("");
@@ -70,11 +70,11 @@ const RealTimeForms = ({
         couObjId: customer._id,
         couName: customer.cou_name,
         cou_id: customer.cou_id,
-        vehicleType: category.label,
+        vehicleType: category.name,
         carNo: carNo,
         cashType: paymentNo,
-        type: readyStateItem,
-        value: numberValue,
+        // type: readyStateItem,
+        // value: numberValue,
       });
       // } else {
       //     setLNeed(true);
@@ -101,7 +101,7 @@ const RealTimeForms = ({
         couObjId: customer._id,
         couName: customer.cou_name,
         cou_id: customer.cou_id,
-        vehicleType: category.label,
+        vehicleType: category.name,
         carNo: carNo,
         cashType: paymentNo,
         type: readyStateItem,

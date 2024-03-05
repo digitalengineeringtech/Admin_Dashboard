@@ -4,7 +4,7 @@ import UseGet from "../../api/hooks/UseGet";
 import useTokenStorage from "../../utils/useDecrypt";
 import mqtt from "mqtt";
 import LoadContext from "../../services/LoadContext";
-import { Loader } from "@mantine/core";
+import LoaderCom from "../../components/LoaderCom";
 const DeviceControl = () => {
   const { loading, setLoading } = useContext(LoadContext);
   const client = mqtt.connect("ws://detpos:asdffdsa@192.168.0.100:9001");
@@ -193,11 +193,7 @@ const DeviceControl = () => {
 
   return (
     <>
-      {loading && (
-        <div className="bg-detail/10 backdrop-blur-sm w-[90%] h-screen absolute flex items-center justify-center">
-          <Loader color="green" size="xl" />
-        </div>
-      )}
+      {loading && <LoaderCom />}
       <div className="w-full h-screen flex gap-8 flex-wrap items-center justify-center">
         {data_g?.map((obj, index) => (
           <Card

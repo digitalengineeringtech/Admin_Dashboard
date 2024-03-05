@@ -19,6 +19,7 @@ const Login = () => {
   const [pError, setPError] = useState();
   const [eError, setEError] = useState();
   const [state, setState] = useState(true);
+  const [errorCommon, setErrorCommon] = useState();
   const navigate = useNavigate();
   console.log("auth is", isAuth);
 
@@ -60,7 +61,10 @@ const Login = () => {
       const user = new FormData();
       user.append("email", email);
       user.append("password", pswd);
-      L_fetchData("user/login", user);
+      L_fetchData("user/login", user).catch(function (error) {
+        console.log(error);
+        setErrorCommon("Something was wrong");
+      });
     }
   };
 
@@ -109,6 +113,11 @@ const Login = () => {
               <h1 className="text-3xl mb-2 text-detail font-semibold">
                 LOGIN FORM
               </h1>
+              {L_error && (
+                <div className="text-red-300 mx-auto me-auto ms-[80px] mt-[-13px] mb-[-10px]">
+                  Something was wrong !
+                </div>
+              )}
               <TextInput
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -169,13 +178,18 @@ const Login = () => {
               <h1 className="text-3xl mb-2 text-detail font-semibold">
                 INSTALLER FORM
               </h1>
+              {error && (
+                <div className="text-red-300 mx-auto me-auto ms-[80px] mt-[-13px] mb-[-10px]">
+                  Something was wrong !
+                </div>
+              )}
               <TextInput
                 value={inEmail}
                 onChange={(e) => setInEmail(e.target.value)}
                 type="email"
                 placeholder="Enter your Email . . ."
               />
-              {eError && (
+              {eErrorIn && (
                 <div className="text-red-300 me-auto ms-[80px] mt-[-13px] mb-[-10px]">
                   {eErrorIn}
                 </div>
@@ -187,7 +201,7 @@ const Login = () => {
                 type="password"
                 placeholder="Enter your Password . . ."
               />
-              {pError && (
+              {pErrorIn && (
                 <div className="text-red-300 me-auto ms-[80px] mt-[-13px] mb-[-10px]">
                   {pErrorIn}
                 </div>

@@ -21,6 +21,7 @@ import useTokenStorage from "../../utils/useDecrypt";
 import { useNavigate } from "react-router-dom";
 import AuthContext from "../../services/AuthContext";
 import { MdOutlineControlCamera } from "react-icons/md";
+import ConAlert from "../alert/ConAlert";
 
 const Sidebar = () => {
   const navigate = useNavigate();
@@ -165,11 +166,16 @@ const Sidebar = () => {
         <motion.button
           animate={state ? "open" : "close"}
           variants={pfp2}
-          onClick={() => {
+          onClick={ConAlert("Logout from Account ?", true, () => {
             clearToken(),
               localStorage.setItem("installed", false),
               navigate("/login");
-          }}
+          })}
+          // onClick={() => {
+          //   clearToken(),
+          //     localStorage.setItem("installed", false),
+          //     navigate("/login");
+          // }}
           transition={{ duration: 0.2, type: "tween" }}
           className="bg-secondary hover:border active:border-0 text-lg cursor-pointer gap-4 text-danger border-danger mb-4 ml-[-55px] justify-center items-center flex left-0 absolute bottom-0 w-[200px] h-12 rounded-lg"
         >

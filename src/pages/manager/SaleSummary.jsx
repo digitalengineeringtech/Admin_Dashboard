@@ -82,6 +82,7 @@ const SaleSummary = () => {
 
   useEffect(() => {
     if (data_g?.length > 0) {
+      // if (data_g_2?.length > 0) {
       setIsData(true);
     } else {
       setIsData(false);
@@ -174,6 +175,7 @@ const SaleSummary = () => {
   };
 
   console.log(data_g_2, "22222222222222");
+  console.log(data_g, "1111111111111111111111111");
 
   useEffect(() => {
     let ninety2 = 0;

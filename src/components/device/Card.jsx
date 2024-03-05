@@ -127,6 +127,9 @@ const Card = ({
         "----------------------------------------"
       );
     }
+    if (topic.startsWith("detpos/device/Final/") && /[1-8]$/.test(topic)) {
+      close();
+    }
   });
 
   useEffect(() => {
@@ -749,16 +752,16 @@ const Card = ({
         centered
         withCloseButton={false}
       >
-        <div
-          className="flex border-b mb-4 border-gray-300 pb-3 items-end"
-          onClick={() => {
-            setReadyState(false), setIsClosed(true), close();
-          }}
-        >
-          <div className="text-2xl text-text font-semibold font-sans">
+        <div className="flex border-b mb-4 border-gray-300 pb-3 items-end">
+          <div className="text-2xl select-none text-text font-semibold font-sans">
             Nozzle {obj.nozzle_no} Information
           </div>
-          <div className="w-12 h-12 rounded-full ms-auto  bg-danger text-secondary hover:border-2 border-2 border-danger hover:border-danger duration-100 hover:bg-transparent hover:text-danger flex items-center justify-center">
+          <div
+            onClick={() => {
+              setReadyState(false), setIsClosed(true), close();
+            }}
+            className="w-12 h-12 rounded-full ms-auto  bg-danger text-secondary hover:border-2 border-2 border-danger hover:border-danger duration-100 hover:bg-transparent hover:text-danger flex items-center justify-center"
+          >
             <ImCross />
           </div>
         </div>

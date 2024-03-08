@@ -690,6 +690,11 @@ const Card = ({
   };
 
   console.log(premitFormInfo, "........................................");
+  console.log(
+    nozzleActive,
+    ";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;",
+    obj.nozzle_no
+  );
 
   const handleReadyPermit = () => {};
 

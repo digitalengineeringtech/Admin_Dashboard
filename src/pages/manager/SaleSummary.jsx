@@ -17,9 +17,6 @@ import { useReactToPrint } from "react-to-print";
 
 const SaleSummary = () => {
   let start = new Date();
-  start.setHours(0);
-  start.setMinutes(0);
-  start = new Date(start);
 
   // let end = new Date();
   // end.setHours(23);
@@ -31,7 +28,7 @@ const SaleSummary = () => {
     UseGet2();
   const [{ data_g_3, loading_g_3, error_g_3, pagi_g_3 }, fetchItGet3] =
     UseGet3();
-
+  console.log(start);
   const [okData, setOkData] = useState([]);
   const [dynamic, setDynamic] = useState([]);
   const [token, setToken] = useState("none");

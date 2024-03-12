@@ -1,9 +1,47 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import StockTable from "../table/StockTable";
 import { meter, stock } from "../../testBeforeApi/tableData/stock";
 import { Table } from "@mantine/core";
+import useTokenStorage from "../../utils/useDecrypt";
+import UseGet from "../../api/hooks/UseGet";
+
+import { useOutletContext } from "react-router-dom";
 
 const Stock = () => {
+  const [totalPTest, totalOTest, totalCredit, notCredit, total, stock] =
+    useOutletContext();
+
+  console.log(stock, "ljlllljjljlljjjljljljljl");
+
+  // let start = new Date();
+  // const [token, setToken] = useState("none");
+  // const [sDate, setSDate] = useState(start);
+
+  // const { loadToken } = useTokenStorage();
+  // useEffect(() => {
+  //   const token = loadToken();
+  //   if (token) {
+  //     setToken(token);
+  //   }
+  // }, []);
+  // const formattedDate = sDate.toISOString().split("T")[0];
+
+  // const route = `/balance-statement/?reqDate=${formattedDate}`;
+  // console.log(formattedDate, route);
+  // const [{ data_g, loading_g, error_g, pagi_g }, fetchItGet] = UseGet();
+
+  // const [con, setCon] = useState(false);
+
+  // useEffect(() => {
+  //   setCon(true);
+  // }, []);
+
+  // useEffect(() => {
+  //   fetchItGet(route, token);
+  //   console.log("hello");
+  // }, [con]);
+  // console.log(data_g, start, "hkhkhkkhkhkhkhkhkhkhkhkk");
+
   const meterHeader = [
     "No",
     "Date",
@@ -39,20 +77,20 @@ const Stock = () => {
     "Today G/L",
     "Total G/L",
   ];
-  const stockRow = stock?.map((element) => (
+  const stockRow = stock?.map((element, index) => (
     <Table.Tr key={element.no} className=" duration-150 text-center">
-      <Table.Td>{element.no}</Table.Td>
-      <Table.Td>{element.tank}</Table.Td>
-      <Table.Td>{element.opening}</Table.Td>
+      <Table.Td>{index + 1}</Table.Td>
+      <Table.Td>{element.fuelType}</Table.Td>
+      <Table.Td>{element.openingBalance}</Table.Td>
       <Table.Td>{element.receive}</Table.Td>
       <Table.Td>{element.issue}</Table.Td>
       <Table.Td>{element.adjust}</Table.Td>
       <Table.Td>{element.balance}</Table.Td>
-      <Table.Td>{element.ttank}</Table.Td>
-      <Table.Td>{element.ytank}</Table.Td>
-      <Table.Td>{element.tissue}</Table.Td>
-      <Table.Td>{element.tgl}</Table.Td>
-      <Table.Td>{element.totalgl}</Table.Td>
+      <Table.Td>{element.todayTank}</Table.Td>
+      <Table.Td>{element.yesterdayTank}</Table.Td>
+      <Table.Td>{element.tankIssue}</Table.Td>
+      <Table.Td>{element.todayGL}</Table.Td>
+      <Table.Td>{element.totalGL}</Table.Td>
     </Table.Tr>
   ));
 
@@ -74,7 +112,7 @@ const Stock = () => {
           />
         </div>
       </div>
-      <div className="mt-8">
+      <div className="my-8 ">
         <StockTable
           label="Stock Balance"
           rows={stockRow}

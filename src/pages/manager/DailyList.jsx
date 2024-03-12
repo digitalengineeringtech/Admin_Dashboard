@@ -13,11 +13,13 @@ import { Table } from "@mantine/core";
 import useTokenStorage from "../../utils/useDecrypt";
 import UseGet from "../../api/hooks/UseGet";
 import UseGet2 from "../../api/hooks/UseGet2";
+import UseGet3 from "../../api/hooks/UseGet3";
 import fuelData from "../../pages/installer/drop_data/fuel";
 
 const DailyList = () => {
   const [{ data_g, loading_g, error_g }, fetchItGet] = UseGet();
   const [{ data_g_2, loading_g_2, error_g_2 }, fetchItGet2] = UseGet2();
+  const [{ data_g_3, loading_g_3, error_g_3 }, fetchItGet3] = UseGet3();
 
   const [token, setToken] = useState("none");
   const { loadToken } = useTokenStorage();
@@ -29,9 +31,10 @@ const DailyList = () => {
   }, []);
 
   let start = new Date();
+  let today = new Date();
   start.setHours(0);
   start.setMinutes(0);
-  start = new Date(start);
+  // start = new Date(start);
 
   let end = new Date();
   end.setHours(23);
@@ -44,27 +47,48 @@ const DailyList = () => {
   const [totalOTest, setTotalOTest] = useState();
   const [totalCredit, setTotalCredit] = useState();
   const [notCredit, setNotCredit] = useState();
+  const [stock, setStock] = useState();
 
   // console.log(elements);
   const [isData, setIsData] = useState(true);
   const [con, setCon] = useState(false);
-
+  const formattedDate = today.toISOString().split("T")[0];
   useEffect(() => {
     setCon(true);
   }, []);
 
+  console.log(
+    sDate,
+    "...................................................................................................."
+  );
+
   useEffect(() => {
     fetchItGet(`detail-sale/by-date/?sDate=${sDate}&eDate=${eDate}`, token);
     fetchItGet2("/device", token);
+    fetchItGet3(`/balance-statement/?reqDate=${formattedDate}`, token);
 
     console.log("wkwk");
   }, [con]);
 
   const handleClick = () => {
+    // const formattedDate2 = sDate.toISOString().split("T")[0];
+    const yesterday = new Date(sDate);
+    yesterday.setDate(sDate.getDate() + 1);
+    const formattedYesterday = yesterday.toISOString().split("T")[0];
     fetchItGet(`detail-sale/by-date/?sDate=${sDate}&eDate=${eDate}`, token);
     fetchItGet2("/device", token);
-    console.log("........................");
+    fetchItGet3(`/balance-statement/?reqDate=${formattedYesterday}`, token);
+    console.log(
+      "........................",
+      sDate,
+      `/balance-statement/?reqDate=${formattedYesterday}`
+    );
   };
+
+  useEffect(() => {
+    // setStock(data_g_3); normal
+    setStock(data_g_3.slice(0, 4));
+  }, [data_g_3]);
 
   console.log(data_g, data_g_2);
 
@@ -92,6 +116,8 @@ const DailyList = () => {
     });
     setTotalPTest(fuelCalcu);
   }, [data_g, fuelData]);
+
+  console.log(data_g_3, "llllllllllllllllllllllllllllllllllllllllllll");
 
   useEffect(() => {
     const fuelCalcu = fuelData.map((e, index) => {
@@ -158,9 +184,9 @@ const DailyList = () => {
     setNotCredit(fuelCalcu);
   }, [data_g, fuelData]);
 
-  console.log(totalPTest, "lllllllllllllllll");
-  console.log(totalCredit, "lddddddddddd");
-  console.log(data_g, "ggggggggggggggg");
+  // console.log(totalPTest, "lllllllllllllllll");
+  // console.log(totalCredit, "lddddddddddd");
+  // console.log(data_g, "ggggggggggggggg");
 
   const total = totalPTest?.concat(totalOTest);
 
@@ -187,7 +213,14 @@ const DailyList = () => {
       {isData ? (
         <div className="mt-2">
           <Outlet
-            context={[totalPTest, totalOTest, totalCredit, notCredit, total]}
+            context={[
+              totalPTest,
+              totalOTest,
+              totalCredit,
+              notCredit,
+              total,
+              stock,
+            ]}
           />
         </div>
       ) : (

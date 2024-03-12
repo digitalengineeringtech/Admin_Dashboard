@@ -142,7 +142,7 @@ const Manager = () => {
               >
                 <div className="w-full h-full 2xl:gap-2 items-center flex ps-3 bg-secondary rounded-xl ">
                   <img
-                    src={`../../public/static/images/gasoline (${index}).png`}
+                    src={`../../static/images/gasoline (${index}).png`}
                     className="h-14 2xl:ms-2 mr-2"
                     alt=""
                   />
@@ -174,7 +174,7 @@ const Manager = () => {
             <div className="bg-[#f8f4dd] shadow-shadow/10 gap-4 p-4 border-2 border-[#e7d477] shadow-xl  flex items-center justify-center row-span-5 col-span-4 rounded-2xl">
               <div className="w-full h-full 2xl:gap-2 items-center flex ps-3 bg-secondary rounded-xl ">
                 <img
-                  src="../../public/static/images/gasoline (3).png"
+                  src="../../static/images/gasoline (3).png"
                   className="h-14 2xl:ms-2 mr-2"
                   alt=""
                 />
@@ -212,7 +212,7 @@ const Manager = () => {
               >
                 <div className="w-full h-full 2xl:gap-2 items-center flex ps-3 bg-secondary rounded-xl ">
                   <img
-                    src={`../../public/static/images/gasoline (${index}).png`}
+                    src={`../../static/images/gasoline (${index}).png`}
                     className="h-14 2xl:ms-2 mr-2"
                     alt=""
                   />
@@ -274,7 +274,7 @@ const Manager = () => {
                   >
                     <div className="w-full h-full 2xl:gap-2 items-center flex ps-3 bg-secondary rounded-xl ">
                       <img
-                        src={`../../public/static/images/gasoline (${index}).png`}
+                        src={`../../static/images/gasoline (${index}).png`}
                         className="h-14 2xl:ms-2 mr-2"
                         alt=""
                       />
@@ -346,7 +346,7 @@ const Manager = () => {
               </div>
 
               <img
-                src="../../public/static/images/Fuel station-pana.png"
+                src="../../static/images/Fuel station-pana.png"
                 alt=""
                 className="w-[60%] 2xl:w-[43%]"
               />
@@ -356,7 +356,7 @@ const Manager = () => {
             <div className=" manager_bg flex-col p-10 h-full w-[500px] 2xl:w-[820px] rounded-xl flex items-center justify-center shadow-lg shadow-shadow/20">
               <div className="bg-secondary 2xl:justify-around rounded-2xl flex-col w-full flex items-center justify-center">
                 <img
-                  src="../../public/static/images/Fuel station-pana.png"
+                  src="../../static/images/Fuel station-pana.png"
                   alt=""
                   className="w-[80%] 2xl:w-[45%]"
                 />
@@ -367,7 +367,7 @@ const Manager = () => {
           {/* <div className="bg-secondary hidden h-full w-[850px] rounded-xl 2xl:flex items-center justify-center shadow-lg shadow-shadow/20">
             <img
             className="w-[80%]"
-            src="../../public/static/images/Fuel station-rafiki (3).png"
+            src="../../static/images/Fuel station-rafiki (3).png"
               alt=""
             />
           </div> */}
@@ -382,7 +382,7 @@ export default Manager;
 <div className=" manager_bg flex-col p-10 h-full w-[500px] 2xl:w-[820px] rounded-xl flex items-center justify-center shadow-lg shadow-shadow/20">
   <div className="bg-secondary 2xl:justify-around rounded-2xl flex-col w-full flex items-center justify-center">
     <img
-      src="../../public/static/images/Fuel station-pana.png"
+      src="../../static/images/Fuel station-pana.png"
       alt=""
       className="w-[80%] 2xl:w-[45%]"
     />

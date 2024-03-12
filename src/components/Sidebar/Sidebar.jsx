@@ -120,7 +120,7 @@ const Sidebar = () => {
         >
           <div className="bg-[#69eccf] w-24 h-24 mx-auto overflow-hidden flex items-center justify-center rounded-full">
             <img
-              src="../../../public/static/images/manager(2).png"
+              src="../../../static/images/manager(2).png"
               alt=""
               className="w-[80%] mb-[-20px]"
             />

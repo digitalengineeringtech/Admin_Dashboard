@@ -28,8 +28,8 @@ const SelectDrop = ({ data, value, setValue, placeholder, label }) => {
         onClick={() => setCon((pre) => !pre)}
         className="bg-input border border-inputB z-30 text-text duration-100 select-none items-center w-full p-4 flex justify-between rounded-lg active:scale-95"
       >
-        {value?.label
-          ? value?.label
+        {value?.name
+          ? value?.name
           : placeholder
           ? placeholder
           : "Please Select"}
@@ -53,7 +53,7 @@ const SelectDrop = ({ data, value, setValue, placeholder, label }) => {
               key={index}
               className="ps-4 mb-1 bg-secondary text-text border border-nodata rounded-lg shadow-sm shadow-shadow/20  py-2 text-lg hover:bg-detail hover:text-secondary cursor-pointer duration-100"
             >
-              {item.label}
+              {item.name}
             </div>
           ))}
         </motion.div>

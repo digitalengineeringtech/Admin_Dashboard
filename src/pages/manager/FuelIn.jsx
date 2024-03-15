@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Nav from "../../components/Navbar/Nav";
 import SearchButton from "../../components/SearchButton";
 import SelectDrop from "../../components/SelectDrop";
@@ -22,6 +22,10 @@ import { Table } from "@mantine/core";
 import FuelInDrop from "../../components/FuelInDrop";
 import UseGet3 from "../../api/hooks/UseGet3";
 import UsePost from "../../api/hooks/UsePost";
+import { useReactToPrint } from "react-to-print";
+import { downloadExcel } from "react-export-table-to-excel";
+import ConAlert from "../../components/alert/ConAlert";
+import Swal from "sweetalert2";
 
 const FuelIn = () => {
   console.log(purpose);
@@ -37,7 +41,9 @@ const FuelIn = () => {
   const navigate = useNavigate();
   const [{ data_g_3, loading_g_3, error_g_3 }, fetchItGet3] = UseGet3();
   const [{ data, loading, error }, fetchIt] = UsePost();
-
+  const [driverName, setDriverName] = useState();
+  const [number, setNumber] = useState();
+  const tableRef = useRef(null);
   console.log(fuelType?._id, receive, "hlelllllllllllllllllllllllllllll");
 
   let start = new Date();
@@ -55,6 +61,7 @@ const FuelIn = () => {
 
   // const route = `/balance-statement/?reqDate=2024-03-11`;
   const route = `/balance-statement/?reqDate=${formattedDate}`;
+  // const route = `/balance-statement/?reqDate=${formattedDate}`;
   console.log(formattedDate, route);
   const [{ data_g, loading_g, error_g, pagi_g }, fetchItGet] = UseGet();
 
@@ -75,19 +82,21 @@ const FuelIn = () => {
     "Receive Data",
     "Fuel Type",
     // "Fuel in Code",
-    // "Driver",
-    // "Browser No",
+    "Driver",
+    "Bowser No",
     // "Tank",
     // "Tank Capacity",
     "Receive Volume",
-    "Balance",
+    // "Balance",
   ];
   const tableRow = stock?.map((element) => (
     <Table.Tr key={element.no} className=" duration-150 text-sm text-center">
-      <Table.Td>{element.dateOfDay}</Table.Td>
-      <Table.Td>{element.fuelType}</Table.Td>
-      <Table.Td>{element.receive}</Table.Td>
-      <Table.Td>{element.balance}</Table.Td>
+      <Table.Td>{element.receive_date}</Table.Td>
+      <Table.Td>{element.fuel_type}</Table.Td>
+      <Table.Td>{element.driver}</Table.Td>
+      <Table.Td>{element.bowser}</Table.Td>
+      <Table.Td>{element.receiveAmount}</Table.Td>
+      {/* <Table.Td>{element.balance}</Table.Td> */}
       {/* <Table.Td>{element.saleLiter}</Table.Td> */}
       {/* <Table.Td>
         {element.salePrice.toLocaleString(undefined, {
@@ -116,12 +125,18 @@ const FuelIn = () => {
 
   console.log(
     `/balance-statement/receive-balance?id=${fuelType?._id}`,
-    { receiveAmount: receive },
+    {
+      receiveAmount: receive,
+      driver: driverName,
+      bowser: number,
+      fuel_type: fuelType?.fuelType,
+    },
     "...................................................................................................."
   );
 
   useEffect(() => {
-    fetchItGet3(`/balance-statement/?reqDate=${formattedDate}`, token);
+    fetchItGet3(`/fuelIn/pagi/1`, token);
+    // fetchItGet3(`/balance-statement/?reqDate=${formattedDate}`, token);
 
     console.log("wkwk");
   }, [con, data]);
@@ -130,17 +145,65 @@ const FuelIn = () => {
     // const formattedDate2 = sDate.toISOString().split("T")[0];
     fetchIt(
       `/balance-statement/recive-balance?id=${fuelType?._id}`,
-      { receiveAmount: receive },
+      {
+        receiveAmount: receive,
+        driver: driverName,
+        bowser: number,
+        fuel_type: fuelType?.fuelType,
+      },
       token
     );
     setReceive("");
     setFuelType("");
+    setDriverName("");
+    setNumber("");
   };
 
   useEffect(() => {
     // setStock(data_g_3); normal
-    setStock(data_g_3.slice(0, 4));
+    setStock(data_g_3);
   }, [data_g_3, data]);
+
+  const handlePrint = useReactToPrint({
+    content: () => tableRef.current,
+  });
+
+  useEffect(() => {
+    if (data.con == true) {
+      Swal.fire({
+        title: "Fuel added successfully!",
+        icon: "success",
+        buttonsStyling: false,
+        iconColor: "#38b59e",
+        color: "#38b59e",
+        width: "25em",
+        background: "#ffffff",
+        customClass: {
+          title: "text-white",
+          confirmButton:
+            "bg-detail text-secondary rounded-lg border-2 border-detail hover:text-[#38b59e] duration-150 hover:bg-secondary w-[300px] font-mono py-2",
+        },
+      });
+    }
+  }, [data]);
+
+  function handleDownloadExcel() {
+    downloadExcel({
+      fileName: "Fuel Receive",
+      sheet: "Fuel Receive",
+      tablePayload: {
+        header: tableHeader,
+        // accept two different data structures
+        body: data_g.map((e) => [
+          e.receive_date,
+          e.fuel_type,
+          e.driver,
+          e.bowser,
+          e.receiveAmount,
+        ]),
+      },
+    });
+  }
 
   return (
     <div className="w-full pt-28">
@@ -165,22 +228,29 @@ const FuelIn = () => {
           value={receive}
           onChange={(e) => setReceive(e.target.value)}
         />
-        {/* <TextInput
+        <TextInput
           style="!w-[300px]"
           label="Driver Name"
           placeholder="Driver Name"
+          value={driverName}
+          onChange={(e) => setDriverName(e.target.value)}
         />
         <TextInput
           style="!w-[300px]"
-          label="Browser No"
-          placeholder="Browser No"
-        /> */}
-        <SearchButton title="ADD" onClick={handleClick} />
+          label="Bowser No"
+          placeholder="Bowser No"
+          value={number}
+          onChange={(e) => setNumber(e.target.value)}
+        />
+        <SearchButton
+          title="ADD"
+          onClick={ConAlert("Are you sure ?", true, handleClick)}
+        />
       </div>
       {isData ? (
         <div className="mt-8">
           <FilterTable
-            // tableRef={tableRef}
+            tableRef={tableRef}
             header={tableHeader}
             rows={tableRow}
           />
@@ -193,7 +263,13 @@ const FuelIn = () => {
           </div>
         </div>
       )}
-      {/* <Footer /> */}
+      <Footer
+        print={handlePrint}
+        onClick={handleDownloadExcel}
+        totalPages="0"
+        // onPageChange={onPageChange}
+        pagi="true"
+      />
     </div>
   );
 };

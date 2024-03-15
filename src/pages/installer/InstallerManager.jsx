@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import SelectDrop from "../../components/SelectDrop";
+import SelectDrop from "./SelectDrop";
 import dispenser from "./drop_data/dispenser";
 import fuelType from "./drop_data/fuel";
 import brandType from "./drop_data/brand";

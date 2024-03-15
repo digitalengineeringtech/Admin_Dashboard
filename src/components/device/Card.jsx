@@ -129,6 +129,7 @@ const Card = ({
     }
     if (topic.startsWith("detpos/device/Final/") && /[1-8]$/.test(topic)) {
       close();
+      setNozzleActive(false);
     }
   });
 
@@ -377,6 +378,7 @@ const Card = ({
       //   premitFormInfo.couObjId,
       //   obj.daily_price
       // );
+
       const permitObject = await localInstance.post(
         `detail-sale?depNo=${obj.dep_no}&nozzleNo=${obj.nozzle_no}`,
         {
@@ -487,27 +489,45 @@ const Card = ({
     setIsErrorCon(false);
   };
 
-  const handleRealTimeUpdate = () => {
+  const handleRealTimeUpdate = async () => {
     if (realTimeEdit.customer_id == "" && printFormInfo.cashType == "Debt") {
       setRealTimeEditChooseOn(true);
       return;
     } else {
       setRealTimeEditChooseOn(false);
 
-      const fetchIt = async () => {
-        setLoading(true);
-        const response = await UpdateInfosApi.updateInfos(
-          printFormInfo.objId,
-          printFormInfo.cashType,
-          printFormInfo.carNo,
-          printFormInfo.purposeOfUse,
-          printFormInfo.customerObjId
-        );
+      // const fetchIt = async () => {
+      //   setLoading(true);
+      //   const response = await UpdateInfosApi.updateInfos(
+      // printFormInfo.objId,
+      // printFormInfo.cashType,
+      // printFormInfo.carNo,
+      // printFormInfo.purposeOfUse,
+      // printFormInfo.customerObjId
+      //   );
 
-        setLoading(false);
-      };
+      //   setLoading(false);
+      // };
 
-      fetchIt();
+      const fetchIt = await localInstance.patch(
+        `/detail-sale?_id=${printFormInfo.objId}`,
+        {
+          cashType: printFormInfo.cashType,
+          carNo: printFormInfo.carNo,
+          vehicleType: printFormInfo.purposeOfUse,
+          couObjId: printFormInfo.customerObjId,
+        },
+        {
+          headers: {
+            Authorization: "Bearer " + token,
+            "Content-Type": "multipart/form-data", // Adjust content type based on your API requirements
+          },
+        }
+      );
+
+      console.log(fetchIt);
+
+      // fetchIt();
     }
   };
 
@@ -520,6 +540,7 @@ const Card = ({
       setNopermit(true);
       setVisible(false);
       setNozzleActive(false);
+      console.log("hlhlhhhhhhlhlhlhlhlhlhh");
 
       setPayloadHistory((prev) =>
         prev.filter((number) => number !== parseInt(obj.nozzle_no))
@@ -691,6 +712,9 @@ const Card = ({
 
   console.log(premitFormInfo, "........................................");
   console.log(
+    noMorePermit,
+    obj.nozzle_no,
+    // parseInt(noMorePermit) === parseInt(obj.nozzle_no),
     nozzleActive,
     ";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;",
     obj.nozzle_no

@@ -39,24 +39,28 @@ const DailySale = ({
             {rows}
             <Table.Tr className="font-semibold duration-150 text-center">
               <Table.Td colSpan={4}></Table.Td>
-              <Table.Td>{footer?.totalAmount}</Table.Td>
+              <Table.Td>{(footer?.totalAmount)?.toFixed(2)}</Table.Td>
               <Table.Td></Table.Td>
-              <Table.Td>{footer?.disAmount}</Table.Td>
+              <Table.Td>{(footer?.disAmount)?.toFixed(2)}</Table.Td>
               <Table.Td>-</Table.Td>
             </Table.Tr>
             {rows2}
             <Table.Tr className="font-semibold duration-150 text-center">
               <Table.Td colSpan={4}>Credit Sale</Table.Td>
-              <Table.Td>{footer2?.totalAmount}</Table.Td>
+              <Table.Td>{footer2?.totalAmount?.toFixed(2)}</Table.Td>
               <Table.Td></Table.Td>
-              <Table.Td>{footer2?.disAmount}</Table.Td>
+              <Table.Td>{footer2?.disAmount?.toFixed(2)}</Table.Td>
               <Table.Td>-</Table.Td>
             </Table.Tr>
             <Table.Tr className="font-semibold duration-150 text-center">
               <Table.Td colSpan={4}>Total Sale</Table.Td>
-              <Table.Td>{footer?.totalAmount + footer2?.totalAmount}</Table.Td>
+              <Table.Td>
+                {(footer?.totalAmount + footer2?.totalAmount)?.toFixed(2)}
+              </Table.Td>
               <Table.Td></Table.Td>
-              <Table.Td>{footer?.disAmount + footer2?.disAmount}</Table.Td>
+              <Table.Td>
+                {(footer?.disAmount + footer2?.disAmount)?.toFixed(2)}
+              </Table.Td>
               <Table.Td>-</Table.Td>
             </Table.Tr>
           </Table.Tbody>

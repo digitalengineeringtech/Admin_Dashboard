@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import UseDelete from "../../api/hooks/UseDelete";
 import UsePatch from "../../api/hooks/UsePatch";
 import useTokenStorage from "../../utils/useDecrypt";
-import SelectDrop from "../../components/SelectDrop";
+import SelectDrop from "./SelectDrop";
 import role from "../../testBeforeApi/data/role";
 import UseGet from "../../api/hooks/UseGet";
 import Button from "../../components/installer/Button";

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import SelectDrop from "../../components/SelectDrop";
+import SelectDrop from "./SelectDrop";
 import dispenser from "./drop_data/dispenser";
 import fuelType from "./drop_data/fuel";
 import brandType from "./drop_data/brand";
@@ -40,6 +40,12 @@ const Totallizer = () => {
   const [{ data_d, loading_d, error_d }, deleteIt] = UseDelete();
   const [{ data, loading, error }, fetchIt] = UsePost();
 
+  const listStation = [
+    {
+      name: "initial Station",
+    },
+  ];
+
   useEffect(() => {
     if (data.con === true) {
       setAmount("none");
@@ -56,7 +62,7 @@ const Totallizer = () => {
     console.log(data_g, loading_g, error_g);
     setOkData(data_g);
     // setLoad(loading_g);
-  }, [data_g, loading_g, error_g]);
+  }, [data_g, loading_g, error_g, data]);
 
   useEffect(() => {
     const token = loadToken();
@@ -114,7 +120,7 @@ const Totallizer = () => {
 
   const stockRow = okData?.map((element, index) => (
     <Table.Tr key={element._id} className=" duration-150 text-center">
-      <Table.Td>{index}</Table.Td>
+      <Table.Td>{index + 1}</Table.Td>
       <Table.Td>{element.nozzleNo}</Table.Td>
       <Table.Td>{element.fuelType}</Table.Td>
       <Table.Td>{element.totalizer_amount}</Table.Td>
@@ -157,7 +163,8 @@ const Totallizer = () => {
 
           <SelectDrop
             label="Station No"
-            data={stationData()}
+            // data={stationData()}
+            data={listStation}
             value={station}
             setValue={setStation}
           />

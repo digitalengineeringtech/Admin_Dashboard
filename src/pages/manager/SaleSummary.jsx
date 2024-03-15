@@ -17,7 +17,13 @@ import { useReactToPrint } from "react-to-print";
 
 const SaleSummary = () => {
   let start = new Date();
+  start.setHours(0);
+  start.setMinutes(0);
 
+  const next = new Date(start);
+  next.setDate(start.getDate() + 1);
+  // start = new Date(start);
+  console.log(next, "yyyyyyyyyyyyyyyyyyyyyyyyyy");
   // let end = new Date();
   // end.setHours(23);
   // end.setMinutes(0);
@@ -70,9 +76,9 @@ const SaleSummary = () => {
   }, []);
 
   useEffect(() => {
-    fetchItGet(`/detail-sale/by-date/?sDate=${sDate}`, token);
+    // fetchItGet(`/detail-sale/by-date/?sDate=${sDate}`, token);
     fetchItGet2(`detail-sale/total_statement?reqDate=${formattedDate}`, token);
-    // fetchItGet(`/detail-sale/by-date/?sDate=${sDate}&eDate=${eDate}`, token);
+    fetchItGet(`/detail-sale/by-date/?sDate=${sDate}&eDate=${next}`, token);
 
     fetchItGet3(`/device`, token);
   }, [con]);
@@ -85,6 +91,11 @@ const SaleSummary = () => {
       setIsData(false);
     }
   }, [data_g, loading_g, error_g, fetchItGet]);
+
+  console.log(
+    data_g,
+    "lfffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+  );
 
   const summaryHeader = [
     "Date/Time",
@@ -161,12 +172,16 @@ const SaleSummary = () => {
     }
   }, [nozzle, data_g]);
 
-  console.log(data_g_3, nozzle);
+  console.log(
+    data_g_3,
+    nozzle,
+    "........................................................................."
+  );
 
   const handleClick = () => {
-    fetchItGet(`/detail-sale/by-date/?sDate=${sDate}`, token);
+    // fetchItGet(`/detail-sale/by-date/?sDate=${sDate}`, token);
     fetchItGet2(`detail-sale/total_statement?reqDate=${formattedDate}`, token);
-    // fetchItGet(`/detail-sale/by-date/?sDate=${sDate}&eDate=${eDate}`, token);
+    fetchItGet(`/detail-sale/by-date/?sDate=${sDate}&eDate=${next}`, token);
 
     fetchItGet3(`/device`, token);
   };
@@ -209,6 +224,8 @@ const SaleSummary = () => {
     SetTotalPrice(totalPrice);
   }, [data_g, data_g_2, data_g_3]);
 
+  console.log(sDate, "lllllllllllllllll");
+
   useEffect(() => {
     if (data_g) {
       setOkData(data_g);
@@ -221,9 +238,9 @@ const SaleSummary = () => {
     );
     const totalLiter = matchingEntry ? matchingEntry.totalLiter : 0;
 
-    console.log("............................");
-    console.log(totalLiter, literByNoz);
-    console.log("............................");
+    // console.log("............................");
+    // console.log(totalLiter, literByNoz);
+    // console.log("............................");
     return (
       <Table.Tr key={element._id} className=" duration-150 text-sm text-center">
         <Table.Td>{element.nozzle_no || "-"}</Table.Td>

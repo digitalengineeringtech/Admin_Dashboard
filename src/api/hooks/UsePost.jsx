@@ -1,7 +1,6 @@
 import { useReducer } from "react";
 import { localInstance } from "../axios";
 
-
 const initialState = {
   data: [],
   loading: false,

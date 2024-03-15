@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import StockTable from "../table/StockTable";
 import { meter, stock } from "../../testBeforeApi/tableData/stock";
 import { Table } from "@mantine/core";
@@ -10,6 +10,9 @@ import { useOutletContext } from "react-router-dom";
 const Stock = () => {
   const [totalPTest, totalOTest, totalCredit, notCredit, total, stock] =
     useOutletContext();
+
+  const tableRef = useRef(null);
+  const tableRef1 = useRef(null);
 
   console.log(stock, "ljlllljjljlljjjljljljljl");
 
@@ -45,20 +48,23 @@ const Stock = () => {
   const meterHeader = [
     "No",
     "Date",
-    "Pump",
+    // "Pump",
     "Item",
     "Opening",
     "Closing",
     "Issue",
   ];
-  const meterRow = meter?.map((element) => (
-    <Table.Tr key={element.no} className=" duration-150 text-center">
-      <Table.Td>{element.no}</Table.Td>
-      <Table.Td>{element.date}</Table.Td>
-      <Table.Td>{element.pump}</Table.Td>
-      <Table.Td>{element.item}</Table.Td>
-      <Table.Td>{element.opening}</Table.Td>
-      <Table.Td>{element.closing}</Table.Td>
+
+  console.log(stock);
+
+  const meterRow = stock?.map((element, index) => (
+    <Table.Tr key={index} className=" duration-150 text-center">
+      <Table.Td>{index + 1}</Table.Td>
+      <Table.Td>{element.dateOfDay}</Table.Td>
+      {/* <Table.Td>{element.pump}</Table.Td> */}
+      <Table.Td>{element.fuelType}</Table.Td>
+      <Table.Td>{element.openingBalance}</Table.Td>
+      <Table.Td>{element.balance}</Table.Td>
       <Table.Td>{element.issue}</Table.Td>
     </Table.Tr>
   ));
@@ -106,6 +112,7 @@ const Stock = () => {
         </div>
         <div className="w-[60%] ">
           <StockTable
+            tableRef={tableRef}
             header={meterHeader}
             rows={meterRow}
             label="Meter Balance"
@@ -114,6 +121,7 @@ const Stock = () => {
       </div>
       <div className="my-8 ">
         <StockTable
+          tableRef={tableRef1}
           label="Stock Balance"
           rows={stockRow}
           header={stockHeader}

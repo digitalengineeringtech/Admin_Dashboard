@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Nav from "../../components/Navbar/Nav";
 import SearchButton from "../../components/SearchButton";
 import SelectDrop from "../../components/SelectDrop";
@@ -11,9 +11,12 @@ import UseGet from "../../api/hooks/UseGet";
 import useTokenStorage from "../../utils/useDecrypt";
 import { Table } from "@mantine/core";
 import StockTable from "../../components/table/StockTable";
+import { useReactToPrint } from "react-to-print";
+import { downloadExcel } from "react-export-table-to-excel";
 
 const FuelBalance = () => {
   const [fuelType, setFuelType] = useState();
+  const tableRef = useRef(null);
 
   let start = new Date();
   const [token, setToken] = useState("none");
@@ -46,13 +49,13 @@ const FuelBalance = () => {
   console.log(purpose);
 
   const stockHeader = ["No", "Fuel Type", "Opening", "Receive", "Balance"];
-  const stockRow = data_g?.map((element, index) => (
+  const stockRow = data_g.slice(0, 4)?.map((element, index) => (
     <Table.Tr key={element.no} className=" duration-150 text-center">
       <Table.Td>{index + 1}</Table.Td>
       <Table.Td>{element.fuelType}</Table.Td>
       <Table.Td>{element.openingBalance}</Table.Td>
       <Table.Td>{element.receive}</Table.Td>
-      <Table.Td>{element.balance}</Table.Td>
+      <Table.Td>{element.balance.toFixed(2)}</Table.Td>
     </Table.Tr>
   ));
 
@@ -68,6 +71,28 @@ const FuelBalance = () => {
       `/balance-statement/?reqDate=${formattedDate2}`
     );
   };
+
+  const handlePrint = useReactToPrint({
+    content: () => tableRef.current,
+  });
+
+  function handleDownloadExcel() {
+    downloadExcel({
+      fileName: "Fuel Receive",
+      sheet: "Fuel Receive",
+      tablePayload: {
+        header: stockHeader,
+        // accept two different data structures
+        body: data_g.map((e, index) => [
+          index + 1,
+          e.fuelType,
+          e.openingBalance,
+          e.receive,
+          e.balance,
+        ]),
+      },
+    });
+  }
 
   return (
     <div className="w-full pt-28">
@@ -90,12 +115,20 @@ const FuelBalance = () => {
       </div> */}
       <div className="mt-6">
         <StockTable
+          visible={false}
+          tableRef={tableRef}
           label="Stock Balance"
           rows={stockRow}
           header={stockHeader}
         />
       </div>
-      {/* <Footer /> */}
+      <Footer
+        print={handlePrint}
+        onClick={handleDownloadExcel}
+        totalPages="0"
+        // onPageChange={onPageChange}
+        pagi="true"
+      />
     </div>
   );
 };

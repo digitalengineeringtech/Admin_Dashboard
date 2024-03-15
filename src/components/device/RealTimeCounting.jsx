@@ -31,36 +31,36 @@ const RealTimeCounting = ({
   ];
 
   const categories = [
-    { name: "Cycle", value: 1 },
-    { name: "Cycle ( 3 Wheels )", value: 2 },
-    { name: "Car", value: 3 },
-    { name: "Bus ( City )", value: 4 },
-    { name: "Bus ( High Way )", value: 5 },
-    { name: "Light Truck ( City )", value: 6 },
-    { name: "Light Truck ( High way )", value: 7 },
-    { name: "Heavy Truck ( City )", value: 8 },
-    { name: "Heavy Truck ( High way )", value: 9 },
-    { name: "Trailer ( City )", value: 10 },
-    { name: "Trailer ( High way )", value: 11 },
-    { name: "Htawlargyi", value: 12 },
-    { name: "Tractor", value: 13 },
-    { name: "Small Tractor", value: 14 },
-    { name: "Heavy Machinery", value: 15 },
-    { name: "Commercial Vehicle", value: 16 },
-    { name: "Phone Tower", value: 17 },
-    { name: "Industrial Zone", value: 18 },
-    { name: "Generator Industry", value: 19 },
-    { name: "Agriculture Machine", value: 20 },
-    { name: "Generator ( Home Use )", value: 21 },
-    { name: "Hospital", value: 22 },
-    { name: "School", value: 23 },
-    { name: "Super Market", value: 24 },
-    { name: "Hotel", value: 25 },
-    { name: "Housing", value: 26 },
-    { name: "Boat", value: 27 },
-    { name: "Pump Test", value: 28 },
-    { name: "Office Use ( Bowser Car )", value: 29 },
-    { name: "Station Use", value: 30 },
+    { label: "Cycle", value: 1 },
+    { label: "Cycle ( 3 Wheels )", value: 2 },
+    { label: "Car", value: 3 },
+    { label: "Bus ( City )", value: 4 },
+    { label: "Bus ( High Way )", value: 5 },
+    { label: "Light Truck ( City )", value: 6 },
+    { label: "Light Truck ( High way )", value: 7 },
+    { label: "Heavy Truck ( City )", value: 8 },
+    { label: "Heavy Truck ( High way )", value: 9 },
+    { label: "Trailer ( City )", value: 10 },
+    { label: "Trailer ( High way )", value: 11 },
+    { label: "Htawlargyi", value: 12 },
+    { label: "Tractor", value: 13 },
+    { label: "Small Tractor", value: 14 },
+    { label: "Heavy Machinery", value: 15 },
+    { label: "Commercial Vehicle", value: 16 },
+    { label: "Phone Tower", value: 17 },
+    { label: "Industrial Zone", value: 18 },
+    { label: "Generator Industry", value: 19 },
+    { label: "Agriculture Machine", value: 20 },
+    { label: "Generator ( Home Use )", value: 21 },
+    { label: "Hospital", value: 22 },
+    { label: "School", value: 23 },
+    { label: "Super Market", value: 24 },
+    { label: "Hotel", value: 25 },
+    { label: "Housing", value: 26 },
+    { label: "Boat", value: 27 },
+    { label: "Pump Test", value: 28 },
+    { label: "Office Use ( Bowser Car )", value: 29 },
+    { label: "Station Use", value: 30 },
   ];
   const [cashType, setCashType] = useState(printFormInfo.cashType);
 
@@ -80,13 +80,16 @@ const RealTimeCounting = ({
       vocono: fetchObj.vocono,
       cashType: cashType,
       carNo: carNo,
-      purposeOfUse: category,
+      purposeOfUse: category?.label,
       customerName: customer.cou_name,
       customerObjId: customer._id,
       customerId: customer.cou_id,
     });
   }, [cashType, carNo, customer, category]);
-
+  console.log(
+    category,
+    "lllllllllllllllllllllllllllllddddddddddddddddddddddddddddddddddddddd"
+  );
   return (
     <div>
       <RealTime

@@ -1,7 +1,7 @@
 import React from "react";
 import { ImSearch } from "react-icons/im";
 
-const SearchButton = ({ onClick, title, icon }) => {
+const SearchButton = ({ onClick, visible = true, title, icon }) => {
   const con = window.innerWidth < 1240;
   // console.log(con);
   return (
@@ -12,7 +12,11 @@ const SearchButton = ({ onClick, title, icon }) => {
         !con ? "mr-auto" : ""
       } font-mono text-lg active:scale-95 duration-100 bg-[#38b59e] h-[56px] rounded-md`}
     >
-      {icon ? icon : <ImSearch className="ms-[-18px] text-secondary" />}
+      {visible && icon ? (
+        icon
+      ) : (
+        <ImSearch className="ms-[-18px] text-secondary" />
+      )}
       {title ? title : "SEARCH"}
     </button>
   );

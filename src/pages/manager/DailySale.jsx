@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import Nav from "../../components/Navbar/Nav";
 import SearchButton from "../../components/SearchButton";
-import SelectDrop from "../../components/SelectDrop";
+import SelectDrop from "../installer/SelectDrop";
 import CalendarPick from "../../components/CalendarPick";
 import { RiErrorWarningLine } from "react-icons/ri";
 import Footer from "../../components/footer/Footer";

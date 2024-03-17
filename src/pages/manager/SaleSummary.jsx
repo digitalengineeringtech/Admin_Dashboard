@@ -20,10 +20,6 @@ const SaleSummary = () => {
   start.setHours(0);
   start.setMinutes(0);
 
-  const next = new Date(start);
-  next.setDate(start.getDate() + 1);
-  // start = new Date(start);
-  console.log(next, "yyyyyyyyyyyyyyyyyyyyyyyyyy");
   // let end = new Date();
   // end.setHours(23);
   // end.setMinutes(0);
@@ -57,6 +53,10 @@ const SaleSummary = () => {
   }, []);
 
   const [sDate, setSDate] = useState(start);
+  const next = new Date(sDate);
+  next.setDate(sDate.getDate() + 1);
+  // start = new Date(start);
+  console.log(next, "yyyyyyyyyyyyyyyyyyyyyyyyyy");
 
   const currentDate = sDate;
 
@@ -77,7 +77,7 @@ const SaleSummary = () => {
 
   useEffect(() => {
     // fetchItGet(`/detail-sale/by-date/?sDate=${sDate}`, token);
-    fetchItGet2(`detail-sale/total_statement?reqDate=${formattedDate}`, token);
+    fetchItGet2(`/detail-sale/total_statement?reqDate=${formattedDate}`, token);
     fetchItGet(`/detail-sale/by-date/?sDate=${sDate}&eDate=${next}`, token);
 
     fetchItGet3(`/device`, token);

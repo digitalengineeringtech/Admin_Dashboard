@@ -46,6 +46,7 @@ const DailyList = () => {
   const [totalPTest, setTotalPTest] = useState();
   const [totalOTest, setTotalOTest] = useState();
   const [totalCredit, setTotalCredit] = useState();
+  const [refresh, setRefresh] = useState(false);
   const [notCredit, setNotCredit] = useState();
   const [stock, setStock] = useState();
 
@@ -68,7 +69,7 @@ const DailyList = () => {
     fetchItGet3(`/balance-statement/?reqDate=${formattedDate}`, token);
 
     console.log("wkwk");
-  }, [con]);
+  }, [con, refresh]);
 
   const handleClick = () => {
     // const formattedDate2 = sDate.toISOString().split("T")[0];
@@ -88,7 +89,7 @@ const DailyList = () => {
   useEffect(() => {
     // setStock(data_g_3); normal
     setStock(data_g_3.slice(0, 4));
-  }, [data_g_3]);
+  }, [data_g_3, refresh]);
 
   console.log(data_g, data_g_2);
 
@@ -220,6 +221,7 @@ const DailyList = () => {
               notCredit,
               total,
               stock,
+              setRefresh,
             ]}
           />
         </div>

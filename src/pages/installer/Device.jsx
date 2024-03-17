@@ -63,7 +63,7 @@ const Device = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  console.log(okData);
+  console.log(error, "this is error   ");
 
   useEffect(() => {
     // console.log(data_g,error_g)
@@ -176,7 +176,7 @@ const Device = () => {
         </div>
       </div>
       <div className="w-[1300px] mt-5 mb-10">
-        <StockTable header={header} rows={stockRow} />
+        <StockTable visible={false} header={header} rows={stockRow} />
       </div>
     </div>
   );

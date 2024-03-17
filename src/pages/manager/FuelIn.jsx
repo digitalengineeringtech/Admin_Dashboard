@@ -26,6 +26,7 @@ import { useReactToPrint } from "react-to-print";
 import { downloadExcel } from "react-export-table-to-excel";
 import ConAlert from "../../components/alert/ConAlert";
 import Swal from "sweetalert2";
+import UseGet2 from "../../api/hooks/UseGet2";
 
 const FuelIn = () => {
   console.log(purpose);
@@ -40,6 +41,7 @@ const FuelIn = () => {
   const [receive, setReceive] = useState();
   const navigate = useNavigate();
   const [{ data_g_3, loading_g_3, error_g_3 }, fetchItGet3] = UseGet3();
+  const [{ data_g_2, loading_g_2, error_g_2 }, fetchItGet2] = UseGet2();
   const [{ data, loading, error }, fetchIt] = UsePost();
   const [driverName, setDriverName] = useState();
   const [number, setNumber] = useState();
@@ -136,7 +138,7 @@ const FuelIn = () => {
 
   useEffect(() => {
     fetchItGet3(`/fuelIn/pagi/1`, token);
-    // fetchItGet3(`/balance-statement/?reqDate=${formattedDate}`, token);
+    fetchItGet2(`/balance-statement/?reqDate=${formattedDate}`, token);
 
     console.log("wkwk");
   }, [con, data]);
@@ -217,7 +219,7 @@ const FuelIn = () => {
         <FuelInDrop
           placeholder="Please Select"
           label="Fuel Type"
-          data={stock}
+          data={data_g_2}
           value={fuelType}
           setValue={setFuelType}
         />

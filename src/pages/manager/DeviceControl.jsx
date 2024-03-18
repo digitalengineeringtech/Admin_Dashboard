@@ -194,85 +194,48 @@ const DeviceControl = () => {
   return (
     <>
       {loading && <LoaderCom />}
-      <div className="w-full h-screen flex gap-8 flex-wrap items-center justify-center">
-        {data_g?.map((obj, index) => (
-          <Card
-            Client={client}
-            permitReq={permitData.includes(parseInt(obj.nozzle_no))}
-            ///upper is my update
-            loading
-            setloading
-            // setFetchNew={setFetchNew} need
-            nozzle1PermitRecord={nozzle1PermitRecord}
-            setNozzle1PermitRecord={setNozzle1PermitRecord}
-            // selectedCards={selectedCards} no need in card
-            // setSelectedCards={setSelectedCards} no need in card
-            payloadHistory={payloadHistory}
-            setPayloadHistory={setPayloadHistory}
-            title={obj.nozzle_no}
-            nozzle1FuelDetail={nozzle1FuelDetailRef}
-            obj={obj}
-            id={index}
-            active={payloadHistory.includes(parseInt(obj.nozzle_no))}
-            // setVisible={setVisible} no need in card
-            key={index}
-            finalData={finalData}
-            setFinalData={setFinalData}
-            onClick={() => open()}
-            noMorePermit={noMorePermit}
-            permitOfNozzles={permitRef}
-            allDone={allDone}
-            liveData={liveData == obj.nozzle_no ? liveData : undefined}
-            setLiveData={setLiveData}
-            setAllDone={setAllDone}
-            checkLiveRef={checkLiveRef}
-            liveDispenser={liveDispenser}
-            approve={readyDespenserHistory.includes(parseInt(obj.nozzle_no))}
-            setApprove={setReadyDespenserHistory}
-            liveDespenserHistory={liveDespenserHistory.includes(obj.dep_no)}
-            dis={obj.dep_no}
-            num={obj.nozzle_no}
-          />
-        ))}
-        {data_g?.map((obj, index) => (
-          <Card
-            Client={client}
-            permitReq={permitData.includes(parseInt(obj.nozzle_no))}
-            ///upper is my update
-            loading
-            setloading
-            // setFetchNew={setFetchNew} need
-            nozzle1PermitRecord={nozzle1PermitRecord}
-            setNozzle1PermitRecord={setNozzle1PermitRecord}
-            // selectedCards={selectedCards} no need in card
-            // setSelectedCards={setSelectedCards} no need in card
-            payloadHistory={payloadHistory}
-            setPayloadHistory={setPayloadHistory}
-            title={obj.nozzle_no}
-            nozzle1FuelDetail={nozzle1FuelDetailRef}
-            obj={obj}
-            id={index}
-            active={payloadHistory.includes(parseInt(obj.nozzle_no))}
-            // setVisible={setVisible} no need in card
-            key={index}
-            finalData={finalData}
-            setFinalData={setFinalData}
-            onClick={() => open()}
-            noMorePermit={noMorePermit}
-            permitOfNozzles={permitRef}
-            allDone={allDone}
-            liveData={liveData == obj.nozzle_no ? liveData : undefined}
-            setLiveData={setLiveData}
-            setAllDone={setAllDone}
-            checkLiveRef={checkLiveRef}
-            liveDispenser={liveDispenser}
-            approve={readyDespenserHistory.includes(parseInt(obj.nozzle_no))}
-            setApprove={setReadyDespenserHistory}
-            liveDespenserHistory={liveDespenserHistory.includes(obj.dep_no)}
-            dis={obj.dep_no}
-            num={obj.nozzle_no}
-          />
-        ))}
+      <div className="flex items-center h-full">
+        <div className="w-full flex gap-8 flex-wrap items-center justify-center">
+          {data_g?.map((obj, index) => (
+            <Card
+              Client={client}
+              permitReq={permitData.includes(parseInt(obj.nozzle_no))}
+              ///upper is my update
+              loading
+              setloading
+              // setFetchNew={setFetchNew} need
+              nozzle1PermitRecord={nozzle1PermitRecord}
+              setNozzle1PermitRecord={setNozzle1PermitRecord}
+              // selectedCards={selectedCards} no need in card
+              // setSelectedCards={setSelectedCards} no need in card
+              payloadHistory={payloadHistory}
+              setPayloadHistory={setPayloadHistory}
+              title={obj.nozzle_no}
+              nozzle1FuelDetail={nozzle1FuelDetailRef}
+              obj={obj}
+              id={index}
+              active={payloadHistory.includes(parseInt(obj.nozzle_no))}
+              // setVisible={setVisible} no need in card
+              key={index}
+              finalData={finalData}
+              setFinalData={setFinalData}
+              onClick={() => open()}
+              noMorePermit={noMorePermit}
+              permitOfNozzles={permitRef}
+              allDone={allDone}
+              liveData={liveData == obj.nozzle_no ? liveData : undefined}
+              setLiveData={setLiveData}
+              setAllDone={setAllDone}
+              checkLiveRef={checkLiveRef}
+              liveDispenser={liveDispenser}
+              approve={readyDespenserHistory.includes(parseInt(obj.nozzle_no))}
+              setApprove={setReadyDespenserHistory}
+              liveDespenserHistory={liveDespenserHistory.includes(obj.dep_no)}
+              dis={obj.dep_no}
+              num={obj.nozzle_no}
+            />
+          ))}
+        </div>
       </div>
     </>
   );

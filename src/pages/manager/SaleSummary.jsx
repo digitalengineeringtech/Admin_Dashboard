@@ -101,7 +101,7 @@ const SaleSummary = () => {
     "Date/Time",
     "Octane Ron(92)",
     "Octane Ron(95)",
-    "Disel",
+    "Deisel",
     "Premium Disel",
     "Total Price (Kyat)",
   ];

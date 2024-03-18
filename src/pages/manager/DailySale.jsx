@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import Nav from "../../components/Navbar/Nav";
 import SearchButton from "../../components/SearchButton";
 import SelectDrop from "../installer/SelectDrop";
@@ -19,6 +19,8 @@ import { RiFileExcel2Fill } from "react-icons/ri";
 import { IoPrintSharp } from "react-icons/io5";
 import { downloadExcel } from "react-export-table-to-excel";
 import { useReactToPrint } from "react-to-print";
+import Re from "../../services/Re";
+import { FaPrint } from "react-icons/fa6";
 
 const DailySale = () => {
   let start = new Date();
@@ -28,7 +30,7 @@ const DailySale = () => {
 
   let end = new Date();
   end.setHours(23);
-  end.setMinutes(0);
+  end.setMinutes(59);
   end = new Date(end);
 
   const [token, setToken] = useState("none");
@@ -48,6 +50,8 @@ const DailySale = () => {
   const [purposeUse, setPurposeUse] = useState();
   const [noz, setNoz] = useState();
 
+  const { reFresh, setReFresh } = useContext(Re);
+
   const purposeRoute = purposeUse?.value
     ? `&vehicleType=${purposeUse?.value}`
     : "";
@@ -65,7 +69,7 @@ const DailySale = () => {
   useEffect(() => {
     fetchItGet(`detail-sale/pagi/by-date/1?sDate=${start}&eDate=${end}`, token);
     console.log("hello");
-  }, [con]);
+  }, [con, reFresh]);
 
   console.log(data_g, "dddddddddddddddd");
 
@@ -92,32 +96,42 @@ const DailySale = () => {
     "Total Price",
     "Totallizer liter",
     "Totallizer Amount",
+    "Action",
   ];
   const tableRow = data_g?.map((element) => (
     <Table.Tr key={element.no} className=" duration-150 text-sm text-center">
-      <Table.Td>{element.vocono}</Table.Td>
-      <Table.Td>{element.createAt}</Table.Td>
-      <Table.Td>{element.carNo}</Table.Td>
-      <Table.Td>{element.vehicleType}</Table.Td>
-      <Table.Td>{element.nozzleNo}</Table.Td>
-      <Table.Td>{element.fuelType}</Table.Td>
-      <Table.Td>{(parseFloat(element?.saleLiter) / 4.16).toFixed(3)}</Table.Td>
-      <Table.Td>{element.saleLiter}</Table.Td>
-      <Table.Td>
+      <Table.Td className="select-none">{element.vocono}</Table.Td>
+      <Table.Td className="select-none">{element.createAt}</Table.Td>
+      <Table.Td className="select-none">{element.carNo}</Table.Td>
+      <Table.Td className="select-none">{element.vehicleType}</Table.Td>
+      <Table.Td className="select-none">{element.nozzleNo}</Table.Td>
+      <Table.Td className="select-none">{element.fuelType}</Table.Td>
+      <Table.Td className="select-none">
+        {(parseFloat(element?.saleLiter) / 4.16).toFixed(3)}
+      </Table.Td>
+      <Table.Td className="select-none">{element.saleLiter}</Table.Td>
+      <Table.Td className="select-none">
         {element.salePrice.toFixed(2).toLocaleString(undefined, {
           maximumFractionDigits: 3,
         })}
       </Table.Td>
-      <Table.Td>
+      <Table.Td className="select-none">
         {element.totalPrice.toFixed(2).toLocaleString(undefined, {
           maximumFractionDigits: 3,
         })}
       </Table.Td>
-      <Table.Td>{element.totalizer_liter.toFixed(3)}</Table.Td>
-      <Table.Td>
+      <Table.Td className="select-none">
+        {element.totalizer_liter.toFixed(3)}
+      </Table.Td>
+      <Table.Td className="select-none">
         {element.totalizer_amount.toFixed(2).toLocaleString(undefined, {
           maximumFractionDigits: 3,
         })}
+      </Table.Td>
+      <Table.Td className="">
+        <div className="bg-detail active:scale-90 duration-75 cursor-pointer flex py-3 rounded justify-center ">
+          <FaPrint className="text-2xl text-secondary" />
+        </div>
       </Table.Td>
     </Table.Tr>
   ));

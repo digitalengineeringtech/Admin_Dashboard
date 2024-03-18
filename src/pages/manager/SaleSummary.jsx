@@ -102,7 +102,7 @@ const SaleSummary = () => {
     "Octane Ron(92)",
     "Octane Ron(95)",
     "Diesel",
-    "Premium Disel",
+    "Premium Diesel",
     "Total Price (Kyat)",
   ];
   const summaryRow = (

@@ -243,7 +243,6 @@ const DeviceControl = () => {
               num={obj.nozzle_no}
             />
           ))}
-          <div className="">{reFresh ? "true" : "false"}</div>
         </div>
       </div>
     </>

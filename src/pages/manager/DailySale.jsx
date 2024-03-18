@@ -21,6 +21,7 @@ import { downloadExcel } from "react-export-table-to-excel";
 import { useReactToPrint } from "react-to-print";
 import Re from "../../services/Re";
 import { FaPrint } from "react-icons/fa6";
+import { PrinterT } from "./PrinterT";
 
 const DailySale = () => {
   let start = new Date();
@@ -47,6 +48,7 @@ const DailySale = () => {
   const [sDate, setSDate] = useState(start);
   const [eDate, setEDate] = useState(end);
   const [fuelType, setFuelType] = useState();
+  const [pData, setPData] = useState();
   const [purposeUse, setPurposeUse] = useState();
   const [noz, setNoz] = useState();
 
@@ -71,7 +73,7 @@ const DailySale = () => {
     console.log("hello");
   }, [con, reFresh]);
 
-  console.log(data_g, "dddddddddddddddd");
+  console.log(pData, "dddddddddddddddd");
 
   useEffect(() => {
     if (data_g?.length > 0) {
@@ -82,6 +84,28 @@ const DailySale = () => {
   }, [data_g, loading_g, error_g, fetchItGet]);
 
   // console.log(totalPages);
+
+  useEffect(() => {
+    if (pData) {
+      thermalPrint();
+    }
+  }, [pData]);
+
+  const componentRef = useRef();
+  const thermalPrint = () => {
+    if (pData) {
+      const content = componentRef.current.innerHTML;
+      const printWindow = window.open("", "_blank");
+      printWindow.document.write(content);
+      printWindow.document.close();
+      printWindow.print();
+      printWindow.close();
+    }
+  };
+
+  // const thermalPrint = useReactToPrint({
+  //   content: () => componentRef.current,
+  // });
 
   const tableHeader = [
     "Vocno",
@@ -129,7 +153,14 @@ const DailySale = () => {
         })}
       </Table.Td>
       <Table.Td className="">
-        <div className="bg-detail active:scale-90 duration-75 cursor-pointer flex py-3 rounded justify-center ">
+        <div
+          // onClick={thermalPrint}
+          onClick={() => {
+            setPData(element);
+            thermalPrint();
+          }}
+          className="bg-detail active:scale-90 duration-75 cursor-pointer flex py-3 rounded justify-center "
+        >
           <FaPrint className="text-2xl text-secondary" />
         </div>
       </Table.Td>
@@ -213,6 +244,23 @@ const DailySale = () => {
     content: () => tableRef.current,
   });
 
+  const utcTimestamp = pData?.createAt;
+  let hour = utcTimestamp?.slice(11, 13);
+  const min = utcTimestamp?.slice(14, 16);
+  const sec = utcTimestamp?.slice(17, 19);
+  const year = utcTimestamp?.slice(0, 4);
+  const day = utcTimestamp?.slice(5, 7);
+  const month = utcTimestamp?.slice(8, 10);
+
+  let amPm = "AM";
+  if (hour >= 12) {
+    amPm = "PM";
+    hour -= 12;
+  }
+  if (hour === 0) {
+    hour = 12;
+  }
+
   return (
     <div className="w-full pt-28">
       <div className="flex flex-wrap gap-4 gap-x-10 justify-between">
@@ -239,7 +287,95 @@ const DailySale = () => {
           value={noz}
           setValue={setNoz}
         />
+
         <SearchButton onClick={() => fetchItGet(route, token)} />
+      </div>
+      <div className="w-[50%] hidden">
+        {/* <PrinterT ref={componentRef} pData={pData} /> */}
+        <div ref={componentRef}>
+          <div style={{ textAlign: "center" }}>
+            {/* <img
+          src={`data:image/jpeg;base64,${image.base64}`}
+          style={{ width: "25vw", marginBottom: "5px" }}
+        /> */}
+            <table>
+              {/* <tr>
+                <td style={{ fontWeight: "bold" }}>F.S Code</td>
+                <td style={{ fontWeight: "bold" }}>F.S Code</td> */}
+              {/* <td>: {read ? read?.station : "....."}</td> */}
+              {/* </tr> */}
+              <tr>
+                <td style={{ fontWeight: "bold" }}>Voucher</td>
+                <td>: {pData?.vocono}</td>
+              </tr>
+              <tr>
+                <td style={{ fontWeight: "bold" }}>Date</td>
+                <td>
+                  : {year}-{month}-{day} {hour}:{min}:{sec} {amPm}
+                </td>
+              </tr>
+              <tr>
+                <td style={{ fontWeight: "bold" }}>Car No.</td>
+                <td>: {pData?.carNo}</td>
+              </tr>
+              <tr>
+                <td style={{ fontWeight: "bold" }}>Nozzle</td>
+                <td>: {pData?.nozzleNo}</td>
+              </tr>
+              <tr>
+                <td style={{ fontWeight: "bold" }}>F.S Ph</td>
+                <td style={{ fontWeight: "bold" }}>09-38499920 / 093434353</td>
+                {/* <td>
+              : {read ? read?.ph_1 : "....."} / {read ? read?.ph_2 : "....."}
+            </td> */}
+              </tr>
+            </table>
+          </div>
+          <hr />
+          <div style={{ marginTop: "-5px" }}>
+            <table style={{ width: "100%", borderCollapse: "collapse" }}>
+              <tr style={{ borderBottom: "0.5px dashed black" }}>
+                <td style={{ padding: "10px 0px", fontWeight: "bold" }}>
+                  Fuel Type
+                </td>
+                <td colspan="2" style={{ fontWeight: "bold" }}>
+                  Price x Liter
+                </td>
+                <td style={{ textAlign: "end", fontWeight: "bold" }}>Amount</td>
+              </tr>
+              <tr>
+                <td style={{ padding: "10px 0px" }}>{pData?.fuelType}</td>
+                <td>
+                  {pData?.salePrice?.toFixed(2)} x{" "}
+                  {pData?.saleLiter?.toFixed(2)}
+                </td>
+                <td>MMK</td>
+                <td style={{ textAlign: "end" }}>
+                  {pData?.totalPrice?.toFixed(2)}
+                </td>
+              </tr>
+              <tr style={{ borderTop: "0.5px solid black" }}>
+                <td
+                  style={{
+                    padding: "10px 0px",
+                    textAlign: "center",
+                    fontWeight: "bold",
+                  }}
+                  colspan="2"
+                >
+                  Total (Inclusive Tax)
+                </td>
+                <td>MMK</td>
+                <td style={{ textAlign: "end", fontWeight: "bold" }}>
+                  {pData?.totalPrice?.toFixed(2)}
+                </td>
+              </tr>
+            </table>
+          </div>
+          <div style={{ textAlign: "center", marginTop: "-18px" }}>
+            <h4>Thank you. Please come again.</h4>
+          </div>
+        </div>
       </div>
       {isData ? (
         <div className="mt-8">

@@ -293,12 +293,24 @@ const DailySale = () => {
       <div className="w-[50%] hidden">
         {/* <PrinterT ref={componentRef} pData={pData} /> */}
         <div ref={componentRef}>
-          <div style={{ textAlign: "center" }}>
-            {/* <img
-          src={`data:image/jpeg;base64,${image.base64}`}
-          style={{ width: "25vw", marginBottom: "5px" }}
-        /> */}
-            <table>
+          <div style={{ fontSize: "0.8rem", textAlign: "center" }}>
+            <div className="flex justify-center">
+              <img
+                src="../../../public/static/images/images.png"
+                style={{
+                  width: "25vw",
+                  height: "70px",
+                  width: "70px",
+                  marginBottom: "5px",
+                }}
+              />
+            </div>
+
+            <table
+              style={{
+                fontSize: "0.7rem",
+              }}
+            >
               {/* <tr>
                 <td style={{ fontWeight: "bold" }}>F.S Code</td>
                 <td style={{ fontWeight: "bold" }}>F.S Code</td> */}
@@ -333,7 +345,13 @@ const DailySale = () => {
           </div>
           <hr />
           <div style={{ marginTop: "-5px" }}>
-            <table style={{ width: "100%", borderCollapse: "collapse" }}>
+            <table
+              style={{
+                fontSize: "0.6rem",
+                width: "100%",
+                borderCollapse: "collapse",
+              }}
+            >
               <tr style={{ borderBottom: "0.5px dashed black" }}>
                 <td style={{ padding: "10px 0px", fontWeight: "bold" }}>
                   Fuel Type
@@ -372,7 +390,13 @@ const DailySale = () => {
               </tr>
             </table>
           </div>
-          <div style={{ textAlign: "center", marginTop: "-18px" }}>
+          <div
+            style={{
+              fontSize: "0.7rem",
+              textAlign: "center",
+              marginTop: "-18px",
+            }}
+          >
             <h4>Thank you. Please come again.</h4>
           </div>
         </div>

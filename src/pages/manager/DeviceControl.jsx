@@ -5,9 +5,11 @@ import useTokenStorage from "../../utils/useDecrypt";
 import mqtt from "mqtt";
 import LoadContext from "../../services/LoadContext";
 import LoaderCom from "../../components/LoaderCom";
+import Re from "../../services/Re";
 const DeviceControl = () => {
   const { loading, setLoading } = useContext(LoadContext);
   const client = mqtt.connect("ws://detpos:asdffdsa@192.168.0.100:9001");
+  const { refresh, setRefresh } = useContext(Re);
 
   const [token, setToken] = useState("none");
 

@@ -22,6 +22,7 @@ import { useReactToPrint } from "react-to-print";
 import Re from "../../services/Re";
 import { FaPrint } from "react-icons/fa6";
 import { PrinterT } from "./PrinterT";
+import ErrorAlert from "../../components/alert/ErrorAlert";
 
 const DailySale = () => {
   let start = new Date();
@@ -87,25 +88,32 @@ const DailySale = () => {
 
   useEffect(() => {
     if (pData) {
-      thermalPrint();
+      // thermalPrint();
+      infoData ? thermalPrint() : ErrorAlert("Station Info are Empty");
     }
   }, [pData]);
 
   const componentRef = useRef();
   const thermalPrint = () => {
     if (pData) {
-      const content = componentRef.current.innerHTML;
-      const printWindow = window.open("", "_blank");
-      printWindow.document.write(content);
-      printWindow.document.close();
-      printWindow.print();
-      printWindow.close();
+      if (infoData) {
+        const content = componentRef.current.innerHTML;
+        const printWindow = window.open("", "_blank");
+        printWindow.document.write(content);
+        printWindow.document.close();
+        printWindow.print();
+        printWindow.close();
+      } else {
+        ErrorAlert("Some Station Info are Empty");
+      }
     }
   };
 
   // const thermalPrint = useReactToPrint({
   //   content: () => componentRef.current,
   // });
+
+  const infoData = JSON.parse(localStorage.getItem("data"));
 
   const tableHeader = [
     "Vocno",
@@ -317,6 +325,10 @@ const DailySale = () => {
               {/* <td>: {read ? read?.station : "....."}</td> */}
               {/* </tr> */}
               <tr>
+                <td style={{ fontWeight: "bold" }}>Station</td>
+                <td>: {infoData?.station ? infoData?.station : "..."}</td>
+              </tr>
+              <tr>
                 <td style={{ fontWeight: "bold" }}>Voucher</td>
                 <td>: {pData?.vocono}</td>
               </tr>
@@ -336,7 +348,10 @@ const DailySale = () => {
               </tr>
               <tr>
                 <td style={{ fontWeight: "bold" }}>F.S Ph</td>
-                <td style={{ fontWeight: "bold" }}>09-38499920 / 093434353</td>
+                <td style={{ fontWeight: "" }}>
+                  {infoData?.phone1 ? infoData?.phone1 : "..."} /
+                  {infoData?.phone2 ? infoData?.phone2 : "..."}
+                </td>
                 {/* <td>
               : {read ? read?.ph_1 : "....."} / {read ? read?.ph_2 : "....."}
             </td> */}

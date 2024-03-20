@@ -3,6 +3,7 @@ import TextInput from "./TextInput";
 import { LanguagePicker } from "../Navbar/LanguagePicker";
 import { Choose } from "./Choose";
 import SelectDrop from "./SelectDrop";
+import SelectDropt from "../../pages/installer/SelectDrop";
 import SelectDrop2 from "../SelectDrop";
 import SearchButton from "./SearchButton";
 const RealTimeForms = ({
@@ -146,7 +147,7 @@ const RealTimeForms = ({
           />
         </div>
         <div className="col-span-4">
-          <SelectDrop2
+          <SelectDropt
             placeholder="All"
             label="Purpose of Use"
             data={categories}

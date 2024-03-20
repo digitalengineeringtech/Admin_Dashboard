@@ -417,6 +417,7 @@ const DeviceControl = () => {
     if (topic.startsWith("detpos/device/Final/") && /[1-8]$/.test(topic)) {
       let data = message.toString().split(regex);
       setFinalData(data[0]);
+      setReFresh(!reFresh);
     }
 
     // if (topic.startsWith("detpos/device/livedata/") && /[1-8]$/.test(topic)) {

@@ -820,7 +820,7 @@ const Card = ({
 
   const handleReadyPermit = () => {};
 
-  const color = "#7A4DF1";
+  // const color = "#7A4DF1";
 
   return (
     <>

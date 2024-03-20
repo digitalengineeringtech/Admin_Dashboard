@@ -28,6 +28,7 @@ import { ImCross } from "react-icons/im";
 import TextInput from "../inputbox/TextInput";
 import ErrorAlert from "../alert/ErrorAlert";
 import Alert from "../alert/Alert";
+import Re from "../../services/Re";
 
 const Sidebar = () => {
   const navigate = useNavigate();
@@ -79,6 +80,8 @@ const Sidebar = () => {
   ];
   const [isBouncing, setBouncing] = useState(true);
   const [re, setRe] = useState(false);
+  const { reFresh, setReFresh } = useContext(Re);
+
   const [data, setData] = useState();
 
   useEffect(() => {
@@ -114,7 +117,12 @@ const Sidebar = () => {
     const data = JSON.stringify(obj);
     localStorage.setItem("data", data);
 
-    setRe(!re), setLocation(""), setPhone1(""), setPhone2(""), close();
+    setRe(!re),
+      setLocation(""),
+      setReFresh(!reFresh),
+      setPhone1(""),
+      setPhone2(""),
+      close();
 
     // setState(!state);
   };

@@ -86,7 +86,7 @@ const Card = ({
   const [price, setPrice] = useState(0);
   const [liter, setLiter] = useState(0);
   const checkLiveRef = useRef({
-    nozzle: "",
+    nozzleNo: "",
   });
 
   const regex = /[A-Z]/g;
@@ -147,7 +147,7 @@ const Card = ({
             setNopermit(false);
           }
         }
-        // checkLiveRef.current.nozzleNo = 0;
+        checkLiveRef.current.nozzleNo = 0;
       }
     }, 200); // Update the values every second
 

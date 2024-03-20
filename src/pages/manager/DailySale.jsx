@@ -96,7 +96,7 @@ const DailySale = () => {
   const tableRow = data_g?.map((element) => (
     <Table.Tr key={element.no} className=" duration-150 text-sm text-center">
       <Table.Td>{element.vocono}</Table.Td>
-      <Table.Td>{element.createAt.slice(0,10)}</Table.Td>
+      <Table.Td>{element.createAt.slice(0, 10)}</Table.Td>
       <Table.Td>{element.carNo}</Table.Td>
       <Table.Td>{element.vehicleType}</Table.Td>
       <Table.Td>{element.nozzleNo}</Table.Td>

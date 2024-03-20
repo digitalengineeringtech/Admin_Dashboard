@@ -57,9 +57,9 @@ const DeviceControl = () => {
   const [permitData, setPermitData] = useState([]);
   const [approveData, setApproveData] = useState([]);
 
-  console.log("====================================");
-  console.log("permit req is", permitData, "and approve is ", approveData);
-  console.log("====================================");
+  // console.log("====================================");
+  // console.log("permit req is", permitData, "and approve is ", approveData);
+  // console.log("====================================");
 
   client.on("message", (topic, message) => {
     // message is Buffer
@@ -83,7 +83,8 @@ const DeviceControl = () => {
       //   setPayloadHistory((prevTopics) => [...prevTopics, parseInt(prefix)]);
       // }
       // if (topicCount < 2) {
-      console.log(permitData.includes(parseInt(prefix)), "...............");
+      console.log(permitData.includes(parseInt(prefix)), "...ff............");
+
       if (!permitData.includes(parseInt(prefix))) {
         // Update state only if the prefix is not in permitData
         setPayloadHistory((prevTopics) => [...prevTopics, parseInt(prefix)]);
@@ -189,8 +190,8 @@ const DeviceControl = () => {
     // client.end();
   });
 
-  console.log(data_g.map((e) => parseInt(e.nozzle_no)));
-
+  // console.log(data_g.map((e) => parseInt(e.nozzle_no)));
+  console.log(permitData, "permit data");
   return (
     <>
       {loading && <LoaderCom />}

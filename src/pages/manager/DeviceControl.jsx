@@ -116,7 +116,7 @@ const DeviceControl = () => {
     console.log("hello");
   }, [con, reFresh]);
 
-  console.log(pData, "dddddddddddddddd");
+  // console.log(pData, "dddddddddddddddd");
 
   useEffect(() => {
     if (data_g_2?.length > 0) {
@@ -173,7 +173,7 @@ const DeviceControl = () => {
     "Action",
   ];
 
-  console.log(data_g_2, "....");
+  // console.log(data_g_2, "....");
   const tableRow = data_g_2?.map((element) => (
     <Table.Tr key={element.no} className=" duration-150 text-sm text-center">
       <Table.Td className="select-none">{element.vocono}</Table.Td>
@@ -257,8 +257,8 @@ const DeviceControl = () => {
     return onDownload;
   };
 
-  console.log(tableRef.current != null, "ooooooooooooooooo");
-  console.log(tableRef.current, "..............................");
+  // console.log(tableRef.current != null, "ooooooooooooooooo");
+  // console.log(tableRef.current, "..............................");
 
   const recordsPerPage = 50;
   const totalPages = Math.ceil(pagi_g / recordsPerPage);
@@ -337,7 +337,7 @@ const DeviceControl = () => {
       //   setPayloadHistory((prevTopics) => [...prevTopics, parseInt(prefix)]);
       // }
       // if (topicCount < 2) {
-      console.log(permitData.includes(parseInt(prefix)), "...ff............");
+      // console.log(permitData.includes(parseInt(prefix)), "...ff............");
 
       if (!permitData.includes(parseInt(prefix))) {
         // Update state only if the prefix is not in permitData
@@ -387,6 +387,8 @@ const DeviceControl = () => {
         );
       }
     }
+
+    console.log(approveData, 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
 
     // console.log(message.toString())
 
@@ -446,7 +448,7 @@ const DeviceControl = () => {
   });
 
   // console.log(data_g_2.map((e) => parseInt(e.nozzle_no)));
-  console.log(permitData, "permit data");
+  // console.log(permitData, "permit data");
   return (
     <>
       {loading && <LoaderCom />}
@@ -496,7 +498,7 @@ const DeviceControl = () => {
           {/* <PrinterT ref={componentRef} pData={pData} /> */}
           <div ref={componentRef}>
             <div style={{ fontSize: "0.8rem", textAlign: "center" }}>
-              <div className="flex justify-center">
+              {/* <div className="flex justify-center">
                 <img
                   src="../../../public/static/images/images.png"
                   style={{
@@ -506,7 +508,7 @@ const DeviceControl = () => {
                     marginBottom: "5px",
                   }}
                 />
-              </div>
+              </div> */}
 
               <table
                 style={{

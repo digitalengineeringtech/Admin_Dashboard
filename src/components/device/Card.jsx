@@ -119,13 +119,13 @@ const Card = ({
       if (parseInt(data[0]) === parseInt(obj.nozzle_no)) {
         setLiter(parseFloat(data[1])); // assuming liter is a numeric value
         setPrice(parseFloat(data[2])); // assuming price is a numeric value
-        console.log("llllll");
+        // console.log("llllll");
       }
-      console.log(price, liter);
-      console.log(
-        nozzle1FuelDetailRef.current,
-        "----------------------------------------"
-      );
+      // console.log(price, liter);
+      // console.log(
+      //   nozzle1FuelDetailRef.current,
+      //   "----------------------------------------"
+      // );
     }
     if (topic.startsWith("detpos/device/Final/") && /[1-8]$/.test(topic)) {
       close();
@@ -195,7 +195,7 @@ const Card = ({
   const handleCardClick = () => {
     open();
   };
-  console.log(finalData, "and final is", final, "and all done is ", allDone);
+  // console.log(finalData, "and final is", final, "and all done is ", allDone);
 
   // console.log(printFormInfo, "......................");
   // console.log(token);
@@ -518,7 +518,7 @@ const Card = ({
         }
       );
 
-      console.log(fetchIt);
+      // console.log(fetchIt);
 
       // fetchIt();
     }
@@ -527,13 +527,13 @@ const Card = ({
   // useEffect(() => {
   //   console.log(liveDespenserHistory);
   // },[liveDespenserHistory])
-  console.log(noMorePermit, "no more permit and obj.nozzle ", obj.nozzle_no);
+  // console.log(noMorePermit, "no more permit and obj.nozzle ", obj.nozzle_no);
   useEffect(() => {
     if (parseInt(noMorePermit) === parseInt(obj.nozzle_no)) {
       setNopermit(true);
       setVisible(false);
       setNozzleActive(false);
-      console.log("hlhlhhhhhhlhlhlhlhlhlhh");
+      // console.log("hlhlhhhhhhlhlhlhlhlhlhh");
 
       setPayloadHistory((prev) =>
         prev.filter((number) => number !== parseInt(obj.nozzle_no))
@@ -553,12 +553,12 @@ const Card = ({
       setNozzleActive(false);
       setPrice(0);
       setLiter(0);
-      console.log("wk................................................");
+      // console.log("wk................................................");
     }
   }, [finalData]);
 
-  console.log(allDone, "all done in permits");
-  console.log(nozzleActive, "active nozzle active?", obj.nozzle_no);
+  // console.log(allDone, "all done in permits");
+  // console.log(nozzleActive, "active nozzle active?", obj.nozzle_no);
   useEffect(() => {
     if (parseInt(allDone) == parseInt(obj.nozzle_no)) {
       setLiveData("");
@@ -599,7 +599,7 @@ const Card = ({
   //   }
   // }, [active]);
 
-  console.log(liter, price);
+  // console.log(liter, price);
 
   // useEffect(() => {
   //   const updateValues = () => {
@@ -703,15 +703,15 @@ const Card = ({
     open();
   };
 
-  console.log(premitFormInfo, "........................................");
-  console.log(
-    noMorePermit,
-    obj.nozzle_no,
-    // parseInt(noMorePermit) === parseInt(obj.nozzle_no),
-    nozzleActive,
-    ";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;",
-    obj.nozzle_no
-  );
+  // console.log(premitFormInfo, "........................................");
+  // console.log(
+  //   noMorePermit,
+  //   obj.nozzle_no,
+  //   // parseInt(noMorePermit) === parseInt(obj.nozzle_no),
+  //   nozzleActive,
+  //   ";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;",
+  //   obj.nozzle_no
+  // );
 
   const handleReadyPermit = () => {};
 

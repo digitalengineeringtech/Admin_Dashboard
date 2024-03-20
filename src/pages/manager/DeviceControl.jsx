@@ -548,7 +548,7 @@ const DeviceControl = () => {
                 <tr>
                   <td style={{ fontWeight: "bold" }}>F.S Ph</td>
                   <td style={{ fontWeight: "" }}>
-                    {infoData?.phone1 ? infoData?.phone1 : "..."} /
+                    {infoData?.phone1 ? infoData?.phone1 : "..."} 
                     {infoData?.phone2 ? infoData?.phone2 : "..."}
                   </td>
                   {/* <td>

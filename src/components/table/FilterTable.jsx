@@ -19,10 +19,10 @@ const FilterTable = ({ header, label, rows, tableRef }) => {
           withColumnBorders
           className=" text-text"
         >
-          <Table.Thead className="text-center top-0">
+          <Table.Thead className="text-center bg-[#D7F0EC] sticky top-0">
             <Table.Tr className="text-[1rem] font-semibold text-center ">
               {header?.map((item, index) => (
-                <Table.Td key={index} className="bg-detail/20">
+                <Table.Td key={index} className="bg-[#D7F0EC]">
                   {item}
                 </Table.Td>
               ))}

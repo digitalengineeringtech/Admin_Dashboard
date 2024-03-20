@@ -86,7 +86,7 @@ const Card = ({
   const [price, setPrice] = useState(0);
   const [liter, setLiter] = useState(0);
   const checkLiveRef = useRef({
-    nozzle: "",
+    nozzleNo: "",
   });
 
   const regex = /[A-Z]/g;
@@ -147,7 +147,7 @@ const Card = ({
             setNopermit(false);
           }
         }
-        // checkLiveRef.current.nozzleNo = 0;
+        checkLiveRef.current.nozzleNo = 0;
       }
     }, 200); // Update the values every second
 
@@ -180,7 +180,10 @@ const Card = ({
   //   return () => {
   //     clearInterval(interval);
   //   };
+
   // }, []);
+
+  console.log(noMorePermit, "jljljljlkjljljljljlkjlkj");
 
   const [myInfo, setMyInfo] = useState({
     objectId: null,
@@ -355,6 +358,7 @@ const Card = ({
   };
 
   const handlePermit = async () => {
+    setNopermit(false);
     if (
       premitFormInfo.couObjId == undefined &&
       premitFormInfo.cashType == "Debt"
@@ -793,6 +797,7 @@ const Card = ({
         </div>
         {readyState ? (
           <ReadyState
+            setNopermit={setNopermit}
             obj={obj}
             handlePermit={handlePermit}
             setPremitFormInfo={setPremitFormInfo}

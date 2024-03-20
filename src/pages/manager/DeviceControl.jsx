@@ -92,7 +92,7 @@ const DeviceControl = () => {
         setPermitData((prevData) => [...prevData, parseInt(prefix)]);
       }
       // }
-      setNoMorePermit("hhh");
+      setNoMorePermit(e.nozzle);
     }
 
     if (topic === "detpos/local_server") {
@@ -194,10 +194,10 @@ const DeviceControl = () => {
 
   // console.log(data_g.map((e) => parseInt(e.nozzle_no)));
 
-  console.log(
-    reFresh,
-    "gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg"
-  );
+  // console.log(
+  //   reFresh,
+  //   "gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg"
+  // );
 
   return (
     <>

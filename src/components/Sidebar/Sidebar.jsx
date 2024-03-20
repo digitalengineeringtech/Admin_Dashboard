@@ -81,7 +81,6 @@ const Sidebar = () => {
   const [re, setRe] = useState(false);
   const [data, setData] = useState();
 
-  console.log(data, "kkjkjkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk");
   useEffect(() => {
     const interval = setInterval(() => {
       setBouncing((prev) => !prev);

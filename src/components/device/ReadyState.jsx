@@ -131,7 +131,7 @@ const ReadyState = ({
       //     couName: customer.cou_name,
       //     cou_id: customer.cou_id,
       // });
-      console.log("liter");
+
       setPremitFormInfo({
         couObjId: customer._id,
         couName: customer.cou_name,
@@ -142,10 +142,7 @@ const ReadyState = ({
         type: readyStateItem,
         value: numberValue,
       });
-      console.log("liter work");
     }
-
-    console.log("work");
   }, [readyStateItem, customer, category, carNo, paymentNo, numberValue]);
 
   return (

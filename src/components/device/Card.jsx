@@ -211,7 +211,7 @@ const Card = ({
         {
           nozzleNo: obj.nozzle_no,
           fuelType: obj.fuel_type,
-          liter: premitFormInfo.value,
+          liter: parseFloat(premitFormInfo.value).toFixed(2),
           carNo: !premitFormInfo.carNo == "" ? premitFormInfo.carNo : "-",
           vehicleType: premitFormInfo.vehicleType,
           cashType: premitFormInfo.cashType,

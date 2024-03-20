@@ -794,6 +794,7 @@ const Card = ({
         {readyState ? (
           <ReadyState
             obj={obj}
+            handlePermit={handlePermit}
             setPremitFormInfo={setPremitFormInfo}
             setReadyStateObj={setReadyStateObj}
             selectedItem={readyState}

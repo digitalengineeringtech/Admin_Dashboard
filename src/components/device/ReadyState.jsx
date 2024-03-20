@@ -9,6 +9,7 @@ import SearchButton from "./SearchButton";
 const ReadyState = ({
   //   handleReadyPermit,
   handleReadyState,
+  handlePermit,
   selectedItem,
   onSelectedItem,
   chooseOne,
@@ -199,8 +200,14 @@ const ReadyState = ({
             setValue={setCategory}
           />
         </div>
-        <div className="col-span-4 mt-auto">
+        <div className="col-span-4 flex gap-3 mt-auto">
           <SearchButton icon="" title="Preset" onClick={handleReadyState} />
+          <button
+            onClick={() => handlePermit()}
+            className={`w-[300px]  mt-auto   items-center justify-center font-semibold gap-3 flex font-mono text-2xl active:scale-95 duration-100 border-2 border-[#38b59e] text-[#38b59e] h-[56px] rounded-md`}
+          >
+            Start
+          </button>
         </div>
       </div>
     </div>

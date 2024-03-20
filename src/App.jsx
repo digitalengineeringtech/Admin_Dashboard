@@ -24,6 +24,7 @@ import Totallizer from "./pages/installer/Totallizer";
 import Login from "./pages/Login";
 import InstallerManager from "./pages/installer/InstallerManager";
 import AuthContext from "./services/AuthContext";
+import Re from "./services/Re";
 import DeviceControl from "./pages/manager/DeviceControl";
 import LoadContext from "./services/LoadContext";
 
@@ -31,6 +32,7 @@ const App = () => {
   const [isInstalling, setIsInstalling] = useState(false);
   const [isAuth, setIsAuth] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [reFresh, setReFresh] = useState(false);
 
   const [auth, setAuth] = useState(true);
 
@@ -158,14 +160,18 @@ const App = () => {
       ],
     },
   ]);
+
+  console.log("hellolllllllllllllllllllllllllllllllll", reFresh);
   return (
-    <AuthContext.Provider value={{ isAuth, setIsAuth }}>
-      <LoadContext.Provider value={{ loading, setLoading }}>
-        <RouterProvider
-          router={isInstalling ? installerRouter : managerRouter}
-        />
-      </LoadContext.Provider>
-    </AuthContext.Provider>
+    <Re.Provider value={{ reFresh, setReFresh }}>
+      <AuthContext.Provider value={{ isAuth, setIsAuth }}>
+        <LoadContext.Provider value={{ loading, setLoading }}>
+          <RouterProvider
+            router={isInstalling ? installerRouter : managerRouter}
+          />
+        </LoadContext.Provider>
+      </AuthContext.Provider>
+    </Re.Provider>
   );
 };
 

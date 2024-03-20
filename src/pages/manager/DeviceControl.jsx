@@ -109,7 +109,10 @@ const DeviceControl = () => {
   }, []);
 
   useEffect(() => {
-    fetchItGet(`detail-sale/pagi/by-date/1?sDate=${start}&eDate=${end}`, token);
+    fetchItGet2(
+      `detail-sale/pagi/by-date/1?sDate=${start}&eDate=${end}`,
+      token
+    );
     console.log("hello");
   }, [con, reFresh]);
 
@@ -237,7 +240,7 @@ const DeviceControl = () => {
 
   const onPageChange = (event) => {
     console.log(event);
-    fetchItGet(
+    fetchItGet2(
       `detail-sale/pagi/by-date/${event}?sDate=${sDate}&eDate=${eDate}${purposeRoute}${fuelRoute}${nozzleRoute}`,
       token
     );
@@ -446,7 +449,7 @@ const DeviceControl = () => {
   return (
     <>
       {loading && <LoaderCom />}
-      <div className="flex items-center h-full">
+      <div className="flex items-start mt-[110px] h-full">
         <div className="w-full flex gap-8 flex-wrap items-center justify-center">
           {data_g?.map((obj, index) => (
             <Card
@@ -608,7 +611,13 @@ const DeviceControl = () => {
             </div>
           </div>
         </div>
-        <FilterTable tableRef={tableRef} header={tableHeader} rows={tableRow} />
+        <div className="fixed bottom-0 h-[280px] overflow-scroll w-[92%]">
+          <FilterTable
+            tableRef={tableRef}
+            header={tableHeader}
+            rows={tableRow}
+          />
+        </div>
       </div>
     </>
   );

@@ -130,10 +130,12 @@ const DailySale = () => {
     "Totallizer Amount",
     "Action",
   ];
+
+  console.log(data_g, "....");
   const tableRow = data_g?.map((element) => (
     <Table.Tr key={element.no} className=" duration-150 text-sm text-center">
       <Table.Td className="select-none">{element.vocono}</Table.Td>
-      <Table.Td className="select-none">{element.createAt}</Table.Td>
+      <Table.Td className="select-none">{element.createAt.slice(0,10)}</Table.Td>
       <Table.Td className="select-none">{element.carNo}</Table.Td>
       <Table.Td className="select-none">{element.vehicleType}</Table.Td>
       <Table.Td className="select-none">{element.nozzleNo}</Table.Td>

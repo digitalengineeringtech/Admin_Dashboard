@@ -175,7 +175,7 @@ const DeviceControl = () => {
     <Table.Tr key={element.no} className=" duration-150 text-sm text-center">
       <Table.Td className="select-none">{element.vocono}</Table.Td>
       <Table.Td className="select-none">
-        {element.createAt.slice(0, 10)} / {element.createAt.slice(11, 19)}
+        {element.createAt.slice(0, 10)} {element.createAt.slice(11, 19)}
         {/* {new Date(element.createAt).toLocaleString("en-US", {
           timeZone: "Asia/Yangon",
         })} */}

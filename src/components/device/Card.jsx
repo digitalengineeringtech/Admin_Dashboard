@@ -457,6 +457,107 @@ const Card = ({
       //   }, 2000); // 2000 milliseconds (2 seconds)
     }
   };
+  const handlePermit1 = async () => {
+    setPayloadHistory((prevTopics) => [...prevTopics, parseInt(obj.nozzle_no)]);
+    setNopermit(false);
+    if (
+      premitFormInfo.couObjId == undefined &&
+      premitFormInfo.cashType == "Debt"
+    ) {
+      setChooseOne(true);
+      return;
+    } else {
+      if (!permitButtonDisable) {
+        setPermitButtonDisable(true);
+      }
+      setLoading(true);
+      setChooseOne(false);
+
+      // const permitObject = await PermitApi.permit(
+      //   obj.dep_no,
+      //   obj.nozzle_no,
+      //   premitFormInfo.vehicleType,
+      //   premitFormInfo.carNo,
+      //   premitFormInfo.cashType,
+      //   obj.fuel_type,
+      //   premitFormInfo.couObjId,
+      //   obj.daily_price
+      // );
+
+      const permitObject = await localInstance.post(
+        `detail-sale?depNo=${obj.dep_no}&nozzleNo=${obj.nozzle_no}`,
+        {
+          nozzleNo: obj.nozzle_no,
+          fuelType: obj.fuel_type,
+          carNo: !premitFormInfo.carNo == "" ? premitFormInfo.carNo : "-",
+          vehicleType: premitFormInfo.vehicleType,
+          cashType: premitFormInfo.cashType,
+          couObjId: premitFormInfo.couObjId,
+          device: "website",
+        },
+        {
+          headers: {
+            Authorization: "Bearer " + token,
+            "Content-Type": "multipart/form-data", // Adjust content type based on your API requirements
+          },
+        }
+      );
+
+      setLoading(false);
+
+      if (permitObject) {
+        setPermitButtonDisable(false);
+      }
+
+      if (!permitObject.data?.result) {
+        setPermitState(true);
+        // let smg = permitObject.data.msg;
+        // console.log("smg",smg)
+        // smg = smg.split(":");
+        // smg = smg[2];
+        // setVocNumber(smg);
+        setPayloadHistory((prevTopics) => {
+          // Filter out elements that match the value of parseInt(obj.nozzle_no)
+          const updatedTopicsArray = prevTopics.filter(
+            (topic) => topic !== parseInt(obj.nozzle_no)
+          );
+
+          return updatedTopicsArray;
+        });
+        setVisible(false);
+        return;
+      }
+
+      if (permitObject.data?.result) {
+        setHttpCode(true);
+        setFetchObj(permitObject.data.result);
+        setPrintFormInfo({
+          nozzle_no: obj.nozzle_no,
+          objId: permitObject.data.result.screenuObjId,
+        });
+
+        setRealTimeEdit({
+          object_Id: permitObject.data.result._id,
+          cash_type: permitObject.data.result.cashType,
+          car_no: permitObject.data.result.carNo,
+          purpose_of_use: permitObject.data.result.vehicleType,
+          customer_name: premitFormInfo.couName,
+          customer_id: premitFormInfo.cou_id,
+        });
+        setIsPermit(true);
+      }
+
+      if (!permitObject.data?.con) {
+        // auth.logOut();
+      }
+
+      close();
+
+      //  setTimeout(() => {
+      //     setPermitButtonDisable(false);
+      //   }, 2000); // 2000 milliseconds (2 seconds)
+    }
+  };
 
   const handlePrint = () => {
     setLoading(true);
@@ -799,7 +900,7 @@ const Card = ({
           <ReadyState
             setNopermit={setNopermit}
             obj={obj}
-            handlePermit={handlePermit}
+            handlePermit={handlePermit1}
             setPremitFormInfo={setPremitFormInfo}
             setReadyStateObj={setReadyStateObj}
             selectedItem={readyState}

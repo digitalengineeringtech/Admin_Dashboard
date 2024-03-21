@@ -170,7 +170,7 @@ const Manager = () => {
                   >
                     <div className={` `}>Price</div>
                     <div className={`text-xl font-semibold `}>
-                      {Number(e?.pricePerLiter).toFixed(2)}
+                      {Number(e?.pricePerLiter)}
                     </div>
                     <div className={` `}>MMK</div>
                   </div>
@@ -240,7 +240,7 @@ const Manager = () => {
                   >
                     <div className={` `}>Price</div>
                     <div className={`text-xl font-semibold `}>
-                      {Number(e?.pricePerLiter).toFixed(2)}
+                      {Number(e?.pricePerLiter)}
                     </div>
                     <div className={` `}>MMK</div>
                   </div>
@@ -295,7 +295,7 @@ const Manager = () => {
                           ? `font-semibold `
                           : `font-semibold text-[#31a55b]`} */}
                         <div className={` `}>
-                          Total - {Number(e?.totalAmount).toFixed(2)} MMK
+                          Total - {Number(e?.totalPrice).toFixed(2)} MMK
                         </div>
                         <div className={` `}>
                           Total - {Number(e?.totalLiter).toFixed(2)} Liter
@@ -309,7 +309,7 @@ const Manager = () => {
                       >
                         <div className={` `}>Price</div>
                         <div className={`text-xl font-semibold `}>
-                          {Number(e?.pricePerLiter).toFixed(2)}
+                          {Number(e?.pricePerLiter)}
                         </div>
                         <div className={` `}>MMK</div>
                       </div>

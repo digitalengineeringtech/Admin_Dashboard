@@ -230,6 +230,8 @@ const Card = ({
       setLoading(false);
       close();
 
+      console.log(permitObject, "jljljljljljljljljljljljljljljlj");
+
       if (permitObject.data?.con) {
         setPayloadHistory((prevTopics) => [
           ...prevTopics,

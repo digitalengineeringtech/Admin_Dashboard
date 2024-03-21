@@ -344,6 +344,19 @@ const DeviceControl = () => {
       // setFetchNew((prev)=>!prev)
     }
 
+    //  add new
+    if (topic === "detpos/local_server/preset") {
+      const prefix = message.toString().substring(0, 2); // "01"
+      // setAllDone(prefix);
+      setReadyDespenserHistory((prevTopics) => [
+        ...prevTopics,
+        parseInt(prefix),
+      ]);
+      console.log("hell")
+      // setFetchNew((prev)=>!prev)
+    }
+    //add new
+
     if (topic === "detpos/device/price") {
       // setPriceChange(true);
     }
@@ -371,10 +384,10 @@ const DeviceControl = () => {
           ...prevTopics,
           parseInt(prefix),
         ]);
-        setApproveData((prevData) => [...prevData, parseInt(prefix)]);
-        setPermitData((prevData) =>
-          prevData.filter((item) => item !== parseInt(prefix))
-        );
+        // setApproveData((prevData) => [...prevData, parseInt(prefix)]);
+        // setPermitData((prevData) =>
+        //   prevData.filter((item) => item !== parseInt(prefix))
+        // );
       }
     }
 

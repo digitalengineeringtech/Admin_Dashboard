@@ -352,7 +352,7 @@ const DeviceControl = () => {
         ...prevTopics,
         parseInt(prefix),
       ]);
-      console.log("hell")
+      console.log("hell");
       // setFetchNew((prev)=>!prev)
     }
     //add new

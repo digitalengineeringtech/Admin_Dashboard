@@ -1,5 +1,5 @@
-import React from "react";
-
+import React, { useContext } from "react";
+import Re from "../../services/Re";
 const SearchButton = ({ onClick, title, disable }) => {
   const con = window.innerWidth < 1240;
   // console.log(con);

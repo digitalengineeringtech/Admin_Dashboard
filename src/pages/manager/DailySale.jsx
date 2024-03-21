@@ -97,7 +97,7 @@ const DailySale = () => {
     <Table.Tr key={element.no} className=" duration-150 text-sm text-center">
       <Table.Td>{element.vocono}</Table.Td>
       <Table.Td>
-        {element.createAt.slice(0, 10)}  {element.createAt.slice(11, 19)}
+        {element.createAt.slice(0, 10)} {element.createAt.slice(11, 19)}
       </Table.Td>
       <Table.Td>{element.carNo}</Table.Td>
       <Table.Td>{element.vehicleType}</Table.Td>

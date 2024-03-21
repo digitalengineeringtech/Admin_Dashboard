@@ -11,6 +11,7 @@ import { ImCross } from "react-icons/im";
 import { localInstance } from "../../api/axios";
 import useTokenStorage from "../../utils/useDecrypt";
 import LoadContext from "../../services/LoadContext";
+import Re from "../../services/Re";
 
 const Card = ({
   Client,
@@ -40,7 +41,7 @@ const Card = ({
   liveDespenserHistory,
 }) => {
   const { loading, setLoading } = useContext(LoadContext);
-
+  const { reFresh, setReFresh } = useContext(Re);
   const [isPermit, setIsPermit] = useState(false);
   const [isErrorCon, setIsErrorCon] = useState(false);
   const [premitFormInfo, setPremitFormInfo] = useState();
@@ -523,7 +524,8 @@ const Card = ({
       );
 
       // console.log(fetchIt);
-
+      // setReFresh(!reFresh);
+      close();
       // fetchIt();
     }
   };

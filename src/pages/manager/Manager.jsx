@@ -25,7 +25,7 @@ const Manager = () => {
 
   let end = new Date();
   end.setHours(23);
-  end.setMinutes(0);
+  end.setMinutes(59);
   end = new Date(end);
 
   const [{ data_g, loading_g, error_g }, fetchItGet] = UseGet();
@@ -35,6 +35,8 @@ const Manager = () => {
   const [endDate, setEndDate] = useState(end);
   // eslint-disable-next-line no-unused-vars
   const [startDate, setStartDate] = useState(start);
+
+  console.log(startDate, endDate, "ggggg");
 
   const [con, setCon] = useState();
   useEffect(() => {
@@ -106,12 +108,17 @@ const Manager = () => {
         .filter((fuel) => fuel.fuelType == e.value)
         .map((element) => element.saleLiter)
         .reduce((pv, cv) => pv + cv, 0);
+      const calcuPrice = data_g
+        .filter((fuel) => fuel.fuelType == e.value)
+        .map((element) => element.totalPrice)
+        .reduce((pv, cv) => pv + cv, 0);
       const unitPrice = data_g_2.filter((unit) => unit.fuel_type == e.value)[0]
         ?.daily_price;
 
       return {
         fueltype: e.value,
         totalLiter: calcuLiter,
+        totalPrice: calcuPrice,
         pricePerLiter: unitPrice || "0",
         totalAmount: calcuLiter * unitPrice || "0",
         textColor: color[index].textColor,
@@ -149,7 +156,7 @@ const Manager = () => {
                   <div className="flex flex-col" style={{ color: e.textColor }}>
                     <div className={`font-semibold `}>{e.fueltype}</div>
                     <div className={` `}>
-                      Total - {Number(e?.totalAmount).toFixed(2)} MMK
+                      Total - {Number(e?.totalPrice).toFixed(2)} MMK
                     </div>
                     <div className={` `}>
                       Total - {Number(e?.totalLiter).toFixed(2)} Liter
@@ -219,7 +226,7 @@ const Manager = () => {
                   <div className="flex flex-col" style={{ color: e.textColor }}>
                     <div className={`font-semibold `}>{e.fueltype}</div>
                     <div className={` `}>
-                      Total - {Number(e?.totalAmount).toFixed(2)} MMK
+                      Total - {Number(e?.totalPrice).toFixed(2)} MMK
                     </div>
                     <div className={` `}>
                       Total - {Number(e?.totalLiter).toFixed(2)} Liter
@@ -251,7 +258,7 @@ const Manager = () => {
                   </h1>
                   <h1 className="text-[3rem] font-bold text-detail my-3 mb-4">
                     {totalCalcu
-                      .map((e) => Number(e.totalAmount))
+                      .map((e) => Number(e.totalPrice))
                       .reduce((pv, cv) => pv + cv, 0)
                       .toFixed(2)}
                   </h1>
@@ -327,7 +334,7 @@ const Manager = () => {
                   </h1>
                   <h1 className="text-[3.6rem] font-bold text-detail my-6">
                     {totalCalcu
-                      .map((e) => Number(e.totalAmount))
+                      .map((e) => Number(e.totalPrice))
                       .reduce((pv, cv) => pv + cv, 0)
                       .toFixed(2)}
                   </h1>

@@ -57,12 +57,16 @@ const DeviceControl = () => {
   const liveDespenserHistoryRef = useRef(liveDespenserHistory);
   const [finalData, setFinalData] = useState(0);
   const [nozzle1PermitRecord, setNozzle1PermitRecord] = useState(0);
+  const [disableButton, setDisableButton] = useState(false);
+
   const checkLiveRef = useRef({
     nozzle: "",
   });
+
   const permitRef = useRef({
     nozzle: "",
   });
+
   const regex = /[A-Z]/g;
   const [liveData, setLiveData] = useState();
   const [liveDispenser, setLiveDispenser] = useState(undefined);
@@ -459,6 +463,8 @@ const DeviceControl = () => {
         <div className="w-full flex gap-8 flex-wrap items-center justify-center">
           {data_g?.map((obj, index) => (
             <Card
+              disableButton={disableButton}
+              setDisableButton={setDisableButton}
               Client={client}
               permitReq={permitData.includes(parseInt(obj.nozzle_no))}
               ///upper is my update
@@ -548,7 +554,7 @@ const DeviceControl = () => {
                 <tr>
                   <td style={{ fontWeight: "bold" }}>F.S Ph</td>
                   <td style={{ fontWeight: "" }}>
-                    {infoData?.phone1 ? infoData?.phone1 : "..."} 
+                    {infoData?.phone1 ? infoData?.phone1 : "..."}
                     {infoData?.phone2 ? infoData?.phone2 : "..."}
                   </td>
                   {/* <td>
@@ -630,177 +636,3 @@ const DeviceControl = () => {
 };
 
 export default DeviceControl;
-
-// return (
-//   <div className="w-full pt-28">
-//     <div className="flex flex-wrap gap-4 gap-x-10 justify-between">
-//       <CalendarPick date={sDate} setDate={setSDate} label="Start Date" />
-//       <CalendarPick date={eDate} setDate={setEDate} label="End Date" />
-//       <SelectDrop
-//         placeholder="All"
-//         label="Fuel Type"
-//         data={fuelData}
-//         value={fuelType}
-//         setValue={setFuelType}
-//       />
-//       <SelectDrop
-//         placeholder="All"
-//         label="Purpose of Use"
-//         data={purposes}
-//         value={purposeUse}
-//         setValue={setPurposeUse}
-//       />
-//       <SelectDrop
-//         label="Nozzle"
-//         placeholder="All"
-//         data={nozzleData}
-//         value={noz}
-//         setValue={setNoz}
-//       />
-
-//       <SearchButton onClick={() => fetchItGet(route, token)} />
-//     </div>
-//     <div className="w-[50%] hidden">
-//       {/* <PrinterT ref={componentRef} pData={pData} /> */}
-//       <div ref={componentRef}>
-//         <div style={{ fontSize: "0.8rem", textAlign: "center" }}>
-//           <div className="flex justify-center">
-//             <img
-//               src="../../../public/static/images/images.png"
-//               style={{
-//                 width: "25vw",
-//                 height: "70px",
-//                 width: "70px",
-//                 marginBottom: "5px",
-//               }}
-//             />
-//           </div>
-
-//           <table
-//             style={{
-//               fontSize: "0.7rem",
-//             }}
-//           >
-//             {/* <tr>
-//                 <td style={{ fontWeight: "bold" }}>F.S Code</td>
-//                 <td style={{ fontWeight: "bold" }}>F.S Code</td> */}
-//             {/* <td>: {read ? read?.station : "....."}</td> */}
-//             {/* </tr> */}
-//             <tr>
-//               <td style={{ fontWeight: "bold" }}>Station</td>
-//               <td>: {infoData?.station ? infoData?.station : "..."}</td>
-//             </tr>
-//             <tr>
-//               <td style={{ fontWeight: "bold" }}>Voucher</td>
-//               <td>: {pData?.vocono}</td>
-//             </tr>
-//             <tr>
-//               <td style={{ fontWeight: "bold" }}>Date</td>
-//               <td>
-//                 : {year}-{month}-{day} {hour}:{min}:{sec} {amPm}
-//               </td>
-//             </tr>
-//             <tr>
-//               <td style={{ fontWeight: "bold" }}>Car No.</td>
-//               <td>: {pData?.carNo}</td>
-//             </tr>
-//             <tr>
-//               <td style={{ fontWeight: "bold" }}>Nozzle</td>
-//               <td>: {pData?.nozzleNo}</td>
-//             </tr>
-//             <tr>
-//               <td style={{ fontWeight: "bold" }}>F.S Ph</td>
-//               <td style={{ fontWeight: "" }}>
-//                 {infoData?.phone1 ? infoData?.phone1 : "..."} /
-//                 {infoData?.phone2 ? infoData?.phone2 : "..."}
-//               </td>
-//               {/* <td>
-//               : {read ? read?.ph_1 : "....."} / {read ? read?.ph_2 : "....."}
-//             </td> */}
-//             </tr>
-//           </table>
-//         </div>
-//         <hr />
-//         <div style={{ marginTop: "-5px" }}>
-//           <table
-//             style={{
-//               fontSize: "0.6rem",
-//               width: "100%",
-//               borderCollapse: "collapse",
-//             }}
-//           >
-//             <tr style={{ borderBottom: "0.5px dashed black" }}>
-//               <td style={{ padding: "10px 0px", fontWeight: "bold" }}>
-//                 Fuel Type
-//               </td>
-//               <td colspan="2" style={{ fontWeight: "bold" }}>
-//                 Price x Liter
-//               </td>
-//               <td style={{ textAlign: "end", fontWeight: "bold" }}>Amount</td>
-//             </tr>
-//             <tr>
-//               <td style={{ padding: "10px 0px" }}>{pData?.fuelType}</td>
-//               <td>
-//                 {pData?.salePrice?.toFixed(2)} x {pData?.saleLiter?.toFixed(2)}
-//               </td>
-//               <td>MMK</td>
-//               <td style={{ textAlign: "end" }}>
-//                 {pData?.totalPrice?.toFixed(2)}
-//               </td>
-//             </tr>
-//             <tr style={{ borderTop: "0.5px solid black" }}>
-//               <td
-//                 style={{
-//                   padding: "10px 0px",
-//                   textAlign: "center",
-//                   fontWeight: "bold",
-//                 }}
-//                 colspan="2"
-//               >
-//                 Total (Inclusive Tax)
-//               </td>
-//               <td>MMK</td>
-//               <td style={{ textAlign: "end", fontWeight: "bold" }}>
-//                 {pData?.totalPrice?.toFixed(2)}
-//               </td>
-//             </tr>
-//           </table>
-//         </div>
-//         <div
-//           style={{
-//             fontSize: "0.7rem",
-//             textAlign: "center",
-//             marginTop: "-18px",
-//           }}
-//         >
-//           <h4>Thank you. Please come again.</h4>
-//         </div>
-//       </div>
-//     </div>
-//     {isData ? (
-//       <div className="mt-8">
-//         <FilterTable tableRef={tableRef} header={tableHeader} rows={tableRow} />
-//       </div>
-//     ) : (
-//       <div className="w-full h-[250px] gap-5 text-nodata flex items-center justify-center border-2 border-nodata mt-10 rounded-xl">
-//         <div className="flex items-center gap-4">
-//           <RiErrorWarningLine className="text-[6rem]" />
-//           <div className="font-mono text-[2.5rem]">NO DATA FOUND</div>
-//         </div>
-//       </div>
-//     )}
-//     {data_g && (
-//       <div className="">
-//         <Footer
-//           print={handlePrint}
-//           onClick={handleDownloadExcel}
-//           totalPages={totalPages}
-//           onPageChange={onPageChange}
-//           pagi="true"
-//           // first={first}
-//           // rows={rows}
-//         />
-//       </div>
-//     )}
-//   </div>
-// );

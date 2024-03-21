@@ -9,6 +9,8 @@ import SearchButton from "./SearchButton";
 const ReadyState = ({
   //   handleReadyPermit,
   handleReadyState,
+  disable,
+  setDisableButton,
   selectedItem,
   onSelectedItem,
   chooseOne,
@@ -200,7 +202,12 @@ const ReadyState = ({
           />
         </div>
         <div className="col-span-4 mt-auto">
-          <SearchButton icon="" title="Preset" onClick={handleReadyState} />
+          <SearchButton
+            icon=""
+            title="Preset"
+            disable={disable}
+            onClick={handleReadyState}
+          />
         </div>
       </div>
     </div>

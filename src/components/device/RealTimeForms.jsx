@@ -9,6 +9,7 @@ import SearchButton from "./SearchButton";
 const RealTimeForms = ({
   handlePermit,
   close,
+  disable,
   setPremitFormInfo,
   permitState,
   chooseOne,
@@ -156,7 +157,12 @@ const RealTimeForms = ({
           />
         </div>
         <div className="col-span-4 mt-auto">
-          <SearchButton icon="" title="Permit" onClick={handlePermit} />
+          <SearchButton
+            icon=""
+            disable={disable}
+            title="Permit"
+            onClick={handlePermit}
+          />
         </div>
       </div>
     </div>

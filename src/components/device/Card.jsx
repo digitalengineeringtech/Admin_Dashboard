@@ -15,6 +15,8 @@ import LoadContext from "../../services/LoadContext";
 const Card = ({
   Client,
   dis,
+  disableButton,
+  setDisableButton,
   permitReq,
   num,
   onClick,
@@ -200,8 +202,8 @@ const Card = ({
   // console.log(printFormInfo, "......................");
   // console.log(token);
   const handleReadyState = async () => {
-    if (!presetButtonDisable) {
-      setPresetButtonDisable(true);
+    if (!disableButton) {
+      setDisableButton(true);
     }
 
     if (premitFormInfo.type === "Liters") {
@@ -350,7 +352,7 @@ const Card = ({
     }
 
     setTimeout(() => {
-      setPresetButtonDisable(false);
+      setDisableButton(false);
     }, 3000);
   };
 
@@ -362,8 +364,8 @@ const Card = ({
       setChooseOne(true);
       return;
     } else {
-      if (!permitButtonDisable) {
-        setPermitButtonDisable(true);
+      if (!disableButton) {
+        setDisableButton(true);
       }
       setLoading(true);
       setChooseOne(false);
@@ -448,9 +450,9 @@ const Card = ({
 
       close();
 
-      //  setTimeout(() => {
-      //     setPermitButtonDisable(false);
-      //   }, 2000); // 2000 milliseconds (2 seconds)
+      setTimeout(() => {
+        setDisableButton(false);
+      }, 2000); // 2000 milliseconds (2 seconds)
     }
   };
 
@@ -794,6 +796,8 @@ const Card = ({
         {readyState ? (
           <ReadyState
             obj={obj}
+            setDisableButton={setDisableButton}
+            disable={disableButton}
             setPremitFormInfo={setPremitFormInfo}
             setReadyStateObj={setReadyStateObj}
             selectedItem={readyState}
@@ -822,6 +826,8 @@ const Card = ({
           />
         ) : !isPermit ? (
           <RealTimeForms
+            setDisableButton={setDisableButton}
+            disable={disableButton}
             close={close}
             setPermitState={setPermitState}
             vocNumber={vocNumber}

@@ -63,6 +63,10 @@ const DeviceControl = () => {
     nozzle: "",
   });
 
+  useEffect(() => {
+    readyDespenserHistoryRef.current = readyDespenserHistory;
+  }, [readyDespenserHistory]);
+
   const permitRef = useRef({
     nozzle: "",
   });
@@ -82,9 +86,9 @@ const DeviceControl = () => {
   const [permitData, setPermitData] = useState([]);
   const [approveData, setApproveData] = useState([]);
 
-  // console.log("====================================");
-  // console.log("permit req is", permitData, "and approve is ", approveData);
-  // console.log("====================================");
+  console.log("====================================");
+  console.log("permit req is", permitData, "and approve is ", approveData);
+  console.log("====================================");
 
   const [isData, setIsData] = useState(false);
 
@@ -320,35 +324,17 @@ const DeviceControl = () => {
   }
 
   client.on("message", (topic, message) => {
-    // message is Buffer
-    // console.log(
-    //   "topic is ---- (",
-    //   topic,
-    //   ") and message is (",
-    //   message.toString(),
-    //   ")"
-    // );
-
-    // console.log(message.toString(), "..................");
-
     if (topic.startsWith("detpos/device/permit/") && /[1-8]$/.test(topic)) {
       const prefix = message.toString().substring(0, 2); // "01"
 
       const topicCount = payloadHistoryRef.current.filter(
         (t) => t === parseInt(prefix)
       ).length;
-      // if (topicCount < 2) {
-      //   setPayloadHistory((prevTopics) => [...prevTopics, parseInt(prefix)]);
-      // }
-      // if (topicCount < 2) {
-      // console.log(permitData.includes(parseInt(prefix)), "...ff............");
-
-      if (!permitData.includes(parseInt(prefix))) {
-        // Update state only if the prefix is not in permitData
+      if (topicCount < 2) {
         setPayloadHistory((prevTopics) => [...prevTopics, parseInt(prefix)]);
-        setPermitData((prevData) => [...prevData, parseInt(prefix)]);
       }
-      // }
+      // updatePermitData(prefix);
+
       setNoMorePermit("hhh");
     }
 
@@ -392,10 +378,10 @@ const DeviceControl = () => {
       }
     }
 
-    console.log(
-      approveData,
-      "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-    );
+    // console.log(
+    //   approveData,
+    //   "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    // );
 
     // console.log(message.toString())
 
@@ -419,6 +405,9 @@ const DeviceControl = () => {
       setPermitData((prevData) =>
         prevData.filter((item) => item !== parseInt(prefix))
       );
+      setApproveData((prevData) =>
+        prevData.filter((item) => item !== parseInt(prefix))
+      );
 
       setNoMorePermit(prefix);
     }
@@ -427,6 +416,12 @@ const DeviceControl = () => {
       let data = message.toString().split(regex);
       setFinalData(data[0]);
       setReFresh(!reFresh);
+      // setApproveData((prevData) =>
+      //   prevData.filter((item) => item !== parseInt(prefix))
+      // );
+      // setPer((prevData) =>
+      //   prevData.filter((item) => item !== parseInt(prefix))
+      // );
     }
 
     // if (topic.startsWith("detpos/device/livedata/") && /[1-8]$/.test(topic)) {

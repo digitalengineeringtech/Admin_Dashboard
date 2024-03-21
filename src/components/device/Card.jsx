@@ -733,7 +733,7 @@ const Card = ({
               ? "card3"
               : nozzleActive
               ? "card4"
-              : !permitReq
+              : approve
               ? "card5"
               : "card2"
             : "card"

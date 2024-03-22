@@ -47,7 +47,7 @@ const FuelIn = () => {
   const [number, setNumber] = useState();
   const tableRef = useRef(null);
   console.log(fuelType?._id, receive, "hlelllllllllllllllllllllllllllll");
-
+  console.log(data_g_2);
   let start = new Date();
   const [token, setToken] = useState("none");
   const [sDate, setSDate] = useState(start);

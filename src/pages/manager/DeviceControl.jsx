@@ -15,7 +15,7 @@ import { useReactToPrint } from "react-to-print";
 import Re from "../../services/Re";
 import { FaPrint } from "react-icons/fa6";
 import ErrorAlert from "../../components/alert/ErrorAlert";
-
+import logo from "../../../public/static/images/ks.png";
 const DeviceControl = () => {
   let start = new Date();
   start.setHours(0);
@@ -514,10 +514,10 @@ const DeviceControl = () => {
         <div className="w-[50%] hidden">
           {/* <PrinterT ref={componentRef} pData={pData} /> */}
           <div ref={componentRef}>
-            <div style={{ fontSize: "0.8rem", textAlign: "center" }}>
-              {/* <div className="flex justify-center">
+            <div style={{ fontSize: "0.5rem", textAlign: "center" }}>
+              <div className="flex justify-center">
                 <img
-                  src="../../../public/static/images/images.png"
+                  src={logo}
                   style={{
                     width: "25vw",
                     height: "70px",
@@ -525,11 +525,11 @@ const DeviceControl = () => {
                     marginBottom: "5px",
                   }}
                 />
-              </div> */}
+              </div>
 
               <table
                 style={{
-                  fontSize: "0.7rem",
+                  fontSize: "0.5rem",
                 }}
               >
                 {/* <tr>
@@ -575,7 +575,7 @@ const DeviceControl = () => {
             <div style={{ marginTop: "-5px" }}>
               <table
                 style={{
-                  fontSize: "0.6rem",
+                  fontSize: "0.5rem",
                   width: "100%",
                   borderCollapse: "collapse",
                 }}
@@ -622,7 +622,7 @@ const DeviceControl = () => {
             </div>
             <div
               style={{
-                fontSize: "0.7rem",
+                fontSize: "0.5rem",
                 textAlign: "center",
                 marginTop: "-18px",
               }}

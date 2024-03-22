@@ -58,7 +58,11 @@ const DeviceControl = () => {
   const [finalData, setFinalData] = useState(0);
   const [nozzle1PermitRecord, setNozzle1PermitRecord] = useState(0);
   const [disableButton, setDisableButton] = useState(false);
+  const [url, setUrl] = useState(localStorage.getItem("img"));
 
+  useEffect(() => {
+    setUrl(localStorage.getItem("img"));
+  }, []);
   const checkLiveRef = useRef({
     nozzle: "",
   });
@@ -517,7 +521,7 @@ const DeviceControl = () => {
             <div style={{ fontSize: "0.5rem", textAlign: "center" }}>
               <div className="flex justify-center">
                 <img
-                  src={logo}
+                  src={url}
                   style={{
                     width: "25vw",
                     height: "70px",

@@ -29,6 +29,8 @@ import TextInput from "../inputbox/TextInput";
 import ErrorAlert from "../alert/ErrorAlert";
 import Alert from "../alert/Alert";
 import Re from "../../services/Re";
+import { Uploader } from "uploader"; // Installed by "react-uploader".
+import { UploadButton } from "react-uploader";
 
 const Sidebar = () => {
   const navigate = useNavigate();
@@ -36,6 +38,26 @@ const Sidebar = () => {
   const [phone1, setPhone1] = useState();
   const [phone2, setPhone2] = useState();
   const [location, setLocation] = useState();
+  const [url, setUrl] = useState();
+  const [fresh, setFresh] = useState(false);
+  const uploader = Uploader({
+    apiKey: "free", // Get production API keys from Bytescale
+  });
+  const options = { multi: true };
+
+  // function getImageFileObject(imageFile) {
+  //   console.log(imageFile.dataUrl, "....................................");
+  //   imageFile.dataUrl && localStorage.setItem("img", imageFile.dataUrl);
+  //   setFresh(!fresh);
+  // }
+
+  // function runAfterImageDelete(file) {
+  //   console.log({ file });
+  // }
+
+  useEffect(() => {
+    setUrl(localStorage.getItem("img"));
+  }, [fresh]);
 
   const [isInstalling, setIsInstalling] = useState();
   const { isAuth, setIsAuth } = useContext(AuthContext);
@@ -123,7 +145,6 @@ const Sidebar = () => {
       setPhone1(""),
       setPhone2(""),
       close();
-
     // setState(!state);
   };
   useEffect(() => {
@@ -169,6 +190,7 @@ const Sidebar = () => {
             Manager{" "}
           </div>
         </motion.div>
+
         <motion.div
           animate={state ? "open" : "close"}
           variants={pfp2}
@@ -240,11 +262,11 @@ const Sidebar = () => {
       <Modal
         opened={opened}
         radius={20}
-        size={1000}
+        size={700}
         centered
         withCloseButton={false}
       >
-        <div className="flex border-b mb-4 border-gray-300 pb-3 items-end">
+        <div className="flex  border-b mb-4 border-gray-300 pb-3 items-end">
           <div className="text-2xl ms-4 select-none text-text font-semibold font-sans">
             Station Information
           </div>
@@ -258,7 +280,35 @@ const Sidebar = () => {
           </div>
         </div>
         <div className=" px-4">
-          <div className="flex justify-between">
+          <div className="flex mb-4 justify-between">
+            <div className="flex justify-center items-center w-full gap-6 me-9">
+              <div className="bg-input border border-detail text-detail rounded-md h-[100px] flex items-center justify-center w-[150px]">
+                <UploadButton
+                  uploader={uploader}
+                  options={options}
+                  onComplete={(files) => {
+                    localStorage.setItem(
+                      "img",
+                      files.map((x) => x.fileUrl).join("\n")
+                    ),
+                      setUrl(files.map((x) => x.fileUrl).join("\n"));
+                  }}
+                >
+                  {({ onClick }) => (
+                    <button onClick={onClick}>Upload a file...</button>
+                  )}
+                </UploadButton>
+              </div>
+
+              {url ? (
+                <img src={url} alt="" className="w-[100px] h-[100px]" />
+              ) : (
+                <div className="w-[100px] flex items-center justify-center h-[100px] text-gray-400 border-2 border-gray-300 rounded-lg ">
+                  Empty
+                </div>
+              )}
+            </div>
+
             <div className="">
               <div className="text-xl mb-3 ms-2 font-semibold text-gray-600">
                 {" "}
@@ -272,6 +322,8 @@ const Sidebar = () => {
                 onChange={(e) => setLocation(e.target.value)}
               />
             </div>
+          </div>
+          <div className="flex justify-between">
             <div className="">
               <div className="text-xl mb-3 ms-2 font-semibold text-gray-600">
                 {" "}
@@ -299,26 +351,30 @@ const Sidebar = () => {
               />
             </div>
           </div>
-          <button
-            // onClick={() =>
-            //   Alert(
-            //     "Are you sure ?",
-            //     handleClick(),
-            //     setRe(!re),
-            //     setLocation(""),
-            //     setPhone1(""),
-            //     setPhone2("")
-            //   )
-            // }
-            onClick={
-              location !== "" && phone1 !== "" && phone2 !== ""
-                ? Alert("Are you sure ?", handleClick)
-                : () => ErrorAlert("Some Fields are Empty")
-            }
-            className={`w-[300px] ml-auto mt-4  text-secondary  items-center justify-center gap-3 flex  font-mono text-xl active:scale-95 duration-100 bg-[#38b59e] h-[56px] rounded-md`}
-          >
-            Update
-          </button>
+          <div className=" flex items-center justify-between">
+            <button
+              // onClick={() =>
+              //   Alert(
+              //     "Are you sure ?",
+              //     handleClick(),
+              //     setRe(!re),
+              //     setLocation(""),
+              //     setPhone1(""),
+              //     setPhone2("")
+              //   )
+              // }
+              onClick={
+                location !== undefined &&
+                phone1 !== undefined &&
+                phone2 !== undefined
+                  ? Alert("Are you sure ?", handleClick)
+                  : () => ErrorAlert("Some Fields are Empty")
+              }
+              className={`w-[300px] ml-auto mt-6  text-secondary  items-center justify-center gap-3 flex  font-mono text-xl active:scale-95 duration-100 bg-[#38b59e] h-[56px] rounded-md`}
+            >
+              Update
+            </button>
+          </div>
         </div>
       </Modal>
     </>

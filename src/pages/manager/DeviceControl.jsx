@@ -150,9 +150,9 @@ const DeviceControl = () => {
       if (infoData) {
         const content = componentRef.current.innerHTML;
         const printWindow = window.open("", "_blank");
-        printWindow.document.write(content);
-        printWindow.document.close();
-        printWindow.print();
+        printWindow?.document.write(content);
+        printWindow?.document.close();
+        printWindow?.print();
         printWindow.close();
       } else {
         ErrorAlert("Some Station Info are Empty");
@@ -515,10 +515,10 @@ const DeviceControl = () => {
             />
           ))}
         </div>
-        <div className="w-[50%] hidden">
+        <div className="w-[30%] ">
           {/* <PrinterT ref={componentRef} pData={pData} /> */}
           <div ref={componentRef}>
-            <div style={{ fontSize: "0.5rem", textAlign: "center" }}>
+            <div style={{ fontSize: "0.8rem", textAlign: "center" }}>
               <div className="flex justify-center">
                 <img
                   src={url}
@@ -533,7 +533,7 @@ const DeviceControl = () => {
 
               <table
                 style={{
-                  fontSize: "0.5rem",
+                  fontSize: "0.8rem",
                 }}
               >
                 {/* <tr>
@@ -566,7 +566,7 @@ const DeviceControl = () => {
                 <tr>
                   <td style={{ fontWeight: "bold" }}>F.S Ph</td>
                   <td style={{ fontWeight: "" }}>
-                    {infoData?.phone1 ? infoData?.phone1 : "..."}
+                    {infoData?.phone1 ? infoData?.phone1 : "..."} /
                     {infoData?.phone2 ? infoData?.phone2 : "..."}
                   </td>
                   {/* <td>
@@ -579,7 +579,7 @@ const DeviceControl = () => {
             <div style={{ marginTop: "-5px" }}>
               <table
                 style={{
-                  fontSize: "0.5rem",
+                  fontSize: "0.8rem",
                   width: "100%",
                   borderCollapse: "collapse",
                 }}
@@ -601,7 +601,13 @@ const DeviceControl = () => {
                     {pData?.salePrice?.toFixed(2)} x{" "}
                     {pData?.saleLiter?.toFixed(2)}
                   </td>
-                  <td>MMK</td>
+                  <td
+                    style={{
+                      fontSize: "0.7rem",
+                    }}
+                  >
+                    MMK
+                  </td>
                   <td style={{ textAlign: "end" }}>
                     {pData?.totalPrice?.toFixed(2)}
                   </td>
@@ -617,7 +623,13 @@ const DeviceControl = () => {
                   >
                     Total (Inclusive Tax)
                   </td>
-                  <td>MMK</td>
+                  <td
+                    style={{
+                      fontSize: "0.7rem",
+                    }}
+                  >
+                    MMK
+                  </td>
                   <td style={{ textAlign: "end", fontWeight: "bold" }}>
                     {pData?.totalPrice?.toFixed(2)}
                   </td>
@@ -626,7 +638,7 @@ const DeviceControl = () => {
             </div>
             <div
               style={{
-                fontSize: "0.5rem",
+                fontSize: "0.8rem",
                 textAlign: "center",
                 marginTop: "-18px",
               }}

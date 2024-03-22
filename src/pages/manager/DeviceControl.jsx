@@ -641,6 +641,7 @@ const DeviceControl = () => {
                 fontSize: "0.8rem",
                 textAlign: "center",
                 marginTop: "-18px",
+                paddingBottom: "30px",
               }}
             >
               <h4>Thank you. Please come again.</h4>

@@ -18,7 +18,7 @@ const RealTimeForms = ({
   const customers = [
     {
       cou_name: "Individual Customer",
-      cou_id: "12345",
+      cou_id: "0000",
     },
   ];
 

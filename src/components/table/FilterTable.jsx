@@ -13,7 +13,7 @@ const FilterTable = ({ header, label, rows, tableRef }) => {
         <Table
           ref={tableRef}
           verticalSpacing="md"
-          striped
+          // striped
           withTableBorder
           highlightOnHover
           withColumnBorders

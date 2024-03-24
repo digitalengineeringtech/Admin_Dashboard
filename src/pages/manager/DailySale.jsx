@@ -124,7 +124,7 @@ const DailySale = () => {
       key={element.no}
       style={
         element.asyncAlready == "2" && {
-          backgroundColor: "#69efa140",
+          backgroundColor: "#06B6D420",
         }
       }
       className=" duration-150 text-sm text-center"

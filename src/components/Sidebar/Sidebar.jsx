@@ -31,6 +31,7 @@ import Alert from "../alert/Alert";
 import Re from "../../services/Re";
 import { Uploader } from "uploader"; // Installed by "react-uploader".
 import { UploadButton } from "react-uploader";
+import { LuMonitorUp } from "react-icons/lu";
 
 const Sidebar = () => {
   const navigate = useNavigate();
@@ -152,6 +153,11 @@ const Sidebar = () => {
     setData(dd);
   }, [re]);
 
+  const handleUpdate = () => {
+    setState(false);
+    console.log("wkwkwk");
+  };
+
   return (
     <>
       <motion.div
@@ -213,6 +219,16 @@ const Sidebar = () => {
                 </div>
               </NavLink>
             ))}
+            {isInstalling && (
+              <NavLink
+                onClick={ConAlert("Sure to Update ?", handleUpdate)}
+                // onClick={() => setState(false)}
+                className="py-4  scroll_bar_left flex gap-3 duration-150 items-center text-gray-600 px-4 group rounded-md hover:bg-secondary"
+              >
+                <LuMonitorUp className="text-2xl " />
+                Software Update
+              </NavLink>
+            )}
           </div>
         </motion.div>
         <motion.div

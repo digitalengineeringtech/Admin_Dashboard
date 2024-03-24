@@ -23,6 +23,7 @@
     "i18next": "^23.8.2",
     "i18next-browser-languagedetector": "^7.2.0",
     "i18next-http-backend": "^2.4.3",
+    "jsonwebtoken": "^9.0.2",
     "lodash.debounce": "^4.0.8",
     "mqtt": "^5.3.6",
     "primereact": "^10.5.0",

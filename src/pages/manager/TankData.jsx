@@ -9,7 +9,6 @@ import tank from "../../testBeforeApi/data/tank";
 import Footer from "../../components/footer/Footer";
 import fuelData from "../installer/drop_data/manager/managerFuel";
 import useTokenStorage from "../../utils/useDecrypt";
-import "./test.css";
 const TankData = () => {
   let start = new Date();
   start.setHours(0);

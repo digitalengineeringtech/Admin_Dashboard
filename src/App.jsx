@@ -27,6 +27,8 @@ import AuthContext from "./services/AuthContext";
 import Re from "./services/Re";
 import DeviceControl from "./pages/manager/DeviceControl";
 import LoadContext from "./services/LoadContext";
+import DevicesSetup2 from "./pages/installer/DeviceSetup2";
+import DeviceNest from "./pages/installer/DeviceNest";
 
 const App = () => {
   const [isInstalling, setIsInstalling] = useState(false);
@@ -133,9 +135,23 @@ const App = () => {
       path: "/",
       element: auth ? <Layout /> : <Navigate to="/login" />,
       children: [
+        // {
+        //   index: true,
+        //   element: <Device />,
+        // },
         {
-          index: true,
+          path: "/",
           element: <Device />,
+          children: [
+            {
+              index: true,
+              element: <DeviceNest />,
+            },
+            {
+              path: "/sec-setup",
+              element: <DevicesSetup2 />,
+            },
+          ],
         },
         {
           path: "/cashier",

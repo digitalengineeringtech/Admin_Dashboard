@@ -40,7 +40,8 @@ const FuelIn = () => {
   const [date, setDate] = useState(null);
   const [receive, setReceive] = useState();
   const navigate = useNavigate();
-  const [{ data_g_3, loading_g_3, error_g_3 }, fetchItGet3] = UseGet3();
+  const [{ data_g_3, loading_g_3, error_g_3, pagi_g_3 }, fetchItGet3] =
+    UseGet3();
   const [{ data_g_2, loading_g_2, error_g_2 }, fetchItGet2] = UseGet2();
   const [{ data, loading, error }, fetchIt] = UsePost();
   const [driverName, setDriverName] = useState();
@@ -59,6 +60,14 @@ const FuelIn = () => {
       setToken(token);
     }
   }, []);
+
+  const onPageChange = (event) => {
+    fetchItGet3(`/fuelIn/pagi/${event}`, token);
+  };
+
+  const recordsPerPage = 50;
+  const totalPages = Math.ceil(pagi_g_3 / recordsPerPage);
+
   const formattedDate = sDate.toISOString().split("T")[0];
 
   // const route = `/balance-statement/?reqDate=2024-03-11`;
@@ -163,7 +172,7 @@ const FuelIn = () => {
 
   useEffect(() => {
     // setStock(data_g_3); normal
-    setStock(data_g_3);
+    setStock(data_g_3.reverse().slice(0, 10));
   }, [data_g_3, data]);
 
   const handlePrint = useReactToPrint({
@@ -268,8 +277,8 @@ const FuelIn = () => {
       <Footer
         print={handlePrint}
         onClick={handleDownloadExcel}
-        totalPages="0"
-        // onPageChange={onPageChange}
+        totalPages={totalPages}
+        onPageChange={onPageChange}
         pagi="true"
       />
     </div>

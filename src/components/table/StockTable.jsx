@@ -2,7 +2,7 @@ import React from "react";
 import { Table } from "@mantine/core";
 import Footer from "../footer/Footer";
 
-const StockTable = ({ header, visible = true, tableRef, label, rows }) => {
+const StockTable = ({ header, visible = true, tableRef,handlePrint, handleDownloadExcel, label, rows }) => {
   return (
     <div className="">
       <div className="flex justify-between items-center">
@@ -11,8 +11,8 @@ const StockTable = ({ header, visible = true, tableRef, label, rows }) => {
         {visible && (
           <h3 className="text-text ms-3 my-[-20px] mb-[-7px] text-xl flex">
             <Footer
-              // print={handlePrint}
-              // onClick={handleDownloadExcel}
+              print={handlePrint}
+              onClick={handleDownloadExcel}
               totalPages="0"
               // onPageChange={onPageChange}
               pagi="true"

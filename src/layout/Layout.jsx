@@ -68,6 +68,12 @@ const Layout = () => {
       case "/price_chg":
         setState("Price Change");
         break;
+      case "/sale_ledger":
+        setState("Sale Ledger");
+        break;
+      case "/total_dif":
+        setState("Totalizer Difference");
+        break;
     }
   }, [path]);
 

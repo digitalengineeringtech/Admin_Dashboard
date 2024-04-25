@@ -14,6 +14,8 @@ import Swal from "sweetalert2";
 import UsePost from "../../api/hooks/UsePost";
 import UseGet3 from "../../api/hooks/UseGet3";
 import FuelInDrop from "../FuelInDrop";
+import { useDownloadExcel } from "react-export-table-to-excel";
+import { useReactToPrint } from "react-to-print";
 
 const Stock = () => {
   const [token, setToken] = useState("none");
@@ -26,6 +28,28 @@ const Stock = () => {
   }, []);
 
   const [{ data_g, loading_g, error_g }, fetchItGet] = UseGet();
+
+  const tableRef = useRef(null);
+  const meterBalance = useDownloadExcel({
+    currentTableRef: tableRef.current,
+    filename: "Meter Balance",
+    sheet: "Meter Balance",
+  });
+
+  const handlePrint = useReactToPrint({
+    content: () => tableRef.current,
+  });
+
+  const tableRef1 = useRef(null);
+  const stockBalance = useDownloadExcel({
+    currentTableRef: tableRef1.current,
+    filename: "OfficeUse ",
+    sheet: "OfficeUse ",
+  });
+
+  const handlePrint1 = useReactToPrint({
+    content: () => tableRef1.current,
+  });
 
   const [
     totalPTest,
@@ -43,8 +67,6 @@ const Stock = () => {
   const [fuelId, setFuelId] = useState();
 
   const [adjust, setAdjust] = useState();
-  const tableRef = useRef(null);
-  const tableRef1 = useRef(null);
 
   useEffect(() => {
     if (data.con == true) {
@@ -196,6 +218,8 @@ const Stock = () => {
         </div>
         <div className="w-[60%] ">
           <StockTable
+            handleDownloadExcel={meterBalance.onDownload}
+            handlePrint={handlePrint}
             tableRef={tableRef}
             header={meterHeader}
             rows={meterRow}
@@ -257,7 +281,9 @@ const Stock = () => {
       </div>
       <div className="my-8 ">
         <StockTable
+          handleDownloadExcel={stockBalance.onDownload}
           tableRef={tableRef1}
+          handlePrint={handlePrint1}
           label="Stock Balance"
           rows={stockRow}
           header={stockHeader}

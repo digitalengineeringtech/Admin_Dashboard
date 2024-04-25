@@ -29,6 +29,8 @@ import DeviceControl from "./pages/manager/DeviceControl";
 import LoadContext from "./services/LoadContext";
 import DevicesSetup2 from "./pages/installer/DeviceSetup2";
 import DeviceNest from "./pages/installer/DeviceNest";
+import SaleLedger from "./pages/manager/SaleLedger";
+import TotalDif from "./pages/manager/TotalDif";
 
 const App = () => {
   const [isInstalling, setIsInstalling] = useState(false);
@@ -122,6 +124,14 @@ const App = () => {
           path: "/price_chg",
           element: <PriceChg />,
         },
+        {
+          path: "/total_dif",
+          element: <TotalDif />,
+        },
+        {
+          path: "/sale_ledger",
+          element: <SaleLedger />,
+        },
       ],
     },
   ]);
@@ -177,7 +187,7 @@ const App = () => {
     },
   ]);
 
-  console.log("hellolllllllllllllllllllllllllllllllll", reFresh);
+  // console.log("hellolllllllllllllllllllllllllllllllll", reFresh);
   return (
     <Re.Provider value={{ reFresh, setReFresh }}>
       <AuthContext.Provider value={{ isAuth, setIsAuth }}>

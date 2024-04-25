@@ -16,6 +16,7 @@ import Re from "../../services/Re";
 import { FaPrint } from "react-icons/fa6";
 import ErrorAlert from "../../components/alert/ErrorAlert";
 import logo from "../../../public/static/images/ks.png";
+
 const DeviceControl = () => {
   let start = new Date();
   start.setHours(0);

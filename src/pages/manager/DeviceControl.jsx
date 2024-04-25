@@ -16,6 +16,7 @@ import Re from "../../services/Re";
 import { FaPrint } from "react-icons/fa6";
 import ErrorAlert from "../../components/alert/ErrorAlert";
 import logo from "../../../public/static/images/ks.png";
+
 const DeviceControl = () => {
   let start = new Date();
   start.setHours(0);
@@ -29,6 +30,7 @@ const DeviceControl = () => {
 
   const { loading, setLoading } = useContext(LoadContext);
   const client = mqtt.connect("ws://detpos:asdffdsa@192.168.0.100:9001");
+  const { refresh, setRefresh } = useContext(Re);
 
   const [token, setToken] = useState("none");
 

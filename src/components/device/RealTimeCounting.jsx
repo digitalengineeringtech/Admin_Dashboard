@@ -7,6 +7,7 @@ import SelectDrop2 from "../SelectDrop";
 import SelectDrop3 from "./SelectDrop2";
 import SearchButton from "./SearchButton";
 import RealTime from "./RealTime";
+import Re from "../../services/Re";
 
 const RealTimeCounting = ({
   handleErrorCon,
@@ -26,7 +27,7 @@ const RealTimeCounting = ({
   const customers = [
     {
       cou_name: "Individual Customer",
-      cou_id: "12345",
+      cou_id: "0000",
     },
   ];
 

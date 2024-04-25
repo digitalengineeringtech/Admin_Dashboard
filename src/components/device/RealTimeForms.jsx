@@ -3,11 +3,13 @@ import TextInput from "./TextInput";
 import { LanguagePicker } from "../Navbar/LanguagePicker";
 import { Choose } from "./Choose";
 import SelectDrop from "./SelectDrop";
+import SelectDropt from "../../pages/installer/SelectDrop";
 import SelectDrop2 from "../SelectDrop";
 import SearchButton from "./SearchButton";
 const RealTimeForms = ({
   handlePermit,
   close,
+  disable,
   setPremitFormInfo,
   permitState,
   chooseOne,
@@ -16,7 +18,7 @@ const RealTimeForms = ({
   const customers = [
     {
       cou_name: "Individual Customer",
-      cou_id: "12345",
+      cou_id: "0000",
     },
   ];
 
@@ -146,7 +148,7 @@ const RealTimeForms = ({
           />
         </div>
         <div className="col-span-4">
-          <SelectDrop2
+          <SelectDropt
             placeholder="All"
             label="Purpose of Use"
             data={categories}
@@ -155,7 +157,12 @@ const RealTimeForms = ({
           />
         </div>
         <div className="col-span-4 mt-auto">
-          <SearchButton icon="" title="Permit" onClick={handlePermit} />
+          <SearchButton
+            icon=""
+            disable={disable}
+            title="Permit"
+            onClick={handlePermit}
+          />
         </div>
       </div>
     </div>

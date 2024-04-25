@@ -11,10 +11,13 @@ import { ImCross } from "react-icons/im";
 import { localInstance } from "../../api/axios";
 import useTokenStorage from "../../utils/useDecrypt";
 import LoadContext from "../../services/LoadContext";
+import Re from "../../services/Re";
 
 const Card = ({
   Client,
   dis,
+  disableButton,
+  setDisableButton,
   permitReq,
   num,
   onClick,
@@ -38,7 +41,7 @@ const Card = ({
   liveDespenserHistory,
 }) => {
   const { loading, setLoading } = useContext(LoadContext);
-
+  const { reFresh, setReFresh } = useContext(Re);
   const [isPermit, setIsPermit] = useState(false);
   const [isErrorCon, setIsErrorCon] = useState(false);
   const [premitFormInfo, setPremitFormInfo] = useState();
@@ -86,7 +89,7 @@ const Card = ({
   const [price, setPrice] = useState(0);
   const [liter, setLiter] = useState(0);
   const checkLiveRef = useRef({
-    nozzle: "",
+    nozzleNo: "",
   });
 
   const regex = /[A-Z]/g;
@@ -119,13 +122,13 @@ const Card = ({
       if (parseInt(data[0]) === parseInt(obj.nozzle_no)) {
         setLiter(parseFloat(data[1])); // assuming liter is a numeric value
         setPrice(parseFloat(data[2])); // assuming price is a numeric value
-        console.log("llllll");
+        // console.log("llllll");
       }
-      console.log(price, liter);
-      console.log(
-        nozzle1FuelDetailRef.current,
-        "----------------------------------------"
-      );
+      // console.log(price, liter);
+      // console.log(
+      //   nozzle1FuelDetailRef.current,
+      //   "----------------------------------------"
+      // );
     }
     if (topic.startsWith("detpos/device/Final/") && /[1-8]$/.test(topic)) {
       close();
@@ -147,7 +150,7 @@ const Card = ({
             setNopermit(false);
           }
         }
-        // checkLiveRef.current.nozzleNo = 0;
+        checkLiveRef.current.nozzleNo = 0;
       }
     }, 200); // Update the values every second
 
@@ -195,13 +198,13 @@ const Card = ({
   const handleCardClick = () => {
     open();
   };
-  console.log(finalData, "and final is", final, "and all done is ", allDone);
+  // console.log(finalData, "and final is", final, "and all done is ", allDone);
 
   // console.log(printFormInfo, "......................");
   // console.log(token);
   const handleReadyState = async () => {
-    if (!presetButtonDisable) {
-      setPresetButtonDisable(true);
+    if (!disableButton) {
+      setDisableButton(true);
     }
 
     if (premitFormInfo.type === "Liters") {
@@ -211,7 +214,7 @@ const Card = ({
         {
           nozzleNo: obj.nozzle_no,
           fuelType: obj.fuel_type,
-          liter: premitFormInfo.value,
+          liter: parseFloat(premitFormInfo.value).toFixed(2),
           carNo: !premitFormInfo.carNo == "" ? premitFormInfo.carNo : "-",
           vehicleType: premitFormInfo.vehicleType,
           cashType: premitFormInfo.cashType,
@@ -227,6 +230,8 @@ const Card = ({
       );
       setLoading(false);
       close();
+
+      console.log(permitObject, "jljljljljljljljljljljljljljljlj");
 
       if (permitObject.data?.con) {
         setPayloadHistory((prevTopics) => [
@@ -350,7 +355,7 @@ const Card = ({
     }
 
     setTimeout(() => {
-      setPresetButtonDisable(false);
+      setDisableButton(false);
     }, 3000);
   };
 
@@ -362,8 +367,8 @@ const Card = ({
       setChooseOne(true);
       return;
     } else {
-      if (!permitButtonDisable) {
-        setPermitButtonDisable(true);
+      if (!disableButton) {
+        setDisableButton(true);
       }
       setLoading(true);
       setChooseOne(false);
@@ -448,9 +453,9 @@ const Card = ({
 
       close();
 
-      //  setTimeout(() => {
-      //     setPermitButtonDisable(false);
-      //   }, 2000); // 2000 milliseconds (2 seconds)
+      setTimeout(() => {
+        setDisableButton(false);
+      }, 2000); // 2000 milliseconds (2 seconds)
     }
   };
 
@@ -518,8 +523,9 @@ const Card = ({
         }
       );
 
-      console.log(fetchIt);
-
+      // console.log(fetchIt);
+      // setReFresh(!reFresh);
+      close();
       // fetchIt();
     }
   };
@@ -527,13 +533,13 @@ const Card = ({
   // useEffect(() => {
   //   console.log(liveDespenserHistory);
   // },[liveDespenserHistory])
-  console.log(noMorePermit, "no more permit and obj.nozzle ", obj.nozzle_no);
+  // console.log(noMorePermit, "no more permit and obj.nozzle ", obj.nozzle_no);
   useEffect(() => {
     if (parseInt(noMorePermit) === parseInt(obj.nozzle_no)) {
       setNopermit(true);
       setVisible(false);
       setNozzleActive(false);
-      console.log("hlhlhhhhhhlhlhlhlhlhlhh");
+      // console.log("hlhlhhhhhhlhlhlhlhlhlhh");
 
       setPayloadHistory((prev) =>
         prev.filter((number) => number !== parseInt(obj.nozzle_no))
@@ -553,12 +559,12 @@ const Card = ({
       setNozzleActive(false);
       setPrice(0);
       setLiter(0);
-      console.log("wk................................................");
+      // console.log("wk................................................");
     }
   }, [finalData]);
 
-  console.log(allDone, "all done in permits");
-  console.log(nozzleActive, "active nozzle active?", obj.nozzle_no);
+  // console.log(allDone, "all done in permits");
+  // console.log(nozzleActive, "active nozzle active?", obj.nozzle_no);
   useEffect(() => {
     if (parseInt(allDone) == parseInt(obj.nozzle_no)) {
       setLiveData("");
@@ -599,7 +605,7 @@ const Card = ({
   //   }
   // }, [active]);
 
-  console.log(liter, price);
+  // console.log(liter, price);
 
   // useEffect(() => {
   //   const updateValues = () => {
@@ -703,15 +709,15 @@ const Card = ({
     open();
   };
 
-  console.log(premitFormInfo, "........................................");
-  console.log(
-    noMorePermit,
-    obj.nozzle_no,
-    // parseInt(noMorePermit) === parseInt(obj.nozzle_no),
-    nozzleActive,
-    ";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;",
-    obj.nozzle_no
-  );
+  // console.log(premitFormInfo, "........................................");
+  // console.log(
+  //   noMorePermit,
+  //   obj.nozzle_no,
+  //   // parseInt(noMorePermit) === parseInt(obj.nozzle_no),
+  //   nozzleActive,
+  //   ";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;",
+  //   obj.nozzle_no
+  // );
 
   const handleReadyPermit = () => {};
 
@@ -731,7 +737,7 @@ const Card = ({
               ? "card3"
               : nozzleActive
               ? "card4"
-              : !permitReq
+              : approve
               ? "card5"
               : "card2"
             : "card"
@@ -794,6 +800,8 @@ const Card = ({
         {readyState ? (
           <ReadyState
             obj={obj}
+            setDisableButton={setDisableButton}
+            disable={disableButton}
             setPremitFormInfo={setPremitFormInfo}
             setReadyStateObj={setReadyStateObj}
             selectedItem={readyState}
@@ -822,6 +830,8 @@ const Card = ({
           />
         ) : !isPermit ? (
           <RealTimeForms
+            setDisableButton={setDisableButton}
+            disable={disableButton}
             close={close}
             setPermitState={setPermitState}
             vocNumber={vocNumber}

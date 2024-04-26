@@ -753,13 +753,34 @@ const Card = ({
           //     ? "card5"
           //     : "card2"
           //   : "card"
-        } h-32 w-32 border-detail border cursor-pointer flex  flex-col items-center justify-center gap-1 rounded-3xl`}
+        } h-32 w-32 border-detail relative border cursor-pointer flex  flex-col items-center justify-center gap-1 rounded-3xl`}
       >
+        <div className="w-14 h-14 bg-white border border-detail rounded-xl justify-center flex items-center absolute -top-5 -right-5">
+          <img
+            src={`${
+              active
+                ? noPermit
+                  ? "../../../public/static/images/gas.png"
+                  : final
+                  ? "../../../public/static/images/check.png"
+                  : nozzleActive
+                  ? "../../../public/static/images/drop.png"
+                  : approve
+                  ? "../../../public/static/images/gas copy.png"
+                  : "../../../public/static/images/gas.png"
+                : "../../../public/static/images/gas.png"
+            }`}
+            alt=""
+            className={`p-[5px] ${
+              approve && !nozzleActive ? "rotate-[25deg]" : ""
+            }`}
+          />
+        </div>
         <div className="flex items-center w-full justify-center gap-3 ">
           <div className="border border-detail/50 box w-[30%] text-2xl font-sans text-detail leading-8 h-8 flex items-center justify-center rounded-xl">
             {dis}
           </div>
-          <div className="border border-detail/50 box w-[45%] text-2xl font-sans text-detail leading-8 h-8 flex items-center justify-center rounded-xl">
+          <div className="border z-20 border-detail/50 box w-[45%] text-2xl font-sans text-detail leading-8 h-8 flex items-center justify-center rounded-xl">
             {num}
           </div>
         </div>

@@ -474,7 +474,7 @@ const DeviceControl = () => {
     <>
       {loading && <LoaderCom />}
       <div className="flex items-start mt-[110px] h-full">
-        <div className="w-full flex gap-8 flex-wrap items-center justify-center">
+        <div className="w-full flex gap-5 flex-wrap items-center justify-center">
           {data_g?.map((obj, index) => (
             <Card
               disableButton={disableButton}

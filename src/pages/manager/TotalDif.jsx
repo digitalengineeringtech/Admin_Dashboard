@@ -225,14 +225,14 @@ const TotalDif = () => {
         <Table.Td>{element.nozzle_no || "-"}</Table.Td>
         <Table.Td>{element.fuel_type || "-"}</Table.Td>
         <Table.Td>
-          {(element.firstTotalizer - element.totalLiter).toFixed(3) || "-"}
+          {(element.firstTotalizer - element.totalLiter)?.toFixed(3) || "-"}
         </Table.Td>
-        <Table.Td>{element.lastTotalizer.toFixed(3) || "-"}</Table.Td>
+        <Table.Td>{element.lastTotalizer?.toFixed(3) || "-"}</Table.Td>
         <Table.Td>
           {(
-            element.lastTotalizer.toFixed(3) -
-            (element.firstTotalizer - element.totalLiter).toFixed(3)
-          ).toFixed(3) || "-"}
+            element.lastTotalizer?.toFixed(3) -
+            (element.firstTotalizer - element.totalLiter)?.toFixed(3)
+          )?.toFixed(3) || "-"}
         </Table.Td>
         <Table.Td>{element.totalLiter.toFixed(2) || "-"}</Table.Td>
         <Table.Td>
@@ -266,7 +266,7 @@ const TotalDif = () => {
             element.nozzle_no || "-",
             element.fuel_type || "-",
             element.daily_price || "-",
-            totalLiter.toFixed(3) || "-",
+            totalLiter?.toFixed(3) || "-",
             (element.daily_price * totalLiter).toLocaleString(undefined, {
               maximumFractionDigits: 3,
             }) || "-",

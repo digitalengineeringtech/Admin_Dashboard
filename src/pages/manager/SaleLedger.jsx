@@ -22,6 +22,8 @@ import FuelInDrop from "../../components/FuelInDrop";
 import TextInput from "../../components/inputbox/TextInput";
 import ConAlert from "../../components/alert/ConAlert";
 import Swal from "sweetalert2";
+import { useDownloadExcel } from "react-export-table-to-excel";
+import { useReactToPrint } from "react-to-print";
 
 const SaleLedger = () => {
   const [{ data_g, loading_g, error_g }, fetchItGet] = UseGet();
@@ -221,7 +223,26 @@ const SaleLedger = () => {
 
   const [adjust, setAdjust] = useState();
   const tableRef = useRef(null);
+  const meterBalance = useDownloadExcel({
+    currentTableRef: tableRef.current,
+    filename: "Meter Balance",
+    sheet: "Meter Balance",
+  });
+
+  const handlePrint = useReactToPrint({
+    content: () => tableRef.current,
+  });
+
   const tableRef1 = useRef(null);
+  const stockBalance = useDownloadExcel({
+    currentTableRef: tableRef1.current,
+    filename: "OfficeUse ",
+    sheet: "OfficeUse ",
+  });
+
+  const handlePrint1 = useReactToPrint({
+    content: () => tableRef1.current,
+  });
 
   useEffect(() => {
     if (data.con == true) {
@@ -407,6 +428,8 @@ const SaleLedger = () => {
               </div>
               <div className="w-[60%] ">
                 <StockTable
+                  handleDownloadExcel={meterBalance.onDownload}
+                  handlePrint={handlePrint}
                   tableRef={tableRef}
                   header={meterHeader}
                   rows={meterRow}
@@ -468,7 +491,9 @@ const SaleLedger = () => {
             </div>
             <div className="my-8 ">
               <StockTable
+                handleDownloadExcel={stockBalance.onDownload}
                 tableRef={tableRef1}
+                handlePrint={handlePrint1}
                 label="Stock Balance"
                 rows={stockRow}
                 header={stockHeader}

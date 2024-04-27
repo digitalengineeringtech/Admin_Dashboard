@@ -753,16 +753,17 @@ const Card = ({
                     : final
                     ? "../../../public/static/images/check.png"
                     : nozzleActive
-                    ? "../../../public/static/images/drop.png"
-                    : approve
                     ? "../../../public/static/images/gas copy.png"
+                    : approve
+                    ? "../../../public/static/images/gas copy 3.png"
                     : "../../../public/static/images/gas copy 2.png"
                   : "../../../public/static/images/gas.png"
               }`}
               alt=""
-              className={`p-[5px] ${
-                approve && !nozzleActive ? "rotate-[25deg]" : ""
-              }`}
+              className={`p-[5px]`}
+              // className={`p-[5px] ${
+              //   approve && !nozzleActive ? "rotate-[25deg]" : ""
+              // }`}
             />
           </div>
           <div className="flex mx-auto gap-2 items-center justify-center flex-col">

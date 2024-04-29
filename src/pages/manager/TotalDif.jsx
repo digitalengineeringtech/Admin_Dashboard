@@ -230,10 +230,12 @@ const TotalDif = () => {
         </Table.Td>
         <Table.Td>{element.lastTotalizer?.toFixed(3) || "-"}</Table.Td>
         <Table.Td>
-          {Number((
-            element.lastTotalizer?.toFixed(3) -
-            (element.firstTotalizer - element.totalLiter)?.toFixed(3)
-          )?.toFixed(3)) || "-"}
+          {Number(
+            (
+              element.lastTotalizer?.toFixed(3) -
+              (element.firstTotalizer - element.firstsale)?.toFixed(3)
+            )?.toFixed(3)
+          ) || "-"}
         </Table.Td>
         <Table.Td>{element.totalLiter.toFixed(2) || "-"}</Table.Td>
         <Table.Td>

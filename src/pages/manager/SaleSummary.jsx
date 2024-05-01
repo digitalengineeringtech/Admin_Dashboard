@@ -20,6 +20,10 @@ const SaleSummary = () => {
   start.setHours(0);
   start.setMinutes(0);
 
+  let end = new Date();
+  end.setHours(23);
+  end.setMinutes(59);
+
   // let end = new Date();
   // end.setHours(23);
   // end.setMinutes(0);
@@ -53,6 +57,7 @@ const SaleSummary = () => {
   }, []);
 
   const [sDate, setSDate] = useState(start);
+  const [eDate, setEDate] = useState(end);
   const next = new Date(sDate);
   next.setDate(sDate.getDate() + 1);
   // start = new Date(start);
@@ -78,7 +83,8 @@ const SaleSummary = () => {
   useEffect(() => {
     // fetchItGet(`/detail-sale/by-date/?sDate=${sDate}`, token);
     fetchItGet2(`/detail-sale/total_statement?reqDate=${formattedDate}`, token);
-    fetchItGet(`/detail-sale/by-date/?sDate=${sDate}&eDate=${next}`, token);
+    // fetchItGet(`/detail-sale/by-date/?sDate=${sDate}&eDate=${next}`, token);
+    fetchItGet(`/detail-sale/by-date/?sDate=${sDate}&eDate=${eDate}`, token);
 
     fetchItGet3(`/device`, token);
   }, [con]);
@@ -181,7 +187,8 @@ const SaleSummary = () => {
   const handleClick = () => {
     // fetchItGet(`/detail-sale/by-date/?sDate=${sDate}`, token);
     fetchItGet2(`detail-sale/total_statement?reqDate=${formattedDate}`, token);
-    fetchItGet(`/detail-sale/by-date/?sDate=${sDate}&eDate=${next}`, token);
+    // fetchItGet(`/detail-sale/by-date/?sDate=${sDate}&eDate=${next}`, token);
+    fetchItGet(`/detail-sale/by-date/?sDate=${sDate}&eDate=${eDate}`, token);
 
     fetchItGet3(`/device`, token);
   };
@@ -198,8 +205,8 @@ const SaleSummary = () => {
     let totalPrice = 0;
 
     // fetchfrom detailsale statement
-    data_g_2?.map((obj) => {
-      // data_g?.map((obj) => {
+    // data_g_2?.map((obj) => {
+    data_g?.map((obj) => {
       if (obj.fuelType === "001-Octane Ron(92)") {
         ninety2 += obj.saleLiter;
       }
@@ -320,7 +327,8 @@ const SaleSummary = () => {
   return (
     <div className="w-full pt-28">
       <div className="flex  flex-wrap gap-4 gap-x-10  justify-between">
-        <CalendarPick date={sDate} setDate={setSDate} label="Date" />
+        <CalendarPick date={sDate} setDate={setSDate} label="Start Date" />
+        <CalendarPick date={eDate} setDate={setEDate} label="End Date" />
         {/* <div className="">
           <CalendarPick date={eDate} setDate={setEDate} label="End Date" />
         </div> */}

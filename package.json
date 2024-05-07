@@ -25,7 +25,6 @@
     "i18next-http-backend": "^2.4.3",
     "jsonwebtoken": "^9.0.2",
     "lodash.debounce": "^4.0.8",
-    "mqtt": "^5.3.6",
     "primereact": "^10.5.0",
     "react": "^18.2.0",
     "react-chartjs-2": "^5.2.0",

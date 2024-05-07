@@ -528,7 +528,7 @@ const DeviceControl = () => {
                 <img
                   src={url}
                   style={{
-                    width: "25vw",
+                    // width: "25vw",
                     height: "70px",
                     width: "70px",
                     marginBottom: "5px",

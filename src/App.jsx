@@ -40,14 +40,14 @@ const App = () => {
 
   const [auth, setAuth] = useState(true);
 
-  useEffect(() => {
-    let token = localStorage.getItem("encryptedToken");
-    if (token) {
-      setAuth(true);
-    } else {
-      setAuth(false);
-    }
-  }, [isAuth]);
+  // useEffect(() => {
+  //   let token = localStorage.getItem("encryptedToken");
+  //   if (token) {
+  //     setAuth(true);
+  //   } else {
+  //     setAuth(false);
+  //   }
+  // }, [isAuth]);
 
   useEffect(() => {
     const check = JSON.parse(localStorage.getItem("installed"));

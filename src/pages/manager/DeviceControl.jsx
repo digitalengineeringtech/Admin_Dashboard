@@ -3,7 +3,6 @@ import Card from "../../components/device/Card";
 import UseGet from "../../api/hooks/UseGet";
 import UseGet2 from "../../api/hooks/UseGet2";
 import useTokenStorage from "../../utils/useDecrypt";
-// import mqtt from "mqtt";
 import LoadContext from "../../services/LoadContext";
 import LoaderCom from "../../components/LoaderCom";
 
@@ -29,7 +28,6 @@ const DeviceControl = () => {
   end = new Date(end);
 
   const { loading, setLoading } = useContext(LoadContext);
-  // const client = mqtt.connect("wss://detpos:asdffdsa@192.168.0.100:9001");
   const { refresh, setRefresh } = useContext(Re);
 
   const [token, setToken] = useState("none");

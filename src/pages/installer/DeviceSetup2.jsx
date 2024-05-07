@@ -13,7 +13,7 @@ import UsePost from "../../api/hooks/UsePost";
 import UseDelete from "../../api/hooks/UseDelete";
 // import { BrandType } from "../components/Theme/BrandType";
 // import mqtt from "mqtt"; // import namespace "mqtt"
-import { client, connect } from "../../services/mqtt";
+// import { client, connect } from "../../services/mqtt";
 import TotalNozzleDrop from "../../components/installer/TotalNozzleDrop";
 import Swal from "sweetalert2"; // import {publisher} from '../services/mqtt'
 import { NavLink } from "react-router-dom";
@@ -34,7 +34,7 @@ function DevicesSetup2() {
     });
   };
 
-  client.on("connect", connect);
+  // client.on("connect", connect);
 
   const [token, setToken] = useState("none");
   const [dispenserNo, setDispenserNo] = useState("0");
@@ -109,14 +109,14 @@ function DevicesSetup2() {
       pumpid8: parseInt(nozzleNo8),
     };
     console.log(fuel, "lllllllllllllllllll");
-    client.publish(
-      `detpos/local_server/initial1/${pswd}/${key}`,
-      JSON.stringify(pump)
-    );
-    client.publish(
-      `detpos/local_server/initial2/${pswd}/${key}`,
-      JSON.stringify(fuel)
-    );
+    // client.publish(
+    //   `detpos/local_server/initial1/${pswd}/${key}`,
+    //   JSON.stringify(pump)
+    // );
+    // client.publish(
+    //   `detpos/local_server/initial2/${pswd}/${key}`,
+    //   JSON.stringify(fuel)
+    // );
   };
 
   useEffect(() => {

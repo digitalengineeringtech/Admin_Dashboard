@@ -35,6 +35,7 @@ const FuelBalance = () => {
   console.log(formattedDate, route);
   const [{ data_g, loading_g, error_g, pagi_g }, fetchItGet] = UseGet();
 
+
   const [con, setCon] = useState(false);
 
   useEffect(() => {

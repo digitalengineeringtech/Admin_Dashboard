@@ -13,7 +13,6 @@ import UsePost from "../../api/hooks/UsePost";
 import UseDelete from "../../api/hooks/UseDelete";
 // import { BrandType } from "../components/Theme/BrandType";
 // import mqtt from "mqtt"; // import namespace "mqtt"
-// let client = mqtt.connect("ws://192.168.0.100:9001");
 import { client, connect } from "../../services/mqtt";
 import TotalNozzleDrop from "../../components/installer/TotalNozzleDrop";
 import Swal from "sweetalert2"; // import {publisher} from '../services/mqtt'

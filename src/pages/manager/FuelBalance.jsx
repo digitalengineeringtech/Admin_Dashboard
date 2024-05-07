@@ -30,7 +30,7 @@ const FuelBalance = () => {
     }
   }, []);
   const formattedDate = sDate.toISOString().split("T")[0];
-
+ 
   const route = `/balance-statement/?reqDate=${formattedDate}`;
   console.log(formattedDate, route);
   const [{ data_g, loading_g, error_g, pagi_g }, fetchItGet] = UseGet();
@@ -53,7 +53,7 @@ const FuelBalance = () => {
     <Table.Tr key={element.no} className=" duration-150 text-center">
       <Table.Td>{index + 1}</Table.Td>
       <Table.Td>{element.fuelType}</Table.Td>
-      <Table.Td>{element.openingBalance}</Table.Td>
+      <Table.Td>{element.openingBalance.toFixed(2)}</Table.Td>
       <Table.Td>{element.receive}</Table.Td>
       <Table.Td>{element.balance.toFixed(2)}</Table.Td>
     </Table.Tr>

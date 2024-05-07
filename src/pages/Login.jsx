@@ -37,35 +37,40 @@ const Login = () => {
   };
 
   const handleInstallerSubmit = () => {
-    if (inEmail == null || inPswd == null) {
-      setEErrorIn("email require !");
-      setPErrorIn("password require !");
-    } else {
-      setEErrorIn(null);
-      setPErrorIn(null);
-      const user = {
-        email: inEmail,
-        password: inPswd,
-      };
-      fetchData("user/login", user);
-    }
+    localStorage.setItem("installed", true);
+    navigate("/");
+    setIsAuth((pre) => !pre);
+    // if (inEmail == null || inPswd == null) {
+    //   setEErrorIn("email require !");
+    //   setPErrorIn("password require !");
+    // } else {
+    //   setEErrorIn(null);
+    //   setPErrorIn(null);
+    //   const user = {
+    //     email: inEmail,
+    //     password: inPswd,
+    //   };
+    //   fetchData("user/login", user);
+    // }
   };
   console.log(email, pswd);
   const handleManagerSubmit = () => {
-    if (email == null || pswd == null) {
-      setEError("email require !");
-      setPError("password require !");
-    } else {
-      setEError(null);
-      setPError(null);
-      const user = new FormData();
-      user.append("email", email);
-      user.append("password", pswd);
-      L_fetchData("user/login", user).catch(function (error) {
-        console.log(error);
-        setErrorCommon("Something was wrong");
-      });
-    }
+    navigate("/");
+    setIsAuth((pre) => !pre);
+    // if (email == null || pswd == null) {
+    //   setEError("email require !");
+    //   setPError("password require !");
+    // } else {
+    //   setEError(null);
+    //   setPError(null);
+    //   const user = new FormData();
+    //   user.append("email", email);
+    //   user.append("password", pswd);
+    //   L_fetchData("user/login", user).catch(function (error) {
+    //     console.log(error);
+    //     setErrorCommon("Something was wrong");
+    //   });
+    // }
   };
 
   useEffect(() => {

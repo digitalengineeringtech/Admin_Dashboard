@@ -741,47 +741,61 @@ const Card = ({
               ? "card5"
               : "card2"
             : "card"
-        } w-[200px] border border-detail  bg-gray-300 flex flex-col p-3 gap-2 rounded-xl`}
+          // active
+          //   ? noPermit
+          //     ? "card"
+          //     : final
+          //     ? "card3"
+          //     : nozzleActive
+          //     ? "card4"
+          //     : // : !permitReq
+          //     approve
+          //     ? "card5"
+          //     : "card2"
+          //   : "card"
+        } h-32 w-32 border-detail relative border cursor-pointer flex  flex-col items-center justify-center gap-1 rounded-3xl`}
       >
-        <div className=" flex">
-          <div className="w-[70px] h-[70px] mt-1 me-2 bg-white border border-detail rounded-xl justify-center flex items-center ">
-            <img
-              src={`${
-                active
-                  ? noPermit
-                    ? "../../../public/static/images/gas.png"
-                    : final
-                    ? "../../../public/static/images/check.png"
-                    : nozzleActive
-                    ? "../../../public/static/images/gas copy.png"
-                    : approve
-                    ? "../../../public/static/images/gas copy 3.png"
-                    : "../../../public/static/images/gas copy 2.png"
-                  : "../../../public/static/images/gas.png"
-              }`}
-              alt=""
-              className={`p-[5px]`}
-              // className={`p-[5px] ${
-              //   approve && !nozzleActive ? "rotate-[25deg]" : ""
-              // }`}
-            />
+        <div className="w-14 h-14 bg-white border border-detail rounded-xl justify-center flex items-center absolute -top-4 -right-6">
+          <img
+            src={`${
+              active
+                ? noPermit
+                  ? "../../../public/static/images/gas.png"
+                  : final
+                  ? "../../../public/static/images/check.png"
+                  : nozzleActive
+                  ? "../../../public/static/images/drop.png"
+                  : approve
+                  ? "../../../public/static/images/gas copy.png"
+                  : "../../../public/static/images/gas copy 2.png"
+                : "../../../public/static/images/gas.png"
+            }`}
+            alt=""
+            className={`p-[5px] ${
+              approve && !nozzleActive ? "rotate-[25deg]" : ""
+            }`}
+          />
+        </div>
+        <div className="flex items-center w-full justify-center gap-1 -ms-7 ">
+          <div className="border border-detail/50 box w-[25%] text-2xl font-sans text-detail leading-8 h-8 flex items-center justify-center rounded-xl">
+            {dis}
           </div>
-          <div className="flex mx-auto gap-2 items-center justify-center flex-col">
-            <div className="flex w-[100%] gap-2">
-              <div className="w-[45px] tracking-widest font-sans bg-[#fafafa] text-detail border text-lg flex rounded-md items-center justify-center font-semibold border-detail text-center">
-                {dis}
-              </div>
-              <div className="w-[45px] tracking-widest space-x-2 font-sans bg-[#fafafa] text-detail border border-detail rounded-md text-lg flex items-center justify-center font-semibold text-center ">
-                {num}
-              </div>
-            </div>
-            <div className="w-[98px] tracking-widest font-sans bg-[#fafafa] text-detail text-xl py-[1px] flex items-center rounded-md justify-end font-semibold text-end pe-3 border border-detail ">
-              {liter}
-            </div>
+          <div className="border z-20 border-detail/50 box w-[35%] text-2xl font-sans text-detail leading-8 h-8 flex items-center justify-center rounded-xl">
+            {num}
           </div>
         </div>
-        <div className="border bg-[#fafafa] tracking-widest font-sans text-detail border-detail rounded-md text-3xl flex items-center justify-end font-semibold text-end pe-3 py-1">
-          {price}
+        <div className=" flex items-center gap-1 w-full justify-center flex-col">
+          {/* <img
+            src="../../../public/static/images/gasoline.png"
+            className="w-16 mt-auto"
+            alt=""
+          /> */}
+          <div className="border border-detail/50 box w-[86%] text-2xl font-sans text-detail leading-8 h-8 flex items-center justify-center rounded-xl">
+            {liter}
+          </div>
+          <div className="border border-detail/50 box w-[86%] text-2xl font-sans text-detail leading-8 h-8 flex items-center justify-center rounded-xl">
+            {price}
+          </div>
         </div>
       </motion.div>
       <Modal

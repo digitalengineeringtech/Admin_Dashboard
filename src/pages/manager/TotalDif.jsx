@@ -12,29 +12,32 @@ import UseGet3 from "../../api/hooks/UseGet3";
 import UseGet from "../../api/hooks/UseGet";
 import FilterTable from "../../components/table/FilterTable";
 import { Table } from "@mantine/core";
-import { downloadExcel } from "react-export-table-to-excel";
+import { downloadExcel, useDownloadExcel } from "react-export-table-to-excel";
 import { useReactToPrint } from "react-to-print";
 
-const SaleSummary = () => {
+const TotalDif = () => {
   let start = new Date();
   start.setHours(0);
   start.setMinutes(0);
 
   let end = new Date();
   end.setHours(23);
-  end.setMinutes(59);
+  end.setMinutes(0);
+  end = new Date(end);
 
   // let end = new Date();
   // end.setHours(23);
   // end.setMinutes(0);
   // end = new Date(end);
 
+  const [totalCalcu, setTotalCalcu] = useState([]);
+
   const [{ data_g, loading_g, error_g, pagi_g }, fetchItGet] = UseGet();
   const [{ data_g_2, loading_g_2, error_g_2, pagi_g_2 }, fetchItGet2] =
     UseGet2();
   const [{ data_g_3, loading_g_3, error_g_3, pagi_g_3 }, fetchItGet3] =
     UseGet3();
-  console.log(start);
+  //   console.log(start, end, "hhhhhhhhhhhhhhhhhhh");
   const [okData, setOkData] = useState([]);
   const [dynamic, setDynamic] = useState([]);
   const [token, setToken] = useState("none");
@@ -58,10 +61,11 @@ const SaleSummary = () => {
 
   const [sDate, setSDate] = useState(start);
   const [eDate, setEDate] = useState(end);
+
   const next = new Date(sDate);
   next.setDate(sDate.getDate() + 1);
   // start = new Date(start);
-  console.log(next, "yyyyyyyyyyyyyyyyyyyyyyyyyy");
+  //   console.log(next, "yyyyyyyyyyyyyyyyyyyyyyyyyy");
 
   const currentDate = sDate;
 
@@ -71,7 +75,7 @@ const SaleSummary = () => {
 
   const formattedDate = `${year}-${month}-${day}`;
 
-  console.log(formattedDate, "............");
+  //   console.log(formattedDate, "............");
   // const [eDate, setEDate] = useState(end);
 
   const [con, setCon] = useState(false);
@@ -83,7 +87,6 @@ const SaleSummary = () => {
   useEffect(() => {
     // fetchItGet(`/detail-sale/by-date/?sDate=${sDate}`, token);
     fetchItGet2(`/detail-sale/total_statement?reqDate=${formattedDate}`, token);
-    // fetchItGet(`/detail-sale/by-date/?sDate=${sDate}&eDate=${next}`, token);
     fetchItGet(`/detail-sale/by-date/?sDate=${sDate}&eDate=${eDate}`, token);
 
     fetchItGet3(`/device`, token);
@@ -98,49 +101,18 @@ const SaleSummary = () => {
     }
   }, [data_g, loading_g, error_g, fetchItGet]);
 
-  console.log(
-    data_g,
-    "lfffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
-  );
+  //   console.log(
+  //     data_g,data_g_3,
+  //     "lfffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+  //   );
 
-  const summaryHeader = [
-    "Date/Time",
-    "Octane Ron(92)",
-    "Octane Ron(95)",
-    "Diesel",
-    "Premium Diesel",
-    "Total Price (Kyat)",
-  ];
-  const summaryRow = (
-    <Table.Tr className=" duration-150 text-sm text-center">
-      <Table.Td>
-        {/* {sDate?.toDateString()} | {eDate?.toDateString()} */}
-        {sDate?.toDateString()}
-      </Table.Td>
-      <Table.Td>
-        {ninety2LotalLiter ? ninety2LotalLiter.toFixed(3) : "-"}
-      </Table.Td>
-      <Table.Td>
-        {ninety5LotalLiter ? ninety5LotalLiter.toFixed(3) : "-"}
-      </Table.Td>
-      <Table.Td>
-        {dieselLotalLiter ? dieselLotalLiter.toFixed(3) : "-"}
-      </Table.Td>
-      <Table.Td>{phsdLotalLiter ? phsdLotalLiter.toFixed(3) : "-"}</Table.Td>
-      <Table.Td>
-        {totalPrice
-          ? totalPrice?.toLocaleString(undefined, {
-              maximumFractionDigits: 3,
-            })
-          : "-"}
-      </Table.Td>
-    </Table.Tr>
-  );
   const detailHeader = [
     "Nozzle No",
     "Fuel Type",
-    "Price per Liter",
-    "Total Sale Liter",
+    "Totalizer opening",
+    "Totalizer closing",
+    "Difference",
+    "Issue",
     "Total Price",
   ];
 
@@ -178,23 +150,23 @@ const SaleSummary = () => {
     }
   }, [nozzle, data_g]);
 
-  console.log(
-    data_g_3,
-    nozzle,
-    "........................................................................."
-  );
+  //   console.log(
+  //     data_g_3,
+  //     nozzle,
+  //     "........................................................................."
+  //   );
 
   const handleClick = () => {
     // fetchItGet(`/detail-sale/by-date/?sDate=${sDate}`, token);
     fetchItGet2(`detail-sale/total_statement?reqDate=${formattedDate}`, token);
-    // fetchItGet(`/detail-sale/by-date/?sDate=${sDate}&eDate=${next}`, token);
     fetchItGet(`/detail-sale/by-date/?sDate=${sDate}&eDate=${eDate}`, token);
 
     fetchItGet3(`/device`, token);
   };
 
-  console.log(data_g_2, "22222222222222");
-  console.log(data_g, "1111111111111111111111111");
+  //   console.log(data_g_3, "33333333333333333333333");
+  console.log(totalCalcu, data_g_3, data_g);
+  //   console.log(data_g, "1111111111111111111111111");
 
   useEffect(() => {
     let ninety2 = 0;
@@ -205,8 +177,8 @@ const SaleSummary = () => {
     let totalPrice = 0;
 
     // fetchfrom detailsale statement
-    // data_g_2?.map((obj) => {
-    data_g?.map((obj) => {
+    data_g_2?.map((obj) => {
+      // data_g?.map((obj) => {
       if (obj.fuelType === "001-Octane Ron(92)") {
         ninety2 += obj.saleLiter;
       }
@@ -231,7 +203,7 @@ const SaleSummary = () => {
     SetTotalPrice(totalPrice);
   }, [data_g, data_g_2, data_g_3]);
 
-  console.log(sDate, "lllllllllllllllll");
+  //   console.log(okData, "llllllllllllllllllllllllllllllllllll");
 
   useEffect(() => {
     if (data_g) {
@@ -239,11 +211,11 @@ const SaleSummary = () => {
     }
   }, [data_g, loading_g, error_g]);
 
-  const detailRow = data_g_3?.map((element) => {
-    const matchingEntry = literByNoz.find(
-      (entry) => entry.nozzle_no === element.nozzle_no
-    );
-    const totalLiter = matchingEntry ? matchingEntry.totalLiter : 0;
+  const detailRow = totalCalcu?.map((element) => {
+    // const matchingEntry = literByNoz.find(
+    //   (entry) => entry.nozzle_no === element.nozzle_no
+    // );
+    // const totalLiter = matchingEntry ? matchingEntry.totalLiter : 0;
 
     // console.log("............................");
     // console.log(totalLiter, literByNoz);
@@ -252,45 +224,38 @@ const SaleSummary = () => {
       <Table.Tr key={element._id} className=" duration-150 text-sm text-center">
         <Table.Td>{element.nozzle_no || "-"}</Table.Td>
         <Table.Td>{element.fuel_type || "-"}</Table.Td>
-        <Table.Td>{element.daily_price || "-"}</Table.Td>
-        <Table.Td>{totalLiter.toFixed(3) || "-"}</Table.Td>
         <Table.Td>
-          {(element.daily_price * totalLiter).toLocaleString(undefined, {
+          {Number((element.firstTotalizer - element.firstsale)?.toFixed(3)) ||
+            "-"}
+        </Table.Td>
+        <Table.Td>{element.lastTotalizer?.toFixed(3) || "-"}</Table.Td>
+        <Table.Td>
+          {Number(
+            (
+              element.lastTotalizer?.toFixed(3) -
+              (element.firstTotalizer - element.firstsale)?.toFixed(3)
+            )?.toFixed(3)
+          ) || "-"}
+        </Table.Td>
+        <Table.Td>{element.totalLiter.toFixed(2) || "-"}</Table.Td>
+        <Table.Td>
+          {element.totalPrice.toLocaleString(undefined, {
             maximumFractionDigits: 3,
           }) || "-"}
         </Table.Td>
+        {/* <Table.Td>
+          {element.daily_price.toLocaleString(undefined, {
+            maximumFractionDigits: 3,
+          }) || "-"}
+        </Table.Td> */}
       </Table.Tr>
     );
   });
 
-  function handleDownloadExcel() {
-    downloadExcel({
-      fileName: "Sale Summary",
-      sheet: "Sale Summary",
-      tablePayload: {
-        header: summaryHeader,
-        // accept two different data structures
-        body: [
-          [
-            sDate?.toDateString(),
-            ninety2LotalLiter ? ninety2LotalLiter.toFixed(3) : "-",
-            ninety5LotalLiter ? ninety5LotalLiter.toFixed(3) : "-",
-            dieselLotalLiter ? dieselLotalLiter.toFixed(3) : "-",
-            phsdLotalLiter ? phsdLotalLiter.toFixed(3) : "-",
-            totalPrice
-              ? totalPrice?.toLocaleString(undefined, {
-                  maximumFractionDigits: 3,
-                })
-              : "-",
-          ],
-        ],
-      },
-    });
-  }
   function handleDownloadExcel2() {
     downloadExcel({
-      fileName: "Sale Summary by Nozzle",
-      sheet: "Sale Summary by Nozzle",
+      fileName: "Totalizer Difference",
+      sheet: "Totalizer Difference",
       tablePayload: {
         header: detailHeader,
         // accept two different data structures
@@ -304,7 +269,7 @@ const SaleSummary = () => {
             element.nozzle_no || "-",
             element.fuel_type || "-",
             element.daily_price || "-",
-            totalLiter.toFixed(3) || "-",
+            totalLiter?.toFixed(3) || "-",
             (element.daily_price * totalLiter).toLocaleString(undefined, {
               maximumFractionDigits: 3,
             }) || "-",
@@ -314,21 +279,64 @@ const SaleSummary = () => {
     });
   }
 
-  const tableRef = useRef();
-  const handlePrint = useReactToPrint({
-    content: () => tableRef.current,
+  const tableRef2 = useRef(null);
+  const meterBalance = useDownloadExcel({
+    currentTableRef: tableRef2.current,
+    filename: "Totalizer Difference",
+    sheet: "Totalizer Difference",
   });
 
-  const tableRef2 = useRef();
   const handlePrint2 = useReactToPrint({
     content: () => tableRef2.current,
   });
 
+  useEffect(() => {
+    const fuelCalcu = data_g_3.map((e, index) => {
+      const calcuLiter = data_g
+        .filter((voc) => voc.nozzleNo == e.nozzle_no)
+        .map((element) => element.saleLiter)
+        .reduce((pv, cv) => pv + cv, 0);
+      const calcuPrice = data_g
+        .filter((voc) => voc.nozzleNo == e.nozzle_no)
+        .map((element) => element.totalPrice)
+        .reduce((pv, cv) => pv + cv, 0);
+      const totalizer = data_g
+        .filter((voc) => voc.nozzleNo == e.nozzle_no)
+        .reverse()[0]?.totalizer_liter;
+      const firstsale = data_g
+        .filter((voc) => voc.nozzleNo == e.nozzle_no)
+        .reverse()[0]?.saleLiter;
+      const length = data_g.filter((voc) => voc.nozzleNo == e.nozzle_no).length;
+      const lTotalizer = data_g
+        .filter((voc) => voc.nozzleNo == e.nozzle_no)
+        .reverse()[length - 1]?.totalizer_liter;
+
+      console.log(
+        data_g.filter((voc) => voc.nozzleNo == e.nozzle_no).reverse()[0]
+          ?.saleLiter,
+        "lllllkkkjjkkjkjkjkjkj"
+      );
+
+      return {
+        nozzle_no: e.nozzle_no,
+        totalLiter: calcuLiter,
+        fuel_type: e.fuel_type,
+        totalPrice: calcuPrice,
+        firstTotalizer: totalizer,
+        lastTotalizer: lTotalizer,
+        length: length,
+        firstsale: firstsale,
+      };
+    });
+    setTotalCalcu(fuelCalcu);
+  }, [data_g]);
+
   return (
     <div className="w-full pt-28">
       <div className="flex  flex-wrap gap-4 gap-x-10  justify-between">
-        <CalendarPick date={sDate} setDate={setSDate} label="Start Date" />
+        <CalendarPick date={sDate} setDate={setSDate} label="Date" />
         <CalendarPick date={eDate} setDate={setEDate} label="End Date" />
+
         {/* <div className="">
           <CalendarPick date={eDate} setDate={setEDate} label="End Date" />
         </div> */}
@@ -338,21 +346,13 @@ const SaleSummary = () => {
         <div className="">
           <div className="mt-8">
             <FilterTable
-              tableRef={tableRef}
-              header={summaryHeader}
-              rows={summaryRow}
+              handleDownloadExcel={meterBalance.onDownload}
+              handlePrint={handlePrint2}
+              tableRef={tableRef2}
+              header={detailHeader}
+              rows={detailRow}
             />
-            <Footer print={handlePrint} onClick={handleDownloadExcel} />
-          </div>
-          <div className="">
-            <div className="mt-8">
-              <FilterTable
-                tableRef={tableRef2}
-                header={detailHeader}
-                rows={detailRow}
-              />
-              <Footer print={handlePrint2} onClick={handleDownloadExcel2} />
-            </div>
+            <Footer print={handlePrint2} onClick={meterBalance.onDownload} />
           </div>
         </div>
       ) : (
@@ -367,4 +367,4 @@ const SaleSummary = () => {
   );
 };
 
-export default SaleSummary;
+export default TotalDif;

@@ -33,10 +33,19 @@
       "link": "/fuel_in"
     },
     {
+      "name": "Sale Ledger",
+      "link": "/sale_ledger"
+    },
+    {
+      "name": "Totalizer Diff",
+      "link": "/total_dif"
+    },
+    {
       "name": "Price Change",
       "link": "/price_chg"
     }
   ],
+
   "SIDE_INSTALLER": [
     {
       "name": "Devices",

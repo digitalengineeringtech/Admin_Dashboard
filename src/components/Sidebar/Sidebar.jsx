@@ -32,6 +32,8 @@ import Re from "../../services/Re";
 import { Uploader } from "uploader"; // Installed by "react-uploader".
 import { UploadButton } from "react-uploader";
 import { LuMonitorUp } from "react-icons/lu";
+import { FaMoneyCheckAlt } from "react-icons/fa";
+import { MdDifference } from "react-icons/md";
 
 const Sidebar = () => {
   const navigate = useNavigate();
@@ -90,6 +92,8 @@ const Sidebar = () => {
     <FaChartBar />,
     <FaChartPie />,
     <FaPlusCircle />,
+    <FaMoneyCheckAlt />,
+    <MdDifference />,
     <IoMdPricetag />,
   ];
   const installerIcon = [

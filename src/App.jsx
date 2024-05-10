@@ -31,6 +31,7 @@ import DevicesSetup2 from "./pages/installer/DeviceSetup2";
 import DeviceNest from "./pages/installer/DeviceNest";
 import SaleLedger from "./pages/manager/SaleLedger";
 import TotalDif from "./pages/manager/TotalDif";
+import HO from "./pages/manager/HO";
 
 const App = () => {
   const [isInstalling, setIsInstalling] = useState(false);
@@ -131,6 +132,10 @@ const App = () => {
         {
           path: "/sale_ledger",
           element: <SaleLedger />,
+        },
+        {
+          path: "/sale_ho",
+          element: <HO />,
         },
       ],
     },

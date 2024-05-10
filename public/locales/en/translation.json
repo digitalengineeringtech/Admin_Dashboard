@@ -43,6 +43,10 @@
     {
       "name": "Price Change",
       "link": "/price_chg"
+    },
+    {
+      "name": "Daily Sale H/O",
+      "link": "/sale_ho"
     }
   ],
 

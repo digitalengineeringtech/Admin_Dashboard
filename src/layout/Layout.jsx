@@ -74,6 +74,9 @@ const Layout = () => {
       case "/total_dif":
         setState("Totalizer Difference");
         break;
+      case "/sale_ho":
+        setState("Daily Sale H/O");
+        break;
     }
   }, [path]);
 

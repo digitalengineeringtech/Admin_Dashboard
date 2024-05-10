@@ -2,7 +2,16 @@ import React from "react";
 import { Table } from "@mantine/core";
 import Footer from "../footer/Footer";
 
-const StockTable = ({ header, visible = true, tableRef,handlePrint, handleDownloadExcel, label, rows }) => {
+const StockTable = ({
+  header,
+  visible = true,
+  tableRef,
+  handlePrint,
+  handleDownloadExcel,
+  label,
+  rows,
+  head,
+}) => {
   return (
     <div className="">
       <div className="flex justify-between items-center">
@@ -30,15 +39,19 @@ const StockTable = ({ header, visible = true, tableRef,handlePrint, handleDownlo
           withColumnBorders
           className=" text-text"
         >
-          <Table.Thead className="text-center">
-            <Table.Tr className="text-[1.1rem] font-semibold text-center ">
-              {header.map((item, index) => (
-                <Table.Td key={index} className="bg-detail/20">
-                  {item}
-                </Table.Td>
-              ))}
-            </Table.Tr>
-          </Table.Thead>
+          {head ? (
+            head
+          ) : (
+            <Table.Thead className="text-center">
+              <Table.Tr className="text-[1.1rem] font-semibold text-center ">
+                {header.map((item, index) => (
+                  <Table.Td key={index} className="bg-detail/20">
+                    {item}
+                  </Table.Td>
+                ))}
+              </Table.Tr>
+            </Table.Thead>
+          )}
           <Table.Tbody className="text-[1.1rem]">{rows}</Table.Tbody>
         </Table>
       </div>

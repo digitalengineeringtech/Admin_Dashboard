@@ -432,7 +432,7 @@ const HO = () => {
                 handleDownloadExcel={stockBalance.onDownload}
                 tableRef={tableRef1}
                 handlePrint={handlePrint1}
-                label="Stock Balance"
+                label=" "
                 rows={stockRow}
                 header={stockHeader}
               />
@@ -442,7 +442,7 @@ const HO = () => {
                 handleDownloadExcel={stockBalance.onDownload}
                 tableRef={tableRef}
                 handlePrint={handlePrint}
-                label="Stock Balance"
+                label=" "
                 rows={stockRow1}
                 header={stockHeader1}
                 head={stockHead}

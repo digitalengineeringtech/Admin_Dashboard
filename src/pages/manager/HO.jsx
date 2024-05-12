@@ -363,9 +363,9 @@ const HO = () => {
         <Table.Td rowSpan={2}>Type</Table.Td>
         <Table.Td rowSpan={2}>Price</Table.Td>
         <Table.Td colSpan={5}>Cash Sale</Table.Td>
-        <Table.Td colSpan={3}>Cash Sale</Table.Td>
-        <Table.Td colSpan={4}>E-payment Sale</Table.Td>
+        <Table.Td colSpan={3}>E-payment Sale</Table.Td>
         <Table.Td colSpan={4}>Credit Sale</Table.Td>
+        <Table.Td colSpan={4}>Total</Table.Td>
       </Table.Tr>
       <Table.Tr className=" duration-150 text-center">
         <Table.Td>Liter</Table.Td>

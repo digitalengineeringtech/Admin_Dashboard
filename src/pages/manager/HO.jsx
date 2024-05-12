@@ -60,6 +60,8 @@ const HO = () => {
   const [notCredit1, setNotCredit1] = useState();
   const [stock, setStock] = useState();
 
+  console.log(notCredit, "...............");
+
   // console.log(elements);
   const [isData, setIsData] = useState(true);
   const [con, setCon] = useState(false);
@@ -318,8 +320,8 @@ const HO = () => {
       <Table.Td>{element.fueltype}</Table.Td>
       <Table.Td>{element.open || 0}</Table.Td>
       <Table.Td>{element?.receive || 0}</Table.Td>
-      <Table.Td>{Number(element.totalAmount)?.toFixed(2)}</Table.Td>
-      <Table.Td>{Number(element.totalAmount)?.toFixed(2)}</Table.Td>
+      <Table.Td>{Number(element.totalLiter)?.toFixed(2)}</Table.Td>
+      <Table.Td>{Number(element.totalLiter)?.toFixed(2)}</Table.Td>
       <Table.Td>00</Table.Td>
       <Table.Td>00</Table.Td>
       <Table.Td>00</Table.Td>
@@ -337,7 +339,7 @@ const HO = () => {
       <Table.Td>{(element?.totalLiter / 4.26)?.toFixed(2) || 0}</Table.Td>
       <Table.Td>{Number(element.totalAmount)?.toFixed(2)}</Table.Td>
       <Table.Td>00</Table.Td>
-      <Table.Td>00</Table.Td>
+      <Table.Td>{Number(element.totalAmount)?.toFixed(2)}</Table.Td>
       <Table.Td>00</Table.Td>
       <Table.Td>00</Table.Td>
       <Table.Td>00</Table.Td>

@@ -348,7 +348,9 @@ const HO = () => {
       <Table.Td>00</Table.Td>
       <Table.Td>00</Table.Td>
       <Table.Td>{element?.totalLiter?.toFixed(2) || 0}</Table.Td>
-      <Table.Td>{(element?.totalLiter / 4.546)?.toFixed(2) || 0}</Table.Td>
+      <Table.Td>
+        {((element?.totalLiter).toFixed(2) / 4.546)?.toFixed(2) || 0}
+      </Table.Td>
       <Table.Td>000</Table.Td>
       <Table.Td>{Number(element.totalAmount)?.toFixed(2)}</Table.Td>
     </Table.Tr>

@@ -442,7 +442,7 @@ const DailySale = () => {
           <div className=" flex items-center justify-between">
             <button
               // onClick={
-              //   email !== undefined && pswd !== undefined
+              //   email !== undefined && pswd !== undefined 
               //     ? ConAlert("Are you sure ?", handleClick)
               //     : () => ErrorAlert("Some Fields are Empty")
               // }

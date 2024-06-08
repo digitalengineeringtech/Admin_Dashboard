@@ -8,7 +8,8 @@ function useTokenStorage() {
   const [token, setToken] = useState(null);
 
   // Encrypt and store the token in local storage
-  const saveToken = (plainToken) => {
+  const saveToken = (plain
+    Token) => {
     const encryptedToken = CryptoJS.AES.encrypt(plainToken, secretKey).toString();
     localStorage.setItem('encryptedToken', encryptedToken);
     setToken("Good");

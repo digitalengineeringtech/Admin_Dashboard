@@ -57,7 +57,7 @@ const Tank = () => {
       setFuel("none");
       setStation("none");
       setNoz("none");
-      fetchItGet("/balance-statement?reqDate=2024-03-12", token);
+      fetchItGet("/balance-statement?reqDate=2024-06-08", token);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data, loading, error]);
@@ -73,7 +73,7 @@ const Tank = () => {
     if (token) {
       setToken(token);
     }
-    fetchItGet("/balance-statement?reqDate=2024-03-12", token);
+    fetchItGet("/balance-statement?reqDate=2024-06-08", token);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -96,6 +96,7 @@ const Tank = () => {
         yesterdayTank: yesterday,
         fuelType: fuel.name,
       };
+      console.log("nniniiinniniinnninii");
       fetchIt("/balance-statement", data, token);
       console.log("wkkkkk");
     }
@@ -105,9 +106,10 @@ const Tank = () => {
 
   const handleDelete = async (id) => {
     await deleteIt(`detail-sale?_id=${id}`, token);
-    fetchItGet("/balance-statement?reqDate=2024-03-12");
+    fetchItGet("/balance-statement?reqDate=2024-06-08");
   };
-
+  console.log(data_g, "....................");
+  
   const stockRow = okData?.map((element, index) => (
     <Table.Tr key={element._id} className=" duration-150 text-center">
       <Table.Td>{index + 1}</Table.Td>
@@ -203,7 +205,7 @@ const Tank = () => {
         </div>
       </div>
       <div className="w-[1300px] mt-5 mb-10">
-        {/* <StockTable header={header} visible={false} rows={stockRow} /> */}
+        <StockTable header={header} visible={false} rows={stockRow} />
       </div>
     </div>
   );

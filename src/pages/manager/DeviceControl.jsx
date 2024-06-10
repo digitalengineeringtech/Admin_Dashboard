@@ -525,7 +525,8 @@ const DeviceControl = () => {
               fontSize: "0.5rem",
               textAlign: "center",
               height: "400px",
-              width: "400px",
+              width: "80mm",
+              margin: "1px auto",
             }}
           >
             <div style={{ fontSize: "0.5rem", textAlign: "center" }}>

@@ -521,7 +521,12 @@ const DeviceControl = () => {
           {/* <PrinterT ref={componentRef} pData={pData} /> */}
           <div
             ref={componentRef}
-            style={{ fontSize: "0.5rem", textAlign: "center", height: "400px" }}
+            style={{
+              fontSize: "0.5rem",
+              textAlign: "center",
+              height: "400px",
+              width: "100%",
+            }}
           >
             <div style={{ fontSize: "0.5rem", textAlign: "center" }}>
               <div className="flex justify-center">

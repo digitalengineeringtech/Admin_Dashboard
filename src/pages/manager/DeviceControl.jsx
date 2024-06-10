@@ -521,7 +521,7 @@ const DeviceControl = () => {
           {/* <PrinterT ref={componentRef} pData={pData} /> */}
           <div
             ref={componentRef}
-            style={{ fontSize: "0.5rem", textAlign: "center" }}
+            style={{ fontSize: "0.5rem", textAlign: "center", height: "300px" }}
           >
             <div style={{ fontSize: "0.5rem", textAlign: "center" }}>
               <div className="flex justify-center">
@@ -637,11 +637,11 @@ const DeviceControl = () => {
               }}
             >
               <h4>Thank you. Please come again.</h4>
-              <br/>
-              <br/>
-              <br/>
-              <br/>
-              <br/>
+              <br />
+              <br />
+              <br />
+              <br />
+              <br />
             </div>
           </div>
         </div>
@@ -658,4 +658,3 @@ const DeviceControl = () => {
 };
 
 export default DeviceControl;
-

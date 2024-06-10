@@ -64,10 +64,6 @@
       "link": "/totallizer"
     },
     {
-      "name": "Manager",
-      "link": "/manager"
-    },
-    {
       "name": "Cashier",
       "link": "/cashier"
     },

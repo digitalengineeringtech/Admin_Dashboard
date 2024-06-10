@@ -16,17 +16,20 @@ import ErrorAlert from "../../components/alert/ErrorAlert";
 import DeleteAlert from "../../components/alert/DeleteAlert";
 import TextInput from "../../components/inputbox/TextInput";
 import stationData from "../../testBeforeApi/data/station";
+import moment from "moment";
 
 const Tank = () => {
   const header = [
     "No",
-    "Nozzle No",
+    "Date",
     "Fuel Type",
-    "Totalizer Amount",
-    "Totalizer Liter",
+    "Opening Balance",
+    "Yesterday Tank",
     "Button",
   ];
   console.log(stationData());
+  let date = moment().format("YYYY-MM-D");
+  console.log(date, "..........this is date.............");
 
   const [token, setToken] = useState("none");
   const [amount, setAmount] = useState("none");
@@ -57,7 +60,7 @@ const Tank = () => {
       setFuel("none");
       setStation("none");
       setNoz("none");
-      fetchItGet("/balance-statement?reqDate=2024-06-08", token);
+      fetchItGet(`/balance-statement?reqDate=${date}`, token);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data, loading, error]);
@@ -73,7 +76,7 @@ const Tank = () => {
     if (token) {
       setToken(token);
     }
-    fetchItGet("/balance-statement?reqDate=2024-06-08", token);
+    fetchItGet(`/balance-statement?reqDate=${date}`, token);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -98,6 +101,8 @@ const Tank = () => {
       };
       console.log("nniniiinniniinnninii");
       fetchIt("/balance-statement", data, token);
+      setOpen("");
+      setYesterday("");
       console.log("wkkkkk");
     }
   };
@@ -106,17 +111,16 @@ const Tank = () => {
 
   const handleDelete = async (id) => {
     await deleteIt(`detail-sale?_id=${id}`, token);
-    fetchItGet("/balance-statement?reqDate=2024-06-08");
+    fetchItGet(`/balance-statement?reqDate=${date}`);
   };
-  console.log(data_g, "....................");
-  
+
   const stockRow = okData?.map((element, index) => (
     <Table.Tr key={element._id} className=" duration-150 text-center">
       <Table.Td>{index + 1}</Table.Td>
-      <Table.Td>{element.nozzleNo}</Table.Td>
+      <Table.Td>{element.dateOfDay}</Table.Td>
       <Table.Td>{element.fuelType}</Table.Td>
-      <Table.Td>{element.totalizer_amount}</Table.Td>
-      <Table.Td>{element.totalizer_liter}</Table.Td>
+      <Table.Td>{element?.openingBalance}</Table.Td>
+      <Table.Td>{element?.yesterdayTank}</Table.Td>
       <Table.Td
         onClick={DeleteAlert("Are you sure to Remove ?", () =>
           handleDelete(element._id)
@@ -150,12 +154,14 @@ const Tank = () => {
             onChange={(e) => setOpen(e.target.value)}
             style="!w-[300px]"
             label="Opening Balance"
+            value={open}
             placeholder="Amount"
           />
           <TextInput
             onChange={(e) => setYesterday(e.target.value)}
             style="!w-[300px]"
             label="Yesterday Tank"
+            value={yesterday}
             placeholder="Amount"
           />
           {/* <TextInput

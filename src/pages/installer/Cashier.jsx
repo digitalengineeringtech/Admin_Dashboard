@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import SelectDrop from "../../components/SelectDrop";
+// import SelectDrop from "../../components/SelectDrop";
+import SelectDrop from "./SelectDrop";
 import Button from "../../components/installer/Button";
 import useTokenStorage from "../../utils/useDecrypt";
 import UsePost from "../../api/hooks/UsePost";
@@ -115,19 +116,19 @@ const Cashier = () => {
       <div className="w-[1320px] shadow-shadow/20 shadow-md rounded-2xl p-6 flex flex-col gap-6 gap-y-4 bg-white">
         <div className="flex flex-col gap-y-6 gap-x-16 justify-between">
           <div className="flex gap-x-14 justify-between">
-            {/* <SelectDrop
+            <SelectDrop
               label="Station Id"
               data={stationData()}
               value={stationId}
               setValue={setStationId}
-            /> */}
-            <TextInput
+            />
+            {/* <TextInput
               value={stationId}
               onChange={(e) => setStationId(e.target.value)}
               style="!w-[300px]"
               label="Station Id"
               placeholder="Station Id"
-            />
+            /> */}
             <TextInput
               value={cCode}
               onChange={(e) => setCCode(e.target.value)}

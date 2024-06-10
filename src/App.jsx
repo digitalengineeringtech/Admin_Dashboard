@@ -172,10 +172,11 @@ const App = () => {
           path: "/cashier",
           element: <Cashier />,
         },
-        {
-          path: "/manager",
-          element: <InstallerManager />,
-        },
+        //if u wanna use manager ,just comment out the line under below
+        // {
+        //   path: "/manager",
+        //   element: <InstallerManager />,
+        // },
         {
           path: "/role",
           element: <Role />,

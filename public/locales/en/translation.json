@@ -43,6 +43,10 @@
     {
       "name": "Price Change",
       "link": "/price_chg"
+    },
+    {
+      "name": "Daily Sale H/O",
+      "link": "/sale_ho"
     }
   ],
 
@@ -58,10 +62,6 @@
     {
       "name": "Totalizer",
       "link": "/totallizer"
-    },
-    {
-      "name": "Manager",
-      "link": "/manager"
     },
     {
       "name": "Cashier",

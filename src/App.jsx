@@ -31,6 +31,7 @@ import DevicesSetup2 from "./pages/installer/DeviceSetup2";
 import DeviceNest from "./pages/installer/DeviceNest";
 import SaleLedger from "./pages/manager/SaleLedger";
 import TotalDif from "./pages/manager/TotalDif";
+import HO from "./pages/manager/HO";
 
 const App = () => {
   const [isInstalling, setIsInstalling] = useState(false);
@@ -40,14 +41,14 @@ const App = () => {
 
   const [auth, setAuth] = useState(true);
 
-  // useEffect(() => {
-  //   let token = localStorage.getItem("encryptedToken");
-  //   if (token) {
-  //     setAuth(true);
-  //   } else {
-  //     setAuth(false);
-  //   }
-  // }, [isAuth]);
+  useEffect(() => {
+    let token = localStorage.getItem("encryptedToken");
+    if (token) {
+      setAuth(true);
+    } else {
+      setAuth(false);
+    }
+  }, [isAuth]);
 
   useEffect(() => {
     const check = JSON.parse(localStorage.getItem("installed"));
@@ -132,6 +133,10 @@ const App = () => {
           path: "/sale_ledger",
           element: <SaleLedger />,
         },
+        {
+          path: "/sale_ho",
+          element: <HO />,
+        },
       ],
     },
   ]);
@@ -167,10 +172,11 @@ const App = () => {
           path: "/cashier",
           element: <Cashier />,
         },
-        {
-          path: "/manager",
-          element: <InstallerManager />,
-        },
+        //if u wanna use manager ,just comment out the line under below
+        // {
+        //   path: "/manager",
+        //   element: <InstallerManager />,
+        // },
         {
           path: "/role",
           element: <Role />,

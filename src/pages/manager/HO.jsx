@@ -25,7 +25,7 @@ import Swal from "sweetalert2";
 import { useDownloadExcel } from "react-export-table-to-excel";
 import { useReactToPrint } from "react-to-print";
 
-const SaleLedger = () => {
+const HO = () => {
   const [{ data_g, loading_g, error_g }, fetchItGet] = UseGet();
   const [{ data_g_2, loading_g_2, error_g_2 }, fetchItGet2] = UseGet2();
   const [{ data_g_3, loading_g_3, error_g_3 }, fetchItGet3] = UseGet3();
@@ -57,7 +57,10 @@ const SaleLedger = () => {
   const [totalCredit, setTotalCredit] = useState();
   const [refresh, setRefresh] = useState(false);
   const [notCredit, setNotCredit] = useState();
+  const [notCredit1, setNotCredit1] = useState();
   const [stock, setStock] = useState();
+
+  console.log(notCredit, "...............");
 
   // console.log(elements);
   const [isData, setIsData] = useState(true);
@@ -67,17 +70,12 @@ const SaleLedger = () => {
     setCon(true);
   }, []);
 
-  console.log(
-    sDate,
-    "...................................................................................................."
-  );
-
   useEffect(() => {
     fetchItGet(`detail-sale/by-date/?sDate=${sDate}&eDate=${eDate}`, token);
     fetchItGet2("/device", token);
     fetchItGet3(`/balance-statement/?reqDate=${formattedDate}`, token);
 
-    console.log("wkwk");
+    // console.log("wkwk");
   }, [con, refresh]);
 
   const handleClick = () => {
@@ -88,23 +86,24 @@ const SaleLedger = () => {
     fetchItGet(`detail-sale/by-date/?sDate=${sDate}&eDate=${eDate}`, token);
     fetchItGet2("/device", token);
     fetchItGet3(`/balance-statement/?reqDate=${formattedYesterday}`, token);
-    console.log(
-      "........................",
-      sDate,
-      `/balance-statement/?reqDate=${formattedYesterday}`
-    );
+    // console.log(
+    //   "........................",
+    //   sDate,
+    //   eDate,
+    //   `/balance-statement/?reqDate=${formattedYesterday}`
+    // );
   };
 
   useEffect(() => {
     // setStock(data_g_3); normal
     setStock(data_g_3.slice(0, 4));
-  }, [data_g_3, refresh]);
+  }, [data_g_3, refresh, data_g]);
 
-  console.log(data_g, data_g_2);
+  //   console.log(data_g, "....................................................");
 
-  if (data_g.length > 0) {
-    console.log("sksksks");
-  }
+  //   if (data_g.length > 0) {
+  //     console.log("sksksks");
+  //   }
 
   useEffect(() => {
     const fuelCalcu = fuelData.map((e, index) => {
@@ -127,7 +126,7 @@ const SaleLedger = () => {
     setTotalPTest(fuelCalcu);
   }, [data_g, fuelData]);
 
-  console.log(data_g_3, "llllllllllllllllllllllllllllllllllllllllllll");
+  //   console.log(data_g_3, "llllllllllllllllllllllllllllllllllllllllllll");
 
   useEffect(() => {
     const fuelCalcu = fuelData.map((e, index) => {
@@ -181,22 +180,51 @@ const SaleLedger = () => {
         .reduce((pv, cv) => pv + cv, 0);
       const unitPrice = data_g_2.filter((unit) => unit.fuel_type == e.value)[0]
         ?.daily_price;
-
+      const open = data_g_3.find((f) => f.fuelType == e.value);
+      //   console.log(open, "open");
       return {
         fueltype: e.value,
         totalLiter: calcuLiter,
         pricePerLiter: unitPrice || "0",
         totalAmount: calcuLiter * unitPrice || "0",
         discount: 0,
+        open: open?.openingBalance?.toFixed(2),
+        balance: open?.balance?.toFixed(2),
+        receive: open?.receive?.toFixed(2),
         // totalAmount: `${calcuLiter * unitPrice}`.replace(".", ",") || "0",
       };
     });
     setNotCredit(fuelCalcu);
-  }, [data_g, fuelData]);
+  }, [data_g, fuelData, data_g_3]);
 
-  // console.log(totalPTest, "lllllllllllllllll");
-  // console.log(totalCredit, "lddddddddddd");
-  // console.log(data_g, "ggggggggggggggg");
+  useEffect(() => {
+    const fuelCalcu = fuelData.map((e, index) => {
+      const calcuLiter = data_g
+        .filter((fuel) => fuel.fuelType == e.value)
+        .filter((type) => type.cashType != "Credit Card")
+        .map((element) => element.saleLiter)
+        .reduce((pv, cv) => pv + cv, 0);
+      const unitPrice = data_g_2.filter((unit) => unit.fuel_type == e.value)[0]
+        ?.daily_price;
+      const open = data_g_3.find((f) => f.fuelType == e.value);
+      console.log(open, "open");
+      return {
+        fueltype: e.value,
+        totalLiter: calcuLiter,
+        pricePerLiter: unitPrice || "0",
+        totalAmount: calcuLiter * unitPrice || "0",
+        discount: 0,
+        open: open?.openingBalance?.toFixed(2),
+        balance: open?.balance?.toFixed(2),
+        receive: open?.receive?.toFixed(2),
+        obj: open,
+        // totalAmount: `${calcuLiter * unitPrice}`.replace(".", ",") || "0",
+      };
+    });
+    setNotCredit1(fuelCalcu);
+  }, [data_g, fuelData, data_g_3]);
+
+  console.log(notCredit, "lljljljljjjljlljjjljljljljjljljlj");
 
   const total = totalPTest?.concat(totalOTest);
   useEffect(() => {
@@ -215,6 +243,7 @@ const SaleLedger = () => {
   //     stock,
   //     setRefresh,
   //   ] = useOutletContext();
+
   const [{ data, loading, error }, fetchIt] = UsePost();
   const [fuelType, setFuelType] = useState();
   const [fuelType2, setFuelType2] = useState();
@@ -223,11 +252,6 @@ const SaleLedger = () => {
 
   const [adjust, setAdjust] = useState();
   const tableRef = useRef(null);
-  const meterBalance = useDownloadExcel({
-    currentTableRef: tableRef.current,
-    filename: "Meter Balance",
-    sheet: "Meter Balance",
-  });
 
   const handlePrint = useReactToPrint({
     content: () => tableRef.current,
@@ -263,91 +287,106 @@ const SaleLedger = () => {
     }
   }, [data]);
 
-  console.log(fuelId, "ljlllljjljlljjjljljljljl");
-
-  // let start = new Date();
-  // const [token, setToken] = useState("none");
-  // const [sDate, setSDate] = useState(start);
-
-  // const { loadToken } = useTokenStorage();
-  // useEffect(() => {
-  //   const token = loadToken();
-  //   if (token) {
-  //     setToken(token);
-  //   }
-  // }, []);
-  // const formattedDate = sDate.toISOString().split("T")[0];
-
-  // const route = `/balance-statement/?reqDate=${formattedDate}`;
-  // console.log(formattedDate, route);
-  // const [{ data_g, loading_g, error_g, pagi_g }, fetchItGet] = UseGet();
-
-  // const [con, setCon] = useState(false);
-
-  // useEffect(() => {
-  //   setCon(true);
-  // }, []);
-
-  // useEffect(() => {
-  //   fetchItGet(route, token);
-  //   console.log("hello");
-  // }, [con]);
-  // console.log(data_g, start, "hkhkhkkhkhkhkhkhkhkhkhkk");
-
-  const meterHeader = [
-    "No",
-    "Date",
-    // "Pump",
-    "Item",
-    "Opening",
-    "Closing",
-    "Issue",
-  ];
-
-  console.log(stock);
-
-  const meterRow = stock?.map((element, index) => (
-    <Table.Tr key={index} className=" duration-150 text-center">
-      <Table.Td>{index + 1}</Table.Td>
-      <Table.Td>{element.dateOfDay}</Table.Td>
-      {/* <Table.Td>{element.pump}</Table.Td> */}
-      <Table.Td>{element.fuelType}</Table.Td>
-      <Table.Td>{element.openingBalance.toFixed(2)}</Table.Td>
-      <Table.Td>{element.balance.toFixed(2)}</Table.Td>
-      <Table.Td>{element.issue.toFixed(2)}</Table.Td>
-    </Table.Tr>
-  ));
-
   const stockHeader = [
-    "No",
-    "Tank",
+    "Type",
     "Opening",
     "Receive",
-    "Issue",
-    "Adjust",
+    "Sale",
+    "Cash",
+    "E-payment",
+    "Credit",
+    "Test ",
+    "TestQ",
     "Balance",
-    "Today Tank",
-    "Yesterday Tank ",
-    "Total Issue",
-    "Today G/L",
-    "Total G/L",
+    "Adjust",
+    "Closing Balance",
   ];
-  const stockRow = stock?.map((element, index) => (
+  const stockHeader1 = [
+    "Type",
+    "Opening",
+    "Receive",
+    "Sale",
+    "Cash",
+    "E-payment",
+    "Credit",
+    "Test ",
+    "TestQ",
+    "Balance",
+    "Adjust",
+    "Closing Balance",
+  ];
+  const stockRow = notCredit?.map((element, index) => (
     <Table.Tr key={element.no} className=" duration-150 text-center">
-      <Table.Td>{index + 1}</Table.Td>
-      <Table.Td>{element.fuelType}</Table.Td>
-      <Table.Td>{element.openingBalance.toFixed(2)}</Table.Td>
-      <Table.Td>{element.receive.toFixed(2)}</Table.Td>
-      <Table.Td>{element.issue.toFixed(2)}</Table.Td>
-      <Table.Td>{element.adjust.toFixed(2)}</Table.Td>
-      <Table.Td>{element.balance.toFixed(2)}</Table.Td>
-      <Table.Td>{element.todayTank.toFixed(2)}</Table.Td>
-      <Table.Td>{element.yesterdayTank.toFixed(2)}</Table.Td>
-      <Table.Td>{element.tankIssue.toFixed(2)}</Table.Td>
-      <Table.Td>{element.todayGL.toFixed(2)}</Table.Td>
-      <Table.Td>{element.totalGL.toFixed(2)}</Table.Td>
+      <Table.Td>{element.fueltype}</Table.Td>
+      <Table.Td>{element.open || 0}</Table.Td>
+      <Table.Td>{element?.receive || 0}</Table.Td>
+      <Table.Td>{Number(element.totalLiter)?.toFixed(2)}</Table.Td>
+      <Table.Td>{Number(element.totalLiter)?.toFixed(2)}</Table.Td>
+      <Table.Td>00</Table.Td>
+      <Table.Td>00</Table.Td>
+      <Table.Td>00</Table.Td>
+      <Table.Td>00</Table.Td>
+      <Table.Td>{element?.balance || 0}</Table.Td>
+      <Table.Td>00</Table.Td>
+      <Table.Td>{element?.balance || 0}</Table.Td>
     </Table.Tr>
   ));
+  const stockRow1 = notCredit1?.map((element, index) => (
+    <Table.Tr key={element.no} className=" duration-150 text-center">
+      <Table.Td>{element.fueltype}</Table.Td>
+      <Table.Td>{element.pricePerLiter || 0}</Table.Td>
+      <Table.Td>{element?.totalLiter?.toFixed(2) || 0}</Table.Td>
+      <Table.Td>
+        {((element?.totalLiter).toFixed(2) / 4.546)?.toFixed(2) || 0}
+      </Table.Td>
+      <Table.Td>{Number(element.totalAmount)?.toFixed(2)}</Table.Td>
+      <Table.Td>00</Table.Td>
+      <Table.Td>{Number(element.totalAmount)?.toFixed(2)}</Table.Td>
+      <Table.Td>00</Table.Td>
+      <Table.Td>00</Table.Td>
+      <Table.Td>00</Table.Td>
+      <Table.Td>00</Table.Td>
+      <Table.Td>00</Table.Td>
+      <Table.Td>00</Table.Td>
+      <Table.Td>00</Table.Td>
+      <Table.Td>{element?.totalLiter?.toFixed(2) || 0}</Table.Td>
+      <Table.Td>
+        {((element?.totalLiter).toFixed(2) / 4.546)?.toFixed(2) || 0}
+      </Table.Td>
+      <Table.Td>000</Table.Td>
+      <Table.Td>{Number(element.totalAmount)?.toFixed(2)}</Table.Td>
+    </Table.Tr>
+  ));
+  const stockHead = (
+    <Table.Thead className="text-[1rem] bg-detail/20 font-semibold text-center ">
+      <Table.Tr className=" duration-150 text-center">
+        <Table.Td rowSpan={2}>Type</Table.Td>
+        <Table.Td rowSpan={2}>Price</Table.Td>
+        <Table.Td colSpan={5}>Cash Sale</Table.Td>
+        <Table.Td colSpan={3}>E-payment Sale</Table.Td>
+        <Table.Td colSpan={4}>Credit Sale</Table.Td>
+        <Table.Td colSpan={4}>Total</Table.Td>
+      </Table.Tr>
+      <Table.Tr className=" duration-150 text-center">
+        <Table.Td>Liter</Table.Td>
+        <Table.Td>Gallon</Table.Td>
+        <Table.Td>Cash</Table.Td>
+        <Table.Td>Disc</Table.Td>
+        <Table.Td>Ammount</Table.Td>
+        <Table.Td>Liter</Table.Td>
+        <Table.Td>Gallon</Table.Td>
+        <Table.Td>Ammount</Table.Td>
+        <Table.Td>Liter</Table.Td>
+        <Table.Td>Gallon</Table.Td>
+        <Table.Td>Disc</Table.Td>
+        <Table.Td>Ammount</Table.Td>
+        <Table.Td>Liter</Table.Td>
+        <Table.Td>Gallon</Table.Td>
+        <Table.Td>Disc</Table.Td>
+        <Table.Td>Ammount</Table.Td>
+      </Table.Tr>
+    </Table.Thead>
+  );
 
   const handleClick1 = () => {
     // const formattedDate2 = sDate.toISOString().split("T")[0];
@@ -377,10 +416,10 @@ const SaleLedger = () => {
     setRefresh((pre) => !pre);
   };
 
-  console.log(
-    fuelType2,
-    "/.SDSDSSSDSDSDSSDSDSS...................................."
-  );
+  //   console.log(
+  //     fuelType2,
+  //     "/.SDSDSSSDSDSDSSDSDSS...................................."
+  //   );
 
   return (
     <div className="w-full pt-28">
@@ -391,112 +430,28 @@ const SaleLedger = () => {
         </div>
         <SearchButton onClick={handleClick} />
       </div>
-      {/* <div className="border-b-2 text-text border-gray-300 pb-3 mt-8 flex">
-        <NavLink className="text-xl px-6 py-2 rounded-md" to="/daily_list" end>
-          Reports
-        </NavLink>
-        <NavLink
-          to="/daily_list/stock"
-          className="text-xl px-6 py-2 rounded-md"
-        >
-          Stock Balances
-        </NavLink>
-      </div> */}
       {isData ? (
-        // <div className="mt-2">
-        //   <Outlet
-        //     context={[
-        //       totalPTest,
-        //       totalOTest,
-        //       totalCredit,
-        //       notCredit,
-        //       total,
-        //       stock,
-        //       setRefresh,
-        //     ]}
-        //   />
-        // </div>
         <div className="mt-14">
           <div>
-            <div className="flex gap-8 mt-8">
-              <div className="w-[40%] shadow-md shadow-shadow/20 bg-secondary rounded-xl flex items-center justify-center">
-                <img
-                  className="w-[70%]  2xl:w-[55%]"
-                  src="../../../static/images/Fuel station-pana.png"
-                  alt=""
-                />
-              </div>
-              <div className="w-[60%] ">
-                <StockTable
-                  handleDownloadExcel={meterBalance.onDownload}
-                  handlePrint={handlePrint}
-                  tableRef={tableRef}
-                  header={meterHeader}
-                  rows={meterRow}
-                  label="Meter Balance"
-                />
-              </div>
-            </div>
-            <div className=" mt-10 ">
-              <div className="text-3xl ms-2 text-detail font-bold font-mono my-auto">
-                Adjust Amount
-              </div>
-              <div className="flex gap-5 mt-2">
-                <FuelInDrop
-                  placeholder="Please Select"
-                  label="Fuel Type"
-                  data={stock}
-                  value={fuelType}
-                  setValue={setFuelType}
-                />
-                <TextInput
-                  style="!w-[300px]"
-                  label="Adjust amount"
-                  placeholder="Adjust amount"
-                  value={adjust}
-                  onChange={(e) => setAdjust(e.target.value)}
-                />
-                <SearchButton
-                  visible={false}
-                  title="ADD"
-                  onClick={ConAlert("Are you sure ?", true, handleClick1)}
-                />
-              </div>
-            </div>
-            <div className=" mt-8 ">
-              <div className="text-3xl ms-2 text-detail font-bold font-mono my-auto">
-                Add Today Tank Balance
-              </div>
-              <div className="flex gap-5 mt-2">
-                <FuelInDrop
-                  placeholder="Please Select"
-                  label="Fuel Type"
-                  data={stock}
-                  value={fuelType2}
-                  setValue={setFuelType2}
-                />
-                <TextInput
-                  style="!w-[300px]"
-                  label="Today balance"
-                  placeholder="Today balance"
-                  value={todayTank}
-                  onChange={(e) => setTodayTank(e.target.value)}
-                />
-                <SearchButton
-                  visible={false}
-                  title="ADD"
-                  onClick={ConAlert("Are you sure ?", true, handleClick2)}
-                />
-              </div>
-            </div>
             <div className="my-8 ">
               <StockTable
                 handleDownloadExcel={stockBalance.onDownload}
                 tableRef={tableRef1}
                 handlePrint={handlePrint1}
-                label="Stock Balance"
+                label=" "
                 rows={stockRow}
                 header={stockHeader}
+              />
+            </div>
+            <div className="my-8 w-full overflow-x-scroll ">
+              <StockTable
+                handleDownloadExcel={stockBalance.onDownload}
+                tableRef={tableRef}
+                handlePrint={handlePrint}
+                label=" "
+                rows={stockRow1}
+                header={stockHeader1}
+                head={stockHead}
               />
             </div>
           </div>
@@ -513,4 +468,4 @@ const SaleLedger = () => {
   );
 };
 
-export default SaleLedger;
+export default HO;

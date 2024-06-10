@@ -34,6 +34,7 @@ import { UploadButton } from "react-uploader";
 import { LuMonitorUp } from "react-icons/lu";
 import { FaMoneyCheckAlt } from "react-icons/fa";
 import { MdDifference } from "react-icons/md";
+import { FaRegFileLines } from "react-icons/fa6";
 
 const Sidebar = () => {
   const navigate = useNavigate();
@@ -95,6 +96,7 @@ const Sidebar = () => {
     <FaMoneyCheckAlt />,
     <MdDifference />,
     <IoMdPricetag />,
+    <FaRegFileLines />,
   ];
   const installerIcon = [
     <MdSpaceDashboard />,

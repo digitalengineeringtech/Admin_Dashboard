@@ -14,7 +14,7 @@ const Footer = ({
   onClick,
   activePage,
 }) => {
-  console.log(activePage, "dddddd");
+  // console.log(activePage, "dddddd");
   return (
     <div className="flex items-center justify-between mb-4 px-3 mt-7">
       <div className="flex gap-4">

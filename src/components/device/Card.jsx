@@ -1,3 +1,4 @@
+
 import React, { useContext, useEffect, useRef, useState } from "react";
 import "./card.css";
 import { motion } from "framer-motion";
@@ -96,45 +97,45 @@ const Card = ({
 
   const nozzle1FuelDetailRef = useRef({ liter: "", price: "" });
 
-  // Client.on("message", (topic, message) => {
-  //   if (topic.startsWith("detpos/device/livedata/") && /[1-8]$/.test(topic)) {
-  //     let data = message.toString().split(regex);
-  //     const updatedNozzle1FuelDetail = {
-  //       liter: data[1],
-  //       price: data[2],
-  //       nozzleNo: data[0],
-  //     };
+  Client.on("message", (topic, message) => {
+    if (topic.startsWith("detpos/device/livedata/") && /[1-8]$/.test(topic)) {
+      let data = message.toString().split(regex);
+      const updatedNozzle1FuelDetail = {
+        liter: data[1],
+        price: data[2],
+        nozzleNo: data[0],
+      };
 
-  //     const checkLive = {
-  //       nozzleNo: data[0],
-  //     };
+      const checkLive = {
+        nozzleNo: data[0],
+      };
 
-  //     checkLiveRef.current = {
-  //       ...checkLiveRef.current,
-  //       ...checkLive,
-  //     };
+      checkLiveRef.current = {
+        ...checkLiveRef.current,
+        ...checkLive,
+      };
 
-  //     nozzle1FuelDetailRef.current = {
-  //       ...nozzle1FuelDetailRef.current,
-  //       ...updatedNozzle1FuelDetail,
-  //     };
+      nozzle1FuelDetailRef.current = {
+        ...nozzle1FuelDetailRef.current,
+        ...updatedNozzle1FuelDetail,
+      };
 
-  //     if (parseInt(data[0]) === parseInt(obj.nozzle_no)) {
-  //       setLiter(parseFloat(data[1])); // assuming liter is a numeric value
-  //       setPrice(parseFloat(data[2])); // assuming price is a numeric value
-  //       // console.log("llllll");
-  //     }
-  //     // console.log(price, liter);
-  //     // console.log(
-  //     //   nozzle1FuelDetailRef.current,
-  //     //   "----------------------------------------"
-  //     // );
-  //   }
-  //   if (topic.startsWith("detpos/device/Final/") && /[1-8]$/.test(topic)) {
-  //     close();
-  //     setNozzleActive(false);
-  //   }
-  // });
+      if (parseInt(data[0]) === parseInt(obj.nozzle_no)) {
+        setLiter(parseFloat(data[1])); // assuming liter is a numeric value
+        setPrice(parseFloat(data[2])); // assuming price is a numeric value
+        // console.log("llllll");
+      }
+      // console.log(price, liter);
+      // console.log(
+      //   nozzle1FuelDetailRef.current,
+      //   "----------------------------------------"
+      // );
+    }
+    if (topic.startsWith("detpos/device/Final/") && /[1-8]$/.test(topic)) {
+      close();
+      setNozzleActive(false);
+    }
+  });
 
   useEffect(() => {
     const interval = setInterval(() => {

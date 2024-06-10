@@ -517,11 +517,11 @@ const DeviceControl = () => {
             />
           ))}
         </div>
-        <div className="w-[50%] hidden">
+        <div className="hidden">
           {/* <PrinterT ref={componentRef} pData={pData} /> */}
           <div
             ref={componentRef}
-            style={{ fontSize: "0.5rem", textAlign: "center", height: "300px" }}
+            style={{ fontSize: "0.5rem", textAlign: "center", height: "400px" }}
           >
             <div style={{ fontSize: "0.5rem", textAlign: "center" }}>
               <div className="flex justify-center">

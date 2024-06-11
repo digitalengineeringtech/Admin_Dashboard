@@ -225,8 +225,8 @@ const DeviceControl = () => {
           // onClick={thermalPrint}
           onClick={() => {
             setPData(element);
-            thermalPrint();
-            // handlePrint();
+            // thermalPrint();
+            handlePrint();
           }}
           className="bg-detail active:scale-90 duration-75 cursor-pointer flex py-3 rounded justify-center "
         >

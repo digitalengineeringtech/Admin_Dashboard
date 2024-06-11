@@ -642,7 +642,7 @@ const DeviceControl = () => {
               style={{
                 fontSize: "0.8rem",
                 textAlign: "center",
-                marginTop: "0",
+                marginTop: "-5px",
               }}
             >
               <h4>Thank you. Please come again.</h4>

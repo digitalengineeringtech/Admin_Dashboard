@@ -519,7 +519,7 @@ const DeviceControl = () => {
             />
           ))}
         </div>
-        <div className="">
+        <div className="hidden">
           {/* <PrinterT ref={componentRef} pData={pData} /> */}
           <div
             ref={componentRef}

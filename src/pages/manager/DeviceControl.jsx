@@ -225,7 +225,8 @@ const DeviceControl = () => {
           // onClick={thermalPrint}
           onClick={() => {
             setPData(element);
-            thermalPrint();
+            // thermalPrint();
+            handlePrint();
           }}
           className="bg-detail active:scale-90 duration-75 cursor-pointer flex py-3 rounded justify-center "
         >
@@ -309,7 +310,7 @@ const DeviceControl = () => {
   }
 
   const handlePrint = useReactToPrint({
-    content: () => tableRef.current,
+    content: () => componentRef.current,
   });
 
   const utcTimestamp = pData?.createAt;
@@ -534,7 +535,7 @@ const DeviceControl = () => {
                 <img
                   src={url}
                   style={{
-                    width: "25vw",
+                    // width: "25vw",
                     height: "70px",
                     width: "70px",
                     marginBottom: "5px",

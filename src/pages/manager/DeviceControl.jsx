@@ -540,13 +540,14 @@ const DeviceControl = () => {
                     height: "70px",
                     width: "70px",
                     marginBottom: "5px",
+                    margin: "1px auto",
                   }}
                 />
               </div>
 
               <table
                 style={{
-                  fontSize: "0.9rem",
+                  fontSize: "0.8rem",
                 }}
               >
                 {/* <tr>
@@ -592,7 +593,7 @@ const DeviceControl = () => {
             <div style={{ marginTop: "-5px" }}>
               <table
                 style={{
-                  fontSize: "0.9rem",
+                  fontSize: "0.8rem",
                   width: "100%",
                   borderCollapse: "collapse",
                 }}
@@ -619,7 +620,7 @@ const DeviceControl = () => {
                     {pData?.totalPrice?.toFixed(2)}
                   </td>
                 </tr>
-                <tr style={{ borderTop: "0.9px solid black" }}>
+                <tr style={{ borderTop: "0.8px solid black" }}>
                   <td
                     style={{
                       padding: "10px 0px",
@@ -639,7 +640,7 @@ const DeviceControl = () => {
             </div>
             <div
               style={{
-                fontSize: "0.9rem",
+                fontSize: "0.8rem",
                 textAlign: "center",
                 marginTop: "0",
               }}

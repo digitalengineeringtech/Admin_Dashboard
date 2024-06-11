@@ -139,28 +139,28 @@ const DeviceControl = () => {
 
   // console.log(totalPages);
 
-  useEffect(() => {
-    if (pData) {
-      // thermalPrint();
-      infoData ? thermalPrint() : ErrorAlert("Station Info are Empty");
-    }
-  }, [pData]);
+  // useEffect(() => {
+  //   if (pData) {
+  //     // thermalPrint();
+  //     infoData ? thermalPrint() : ErrorAlert("Station Info are Empty");
+  //   }
+  // }, [pData]);
 
   const componentRef = useRef();
-  const thermalPrint = () => {
-    if (pData) {
-      if (infoData) {
-        const content = componentRef.current.innerHTML;
-        const printWindow = window.open("", "_blank");
-        printWindow.document.write(content);
-        printWindow.document.close();
-        printWindow.print();
-        printWindow.close();
-      } else {
-        ErrorAlert("Some Station Info are Empty");
-      }
-    }
-  };
+  // const thermalPrint = () => {
+  //   if (pData) {
+  //     if (infoData) {
+  //       const content = componentRef.current.innerHTML;
+  //       const printWindow = window.open("", "_blank");
+  //       printWindow.document.write(content);
+  //       printWindow.document.close();
+  //       printWindow.print();
+  //       printWindow.close();
+  //     } else {
+  //       ErrorAlert("Some Station Info are Empty");
+  //     }
+  //   }
+  // };
 
   // const thermalPrint = useReactToPrint({
   //   content: () => componentRef.current,
@@ -260,7 +260,7 @@ const DeviceControl = () => {
       token
     );
   };
-  
+
   const [down, setDown] = useState(null);
   const [d, setD] = useState(false);
   const tableRef = useRef(null);
@@ -519,12 +519,12 @@ const DeviceControl = () => {
             />
           ))}
         </div>
-        <div className="hidden">
+        <div className="">
           {/* <PrinterT ref={componentRef} pData={pData} /> */}
           <div
             ref={componentRef}
             style={{
-              fontSize: "0.5rem",
+              fontSize: "1rem",
               textAlign: "center",
               height: "400px",
               width: "80mm",
@@ -546,7 +546,7 @@ const DeviceControl = () => {
 
               <table
                 style={{
-                  fontSize: "0.5rem",
+                  fontSize: "0.9rem",
                 }}
               >
                 {/* <tr>
@@ -592,7 +592,7 @@ const DeviceControl = () => {
             <div style={{ marginTop: "-5px" }}>
               <table
                 style={{
-                  fontSize: "0.5rem",
+                  fontSize: "0.9rem",
                   width: "100%",
                   borderCollapse: "collapse",
                 }}
@@ -619,7 +619,7 @@ const DeviceControl = () => {
                     {pData?.totalPrice?.toFixed(2)}
                   </td>
                 </tr>
-                <tr style={{ borderTop: "0.5px solid black" }}>
+                <tr style={{ borderTop: "0.9px solid black" }}>
                   <td
                     style={{
                       padding: "10px 0px",
@@ -639,9 +639,9 @@ const DeviceControl = () => {
             </div>
             <div
               style={{
-                fontSize: "0.5rem",
+                fontSize: "0.9rem",
                 textAlign: "center",
-                marginTop: "-18px",
+                marginTop: "0",
               }}
             >
               <h4>Thank you. Please come again.</h4>

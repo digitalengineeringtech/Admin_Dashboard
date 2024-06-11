@@ -139,28 +139,28 @@ const DeviceControl = () => {
 
   // console.log(totalPages);
 
-  // useEffect(() => {
-  //   if (pData) {
-  //     // thermalPrint();
-  //     infoData ? thermalPrint() : ErrorAlert("Station Info are Empty");
-  //   }
-  // }, [pData]);
+  useEffect(() => {
+    if (pData) {
+      // thermalPrint();
+      infoData ? thermalPrint() : ErrorAlert("Station Info are Empty");
+    }
+  }, [pData]);
 
   const componentRef = useRef();
-  // const thermalPrint = () => {
-  //   if (pData) {
-  //     if (infoData) {
-  //       const content = componentRef.current.innerHTML;
-  //       const printWindow = window.open("", "_blank");
-  //       printWindow.document.write(content);
-  //       printWindow.document.close();
-  //       printWindow.print();
-  //       printWindow.close();
-  //     } else {
-  //       ErrorAlert("Some Station Info are Empty");
-  //     }
-  //   }
-  // };
+  const thermalPrint = () => {
+    if (pData) {
+      if (infoData) {
+        const content = componentRef.current.innerHTML;
+        const printWindow = window.open("", "_blank");
+        printWindow.document.write(content);
+        printWindow.document.close();
+        printWindow.print();
+        printWindow.close();
+      } else {
+        ErrorAlert("Some Station Info are Empty");
+      }
+    }
+  };
 
   // const thermalPrint = useReactToPrint({
   //   content: () => componentRef.current,
@@ -225,8 +225,8 @@ const DeviceControl = () => {
           // onClick={thermalPrint}
           onClick={() => {
             setPData(element);
-            // thermalPrint();
-            handlePrint();
+            thermalPrint();
+            // handlePrint();
           }}
           className="bg-detail active:scale-90 duration-75 cursor-pointer flex py-3 rounded justify-center "
         >
@@ -531,7 +531,7 @@ const DeviceControl = () => {
               margin: "1px auto",
             }}
           >
-            <div style={{ fontSize: "0.5rem", textAlign: "center" }}>
+            <div style={{ fontSize: "0.5rem" }}>
               <div className="flex justify-center">
                 <img
                   src={url}

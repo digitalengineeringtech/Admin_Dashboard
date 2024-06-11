@@ -260,6 +260,7 @@ const DeviceControl = () => {
       token
     );
   };
+  
   const [down, setDown] = useState(null);
   const [d, setD] = useState(false);
   const tableRef = useRef(null);

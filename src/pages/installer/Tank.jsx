@@ -21,16 +21,16 @@ import moment from "moment";
 const Tank = () => {
   const header = [
     "No",
-    "Date",
+    "Tank No",
     "Fuel Type",
-    "Opening Balance",
-    "Yesterday Tank",
-    "Button",
+    "Nozzles",
+    "Capacity",
+    "Opening",
   ];
   console.log(stationData());
   let date = moment().format("YYYY-MM-D");
   console.log(date, "..........this is date.............");
-
+  const [stationId, setStationId] = useState("");
   const [token, setToken] = useState("none");
   const [amount, setAmount] = useState("none");
   const [noz, setNoz] = useState("none");
@@ -45,7 +45,7 @@ const Tank = () => {
   const [{ data, loading, error }, fetchIt] = UsePost();
 
   const [open, setOpen] = useState();
-  const [yesterday, setYesterday] = useState();
+  const [cap, setCap] = useState();
 
   const listStation = [
     {
@@ -76,7 +76,7 @@ const Tank = () => {
     if (token) {
       setToken(token);
     }
-    fetchItGet(`/balance-statement?reqDate=${date}`, token);
+    fetchItGet(`fuel-balance/all`, token);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -117,18 +117,13 @@ const Tank = () => {
   const stockRow = okData?.map((element, index) => (
     <Table.Tr key={element._id} className=" duration-150 text-center">
       <Table.Td>{index + 1}</Table.Td>
-      <Table.Td>{element.dateOfDay}</Table.Td>
+      <Table.Td>{element.tankNo}</Table.Td>
       <Table.Td>{element.fuelType}</Table.Td>
-      <Table.Td>{element?.openingBalance}</Table.Td>
-      <Table.Td>{element?.yesterdayTank}</Table.Td>
-      <Table.Td
-        onClick={DeleteAlert("Are you sure to Remove ?", () =>
-          handleDelete(element._id)
-        )}
-        className="bg-red-400 text-white cursor-pointer duration-75 select-none active:scale-95"
-      >
-        <div>REMOVE</div>
+      <Table.Td>
+        {element.nozzles.map((nozzle) => nozzle.toString()).join(", ")}
       </Table.Td>
+      <Table.Td>{element.capacity}</Table.Td>
+      <Table.Td>{element.opening}</Table.Td>
     </Table.Tr>
   ));
 
@@ -140,57 +135,48 @@ const Tank = () => {
           alt=""
           className="h-16"
         />
-        <div className="text-text">Tank Setup</div>
+        <div className="text-text">ATG Setup</div>
       </div>
-      <div className="w-[1320px] shadow-shadow/20 shadow-md rounded-2xl p-6 flex flex-col gap-6 gap-y-4 bg-white">
-        <div className="flex gap-x-10 justify-between">
-          <SelectDrop
-            label="Fuel Type"
-            data={fuelType}
-            value={fuel}
-            setValue={setFuel}
-          />
-          <TextInput
-            onChange={(e) => setOpen(e.target.value)}
-            style="!w-[300px]"
-            label="Opening Balance"
-            value={open}
-            placeholder="Amount"
-          />
-          <TextInput
-            onChange={(e) => setYesterday(e.target.value)}
-            style="!w-[300px]"
-            label="Yesterday Tank"
-            value={yesterday}
-            placeholder="Amount"
-          />
-          {/* <TextInput
-            onChange={(e) => setLiter(e.target.value)}
-            style="!w-[300px]"
-            label="Totalizer Liter"
-            placeholder="Liter"
-          />
-
-          <SelectDrop
-            label="Station No"
-            // data={stationData()}
-            data={listStation}
-            value={station}
-            setValue={setStation}
-          /> */}
-
-          {/* <SelectDrop
-            label="Nozzle No"
-            data={nozzle}
-            value={noz}
-            setValue={setNoz}
-          /> */}
-          <div className="flex mt-auto justify-end gap-6">
-            {/* <Button
-            title="RESET"
-            onClick={DeleteAlert("Are you sure to Reset ?", handleReset)}
-            style="border text-red-500 border-red-400 bg-secondary"
-          /> */}
+      <div className="flex gap-6">
+        <div className="w-[530px] shadow-shadow/20 shadow-md rounded-2xl p-6 flex flex-col gap-6 gap-y-4 bg-white">
+          <div className="flex flex-wrap gap-y-4 justify-between">
+            <SelectDrop
+              cls="w-[235px] relative"
+              label="Fuel Type"
+              data={fuelType}
+              value={fuel}
+              setValue={setFuel}
+            />
+            <SelectDrop
+              cls="w-[235px] relative"
+              label="Station Id"
+              data={stationData()}
+              value={stationId}
+              setValue={setStationId}
+            />
+            <TextInput
+              onChange={(e) => setOpen(e.target.value)}
+              style="!w-[150px]"
+              label="Opening"
+              value={open}
+              placeholder="Amount"
+            />
+            <TextInput
+              onChange={(e) => setCap(e.target.value)}
+              style="!w-[150px]"
+              label="Tank Capacity"
+              value={cap}
+              placeholder="Amount"
+            />
+            <SelectDrop
+              cls="w-[150px] relative"
+              label="Tank No"
+              data={nozzle}
+              value={noz}
+              setValue={setNoz}
+            />
+          </div>
+          <div className="flex justify-between mt-1">
             <Button
               title="SET UP"
               // onClick={Alert("Are you sure ?", () => {
@@ -205,12 +191,102 @@ const Tank = () => {
                   ? Alert("Are you sure ?", handleAdd)
                   : () => ErrorAlert("Some Fields are Empty")
               }
-              style=" bg-detail border w-[220px] border-detail text-secondary"
+              style=" bg-detail border w-[230px] border-detail text-secondary"
+            />
+            <Button
+              title="RESET"
+              // onClick={Alert("Are you sure ?", () => {
+              //   console.log(dis.value, noz.value, fuel.value, brand.value);
+              // })}
+              onClick={
+                noz !== "none" ||
+                amount !== "none" ||
+                fuel !== "none" ||
+                station !== "none" ||
+                liter !== "none"
+                  ? Alert("Are you sure ?", handleAdd)
+                  : () => ErrorAlert("Some Fields are Empty")
+              }
+              style=" border w-[230px] border-danger text-danger"
+            />
+          </div>
+        </div>
+        <div className="w-[870px] shadow-shadow/20 shadow-md rounded-2xl p-6 flex flex-col gap-6 gap-y-4 bg-white">
+          <div className="flex flex-wrap gap-y-4 justify-between">
+            <SelectDrop
+              cls="w-[150px] relative"
+              label="Tank No"
+              data={nozzle}
+              value={noz}
+              setValue={setNoz}
+            />
+            <SelectDrop
+              cls="w-[150px] relative"
+              label="Tank No"
+              data={nozzle}
+              value={noz}
+              setValue={setNoz}
+            />
+            <SelectDrop
+              cls="w-[150px] relative"
+              label="Tank No"
+              data={nozzle}
+              value={noz}
+              setValue={setNoz}
+            />
+            <SelectDrop
+              cls="w-[150px] relative"
+              label="Tank No"
+              data={nozzle}
+              value={noz}
+              setValue={setNoz}
+            />
+            <SelectDrop
+              cls="w-[150px] relative"
+              label="Tank No"
+              data={nozzle}
+              value={noz}
+              setValue={setNoz}
+            />
+            <SelectDrop
+              cls="w-[150px] relative"
+              label="Tank No"
+              data={nozzle}
+              value={noz}
+              setValue={setNoz}
+            />
+            <SelectDrop
+              cls="w-[150px] relative"
+              label="Tank No"
+              data={nozzle}
+              value={noz}
+              setValue={setNoz}
+            />
+            <SelectDrop
+              cls="w-[150px] relative"
+              label="Tank No"
+              data={nozzle}
+              value={noz}
+              setValue={setNoz}
+            />
+            <SelectDrop
+              cls="w-[150px] relative"
+              label="Tank No"
+              data={nozzle}
+              value={noz}
+              setValue={setNoz}
+            />
+            <SelectDrop
+              cls="w-[150px] relative"
+              label="Tank No"
+              data={nozzle}
+              value={noz}
+              setValue={setNoz}
             />
           </div>
         </div>
       </div>
-      <div className="w-[1300px] mt-5 mb-10">
+      <div className="w-[1430px] mt-5 mb-10">
         <StockTable header={header} visible={false} rows={stockRow} />
       </div>
     </div>

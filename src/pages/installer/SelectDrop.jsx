@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import "react-dropdown/style.css";
 import { FaAngleDown } from "react-icons/fa";
 
-const SelectDrop = ({ data, value, setValue, placeholder, label }) => {
+const SelectDrop = ({ data, value, cls, setValue, placeholder, label }) => {
   const [con, setCon] = useState(false);
   //   const [value, setValue] = useState("");
   //   const [name, setName] = useState("");
@@ -22,7 +22,7 @@ const SelectDrop = ({ data, value, setValue, placeholder, label }) => {
   // console.log("====================================");
 
   return (
-    <div className="w-[300px] relative">
+    <div className={cls ? cls : ` w-[300px] relative`}>
       <div className="ms-2 text-gray-500 mb-1">{label}</div>
       <div
         onClick={() => setCon((pre) => !pre)}

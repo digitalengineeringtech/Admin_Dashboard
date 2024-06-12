@@ -19,7 +19,6 @@ import Welcome from "./pages/installer/Welcome";
 import Device from "./pages/installer/Device";
 import Cashier from "./pages/installer/Cashier";
 import Role from "./pages/installer/Role";
-import Tank from "./pages/installer/Tank";
 import Totallizer from "./pages/installer/Totallizer";
 import Login from "./pages/Login";
 import InstallerManager from "./pages/installer/InstallerManager";
@@ -32,6 +31,8 @@ import DeviceNest from "./pages/installer/DeviceNest";
 import SaleLedger from "./pages/manager/SaleLedger";
 import TotalDif from "./pages/manager/TotalDif";
 import HO from "./pages/manager/HO";
+import BalanceStatement from "./pages/installer/BalanceStatement";
+import Tank from "./pages/installer/Tank";
 
 const App = () => {
   const [isInstalling, setIsInstalling] = useState(false);
@@ -172,6 +173,10 @@ const App = () => {
           path: "/cashier",
           element: <Cashier />,
         },
+        {
+          path: "/tank",
+          element: <Tank />,
+        },
         //if u wanna use manager ,just comment out the line under below
         // {
         //   path: "/manager",
@@ -182,8 +187,8 @@ const App = () => {
           element: <Role />,
         },
         {
-          path: "/tank",
-          element: <Tank />,
+          path: "/balance_statement",
+          element: <BalanceStatement />,
         },
         {
           path: "/totallizer",

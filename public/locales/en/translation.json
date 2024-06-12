@@ -60,6 +60,10 @@
       "link": "/tank"
     },
     {
+      "name": "Balance",
+      "link": "/balance_statement"
+    },
+    {
       "name": "Totalizer",
       "link": "/totallizer"
     },

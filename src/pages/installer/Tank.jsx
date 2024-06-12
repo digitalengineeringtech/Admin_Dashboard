@@ -4,6 +4,7 @@ import dispenser from "./drop_data/dispenser";
 import fuelType from "./drop_data/fuel";
 import brandType from "./drop_data/brand";
 import nozzle from "./drop_data/nozzle";
+import tankData from "./drop_data/tank";
 import Button from "../../components/installer/Button";
 import StockTable from "../../components/table/StockTable";
 import Alert from "../../components/alert/Alert";
@@ -33,7 +34,17 @@ const Tank = () => {
   const [stationId, setStationId] = useState("");
   const [token, setToken] = useState("none");
   const [amount, setAmount] = useState("none");
-  const [noz, setNoz] = useState("none");
+  const [tank, setTank] = useState("none");
+  const [noz1, setNoz1] = useState("none");
+  const [noz2, setNoz2] = useState("none");
+  const [noz3, setNoz3] = useState("none");
+  const [noz4, setNoz4] = useState("none");
+  const [noz5, setNoz5] = useState("none");
+  const [noz6, setNoz6] = useState("none");
+  const [noz7, setNoz7] = useState("none");
+  const [noz8, setNoz8] = useState("none");
+  const [noz9, setNoz9] = useState("none");
+  const [noz10, setNoz10] = useState("none");
   const [fuel, setFuel] = useState("none");
   const [liter, setLiter] = useState("none");
   const [station, setStation] = useState("none");
@@ -171,9 +182,9 @@ const Tank = () => {
             <SelectDrop
               cls="w-[150px] relative"
               label="Tank No"
-              data={nozzle}
-              value={noz}
-              setValue={setNoz}
+              data={tankData}
+              value={tank}
+              setValue={setTank}
             />
           </div>
           <div className="flex justify-between mt-1">
@@ -183,7 +194,7 @@ const Tank = () => {
               //   console.log(dis.value, noz.value, fuel.value, brand.value);
               // })}
               onClick={
-                noz !== "none" ||
+                noz1 !== "none" ||
                 amount !== "none" ||
                 fuel !== "none" ||
                 station !== "none" ||
@@ -199,7 +210,7 @@ const Tank = () => {
               //   console.log(dis.value, noz.value, fuel.value, brand.value);
               // })}
               onClick={
-                noz !== "none" ||
+                noz1 !== "none" ||
                 amount !== "none" ||
                 fuel !== "none" ||
                 station !== "none" ||
@@ -215,73 +226,73 @@ const Tank = () => {
           <div className="flex flex-wrap gap-y-4 justify-between">
             <SelectDrop
               cls="w-[150px] relative"
-              label="Tank No"
+              label="No 1"
               data={nozzle}
-              value={noz}
-              setValue={setNoz}
+              value={noz1}
+              setValue={setNoz1}
             />
             <SelectDrop
               cls="w-[150px] relative"
-              label="Tank No"
+              label="No 2"
               data={nozzle}
-              value={noz}
-              setValue={setNoz}
+              value={noz2}
+              setValue={setNoz2}
             />
             <SelectDrop
               cls="w-[150px] relative"
-              label="Tank No"
+              label="No 3"
               data={nozzle}
-              value={noz}
-              setValue={setNoz}
+              value={noz3}
+              setValue={setNoz3}
             />
             <SelectDrop
               cls="w-[150px] relative"
-              label="Tank No"
+              label="No 4"
               data={nozzle}
-              value={noz}
-              setValue={setNoz}
+              value={noz4}
+              setValue={setNoz4}
             />
             <SelectDrop
               cls="w-[150px] relative"
-              label="Tank No"
+              label="No 5"
               data={nozzle}
-              value={noz}
-              setValue={setNoz}
+              value={noz5}
+              setValue={setNoz5}
             />
             <SelectDrop
               cls="w-[150px] relative"
-              label="Tank No"
+              label="No 6"
               data={nozzle}
-              value={noz}
-              setValue={setNoz}
+              value={noz6}
+              setValue={setNoz6}
             />
             <SelectDrop
               cls="w-[150px] relative"
-              label="Tank No"
+              label="No 7"
               data={nozzle}
-              value={noz}
-              setValue={setNoz}
+              value={noz7}
+              setValue={setNoz7}
             />
             <SelectDrop
               cls="w-[150px] relative"
-              label="Tank No"
+              label="No 8"
               data={nozzle}
-              value={noz}
-              setValue={setNoz}
+              value={noz8}
+              setValue={setNoz8}
             />
             <SelectDrop
               cls="w-[150px] relative"
-              label="Tank No"
+              label="No 9"
               data={nozzle}
-              value={noz}
-              setValue={setNoz}
+              value={noz9}
+              setValue={setNoz9}
             />
             <SelectDrop
               cls="w-[150px] relative"
-              label="Tank No"
+              label="No 10"
               data={nozzle}
-              value={noz}
-              setValue={setNoz}
+              value={noz10}
+              setValue={setNoz10}
             />
           </div>
         </div>

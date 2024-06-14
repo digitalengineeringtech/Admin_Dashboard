@@ -28,9 +28,7 @@ const Tank = () => {
     "Capacity",
     "Opening",
   ];
-  console.log(stationData());
   let date = moment().format("YYYY-MM-D");
-  console.log(date, "..........this is date.............");
   const [stationId, setStationId] = useState("");
   const [token, setToken] = useState("none");
   const [amount, setAmount] = useState("none");
@@ -45,6 +43,7 @@ const Tank = () => {
   const [noz8, setNoz8] = useState("none");
   const [noz9, setNoz9] = useState("none");
   const [noz10, setNoz10] = useState("none");
+  const [noz, setNoz] = useState([]);
   const [fuel, setFuel] = useState("none");
   const [liter, setLiter] = useState("none");
   const [station, setStation] = useState("none");
@@ -57,6 +56,8 @@ const Tank = () => {
 
   const [open, setOpen] = useState();
   const [cap, setCap] = useState();
+  const [include, setInclude] = useState(false);
+  const [cloudFail, setCloudFail] = useState(false);
 
   const listStation = [
     {
@@ -71,13 +72,12 @@ const Tank = () => {
       setFuel("none");
       setStation("none");
       setNoz("none");
-      fetchItGet(`/balance-statement?reqDate=${date}`, token);
+      fetchItGet(`fuel-balance/all`, token);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data, loading, error]);
 
   useEffect(() => {
-    console.log(data_g, loading_g, error_g);
     setOkData(data_g);
     // setLoad(loading_g);
   }, [data_g, loading_g, error_g, data]);
@@ -91,7 +91,7 @@ const Tank = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  console.log(okData, error, "..................");
+  // console.log(okData, error, "..................");
 
   useEffect(() => {
     // console.log(data_g,error_g)
@@ -100,29 +100,104 @@ const Tank = () => {
   }, [data_g, loading_g, error_g]);
 
   // Swal.fire("SweetAlert2 is working!");
-  const handleAdd = () => {
-    if (fuel === "none" || open === "none" || yesterday == "none") {
-      setValid(true);
-    } else {
-      setValid(false);
-      const data = {
-        openingBalance: open,
-        yesterdayTank: yesterday,
-        fuelType: fuel.name,
-      };
-      console.log("nniniiinniniinnninii");
-      fetchIt("/balance-statement", data, token);
-      setOpen("");
-      setYesterday("");
-      console.log("wkkkkk");
-    }
-  };
+  // const handleAdd = () => {
+  //   if (fuel === "none" || open === "none" || yesterday == "none") {
+  //     setValid(true);
+  //   } else {
+  //     setValid(false);
+  //     const data = {
+  //       openingBalance: open,
+  //       yesterdayTank: yesterday,
+  //       fuelType: fuel.name,
+  //     };
+  //     console.log("nniniiinniniinnninii");
+  //     fetchIt("/balance-statement", data, token);
+  //     setOpen("");
+  //     setYesterday("");
+  //     console.log("wkkkkk");
+  //   }
+  // };
 
   // console.log(error, token);
 
   const handleDelete = async (id) => {
     await deleteIt(`detail-sale?_id=${id}`, token);
     fetchItGet(`/balance-statement?reqDate=${date}`);
+  };
+
+  const handleAdd = () => {
+    console.log("wk from handle add");
+    if (
+      cap === "" ||
+      open === "" ||
+      tank === "none" ||
+      fuelType === "none" ||
+      noz1 === "none"
+      // accessDb === "none"
+    ) {
+      setValid(true);
+    } else {
+      setValid(false);
+
+      if (
+        noz.includes(noz1) ||
+        noz.includes(noz2) ||
+        noz.includes(noz3) ||
+        noz.includes(noz4) ||
+        noz.includes(noz5) ||
+        noz.includes(noz6) ||
+        noz.includes(noz7) ||
+        noz.includes(noz8) ||
+        noz.includes(noz9) ||
+        noz.includes(noz10)
+      ) {
+        // console.log("111111111111111k");
+        setInclude(true);
+      } else {
+        console.log("wkewkwkkwkwkwkwkwkwk");
+        setInclude(false);
+        const formData = new FormData();
+        formData.append("capacity", cap);
+        formData.append("opening", open);
+        formData.append("tankNo", tank?.value);
+        formData.append("fuelType", fuel?.value);
+        formData.append("nozzles", noz1?.value);
+        formData.append("nozzles", noz2?.value);
+        formData.append("stationId", stationId?._id);
+        // formData.append("accessDb", accessDb);
+
+        noz3 !== "none" && formData.append("nozzles", noz3?.value);
+        noz4 !== "none" && formData.append("nozzles", noz4?.value);
+        noz5 !== "none" && formData.append("nozzles", noz5?.value);
+        noz6 !== "none" && formData.append("nozzles", noz6?.value);
+        noz7 !== "none" && formData.append("nozzles", noz7?.value);
+        noz8 !== "none" && formData.append("nozzles", noz8?.value);
+        noz9 !== "none" && formData.append("nozzles", noz9?.value);
+        noz10 !== "none" && formData.append("nozzles", noz10?.value);
+        // /fuel-balance
+
+        // postToCloud(`fuel-balance`, formData, token);
+        // cloudInstance
+        // .post('fuel-balance', formData, {
+        //  headers: {
+        // 'Authorization': 'Bearer ' + token,
+        // 'Content-Type': 'multipart/form-data'
+        // }
+        // })
+        // .then((res) => {
+        //   if (res.data.con) {
+        setCloudFail(false);
+        fetchIt("fuel-balance", formData, token);
+        console.log(formData, ".....this is form data....");
+        //   } else {
+        //     setCloudFail(true);
+        //   }
+        // })
+        // .catch((e) => {
+        //   console.log(e);
+        // });
+      }
+    }
   };
 
   const stockRow = okData?.map((element, index) => (
@@ -294,6 +369,18 @@ const Tank = () => {
               value={noz10}
               setValue={setNoz10}
             />
+            {valid && (
+              <p className=" font-bold text-red-600  uppercase flex items-center  gap-3 text-[3vh] mt-[20px] mb-[20px]">
+                Information Needs!
+              </p>
+            )}
+            {include ? (
+              <p className=" text-[24px] text-red-500 font-bold my-3">
+                One of the nozzles is already connected to the tank!
+              </p>
+            ) : (
+              ""
+            )}
           </div>
         </div>
       </div>

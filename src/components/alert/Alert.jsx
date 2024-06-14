@@ -31,7 +31,6 @@ const Alert = (title, fun) => {
       /* Read more about isConfirmed, isDenied below */
       if (result.isConfirmed) {
         // const res = saleClose(token);
-
         Swal.fire({
           title: "Created Successfully !",
           icon: "success",

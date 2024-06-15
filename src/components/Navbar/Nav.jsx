@@ -30,6 +30,7 @@ const Nav = ({ title }) => {
         },
       }
     );
+    console.log(response)
     setLoading(false);
   };
 

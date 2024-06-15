@@ -29,7 +29,8 @@ const DeviceControl = () => {
   end = new Date(end);
 
   const { loading, setLoading } = useContext(LoadContext);
-  const client = mqtt.connect("ws://detpos:asdffdsa@192.168.0.100:9001");
+  const client = mqtt.connect("ws://detpos:asdffdsa@127.0.0.1:9001");
+  // const client = mqtt.connect("ws://detpos:asdffdsa@192.168.0.100:9001");
   const { refresh, setRefresh } = useContext(Re);
 
   const [token, setToken] = useState("none");

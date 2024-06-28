@@ -18,6 +18,8 @@ import DeleteAlert from "../../components/alert/DeleteAlert";
 import TextInput from "../../components/inputbox/TextInput";
 import stationData from "../../testBeforeApi/data/station";
 import moment from "moment";
+import { cloudInstance } from "../../api/axios";
+import UseCloudPost from "../../api/hooks/UseCloudPost";
 
 const Tank = () => {
   const header = [
@@ -58,7 +60,8 @@ const Tank = () => {
   const [cap, setCap] = useState();
   const [include, setInclude] = useState(false);
   const [cloudFail, setCloudFail] = useState(false);
-
+  const [{ data_c_post, loading_c_post, error_c_post }, postToCloud] =
+    UseCloudPost();
   const listStation = [
     {
       name: "initial Station",
@@ -174,28 +177,33 @@ const Tank = () => {
         noz8 !== "none" && formData.append("nozzles", noz8?.value);
         noz9 !== "none" && formData.append("nozzles", noz9?.value);
         noz10 !== "none" && formData.append("nozzles", noz10?.value);
+        
         // /fuel-balance
-
-        // postToCloud(`fuel-balance`, formData, token);
-        // cloudInstance
-        // .post('fuel-balance', formData, {
-        //  headers: {
-        // 'Authorization': 'Bearer ' + token,
-        // 'Content-Type': 'multipart/form-data'
+        // try {
+        //   postToCloud(`fuel-balance`, formData, token);
+        // } catch {
+        //   console.log("error in uploading upload");
         // }
-        // })
-        // .then((res) => {
-        //   if (res.data.con) {
-        setCloudFail(false);
-        fetchIt("fuel-balance", formData, token);
-        console.log(formData, ".....this is form data....");
-        //   } else {
-        //     setCloudFail(true);
-        //   }
-        // })
-        // .catch((e) => {
-        //   console.log(e);
-        // });
+
+        cloudInstance
+          .post("fuel-balance", formData, {
+            headers: {
+              Authorization: "Bearer " + token,
+              "Content-Type": "multipart/form-data",
+            },
+          })
+          .then((res) => {
+            if (res.data.con) {
+              setCloudFail(false);
+              fetchIt("fuel-balance", formData, token);
+              console.log(formData, ".....this is form data....");
+            } else {
+              setCloudFail(true);
+            }
+          })
+          .catch((e) => {
+            console.log(e);
+          });
       }
     }
   };

@@ -22,6 +22,11 @@ const FuelBalance = () => {
   const [token, setToken] = useState("none");
   const [sDate, setSDate] = useState(start);
 
+  let initial = new Date(sDate);
+  initial.setHours(0);
+  initial.setMinutes(0);
+  initial.setSeconds(0);
+
   const { loadToken } = useTokenStorage();
   useEffect(() => {
     const token = loadToken();
@@ -31,8 +36,9 @@ const FuelBalance = () => {
   }, []);
   const formattedDate = sDate.toISOString().split("T")[0];
 
-  const route = `/balance-statement/?reqDate=${formattedDate}`;
-  console.log(formattedDate, route);
+  const route = `/fuel-balance/by-date?sDate=${initial}&eDate=${sDate}`;
+  // const route = `/fuel-balance/by-date?sDate=${formattedDate}&eDate=${formattedDate}`;
+  console.log(initial, "..........");
   const [{ data_g, loading_g, error_g, pagi_g }, fetchItGet] = UseGet();
 
   const [con, setCon] = useState(false);
@@ -53,9 +59,9 @@ const FuelBalance = () => {
     <Table.Tr key={element.no} className=" duration-150 text-center">
       <Table.Td>{index + 1}</Table.Td>
       <Table.Td>{element.fuelType}</Table.Td>
-      <Table.Td>{element.openingBalance.toFixed(2)}</Table.Td>
-      <Table.Td>{element.receive}</Table.Td>
-      <Table.Td>{element.balance.toFixed(2)}</Table.Td>
+      <Table.Td>{element?.opening?.toFixed(2)}</Table.Td>
+      <Table.Td>{element.fuelIn}</Table.Td>
+      <Table.Td>{element?.balance?.toFixed(2)}</Table.Td>
     </Table.Tr>
   ));
 
@@ -64,12 +70,7 @@ const FuelBalance = () => {
     // const yesterday = new Date(sDate);
     // yesterday.setDate(sDate.getDate() + 1);
     // const formattedYesterday = yesterday.toISOString().split("T")[0];
-    fetchItGet(`/balance-statement/?reqDate=${formattedDate2}`, token);
-    console.log(
-      "........................",
-      formattedDate2,
-      `/balance-statement/?reqDate=${formattedDate2}`
-    );
+    fetchItGet(`/fuel-balance/by-date?sDate=${initial}&eDate=${sDate}`, token);
   };
 
   const handlePrint = useReactToPrint({

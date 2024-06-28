@@ -28,10 +28,10 @@ const Totallizer = () => {
   console.log(stationData());
 
   const [token, setToken] = useState("none");
-  const [amount, setAmount] = useState("none");
+  const [amount, setAmount] = useState("");
   const [noz, setNoz] = useState("none");
   const [fuel, setFuel] = useState("none");
-  const [liter, setLiter] = useState("none");
+  const [liter, setLiter] = useState("");
   const [station, setStation] = useState("none");
   const [okData, setOkData] = useState([]);
   const [valid, setValid] = useState(false);
@@ -48,11 +48,6 @@ const Totallizer = () => {
 
   useEffect(() => {
     if (data.con === true) {
-      setAmount("none");
-      setLiter("none");
-      setFuel("none");
-      setStation("none");
-      setNoz("none");
       fetchItGet("/detail-sale/pagi/1", token);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -109,6 +104,11 @@ const Totallizer = () => {
         carNo: "car/1test",
       };
       fetchIt("detail-sale/initial", data, token);
+      setAmount("");
+      setLiter("");
+      setFuel("none");
+      setStation("none");
+      setNoz("none");
       // console.log(data,station._id);
     }
   };
@@ -149,12 +149,14 @@ const Totallizer = () => {
       <div className="w-[1320px] shadow-shadow/20 shadow-md rounded-2xl p-6 flex flex-col gap-6 gap-y-4 bg-white">
         <div className="flex gap-x-10 justify-between">
           <TextInput
+            value={amount}
             onChange={(e) => setAmount(e.target.value)}
             style="!w-[300px]"
             label="Totalizer Amount"
             placeholder="Amount"
           />
           <TextInput
+            value={liter}
             onChange={(e) => setLiter(e.target.value)}
             style="!w-[300px]"
             label="Totalizer Liter"

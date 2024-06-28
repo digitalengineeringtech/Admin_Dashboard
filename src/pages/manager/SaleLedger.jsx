@@ -68,14 +68,14 @@ const SaleLedger = () => {
   }, []);
 
   console.log(
-    sDate,
+    stock,
     "...................................................................................................."
   );
 
   useEffect(() => {
     fetchItGet(`detail-sale/by-date/?sDate=${sDate}&eDate=${eDate}`, token);
     fetchItGet2("/device", token);
-    fetchItGet3(`/balance-statement/?reqDate=${formattedDate}`, token);
+    fetchItGet3(`/fuel-balance/by-date?sDate=${sDate}&eDate=${eDate}`, token);
 
     console.log("wkwk");
   }, [con, refresh]);
@@ -87,7 +87,7 @@ const SaleLedger = () => {
     const formattedYesterday = yesterday.toISOString().split("T")[0];
     fetchItGet(`detail-sale/by-date/?sDate=${sDate}&eDate=${eDate}`, token);
     fetchItGet2("/device", token);
-    fetchItGet3(`/balance-statement/?reqDate=${formattedYesterday}`, token);
+    fetchItGet3(`/fuel-balance/by-date?sDate=${sDate}&eDate=${eDate}`, token);
     console.log(
       "........................",
       sDate,
@@ -97,7 +97,7 @@ const SaleLedger = () => {
 
   useEffect(() => {
     // setStock(data_g_3); normal
-    setStock(data_g_3.slice(0, 4));
+    setStock(data_g_3.reverse().slice(0, 4));
   }, [data_g_3, refresh]);
 
   console.log(data_g, data_g_2);
@@ -309,12 +309,12 @@ const SaleLedger = () => {
   const meterRow = stock?.map((element, index) => (
     <Table.Tr key={index} className=" duration-150 text-center">
       <Table.Td>{index + 1}</Table.Td>
-      <Table.Td>{element.dateOfDay}</Table.Td>
+      <Table.Td>{element.createAt}</Table.Td>
       {/* <Table.Td>{element.pump}</Table.Td> */}
       <Table.Td>{element.fuelType}</Table.Td>
-      <Table.Td>{element.openingBalance.toFixed(2)}</Table.Td>
-      <Table.Td>{element.balance.toFixed(2)}</Table.Td>
-      <Table.Td>{element.issue.toFixed(2)}</Table.Td>
+      <Table.Td>{element.opening?.toFixed(2)}</Table.Td>
+      <Table.Td>{element.balance?.toFixed(2)}</Table.Td>
+      <Table.Td>{(element.opening - element.balance).toFixed(2)}</Table.Td>
     </Table.Tr>
   ));
 
@@ -336,16 +336,24 @@ const SaleLedger = () => {
     <Table.Tr key={element.no} className=" duration-150 text-center">
       <Table.Td>{index + 1}</Table.Td>
       <Table.Td>{element.fuelType}</Table.Td>
-      <Table.Td>{element.openingBalance.toFixed(2)}</Table.Td>
-      <Table.Td>{element.receive.toFixed(2)}</Table.Td>
-      <Table.Td>{element.issue.toFixed(2)}</Table.Td>
-      <Table.Td>{element.adjust.toFixed(2)}</Table.Td>
-      <Table.Td>{element.balance.toFixed(2)}</Table.Td>
-      <Table.Td>{element.todayTank.toFixed(2)}</Table.Td>
-      <Table.Td>{element.yesterdayTank.toFixed(2)}</Table.Td>
-      <Table.Td>{element.tankIssue.toFixed(2)}</Table.Td>
-      <Table.Td>{element.todayGL.toFixed(2)}</Table.Td>
-      <Table.Td>{element.totalGL.toFixed(2)}</Table.Td>
+      <Table.Td>{element.opening?.toFixed(2)}</Table.Td>
+      <Table.Td>{element.fuelIn?.toFixed(2)}</Table.Td>
+      {/* <Table.Td>{element.issue?.toFixed(2)}</Table.Td> */}
+      <Table.Td>test</Table.Td>
+      <Table.Td>
+        {(
+          element.balance -
+          element.open -
+          element.receive +
+          element.totalLiter
+        )?.toFixed(2)}
+      </Table.Td>
+      <Table.Td>{element.balance?.toFixed(2)}</Table.Td>
+      <Table.Td>{element.todayTank?.toFixed(2)}</Table.Td>
+      <Table.Td>{element.yesterdayTank?.toFixed(2)}</Table.Td>
+      <Table.Td>{element.tankIssue?.toFixed(2)}</Table.Td>
+      <Table.Td>{element.todayGL?.toFixed(2)}</Table.Td>
+      <Table.Td>{element.totalGL?.toFixed(2)}</Table.Td>
     </Table.Tr>
   ));
 

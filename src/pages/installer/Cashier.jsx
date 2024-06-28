@@ -22,11 +22,15 @@ const Cashier = () => {
   const [success, setSuccess] = useState(false);
   const [load, setLoad] = useState(false);
   const [stationNo, setStationNo] = useState("");
-  const [stationId, setStationId] = useState("6464e9d2c45b82216ab1e654");
+  const [stationId, setStationId] = useState("");
 
   const [{ data, loading, error }, fetchIt] = UsePost();
 
   const { loadToken } = useTokenStorage();
+
+  console.log("====================================");
+  console.log(stationId);
+  console.log("====================================");
 
   const handleClick = () => {
     if (
@@ -52,7 +56,7 @@ const Cashier = () => {
           password: password,
           comparePassword: ComPassword,
           stationNo: stationNo,
-          stationId: stationId,
+          stationId: stationId._id,
           cardId: cardId,
           nrcNo: nrcNo,
         };

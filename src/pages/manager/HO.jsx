@@ -47,7 +47,7 @@ const HO = () => {
 
   let end = new Date();
   end.setHours(23);
-  end.setMinutes(0);
+  end.setMinutes(59);
   end = new Date(end);
 
   const [sDate, setSDate] = useState(start);
@@ -73,7 +73,7 @@ const HO = () => {
   useEffect(() => {
     fetchItGet(`detail-sale/by-date/?sDate=${sDate}&eDate=${eDate}`, token);
     fetchItGet2("/device", token);
-    fetchItGet3(`/balance-statement/?reqDate=${formattedDate}`, token);
+    fetchItGet3(`/fuel-balance/by-date?sDate=${sDate}&eDate=${eDate}`, token);
 
     // console.log("wkwk");
   }, [con, refresh]);
@@ -85,7 +85,7 @@ const HO = () => {
     const formattedYesterday = yesterday.toISOString().split("T")[0];
     fetchItGet(`detail-sale/by-date/?sDate=${sDate}&eDate=${eDate}`, token);
     fetchItGet2("/device", token);
-    fetchItGet3(`/balance-statement/?reqDate=${formattedYesterday}`, token);
+    fetchItGet3(`/fuel-balance/by-date?sDate=${sDate}&eDate=${eDate}`, token);
     // console.log(
     //   "........................",
     //   sDate,
@@ -188,9 +188,9 @@ const HO = () => {
         pricePerLiter: unitPrice || "0",
         totalAmount: calcuLiter * unitPrice || "0",
         discount: 0,
-        open: open?.openingBalance?.toFixed(2),
+        open: open?.opening?.toFixed(2),
         balance: open?.balance?.toFixed(2),
-        receive: open?.receive?.toFixed(2),
+        receive: open?.fuelIn?.toFixed(2),
         // totalAmount: `${calcuLiter * unitPrice}`.replace(".", ",") || "0",
       };
     });
@@ -214,9 +214,9 @@ const HO = () => {
         pricePerLiter: unitPrice || "0",
         totalAmount: calcuLiter * unitPrice || "0",
         discount: 0,
-        open: open?.openingBalance?.toFixed(2),
+        open: open?.opening?.toFixed(2),
         balance: open?.balance?.toFixed(2),
-        receive: open?.receive?.toFixed(2),
+        receive: open?.fuelIn?.toFixed(2),
         obj: open,
         // totalAmount: `${calcuLiter * unitPrice}`.replace(".", ",") || "0",
       };
@@ -224,7 +224,7 @@ const HO = () => {
     setNotCredit1(fuelCalcu);
   }, [data_g, fuelData, data_g_3]);
 
-  console.log(notCredit, "lljljljljjjljlljjjljljljljjljljlj");
+  console.log(data_g_3, sDate, eDate, "lljljljljjjljlljjjljljljljjljljlj");
 
   const total = totalPTest?.concat(totalOTest);
   useEffect(() => {
@@ -327,7 +327,9 @@ const HO = () => {
       <Table.Td>00</Table.Td>
       <Table.Td>00</Table.Td>
       <Table.Td>{element?.balance || 0}</Table.Td>
-      <Table.Td>00</Table.Td>
+      <Table.Td>
+        {(element.balance - element.open - element.receive + element.totalLiter).toFixed(3)}
+      </Table.Td>
       <Table.Td>{element?.balance || 0}</Table.Td>
     </Table.Tr>
   ));

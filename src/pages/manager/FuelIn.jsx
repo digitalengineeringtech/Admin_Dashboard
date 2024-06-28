@@ -27,14 +27,16 @@ import { downloadExcel } from "react-export-table-to-excel";
 import ConAlert from "../../components/alert/ConAlert";
 import Swal from "sweetalert2";
 import UseGet2 from "../../api/hooks/UseGet2";
+import TankDrop from "../../components/TankDrop";
+import UseCloudPost from "../../api/hooks/UseCloudPost";
 
 const FuelIn = () => {
-  console.log(purpose);
   const [isData, setIsData] = useState(true);
   const [pou, setPou] = useState();
   const [noz, setNoz] = useState();
   const [stock, setStock] = useState();
   const [fuelType, setFuelType] = useState();
+  const [tank, setTank] = useState();
   const [startDate, setStartDate] = useState();
   const [endDate, setEndDate] = useState();
   const [date, setDate] = useState(null);
@@ -44,11 +46,11 @@ const FuelIn = () => {
     UseGet3();
   const [{ data_g_2, loading_g_2, error_g_2 }, fetchItGet2] = UseGet2();
   const [{ data, loading, error }, fetchIt] = UsePost();
+  const [{ data_c_post, loading_c_post, error_c_post }, postToCloud] =
+    UseCloudPost();
   const [driverName, setDriverName] = useState();
   const [number, setNumber] = useState();
   const tableRef = useRef(null);
-  console.log(fuelType?._id, receive, "hlelllllllllllllllllllllllllllll");
-  console.log(data_g_2);
   let start = new Date();
   const [token, setToken] = useState("none");
   const [sDate, setSDate] = useState(start);
@@ -61,6 +63,14 @@ const FuelIn = () => {
     }
   }, []);
 
+  console.log(data_c_post, ".. this is up to cloud ....................");
+
+  // const tank = data_g_2.map((e) => e.tankNo);
+
+  let initial = new Date(sDate);
+  initial.setHours(0);
+  initial.setMinutes(0);
+  initial.setSeconds(0);
   const onPageChange = (event) => {
     fetchItGet3(`/fuelIn/pagi/${event}`, token);
   };
@@ -70,11 +80,12 @@ const FuelIn = () => {
 
   const formattedDate = sDate.toISOString().split("T")[0];
 
-  // const route = `/balance-statement/?reqDate=2024-03-11`;
-  const route = `/balance-statement/?reqDate=${formattedDate}`;
+  const route = `/fuel-balance/by-date?sDate=${initial}&eDate=${sDate}`;
   // const route = `/balance-statement/?reqDate=${formattedDate}`;
-  console.log(formattedDate, route);
+  // const route = `/balance-statement/?reqDate=${formattedDate}`;
   const [{ data_g, loading_g, error_g, pagi_g }, fetchItGet] = UseGet();
+
+  console.log(data_g_3);
 
   const [con, setCon] = useState(false);
 
@@ -84,10 +95,7 @@ const FuelIn = () => {
 
   useEffect(() => {
     fetchItGet(route, token);
-    console.log("hello");
   }, [con, data]);
-
-  console.log(data_g);
 
   const tableHeader = [
     "Receive Data",
@@ -106,7 +114,7 @@ const FuelIn = () => {
       <Table.Td>{element.fuel_type}</Table.Td>
       <Table.Td>{element.driver}</Table.Td>
       <Table.Td>{element.bowser}</Table.Td>
-      <Table.Td>{element.receiveAmount}</Table.Td>
+      <Table.Td>{element.receive_balance}</Table.Td>
       {/* <Table.Td>{element.balance}</Table.Td> */}
       {/* <Table.Td>{element.saleLiter}</Table.Td> */}
       {/* <Table.Td>
@@ -134,36 +142,56 @@ const FuelIn = () => {
     setCon(true);
   }, []);
 
-  console.log(
-    `/balance-statement/receive-balance?id=${fuelType?._id}`,
-    {
-      receiveAmount: receive,
-      driver: driverName,
-      bowser: number,
-      fuel_type: fuelType?.fuelType,
-    },
-    "...................................................................................................."
-  );
+  // console.log(
+  //   `/balance-statement/receive-balance?id=${fuelType?._id}`,
+  //   {
+  //     receiveAmount: receive,
+  //     driver: driverName,
+  //     bowser: number,
+  //     fuel_type: fuelType?.fuelType,
+  //   },
+  //   "...................................................................................................."
+  // );
 
   useEffect(() => {
     fetchItGet3(`/fuelIn/pagi/1`, token);
-    fetchItGet2(`/balance-statement/?reqDate=${formattedDate}`, token);
-
-    console.log("wkwk");
+    fetchItGet2(`/fuel-balance/by-date?sDate=${initial}&eDate=${sDate}`, token);
   }, [con, data]);
 
   const handleClick = () => {
+    var utcTimeOne = new Date();
+    utcTimeOne = utcTimeOne.toLocaleDateString("fr-CA");
     // const formattedDate2 = sDate.toISOString().split("T")[0];
-    fetchIt(
-      `/balance-statement/recive-balance?id=${fuelType?._id}`,
-      {
-        receiveAmount: receive,
-        driver: driverName,
-        bowser: number,
-        fuel_type: fuelType?.fuelType,
-      },
-      token
-    );
+
+    const dataObj = {
+      stationId: fuelType.stationId,
+      driver: driverName,
+      bowser: number,
+      tankNo: tank.tankNo,
+      fuel_type: fuelType.fuelType,
+      receive_balance: receive,
+      receive_date: utcTimeOne,
+    };
+
+    console.log(dataObj, "this is dataObj");
+
+    // fetchIt(
+    //   `/balance-statement/recive-balance?id=${fuelType?._id}`,
+    //   {
+    //     receiveAmount: receive,
+    //     driver: driverName,
+    //     bowser: number,
+    //     fuel_type: fuelType?.fuelType,
+    //   },
+    //   token
+    // );
+    try {
+      postToCloud(`/fuelIn`, dataObj, token);
+    } catch (error) {
+      console.log(error, "this is error");
+    }
+
+    fetchIt(`/fuelIn`, dataObj, token);
     setReceive("");
     setFuelType("");
     setDriverName("");
@@ -231,6 +259,13 @@ const FuelIn = () => {
           data={data_g_2}
           value={fuelType}
           setValue={setFuelType}
+        />
+        <TankDrop
+          placeholder="Please Select"
+          label="Tank No."
+          data={data_g_2}
+          value={tank}
+          setValue={setTank}
         />
         <TextInput
           style="!w-[300px]"

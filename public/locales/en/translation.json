@@ -52,16 +52,12 @@
 
   "SIDE_INSTALLER": [
     {
-      "name": "Devices",
-      "link": "/"
-    },
-    {
       "name": "Tanks",
       "link": "/tank"
     },
     {
-      "name": "Balance",
-      "link": "/balance_statement"
+      "name": "Devices",
+      "link": "/"
     },
     {
       "name": "Totalizer",

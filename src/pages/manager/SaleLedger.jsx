@@ -68,9 +68,21 @@ const SaleLedger = () => {
   }, []);
 
   console.log(
-    stock,
+    data_g_3,
     "...................................................................................................."
   );
+
+  if (stock) {
+    const calcu = () => {
+      stock.slice(0, 4).map((e) => {
+        
+      });
+
+      return{
+
+      }
+    };
+  }
 
   useEffect(() => {
     fetchItGet(`detail-sale/by-date/?sDate=${sDate}&eDate=${eDate}`, token);
@@ -88,11 +100,11 @@ const SaleLedger = () => {
     fetchItGet(`detail-sale/by-date/?sDate=${sDate}&eDate=${eDate}`, token);
     fetchItGet2("/device", token);
     fetchItGet3(`/fuel-balance/by-date?sDate=${sDate}&eDate=${eDate}`, token);
-    console.log(
-      "........................",
-      sDate,
-      `/balance-statement/?reqDate=${formattedYesterday}`
-    );
+    // console.log(
+    //   "........................",
+    //   sDate,
+    //   `/balance-statement/?reqDate=${formattedYesterday}`
+    // );
   };
 
   useEffect(() => {
@@ -100,7 +112,7 @@ const SaleLedger = () => {
     setStock(data_g_3.reverse().slice(0, 4));
   }, [data_g_3, refresh]);
 
-  console.log(data_g, data_g_2);
+  // console.log(data_g, data_g_2);
 
   if (data_g.length > 0) {
     console.log("sksksks");
@@ -339,7 +351,7 @@ const SaleLedger = () => {
       <Table.Td>{element.opening?.toFixed(2)}</Table.Td>
       <Table.Td>{element.fuelIn?.toFixed(2)}</Table.Td>
       {/* <Table.Td>{element.issue?.toFixed(2)}</Table.Td> */}
-      <Table.Td>test</Table.Td>
+      <Table.Td>{element.cash}</Table.Td>
       <Table.Td>
         {(
           element.balance -

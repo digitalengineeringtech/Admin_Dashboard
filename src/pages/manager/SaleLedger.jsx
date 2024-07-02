@@ -51,6 +51,9 @@ const SaleLedger = () => {
   end = new Date(end);
 
   const [sDate, setSDate] = useState(start);
+  let endDate = new Date(sDate);
+  endDate.setDate(endDate.getDate() + 1);
+
   const [eDate, setEDate] = useState(end);
   const [totalPTest, setTotalPTest] = useState();
   const [totalOTest, setTotalOTest] = useState();
@@ -67,27 +70,26 @@ const SaleLedger = () => {
     setCon(true);
   }, []);
 
+  const tankData = data_g[data_g.length - 1]?.data;
+
   console.log(
-    data_g_3,
+    tankData,
+    notCredit,
     "...................................................................................................."
   );
 
   if (stock) {
     const calcu = () => {
-      stock.slice(0, 4).map((e) => {
-        
-      });
+      stock.slice(0, 4).map((e) => {});
 
-      return{
-
-      }
+      return {};
     };
   }
 
   useEffect(() => {
-    fetchItGet(`detail-sale/by-date/?sDate=${sDate}&eDate=${eDate}`, token);
+    fetchItGet(`/tank-data/pagi/1?dailyReportDate=${start}`, token);
     fetchItGet2("/device", token);
-    fetchItGet3(`/fuel-balance/by-date?sDate=${sDate}&eDate=${eDate}`, token);
+    fetchItGet3(`/fuel-balance/by-one-date?sDate=${sDate}`, token);
 
     console.log("wkwk");
   }, [con, refresh]);
@@ -99,7 +101,7 @@ const SaleLedger = () => {
     const formattedYesterday = yesterday.toISOString().split("T")[0];
     fetchItGet(`detail-sale/by-date/?sDate=${sDate}&eDate=${eDate}`, token);
     fetchItGet2("/device", token);
-    fetchItGet3(`/fuel-balance/by-date?sDate=${sDate}&eDate=${eDate}`, token);
+    fetchItGet3(`/fuel-balance/by-one-date?sDate=${sDate}`, token);
     // console.log(
     //   "........................",
     //   sDate,
@@ -109,108 +111,98 @@ const SaleLedger = () => {
 
   useEffect(() => {
     // setStock(data_g_3); normal
-    setStock(data_g_3.reverse().slice(0, 4));
+    setStock(data_g_3);
   }, [data_g_3, refresh]);
 
   // console.log(data_g, data_g_2);
 
-  if (data_g.length > 0) {
-    console.log("sksksks");
-  }
+  // useEffect(() => {
+  //   const fuelCalcu = fuelData.map((e, index) => {
+  //     const calcuLiter = data_g
+  //       .filter((fuel) => fuel.fuelType == e.value)
+  //       .filter((type) => type.vehicleType == "Pump Test")
+  //       .map((element) => element.saleLiter)
+  //       .reduce((pv, cv) => pv + cv, 0);
+  //     const unitPrice = data_g_2.filter((unit) => unit.fuel_type == e.value)[0]
+  //       ?.daily_price;
+
+  //     return {
+  //       fueltype: e.value,
+  //       totalLiter: calcuLiter,
+  //       pricePerLiter: unitPrice || "0",
+  //       totalAmount: calcuLiter * unitPrice || "0",
+  //       // totalAmount: `${calcuLiter * unitPrice}`.replace(".", ",") || "0",
+  //     };
+  //   });
+  //   setTotalPTest(fuelCalcu);
+  // }, [data_g, fuelData]);
+
+  console.log(stock, "llllllllllllllllllllllllllllllllllllllllllll");
+
+  // useEffect(() => {
+  //   const fuelCalcu = fuelData.map((e, index) => {
+  //     const calcuLiter = data_g
+  //       .filter((fuel) => fuel.fuelType == e.value)
+  //       .filter((type) => type.vehicleType == "Office Use ( Bowser Car )")
+  //       .map((element) => element.saleLiter)
+  //       .reduce((pv, cv) => pv + cv, 0);
+  //     const unitPrice = data_g_2.filter((unit) => unit.fuel_type == e.value)[0]
+  //       ?.daily_price;
+
+  //     return {
+  //       fueltype: e.value,
+  //       totalLiter: calcuLiter,
+  //       pricePerLiter: unitPrice || "0",
+  //       totalAmount: calcuLiter * unitPrice || "0",
+  //       // totalAmount: `${calcuLiter * unitPrice}`.replace(".", ",") || "0",
+  //     };
+  //   });
+  //   setTotalOTest(fuelCalcu);
+  // }, [data_g, fuelData]);
+
+  // useEffect(() => {
+  //   const fuelCalcu = fuelData.map((e, index) => {
+  //     const calcuLiter = data_g
+  //       .filter((fuel) => fuel.fuelType == e.value)
+  //       .filter((type) => type.cashType == "Credit Card")
+  //       .map((element) => element.saleLiter)
+  //       .reduce((pv, cv) => pv + cv, 0);
+  //     const unitPrice = data_g_2.filter((unit) => unit.fuel_type == e.value)[0]
+  //       ?.daily_price;
+
+  //     return {
+  //       fueltype: e.value,
+  //       totalLiter: calcuLiter,
+  //       pricePerLiter: unitPrice || "0",
+  //       totalAmount: calcuLiter * unitPrice || "0",
+  //       discount: 0,
+  //       // totalAmount: `${calcuLiter * unitPrice}`.replace(".", ",") || "0",
+  //     };
+  //   });
+  //   setTotalCredit(fuelCalcu);
+  // }, [data_g, fuelData]);
+
+  const [n2, setN2] = useState();
+  const [n5, setN5] = useState();
+  const [hsd, setHsd] = useState();
+  const [phsd, setPhsd] = useState();
+
+  console.log(n2, n5, hsd, phsd);
 
   useEffect(() => {
-    const fuelCalcu = fuelData.map((e, index) => {
-      const calcuLiter = data_g
-        .filter((fuel) => fuel.fuelType == e.value)
-        .filter((type) => type.vehicleType == "Pump Test")
-        .map((element) => element.saleLiter)
-        .reduce((pv, cv) => pv + cv, 0);
-      const unitPrice = data_g_2.filter((unit) => unit.fuel_type == e.value)[0]
-        ?.daily_price;
-
-      return {
-        fueltype: e.value,
-        totalLiter: calcuLiter,
-        pricePerLiter: unitPrice || "0",
-        totalAmount: calcuLiter * unitPrice || "0",
-        // totalAmount: `${calcuLiter * unitPrice}`.replace(".", ",") || "0",
-      };
+    tankData?.map((e, index) => {
+      e.oilType == "Petrol 92"
+        ? setN2(e.volume)
+        : e.oilType == "Diesel"
+        ? setHsd(e.volume)
+        : e.oilType == "95 Octane"
+        ? setN5(e.volume)
+        : e.oilType == "Super Diesel"
+        ? setPhsd(e.volume)
+        : "";
     });
-    setTotalPTest(fuelCalcu);
-  }, [data_g, fuelData]);
+  }, [data_g_3]);
 
-  console.log(data_g_3, "llllllllllllllllllllllllllllllllllllllllllll");
-
-  useEffect(() => {
-    const fuelCalcu = fuelData.map((e, index) => {
-      const calcuLiter = data_g
-        .filter((fuel) => fuel.fuelType == e.value)
-        .filter((type) => type.vehicleType == "Office Use ( Bowser Car )")
-        .map((element) => element.saleLiter)
-        .reduce((pv, cv) => pv + cv, 0);
-      const unitPrice = data_g_2.filter((unit) => unit.fuel_type == e.value)[0]
-        ?.daily_price;
-
-      return {
-        fueltype: e.value,
-        totalLiter: calcuLiter,
-        pricePerLiter: unitPrice || "0",
-        totalAmount: calcuLiter * unitPrice || "0",
-        // totalAmount: `${calcuLiter * unitPrice}`.replace(".", ",") || "0",
-      };
-    });
-    setTotalOTest(fuelCalcu);
-  }, [data_g, fuelData]);
-
-  useEffect(() => {
-    const fuelCalcu = fuelData.map((e, index) => {
-      const calcuLiter = data_g
-        .filter((fuel) => fuel.fuelType == e.value)
-        .filter((type) => type.cashType == "Credit Card")
-        .map((element) => element.saleLiter)
-        .reduce((pv, cv) => pv + cv, 0);
-      const unitPrice = data_g_2.filter((unit) => unit.fuel_type == e.value)[0]
-        ?.daily_price;
-
-      return {
-        fueltype: e.value,
-        totalLiter: calcuLiter,
-        pricePerLiter: unitPrice || "0",
-        totalAmount: calcuLiter * unitPrice || "0",
-        discount: 0,
-        // totalAmount: `${calcuLiter * unitPrice}`.replace(".", ",") || "0",
-      };
-    });
-    setTotalCredit(fuelCalcu);
-  }, [data_g, fuelData]);
-
-  useEffect(() => {
-    const fuelCalcu = fuelData.map((e, index) => {
-      const calcuLiter = data_g
-        .filter((fuel) => fuel.fuelType == e.value)
-        .filter((type) => type.cashType != "Credit Card")
-        .map((element) => element.saleLiter)
-        .reduce((pv, cv) => pv + cv, 0);
-      const unitPrice = data_g_2.filter((unit) => unit.fuel_type == e.value)[0]
-        ?.daily_price;
-
-      return {
-        fueltype: e.value,
-        totalLiter: calcuLiter,
-        pricePerLiter: unitPrice || "0",
-        totalAmount: calcuLiter * unitPrice || "0",
-        discount: 0,
-        // totalAmount: `${calcuLiter * unitPrice}`.replace(".", ",") || "0",
-      };
-    });
-    setNotCredit(fuelCalcu);
-  }, [data_g, fuelData]);
-
-  // console.log(totalPTest, "lllllllllllllllll");
-  // console.log(totalCredit, "lddddddddddd");
-  // console.log(data_g, "ggggggggggggggg");
-
-  const total = totalPTest?.concat(totalOTest);
   useEffect(() => {
     const token = loadToken();
     if (token) {
@@ -355,17 +347,39 @@ const SaleLedger = () => {
       <Table.Td>
         {(
           element.balance -
-          element.open -
-          element.receive +
-          element.totalLiter
+          element.opening -
+          element.fuelIn +
+          element.cash
         )?.toFixed(2)}
       </Table.Td>
       <Table.Td>{element.balance?.toFixed(2)}</Table.Td>
-      <Table.Td>{element.todayTank?.toFixed(2)}</Table.Td>
-      <Table.Td>{element.yesterdayTank?.toFixed(2)}</Table.Td>
-      <Table.Td>{element.tankIssue?.toFixed(2)}</Table.Td>
-      <Table.Td>{element.todayGL?.toFixed(2)}</Table.Td>
-      <Table.Td>{element.totalGL?.toFixed(2)}</Table.Td>
+      <Table.Td>
+        {element.fuelType == "001-Octane Ron(92)"
+          ? n2.toFixed(2) || 0
+          : element.fuelType == "004-Diesel"
+          ? hsd.toFixed(2) || 0
+          : element.fuelType == "002-Octane Ron(95)"
+          ? n5.toFixed(2) || 0
+          : element.fuelType == "005-Premium Diesel"
+          ? phsd.toFixed(2) || 0
+          : "-"}
+      </Table.Td>
+      <Table.Td>{element.opening?.toFixed(2)}</Table.Td>
+      <Table.Td>{(element.opening - element.balance)?.toFixed(2)}</Table.Td>
+      <Table.Td>
+        {(element.opening - element.balance - element.cash)?.toFixed(2)}
+      </Table.Td>
+      <Table.Td>
+        {element.fuelType == "001-Octane Ron(92)"
+          ? (n2 - element.balance).toFixed(2) || 0
+          : element.fuelType == "004-Diesel"
+          ? (hsd - element.balance).toFixed(2) || 0
+          : element.fuelType == "002-Octane Ron(95)"
+          ? (n5 - element.balance).toFixed(2) || 0
+          : element.fuelType == "005-Premium Diesel"
+          ? (phsd - element.balance).toFixed(2) || 0
+          : "-"}
+      </Table.Td>
     </Table.Tr>
   ));
 
@@ -397,18 +411,18 @@ const SaleLedger = () => {
     setRefresh((pre) => !pre);
   };
 
-  console.log(
-    fuelType2,
-    "/.SDSDSSSDSDSDSSDSDSS...................................."
-  );
+  // console.log(
+  //   fuelType2,
+  //   "/.SDSDSSSDSDSDSSDSDSS...................................."
+  // );
 
   return (
     <div className="w-full pt-28">
       <div className="flex  flex-wrap gap-4 gap-x-10  justify-between">
         <CalendarPick date={sDate} setDate={setSDate} label="Start Date" />
-        <div className="">
+        {/* <div className="">
           <CalendarPick date={eDate} setDate={setEDate} label="End Date" />
-        </div>
+        </div> */}
         <SearchButton onClick={handleClick} />
       </div>
       {/* <div className="border-b-2 text-text border-gray-300 pb-3 mt-8 flex">

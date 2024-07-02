@@ -3,6 +3,7 @@ import Chart from "chart.js/auto";
 import fuelData from "../../pages/installer/drop_data/fuel";
 import UseGet from "../../api/hooks/UseGet";
 import UseGet2 from "../../api/hooks/UseGet2";
+import UseGet3 from "../../api/hooks/UseGet3";
 import useTokenStorage from "../../utils/useDecrypt";
 import color from "../../pages/installer/drop_data/color";
 
@@ -11,12 +12,9 @@ const Manager = () => {
   const [token, setToken] = useState("none");
   const { loadToken } = useTokenStorage();
 
-  useEffect(() => {
-    const token = loadToken();
-    if (token) {
-      setToken(token);
-    }
-  }, []);
+  const [{ data_g, loading_g, error_g }, fetchItGet] = UseGet();
+  const [{ data_g_2, loading_g_2, error_g_2 }, fetchItGet2] = UseGet2();
+  const [{ data_g_3, loading_g_3, error_g_3 }, fetchItGet3] = UseGet3();
 
   let start = new Date();
   start.setHours(0);
@@ -28,36 +26,42 @@ const Manager = () => {
   end.setMinutes(59);
   end = new Date(end);
 
-  const [{ data_g, loading_g, error_g }, fetchItGet] = UseGet();
-  const [{ data_g_2, loading_g_2, error_g_2 }, fetchItGet2] = UseGet2();
+  useEffect(() => {
+    const token = loadToken();
+    if (token) {
+      setToken(token);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchItGet3(
+      `/tank-data/pagi/1?dateOfDay=${start.toLocaleDateString(`fr-CA`)}`,
+      token
+    );
+  }, []);
 
   // eslint-disable-next-line no-unused-vars
   const [endDate, setEndDate] = useState(end);
   // eslint-disable-next-line no-unused-vars
   const [startDate, setStartDate] = useState(start);
 
-  console.log(startDate, endDate, "ggggg");
+  // console.log(startDate, endDate, "ggggg");
+
+  const dataArr = data_g_3[
+    data_g_3.length == 0 ? data_g_3.length : data_g_3.length - 1
+  ]?.data.map((e) => {
+    return {
+      tank: e.oilType,
+      count: e.volume,
+    };
+  });
 
   const [con, setCon] = useState();
   useEffect(() => {
     (async function () {
-      const data = [
-        { tank: "Tank 1", count: 5000 },
-        { tank: "Tank 2", count: 9000 },
-        { tank: "Tank 3", count: 17000 },
-        { tank: "Tank 4", count: 5000 },
-        { tank: "Tank 5", count: 10000 },
-        { tank: "Tank 6", count: 16000 },
-      ];
+      const data = dataArr;
 
-      const barColors = [
-        "#95e199",
-        "#95e199",
-        "#40afbf",
-        "#40afbf",
-        "#c9a9c5",
-        "#e6cf63",
-      ];
+      const barColors = ["#95e199", "#40afbf", "#c9a9c5", "#ef7070", "#e6cf63"];
 
       new Chart(document.getElementById("acquisitions"), {
         type: "bar",
@@ -75,7 +79,7 @@ const Manager = () => {
     })();
   });
 
-  console.log(fuelData);
+  // console.log(data_g_3, "........................");
 
   useEffect(() => {
     fuelData.length > 4 ? setCon(true) : setCon(false);
@@ -85,13 +89,23 @@ const Manager = () => {
     );
     fetchItGet2("/device", token);
 
-    console.log("wkwk");
+    // console.log("wkwk");
   }, [startDate, endDate, token]);
 
-  console.log("====llllll================================");
-  console.log(startDate, endDate);
-  console.log(data_g, data_g_2);
-  console.log("====llllll================================");
+  console.log("==ggggg==================================");
+  console.log(
+    data_g_3,
+    start.toLocaleDateString(`fr-CA`),
+    data_g_3[data_g_3.length == 0 ? data_g_3.length : data_g_3.length - 1]
+      ?.data,
+    dataArr
+  );
+  console.log("==ggggg==================================");
+
+  // console.log("====llllll================================");
+  // console.log(startDate, endDate);
+  // console.log(data_g, data_g_2);
+  // console.log("====llllll================================");
 
   const [size, setSize] = useState();
 
@@ -100,7 +114,7 @@ const Manager = () => {
       setSize(true);
     }
   }, [window.innerWidth]);
-  console.log(size);
+  // console.log(size);
 
   useEffect(() => {
     const fuelCalcu = fuelData.map((e, index) => {
@@ -129,10 +143,6 @@ const Manager = () => {
     });
     setTotalCalcu(fuelCalcu);
   }, [data_g, fuelData]);
-
-  console.log("==ggggg==================================");
-  console.log(totalCalcu);
-  console.log("==ggggg==================================");
 
   return (
     <div className="w-full pt-28">
@@ -266,58 +276,51 @@ const Manager = () => {
                 </div>
               </div>
             </div>
-            {totalCalcu.map(
-              (e, index) => (
-                console.log(
-                  `Index: ${index}, textColor: ${e.textColor}, bgColor: ${e.bgColor}, borderColor: ${e.borderColor}`
-                ),
-                (
-                  <div
-                    style={{
-                      borderColor: e.borderColor,
-                      backgroundColor: e.bgColor,
-                    }}
-                    className={` shadow-shadow/10 border-2 gap-4 p-4  shadow-xl  flex items-center justify-center row-span-5 col-span-4 rounded-2xl `}
-                  >
-                    <div className="w-full h-full 2xl:gap-2 items-center flex ps-3 bg-secondary rounded-xl ">
-                      <img
-                        src={`../../static/images/gasoline (${index}).png`}
-                        className="h-14 2xl:ms-2 mr-2"
-                        alt=""
-                      />
-                      <div
-                        className="flex flex-col"
-                        style={{ color: e.textColor }}
-                      >
-                        <div className={`font-semibold `}>{e.fueltype}</div>
-                        {/* className=
+            {totalCalcu.map((e, index) => (
+              // console.log(
+              //   `Index: ${index}, textColor: ${e.textColor}, bgColor: ${e.bgColor}, borderColor: ${e.borderColor}`
+              // ),
+              <div
+                style={{
+                  borderColor: e.borderColor,
+                  backgroundColor: e.bgColor,
+                }}
+                className={` shadow-shadow/10 border-2 gap-4 p-4  shadow-xl  flex items-center justify-center row-span-5 col-span-4 rounded-2xl `}
+              >
+                <div className="w-full h-full 2xl:gap-2 items-center flex ps-3 bg-secondary rounded-xl ">
+                  <img
+                    src={`../../static/images/gasoline (${index}).png`}
+                    className="h-14 2xl:ms-2 mr-2"
+                    alt=""
+                  />
+                  <div className="flex flex-col" style={{ color: e.textColor }}>
+                    <div className={`font-semibold `}>{e.fueltype}</div>
+                    {/* className=
                         {!e.textColor == ""
                           ? `font-semibold `
                           : `font-semibold text-[#31a55b]`} */}
-                        <div className={` `}>
-                          Total - {Number(e?.totalPrice).toFixed(2)} MMK
-                        </div>
-                        <div className={` `}>
-                          Total - {Number(e?.totalLiter).toFixed(2)} Liter
-                        </div>
-                      </div>
+                    <div className={` `}>
+                      Total - {Number(e?.totalPrice).toFixed(2)} MMK
                     </div>
-                    <div className="w-[170px] h-full bg-secondary rounded-xl ">
-                      <div
-                        style={{ color: e.textColor }}
-                        className="flex flex-col items-center justify-center h-full"
-                      >
-                        <div className={` `}>Price</div>
-                        <div className={`text-xl font-semibold `}>
-                          {Number(e?.pricePerLiter)}
-                        </div>
-                        <div className={` `}>MMK</div>
-                      </div>
+                    <div className={` `}>
+                      Total - {Number(e?.totalLiter).toFixed(2)} Liter
                     </div>
                   </div>
-                )
-              )
-            )}
+                </div>
+                <div className="w-[170px] h-full bg-secondary rounded-xl ">
+                  <div
+                    style={{ color: e.textColor }}
+                    className="flex flex-col items-center justify-center h-full"
+                  >
+                    <div className={` `}>Price</div>
+                    <div className={`text-xl font-semibold `}>
+                      {Number(e?.pricePerLiter)}
+                    </div>
+                    <div className={` `}>MMK</div>
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
         )}
 

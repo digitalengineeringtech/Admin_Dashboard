@@ -45,9 +45,9 @@ const SaleLedger = () => {
   start.setMinutes(0);
   // start = new Date(start);
 
-  let end = new Date();
+  let end = new Date(start);
   end.setHours(23);
-  end.setMinutes(0);
+  end.setMinutes(59);
   end = new Date(end);
 
   const [sDate, setSDate] = useState(start);
@@ -102,11 +102,7 @@ const SaleLedger = () => {
     fetchItGet(`detail-sale/by-date/?sDate=${sDate}&eDate=${eDate}`, token);
     fetchItGet2("/device", token);
     fetchItGet3(`/fuel-balance/by-one-date?sDate=${sDate}`, token);
-    // console.log(
-    //   "........................",
-    //   sDate,
-    //   `/balance-statement/?reqDate=${formattedYesterday}`
-    // );
+    console.log("........................", sDate);
   };
 
   useEffect(() => {

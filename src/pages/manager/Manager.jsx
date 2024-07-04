@@ -79,7 +79,7 @@ const Manager = () => {
     })();
   });
 
-  // console.log(data_g_3, "........................");
+  console.log(data_g_3, "........................");
 
   useEffect(() => {
     fuelData.length > 4 ? setCon(true) : setCon(false);
@@ -92,15 +92,15 @@ const Manager = () => {
     // console.log("wkwk");
   }, [startDate, endDate, token]);
 
-  console.log("==ggggg==================================");
-  console.log(
-    data_g_3,
-    start.toLocaleDateString(`fr-CA`),
-    data_g_3[data_g_3.length == 0 ? data_g_3.length : data_g_3.length - 1]
-      ?.data,
-    dataArr
-  );
-  console.log("==ggggg==================================");
+  // console.log("==ggggg==================================");
+  // console.log(
+  //   data_g_3,
+  //   start.toLocaleDateString(`fr-CA`),
+  //   data_g_3[data_g_3.length == 0 ? data_g_3.length : data_g_3.length - 1]
+  //     ?.data,
+  //   dataArr
+  // );
+  // console.log("==ggggg==================================");
 
   // console.log("====llllll================================");
   // console.log(startDate, endDate);

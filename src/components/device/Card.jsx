@@ -92,6 +92,10 @@ const Card = ({
     nozzleNo: "",
   });
 
+  console.log("====================================");
+  console.log(token);
+  console.log("====================================");
+
   const regex = /[A-Z]/g;
 
   const nozzle1FuelDetailRef = useRef({ liter: "", price: "" });

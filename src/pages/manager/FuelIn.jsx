@@ -100,21 +100,23 @@ const FuelIn = () => {
   const tableHeader = [
     "Receive Data",
     "Fuel Type",
-    // "Fuel in Code",
+    "Fuel in Code",
     "Driver",
     "Bowser No",
     // "Tank",
     // "Tank Capacity",
     "Receive Volume",
-    // "Balance",
+    "Balance",
   ];
   const tableRow = stock?.map((element) => (
     <Table.Tr key={element.no} className=" duration-150 text-sm text-center">
       <Table.Td>{element.receive_date}</Table.Td>
       <Table.Td>{element.fuel_type}</Table.Td>
+      <Table.Td>{element.fuel_in_code}</Table.Td>
       <Table.Td>{element.driver}</Table.Td>
       <Table.Td>{element.bowser}</Table.Td>
       <Table.Td>{element.receive_balance}</Table.Td>
+      <Table.Td>{element.tank_balance?.toFixed(3)}</Table.Td>
       {/* <Table.Td>{element.balance}</Table.Td> */}
       {/* <Table.Td>{element.saleLiter}</Table.Td> */}
       {/* <Table.Td>
@@ -164,13 +166,14 @@ const FuelIn = () => {
     // const formattedDate2 = sDate.toISOString().split("T")[0];
 
     const dataObj = {
-      stationId: fuelType.stationId,
+      stationDetailId: fuelType.stationId,
       driver: driverName,
       bowser: number,
       tankNo: tank.tankNo,
       fuel_type: fuelType.fuelType,
       receive_balance: receive,
       receive_date: utcTimeOne,
+      asyncAlready: 1,
     };
 
     console.log(dataObj, "this is dataObj");
@@ -185,10 +188,14 @@ const FuelIn = () => {
     //   },
     //   token
     // );
+
     try {
-      postToCloud(`/fuelIn`, dataObj, token);
+      const response = postToCloud(`/fuelIn`, dataObj, token);
+      console.log("====================================");
+      console.log(response);
+      console.log("====================================");
     } catch (error) {
-      console.log(error, "this is error");
+      console.log(error, "this is error .....................");
     }
 
     fetchIt(`/fuelIn`, dataObj, token);
@@ -200,7 +207,7 @@ const FuelIn = () => {
 
   useEffect(() => {
     // setStock(data_g_3); normal
-    setStock(data_g_3.reverse().slice(0, 10));
+    setStock(data_g_3.slice(0, 20));
   }, [data_g_3, data]);
 
   const handlePrint = useReactToPrint({

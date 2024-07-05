@@ -326,7 +326,11 @@ const Manager = () => {
 
         <div className=" mt-8 flex gap-6 h-[400px] items-center">
           <div className="w-[850px] h-full p-5 items-center flex justify-center rounded-xl px-6 shadow-lg shadow-shadow/20 bg-secondary">
-            <canvas id="acquisitions" className="my-auto"></canvas>
+            {dataArr ? (
+              <canvas id="acquisitions" className="my-auto"></canvas>
+            ) : (
+              <div className="text-4xl font-semibold text-gray-300">There is no Today Tank Data</div>
+            )}
           </div>
           {con ? (
             <div className=" manager_bg flex-col p-10 h-full w-[500px] 2xl:w-[820px] rounded-xl flex items-center justify-center shadow-lg shadow-shadow/20">

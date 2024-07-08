@@ -7,6 +7,6 @@ export const localInstance = axios.create({
 });
 
 export const cloudInstance = axios.create({
-  baseURL: "http://192.168.1.146:9000/api",
+  baseURL: "http://192.168.1.146:8000/api",
   // baseURL: "https://detfsmm.com/api",
 });

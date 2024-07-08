@@ -29,6 +29,7 @@ import Swal from "sweetalert2";
 import UseGet2 from "../../api/hooks/UseGet2";
 import TankDrop from "../../components/TankDrop";
 import UseCloudPost from "../../api/hooks/UseCloudPost";
+import UsePatch from "../../api/hooks/UsePatch";
 
 const FuelIn = () => {
   const [isData, setIsData] = useState(true);
@@ -54,6 +55,7 @@ const FuelIn = () => {
   let start = new Date();
   const [token, setToken] = useState("none");
   const [sDate, setSDate] = useState(start);
+  const [{ data_pch, loading_pch, error_pch }, patchIt] = UsePatch();
 
   const { loadToken } = useTokenStorage();
   useEffect(() => {
@@ -173,7 +175,7 @@ const FuelIn = () => {
       fuel_type: fuelType.fuelType,
       receive_balance: receive,
       receive_date: utcTimeOne,
-      asyncAlready: 1,
+      asyncAlready: "1",
     };
 
     console.log(dataObj, "this is dataObj");
@@ -189,21 +191,29 @@ const FuelIn = () => {
     //   token
     // );
 
-    try {
-      const response = postToCloud(`/fuelIn`, dataObj, token);
-      console.log("====================================");
-      console.log(response);
-      console.log("====================================");
-    } catch (error) {
-      console.log(error, "this is error .....................");
-    }
-
     fetchIt(`/fuelIn`, dataObj, token);
     setReceive("");
     setFuelType("");
     setDriverName("");
     setNumber("");
+
+    // try {
+    //   postToCloud(`/fuelIn`, dataObj, token);
+    // } catch (error) {
+    //   console.log(error, "this is error .....................");
+    // }
+    // if (data_c_post?.con == true) {
+    //   patchIt(`/fuelIn?_id=${data?.con?._id}`, { asyncAlready: 2 }, token);
+    // }
   };
+
+  // if (data?.con == true) {
+
+  // }
+
+  console.log("====================================");
+  console.log(data);
+  console.log("====================================");
 
   useEffect(() => {
     // setStock(data_g_3); normal

@@ -87,10 +87,12 @@ const RealTimeCounting = ({
       customerId: customer.cou_id,
     });
   }, [cashType, carNo, customer, category]);
+
   console.log(
-    category,
+    printFormInfo,
     "lllllllllllllllllllllllllllllddddddddddddddddddddddddddddddddddddddd"
   );
+
   return (
     <div>
       <RealTime

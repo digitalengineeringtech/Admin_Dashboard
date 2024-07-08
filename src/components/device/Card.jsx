@@ -92,10 +92,6 @@ const Card = ({
     nozzleNo: "",
   });
 
-  console.log("====================================");
-  console.log(token);
-  console.log("====================================");
-
   const regex = /[A-Z]/g;
 
   const nozzle1FuelDetailRef = useRef({ liter: "", price: "" });
@@ -209,6 +205,8 @@ const Card = ({
 
   // console.log(printFormInfo, "......................");
   // console.log(token);
+
+  ///preset
   const handleReadyState = async () => {
     if (!disableButton) {
       setDisableButton(true);
@@ -366,6 +364,7 @@ const Card = ({
     }, 3000);
   };
 
+  ///permit
   const handlePermit = async () => {
     if (
       premitFormInfo.couObjId == undefined &&
@@ -412,6 +411,11 @@ const Card = ({
 
       setLoading(false);
 
+      console.log(
+        permitObject,
+        "permit.........jljljljljljljljljljljljljljljlj"
+      );
+
       if (permitObject) {
         setPermitButtonDisable(false);
       }
@@ -439,8 +443,17 @@ const Card = ({
         setHttpCode(true);
         setFetchObj(permitObject.data.result);
         setPrintFormInfo({
+          // nozzle_no: obj.nozzle_no,
+          // objId: permitObject.data.result.screenuObjId,
           nozzle_no: obj.nozzle_no,
-          objId: permitObject.data.result.screenuObjId,
+          objId: permitObject.data.result._id,
+          vocono: permitObject.data.result.vocono,
+          cashType: permitObject.data.result.cashType,
+          carNo: permitObject.data.result.carNo,
+          purposeOfUse: permitObject.data.result.vehicleType,
+          customerName: premitFormInfo.couName,
+          customerId: premitFormInfo.cou_id,
+          customerObjId: premitFormInfo.couObjId,
         });
 
         setRealTimeEdit({
@@ -513,6 +526,10 @@ const Card = ({
 
       //   setLoading(false);
       // };
+
+      console.log("=====pp===============================");
+      console.log(printFormInfo);
+      console.log("=====pp===============================");
 
       const fetchIt = await localInstance.patch(
         `/detail-sale?_id=${printFormInfo.objId}`,

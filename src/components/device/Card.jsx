@@ -435,8 +435,17 @@ const Card = ({
         setHttpCode(true);
         setFetchObj(permitObject.data.result);
         setPrintFormInfo({
+          // nozzle_no: obj.nozzle_no,
+          // objId: permitObject.data.result.screenuObjId,
           nozzle_no: obj.nozzle_no,
-          objId: permitObject.data.result.screenuObjId,
+          objId: permitObject.data.result._id,
+          vocono: permitObject.data.result.vocono,
+          cashType: permitObject.data.result.cashType,
+          carNo: permitObject.data.result.carNo,
+          purposeOfUse: permitObject.data.result.vehicleType,
+          customerName: premitFormInfo.couName,
+          customerId: premitFormInfo.cou_id,
+          customerObjId: premitFormInfo.couObjId,
         });
 
         setRealTimeEdit({

@@ -148,12 +148,17 @@ const DailyList = () => {
         .filter((type) => type.cashType == "Credit Card")
         .map((element) => element.saleLiter)
         .reduce((pv, cv) => pv + cv, 0);
+      const calcuLiter2 = data_g
+        .filter((fuel) => fuel.fuelType == e.value)
+        .filter((type) => type.cashType == "Credit")
+        .map((element) => element.saleLiter)
+        .reduce((pv, cv) => pv + cv, 0);
       const unitPrice = data_g_2.filter((unit) => unit.fuel_type == e.value)[0]
         ?.daily_price;
 
       return {
         fueltype: e.value,
-        totalLiter: calcuLiter,
+        totalLiter: calcuLiter + calcuLiter2,
         pricePerLiter: unitPrice || "0",
         totalAmount: calcuLiter * unitPrice || "0",
         discount: 0,

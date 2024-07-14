@@ -94,10 +94,6 @@ const DeviceControl = () => {
   const [permitData, setPermitData] = useState([]);
   const [approveData, setApproveData] = useState([]);
 
-  console.log("====================================");
-  console.log("permit req is", permitData, "and approve is ", approveData);
-  console.log("====================================");
-
   const [isData, setIsData] = useState(false);
 
   const [sDate, setSDate] = useState(start);
@@ -215,10 +211,10 @@ const DeviceControl = () => {
         })}
       </Table.Td>
       <Table.Td className="select-none">
-        {element.totalizer_liter.toFixed(3)}
+        {element.devTotalizar_liter.toFixed(3)}
       </Table.Td>
       <Table.Td className="select-none">
-        {element.totalizer_amount.toFixed(2).toLocaleString(undefined, {
+        {element.devTotalizar_amount.toFixed(2).toLocaleString(undefined, {
           maximumFractionDigits: 3,
         })}
       </Table.Td>

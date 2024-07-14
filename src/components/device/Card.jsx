@@ -130,9 +130,7 @@ const Card = ({
       //   "----------------------------------------"
       // );
     }
-    console.log("=====topic===============================");
-    console.log(message);
-    console.log("====================================");
+
     if (topic.startsWith("detpos/device/Final/") && /[1-8]$/.test(topic)) {
       close();
       setNozzleActive(false);

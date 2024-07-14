@@ -149,9 +149,9 @@ const DailySale = () => {
           maximumFractionDigits: 3,
         })}
       </Table.Td>
-      <Table.Td>{element.totalizer_liter.toFixed(3)}</Table.Td>
+      <Table.Td>{element.devTotalizar_liter.toFixed(3)}</Table.Td>
       <Table.Td>
-        {element.totalizer_amount.toFixed(2).toLocaleString(undefined, {
+        {element.devTotalizar_amount.toFixed(2).toLocaleString(undefined, {
           maximumFractionDigits: 3,
         })}
       </Table.Td>

@@ -5,7 +5,6 @@ const FilterTable = ({ header, label, rows, tableRef }) => {
   // const tableRef = useRef();
 
   // console.log(tableRef, ".........................");
-  console.log("hh");
   return (
     <div className="">
       <h3 className="text-text ms-3 mb-3 text-xl">{label}</h3>

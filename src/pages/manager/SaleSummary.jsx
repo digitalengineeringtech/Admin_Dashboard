@@ -43,6 +43,7 @@ const SaleSummary = () => {
   const [ninety5LotalLiter, SetNinety5LotalLiter] = useState(0);
   const [dieselLotalLiter, SetDieselLotalLiter] = useState(0);
   const [phsdLotalLiter, SetphshLotalLiter] = useState(0);
+  const [noz, setNoz] = useState([]);
 
   const [literByNoz, setLiterByNoz] = useState([]);
 
@@ -196,6 +197,28 @@ const SaleSummary = () => {
   console.log(data_g_2, "22222222222222");
   console.log(data_g, "1111111111111111111111111");
 
+  const nozz = data_g.map((e) => {
+    return e.nozzleNo;
+  });
+
+  const uniqueArray = [...new Set(nozz)];
+
+  console.log(uniqueArray, "...................", nozz);
+
+  const nozData = uniqueArray.map((e) => {
+    const data = data_g.filter((pump) => e == pump.nozzleNo).reverse();
+    const diff =
+      data[0].devTotalizar_liter - data[data.length - 1].devTotalizar_liter;
+    // return data;
+    return {
+      nozzle_no: e,
+      // totalLiter: data.reduce((sum, current) => sum + current.saleLiter, 0),
+      data: data,
+      fuel_type: data[0].fuelType,
+      devTotalizerDif: diff,
+    };
+  });
+
   useEffect(() => {
     let ninety2 = 0;
     let ninety5 = 0;
@@ -206,18 +229,19 @@ const SaleSummary = () => {
 
     // fetchfrom detailsale statement
     // data_g_2?.map((obj) => {
-    data_g?.map((obj) => {
-      if (obj.fuelType === "001-Octane Ron(92)") {
-        ninety2 += obj.saleLiter;
+    // data_g?.map((obj) => {
+    nozData?.map((obj) => {
+      if (obj.fuel_type === "001-Octane Ron(92)") {
+        ninety2 += obj.devTotalizerDif;
       }
-      if (obj.fuelType === "002-Octane Ron(95)") {
-        ninety5 += obj.saleLiter;
+      if (obj.fuel_type === "002-Octane Ron(95)") {
+        ninety5 += obj.devTotalizerDif;
       }
-      if (obj.fuelType === "004-Diesel") {
-        diesel += obj.saleLiter;
+      if (obj.fuel_type === "004-Diesel") {
+        diesel += obj.devTotalizerDif;
       }
-      if (obj.fuelType === "005-Premium Diesel") {
-        premium += obj.saleLiter;
+      if (obj.fuel_type === "005-Premium Diesel") {
+        premium += obj.devTotalizerDif;
       }
 
       totalPrice += obj.totalPrice;
@@ -263,6 +287,8 @@ const SaleSummary = () => {
     );
   });
 
+  console.log(nozData, "noz Data");
+
   function handleDownloadExcel() {
     downloadExcel({
       fileName: "Sale Summary",
@@ -287,6 +313,7 @@ const SaleSummary = () => {
       },
     });
   }
+
   function handleDownloadExcel2() {
     downloadExcel({
       fileName: "Sale Summary by Nozzle",

@@ -302,14 +302,14 @@ const TotalDif = () => {
         .reduce((pv, cv) => pv + cv, 0);
       const totalizer = data_g
         .filter((voc) => voc.nozzleNo == e.nozzle_no)
-        .reverse()[0]?.totalizer_liter;
+        .reverse()[0]?.devTotalizar_liter;  
       const firstsale = data_g
         .filter((voc) => voc.nozzleNo == e.nozzle_no)
         .reverse()[0]?.saleLiter;
       const length = data_g.filter((voc) => voc.nozzleNo == e.nozzle_no).length;
       const lTotalizer = data_g
         .filter((voc) => voc.nozzleNo == e.nozzle_no)
-        .reverse()[length - 1]?.totalizer_liter;
+        .reverse()[length - 1]?.devTotalizar_liter;
 
       console.log(
         data_g.filter((voc) => voc.nozzleNo == e.nozzle_no).reverse()[0]

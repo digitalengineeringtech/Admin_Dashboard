@@ -55,7 +55,7 @@ const FuelBalance = () => {
   console.log(purpose);
 
   const stockHeader = ["No", "Fuel Type", "Opening", "Receive", "Balance"];
-  const stockRow = data_g.slice(0, 4)?.map((element, index) => (
+  const stockRow = data_g?.map((element, index) => (
     <Table.Tr key={element.no} className=" duration-150 text-center">
       <Table.Td>{index + 1}</Table.Td>
       <Table.Td>{element.fuelType}</Table.Td>

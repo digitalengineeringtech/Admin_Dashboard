@@ -58,10 +58,6 @@ const DailyList = () => {
     setCon(true);
   }, []);
 
-  console.log(
-    sDate,
-    "...................................................................................................."
-  );
 
   useEffect(() => {
     fetchItGet(`detail-sale/by-date/?sDate=${sDate}&eDate=${eDate}`, token);
@@ -79,11 +75,6 @@ const DailyList = () => {
     fetchItGet(`detail-sale/by-date/?sDate=${sDate}&eDate=${eDate}`, token);
     fetchItGet2("/device", token);
     fetchItGet3(`/balance-statement/?reqDate=${formattedYesterday}`, token);
-    console.log(
-      "........................",
-      sDate,
-      `/balance-statement/?reqDate=${formattedYesterday}`
-    );
   };
 
   useEffect(() => {
@@ -91,11 +82,6 @@ const DailyList = () => {
     setStock(data_g_3.slice(0, 4));
   }, [data_g_3, refresh]);
 
-  console.log(data_g, data_g_2);
-
-  if (data_g.length > 0) {
-    console.log("sksksks");
-  }
 
   useEffect(() => {
     const fuelCalcu = fuelData.map((e, index) => {
@@ -189,10 +175,6 @@ const DailyList = () => {
     });
     setNotCredit(fuelCalcu);
   }, [data_g, fuelData]);
-
-  // console.log(totalPTest, "lllllllllllllllll");
-  // console.log(totalCredit, "lddddddddddd");
-  // console.log(data_g, "ggggggggggggggg");
 
   const total = totalPTest?.concat(totalOTest);
 

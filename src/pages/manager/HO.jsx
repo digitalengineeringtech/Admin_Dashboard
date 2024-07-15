@@ -96,10 +96,10 @@ const HO = () => {
 
   useEffect(() => {
     // setStock(data_g_3); normal
-    setStock(data_g_3.slice(0, 4));
+    setStock(data_g_3);
   }, [data_g_3, refresh, data_g]);
 
-  //   console.log(data_g, "....................................................");
+    console.log(data_g_3, "....................................................");
 
   //   if (data_g.length > 0) {
   //     console.log("sksksks");
@@ -181,7 +181,8 @@ const HO = () => {
       const unitPrice = data_g_2.filter((unit) => unit.fuel_type == e.value)[0]
         ?.daily_price;
       const open = data_g_3.find((f) => f.fuelType == e.value);
-      //   console.log(open, "open");
+        console.log(open, "open");
+        
       return {
         fueltype: e.value,
         totalLiter: calcuLiter,
@@ -328,7 +329,12 @@ const HO = () => {
       <Table.Td>00</Table.Td>
       <Table.Td>{element?.balance || 0}</Table.Td>
       <Table.Td>
-        {(element.balance - element.open - element.receive + element.totalLiter).toFixed(3)}
+        {(
+          element.balance -
+          element.open -
+          element.receive +
+          element.totalLiter
+        ).toFixed(3)}
       </Table.Td>
       <Table.Td>{element?.balance || 0}</Table.Td>
     </Table.Tr>

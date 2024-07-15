@@ -15,6 +15,7 @@ const Cashier = () => {
   const [email, setEmail] = useState("");
   const [cardId, setCardId] = useState("");
   const [nrcNo, setNrcNo] = useState("");
+  const [tankCount, setTankCount] = useState();
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
   const [ComPassword, setComPassword] = useState("");
@@ -59,6 +60,7 @@ const Cashier = () => {
           stationId: stationId._id,
           cardId: cardId,
           nrcNo: nrcNo,
+          tankCount: tankCount,
         };
         console.log(managerObj);
         fetchIt("user/register", managerObj, token);
@@ -193,6 +195,13 @@ const Cashier = () => {
               label="NRC No"
               placeholder="NRC No"
             />
+            <TextInput
+              value={tankCount}
+              onChange={(e) => setTankCount(Number(e.target.value))}
+              style="!w-[275px]"
+              label="Tank Count"
+              placeholder="Tank Count"
+            />
             <Button
               title="SET UP"
               // onClick={Alert("Are you sure ?", () => {
@@ -207,6 +216,7 @@ const Cashier = () => {
                 password !== "" ||
                 stationId !== "none" ||
                 stationNo !== "" ||
+                tankCount !== "" ||
                 ComPassword !== ""
                   ? ConAlert("Are you sure ?", data.con, handleClick)
                   : () => ErrorAlert("Some Fields are Empty")

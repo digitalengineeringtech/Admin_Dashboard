@@ -208,8 +208,10 @@ const SaleSummary = () => {
   const nozData = uniqueArray.map((e) => {
     const data = data_g.filter((pump) => e == pump.nozzleNo).reverse();
     const diff =
-      data[0].devTotalizar_liter - data[data.length - 1].devTotalizar_liter;
+      data[data.length - 1].devTotalizar_liter -
+      (data[0].devTotalizar_liter - data[0].saleLiter);
     // return data;
+
     return {
       nozzle_no: e,
       // totalLiter: data.reduce((sum, current) => sum + current.saleLiter, 0),

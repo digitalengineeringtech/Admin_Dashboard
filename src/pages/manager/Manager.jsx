@@ -51,7 +51,8 @@ const Manager = () => {
     data_g_3.length == 0 ? data_g_3.length : data_g_3.length - 1
   ]?.data.map((e) => {
     return {
-      tank: e.oilType,
+      fuel: e.oilType,
+      tank: e.id,
       count: e.volume,
     };
   });
@@ -66,7 +67,9 @@ const Manager = () => {
       new Chart(document.getElementById("acquisitions"), {
         type: "bar",
         data: {
-          labels: data.map((row) => row.tank),
+          labels: data.map(
+            (row) => row.fuel + " " + "( tank" + row.tank + " )"
+          ),
           datasets: [
             {
               label: "Acquisitions by tank",
@@ -329,7 +332,9 @@ const Manager = () => {
             {dataArr ? (
               <canvas id="acquisitions" className="my-auto"></canvas>
             ) : (
-              <div className="text-4xl font-semibold text-gray-300">There is no Today Tank Data</div>
+              <div className="text-4xl font-semibold text-gray-300">
+                There is no Today Tank Data
+              </div>
             )}
           </div>
           {con ? (

@@ -28,12 +28,14 @@ const FuelBalance = () => {
   initial.setSeconds(0);
 
   const { loadToken } = useTokenStorage();
+
   useEffect(() => {
     const token = loadToken();
     if (token) {
       setToken(token);
     }
   }, []);
+
   const formattedDate = sDate.toISOString().split("T")[0];
 
   const route = `/fuel-balance/by-one-date?sDate=${sDate}`;
@@ -51,6 +53,7 @@ const FuelBalance = () => {
     fetchItGet(route, token);
     console.log(token, "this");
   }, [con]);
+
   console.log(data_g, start, "hkhkhkkhkhkhkhkhkhkhkhkk");
   console.log(purpose);
 

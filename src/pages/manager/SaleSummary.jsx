@@ -194,8 +194,9 @@ const SaleSummary = () => {
     fetchItGet3(`/device`, token);
   };
 
-  console.log(data_g_2, "22222222222222");
-  console.log(data_g, "1111111111111111111111111");
+  console.log("===66=================================");
+  console.log(data_g);
+  console.log("====================================");
 
   const nozz = data_g.map((e) => {
     return e.nozzleNo;
@@ -207,9 +208,17 @@ const SaleSummary = () => {
 
   const nozData = uniqueArray.map((e) => {
     const data = data_g.filter((pump) => e == pump.nozzleNo).reverse();
+
+    // < first to last
+    // const diff =
+    //   data[data.length - 1].devTotalizar_liter -
+    //   (data[0].devTotalizar_liter - data[0].saleLiter);
+
+    // last to first >
     const diff =
-      data[data.length - 1].devTotalizar_liter -
-      (data[0].devTotalizar_liter - data[0].saleLiter);
+      data[0].devTotalizar_liter -
+      (data[data.length - 1].devTotalizar_liter -
+        data[data.length - 1].saleLiter);
     // return data;
 
     return {

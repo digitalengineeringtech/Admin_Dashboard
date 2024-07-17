@@ -36,8 +36,8 @@ const FuelBalance = () => {
   }, []);
   const formattedDate = sDate.toISOString().split("T")[0];
 
-  const route = `/fuel-balance/by-date?sDate=${initial}&eDate=${sDate}`;
-  // const route = `/fuel-balance/by-date?sDate=${formattedDate}&eDate=${formattedDate}`;
+  const route = `/fuel-balance/by-one-date?sDate=${sDate}`;
+  // const route = `/fuel-balance/by-one-date?sDate=${formattedDate}&eDate=${formattedDate}`;
   console.log(initial, "..........");
   const [{ data_g, loading_g, error_g, pagi_g }, fetchItGet] = UseGet();
 
@@ -49,7 +49,7 @@ const FuelBalance = () => {
 
   useEffect(() => {
     fetchItGet(route, token);
-    console.log("hello");
+    console.log(token, "this");
   }, [con]);
   console.log(data_g, start, "hkhkhkkhkhkhkhkhkhkhkhkk");
   console.log(purpose);
@@ -70,7 +70,7 @@ const FuelBalance = () => {
     // const yesterday = new Date(sDate);
     // yesterday.setDate(sDate.getDate() + 1);
     // const formattedYesterday = yesterday.toISOString().split("T")[0];
-    fetchItGet(`/fuel-balance/by-date?sDate=${initial}&eDate=${sDate}`, token);
+    fetchItGet(`/fuel-balance/by-one-date?sDate=${sDate}`, token);
   };
 
   const handlePrint = useReactToPrint({

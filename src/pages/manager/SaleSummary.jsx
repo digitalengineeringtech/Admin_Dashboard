@@ -75,6 +75,11 @@ const SaleSummary = () => {
   console.log(formattedDate, "............");
   // const [eDate, setEDate] = useState(end);
 
+  const tPrice = data_g.map((e) => e.totalPrice).reduce((pv, cv) => pv + cv, 0);
+  console.log("=========ddd===========================");
+  console.log(tPrice);
+  console.log("====================================");
+  
   const [con, setCon] = useState(false);
 
   useEffect(() => {
@@ -129,12 +134,19 @@ const SaleSummary = () => {
       </Table.Td>
       <Table.Td>{phsdLotalLiter ? phsdLotalLiter.toFixed(3) : "-"}</Table.Td>
       <Table.Td>
+        {tPrice
+          ? tPrice?.toLocaleString(undefined, {
+              maximumFractionDigits: 3,
+            })
+          : "-"}
+      </Table.Td>
+      {/* <Table.Td>
         {totalPrice
           ? totalPrice?.toLocaleString(undefined, {
               maximumFractionDigits: 3,
             })
           : "-"}
-      </Table.Td>
+      </Table.Td> */}
     </Table.Tr>
   );
   const detailHeader = [

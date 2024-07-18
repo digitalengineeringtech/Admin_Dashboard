@@ -220,7 +220,7 @@ const SaleSummary = () => {
       (data[data.length - 1].devTotalizar_liter -
         data[data.length - 1].saleLiter);
     // return data;
-
+    
     return {
       nozzle_no: e,
       // totalLiter: data.reduce((sum, current) => sum + current.saleLiter, 0),

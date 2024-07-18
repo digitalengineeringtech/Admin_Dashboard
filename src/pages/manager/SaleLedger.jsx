@@ -314,7 +314,7 @@ const SaleLedger = () => {
       <Table.Td>{element.fuelType}</Table.Td>
       <Table.Td>{element.opening?.toFixed(2)}</Table.Td>
       <Table.Td>{element.balance?.toFixed(2)}</Table.Td>
-      <Table.Td>{(element.opening - element.balance).toFixed(2)}</Table.Td>
+      <Table.Td>{(element.opening - element.balance)?.toFixed(2)}</Table.Td>
     </Table.Tr>
   ));
 
@@ -351,13 +351,13 @@ const SaleLedger = () => {
       <Table.Td>{element.balance?.toFixed(2)}</Table.Td>
       <Table.Td>
         {element.fuelType == "001-Octane Ron(92)"
-          ? n2.toFixed(2) || 0
+          ? n2?.toFixed(2) || 0
           : element.fuelType == "004-Diesel"
-          ? hsd.toFixed(2) || 0
+          ? hsd?.toFixed(2) || 0
           : element.fuelType == "002-Octane Ron(95)"
-          ? n5.toFixed(2) || 0
+          ? n5?.toFixed(2) || 0
           : element.fuelType == "005-Premium Diesel"
-          ? phsd.toFixed(2) || 0
+          ? phsd?.toFixed(2) || 0
           : "-"}
       </Table.Td>
       <Table.Td>{element.opening?.toFixed(2)}</Table.Td>
@@ -367,13 +367,13 @@ const SaleLedger = () => {
       </Table.Td>
       <Table.Td>
         {element.fuelType == "001-Octane Ron(92)"
-          ? (n2 - element.balance).toFixed(2) || 0
+          ? (n2 - element.balance)?.toFixed(2) || 0
           : element.fuelType == "004-Diesel"
-          ? (hsd - element.balance).toFixed(2) || 0
+          ? (hsd - element.balance)?.toFixed(2) || 0
           : element.fuelType == "002-Octane Ron(95)"
-          ? (n5 - element.balance).toFixed(2) || 0
+          ? (n5 - element.balance)?.toFixed(2) || 0
           : element.fuelType == "005-Premium Diesel"
-          ? (phsd - element.balance).toFixed(2) || 0
+          ? (phsd - element.balance)?.toFixed(2) || 0
           : "-"}
       </Table.Td>
     </Table.Tr>

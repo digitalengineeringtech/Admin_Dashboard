@@ -159,7 +159,8 @@ const FuelIn = () => {
 
   useEffect(() => {
     fetchItGet3(`/fuelIn/pagi/1`, token);
-    fetchItGet2(`/fuel-balance/by-date?sDate=${initial}&eDate=${sDate}`, token);
+    fetchItGet2(`/fuel-balance/by-one-date?sDate=${sDate}`, token);
+    // fetchItGet2(`/fuel-balance/by-date?sDate=${initial}&eDate=${sDate}`, token);
   }, [con, data]);
 
   const handleClick = () => {

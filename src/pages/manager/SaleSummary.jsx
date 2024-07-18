@@ -79,7 +79,7 @@ const SaleSummary = () => {
   console.log("=========ddd===========================");
   console.log(tPrice);
   console.log("====================================");
-  
+
   const [con, setCon] = useState(false);
 
   useEffect(() => {
@@ -232,8 +232,8 @@ const SaleSummary = () => {
     // last to first >
     const diff =
       data[0]?.devTotalizar_liter -
-      (data[data.length - 1].devTotalizar_liter -
-        data[data.length - 1].saleLiter);
+      (data[data.length - 1]?.devTotalizar_liter -
+        data[data.length - 1]?.saleLiter);
     // return data;
 
     return {
@@ -244,6 +244,8 @@ const SaleSummary = () => {
       devTotalizerDif: diff,
     };
   });
+
+  console.log(nozData);
 
   useEffect(() => {
     let ninety2 = 0;

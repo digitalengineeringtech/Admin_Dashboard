@@ -207,7 +207,10 @@ const SaleSummary = () => {
   console.log(uniqueArray, "...................", nozz);
 
   const nozData = uniqueArray.map((e) => {
-    const data = data_g.filter((pump) => e == pump.nozzleNo).reverse();
+    const data = data_g
+      .filter((pump) => e == pump.nozzleNo)
+      ?.filter((ea) => ea.asyncAlready != "0");
+    console.log(data, "this is data");
 
     // < first to last
     // const diff =
@@ -216,11 +219,11 @@ const SaleSummary = () => {
 
     // last to first >
     const diff =
-      data[0].devTotalizar_liter -
+      data[0]?.devTotalizar_liter -
       (data[data.length - 1].devTotalizar_liter -
         data[data.length - 1].saleLiter);
     // return data;
-    
+
     return {
       nozzle_no: e,
       // totalLiter: data.reduce((sum, current) => sum + current.saleLiter, 0),

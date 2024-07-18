@@ -240,7 +240,7 @@ const SaleSummary = () => {
       nozzle_no: e,
       // totalLiter: data.reduce((sum, current) => sum + current.saleLiter, 0),
       data: data,
-      fuel_type: data[0].fuelType,
+      fuel_type: data[0]?.fuelType,
       devTotalizerDif: diff,
     };
   });

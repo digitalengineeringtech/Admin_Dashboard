@@ -1,8 +1,8 @@
 import mqtt from "mqtt"; // import namespace "mqtt"
 
 export const sub_topic = "detpos/device/";
-const mqttUrl = "ws://detpos:asdffdsa@192.168.0.100:9001";
-// const mqttUrl = "ws://detpos:asdffdsa@192.168.1.146:9001";
+// const mqttUrl = "ws://detpos:asdffdsa@192.168.0.100:9001";
+const mqttUrl = "ws://detpos:asdffdsa@192.168.1.146:9001";
 const mqttUserName = "detpos";
 const mqttPassword = "asdffdsa";
 
@@ -15,7 +15,7 @@ export const connect = () => {
   client.subscribe("#", { qos: 0 }, function (err) {
     if (err) {
       console.log("An error occurred while subscribing");
-    } else {
+} else {    
       console.log("Subscribed successfully to " + sub_topic.toString());
     }
   });

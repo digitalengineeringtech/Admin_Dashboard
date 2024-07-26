@@ -222,6 +222,7 @@ const SaleSummary = () => {
     const data = data_g
       .filter((pump) => e == pump.nozzleNo)
       ?.filter((ea) => ea.asyncAlready != "0");
+
     console.log(data, "this is data");
 
     // < first to last
@@ -245,7 +246,7 @@ const SaleSummary = () => {
     };
   });
 
-  console.log(nozData);
+  console.log(nozData, "this is nozData");
 
   useEffect(() => {
     let ninety2 = 0;
@@ -297,9 +298,9 @@ const SaleSummary = () => {
     );
     const totalLiter = matchingEntry ? matchingEntry.totalLiter : 0;
 
-    // console.log("............................");
-    // console.log(totalLiter, literByNoz);
-    // console.log("............................");
+    console.log("............................");
+    console.log(totalLiter, literByNoz, matchingEntry);
+    console.log("............................");
     return (
       <Table.Tr key={element._id} className=" duration-150 text-sm text-center">
         <Table.Td>{element.nozzle_no || "-"}</Table.Td>

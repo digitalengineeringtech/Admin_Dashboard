@@ -56,6 +56,7 @@ const FuelIn = () => {
   const [token, setToken] = useState("none");
   const [sDate, setSDate] = useState(start);
   const [{ data_pch, loading_pch, error_pch }, patchIt] = UsePatch();
+  const [startBtn, setstartBtn] = useState(false);
 
   const { loadToken } = useTokenStorage();
   useEffect(() => {
@@ -262,6 +263,50 @@ const FuelIn = () => {
     });
   }
 
+  const startClick = () => {
+    var utcTimeOne = new Date();
+    utcTimeOne = utcTimeOne.toLocaleDateString("fr-CA");
+    // const formattedDate2 = sDate.toISOString().split("T")[0];
+    setstartBtn(true);
+    const dataObj = {
+      stationDetailId: fuelType.stationId,
+      driver: driverName,
+      bowser: number,
+      tankNo: tank.tankNo,
+      fuel_type: fuelType.fuelType,
+      // receive_balance: receive,
+      receive_date: utcTimeOne,
+      // asyncAlready: "1",
+    };
+    console.log(dataObj, "this is dataObj");
+
+    fetchIt(`/fuelIn/atg`, dataObj, token);
+    setReceive("");
+    setFuelType("");
+    setDriverName("");
+    setNumber("");
+    setTank();
+  };
+
+  if (data.con == true && startBtn) {
+    localStorage.setItem("stationId", data.result._id);
+    localStorage.setItem("tankNo", data.result.tankNo);
+  }
+
+  const endClick = () => {
+    setstartBtn(false);
+    const id = localStorage.getItem("stationId");
+    const tankNo = localStorage.getItem("tankNo");
+    const dataObj = {
+      id: id,
+      tankNo: tankNo,
+      // asyncAlready: "1",
+    };
+    fetchIt(`/fuelIn/atg/update`, dataObj, token);
+    localStorage.removeItem("stationId");
+    localStorage.removeItem("tankNo");
+  };
+
   return (
     <div className="w-full pt-28">
       <div className="flex flex-wrap gap-4 gap-x-10 justify-between">
@@ -287,13 +332,6 @@ const FuelIn = () => {
         />
         <TextInput
           style="!w-[300px]"
-          label="Receive Liters"
-          placeholder="Receive Liters"
-          value={receive}
-          onChange={(e) => setReceive(e.target.value)}
-        />
-        <TextInput
-          style="!w-[300px]"
           label="Driver Name"
           placeholder="Driver Name"
           value={driverName}
@@ -306,10 +344,22 @@ const FuelIn = () => {
           value={number}
           onChange={(e) => setNumber(e.target.value)}
         />
-        <SearchButton
+        {/* <SearchButton
           title="ADD"
           onClick={ConAlert("Are you sure ?", true, handleClick)}
-        />
+        /> */}
+        <button
+          onClick={startClick}
+          className={`w-[300px]  mt-auto  text-secondary  items-center justify-center gap-3 flex font-mono text-lg active:scale-95 duration-100 bg-[#38b59e] h-[56px] rounded-md`}
+        >
+          Start
+        </button>
+        <button
+          onClick={endClick}
+          className={`w-[300px]  mt-auto  text-secondary  items-center justify-center gap-3 flex font-mono text-lg active:scale-95 duration-100 bg-[#38b59e] h-[56px] rounded-md`}
+        >
+          End
+        </button>
       </div>
       {isData ? (
         <div className="mt-8">

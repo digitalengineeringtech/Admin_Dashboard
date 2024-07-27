@@ -135,6 +135,15 @@ const Card = ({
       close();
       setNozzleActive(false);
     }
+
+    if (topic.startsWith("detpos/local_server/") && /[1-8]$/.test(topic)) {
+      console.log("====================================");
+      console.log("hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh");
+      console.log("====================================");
+      close();
+      setLoading(false);
+      setNozzleActive(false);
+    }
   });
 
   useEffect(() => {
@@ -617,6 +626,7 @@ const Card = ({
       );
     }
   }, [allDone]);
+
   // console.log(obj, ".....ggggggg.......................");
   // useEffect(() => {
   //   if (active) {
@@ -679,6 +689,7 @@ const Card = ({
             email: managerUserName,
             password: managerPassword,
           },
+
           {
             headers: {
               Authorization: "Bearer " + token,

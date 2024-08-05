@@ -26,11 +26,16 @@ const Manager = () => {
   end.setMinutes(59);
   end = new Date(end);
 
+  const [atgStatus, setAtgStatus] = useState();
+
   useEffect(() => {
     const token = loadToken();
     if (token) {
       setToken(token);
     }
+
+    const check = localStorage.getItem("atg");
+    check === "true" ? setAtgStatus(true) : setAtgStatus(false);
   }, []);
 
   useEffect(() => {
@@ -331,9 +336,13 @@ const Manager = () => {
           <div className="w-[850px] h-full p-5 items-center flex justify-center rounded-xl px-6 shadow-lg shadow-shadow/20 bg-secondary">
             {dataArr ? (
               <canvas id="acquisitions" className="my-auto"></canvas>
-            ) : (
+            ) : atgStatus ? (
               <div className="text-4xl font-semibold text-gray-300">
                 There is no Today Tank Data
+              </div>
+            ) : (
+              <div className="text-4xl text-center leading-[3rem] font-semibold text-gray-300">
+                Tank Data Chart <br /> is only for ATG user
               </div>
             )}
           </div>

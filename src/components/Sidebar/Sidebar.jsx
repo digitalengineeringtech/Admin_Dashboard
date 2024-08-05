@@ -49,6 +49,13 @@ const Sidebar = () => {
   });
   const options = { multi: true };
 
+  const [atgStatus, setAtgStatus] = useState();
+
+  useEffect(() => {
+    const check = localStorage.getItem("atg");
+    check === "true" ? setAtgStatus(true) : setAtgStatus(false);
+  }, []);
+
   // function getImageFileObject(imageFile) {
   //   console.log(imageFile.dataUrl, "....................................");
   //   imageFile.dataUrl && localStorage.setItem("img", imageFile.dataUrl);
@@ -70,6 +77,7 @@ const Sidebar = () => {
 
   const ins = i18n.store.data.en.translation.SIDE_INSTALLER;
   const manag = i18n.store.data.en.translation.SIDE_MANAGER;
+  const manag_atg = i18n.store.data.en.translation.SIDE_MANAGER_ATG;
 
   useEffect(() => {
     const check = JSON.parse(localStorage.getItem("installed"));
@@ -210,21 +218,23 @@ const Sidebar = () => {
           className=" mx-auto rounded-lg ml-[-73px] w-[220px]  mt-5"
         >
           <div className="flex scroll_bar_right pl-3 gap-y-2 h-[62vh] overflow-y-scroll flex-col">
-            {(isInstalling ? ins : manag).map((e, index) => (
-              <NavLink
-                key={index}
-                onClick={() => setState(false)}
-                to={e.link}
-                className="py-4 scroll_bar_left flex gap-3 duration-150 items-center text-gray-600 px-4 group rounded-md hover:bg-secondary"
-              >
-                <div className="text-2xl duration-150 group-hover:text-detail">
-                  {isInstalling ? installerIcon[index] : managerIcon[index]}
-                </div>
-                <div className=" text-xl duration-150 group-hover:text-detail ">
-                  {e.name}
-                </div>
-              </NavLink>
-            ))}
+            {(isInstalling ? ins : atgStatus ? manag_atg : manag).map(
+              (e, index) => (
+                <NavLink
+                  key={index}
+                  onClick={() => setState(false)}
+                  to={e.link}
+                  className="py-4 scroll_bar_left flex gap-3 duration-150 items-center text-gray-600 px-4 group rounded-md hover:bg-secondary"
+                >
+                  <div className="text-2xl duration-150 group-hover:text-detail">
+                    {isInstalling ? installerIcon[index] : managerIcon[index]}
+                  </div>
+                  <div className=" text-xl duration-150 group-hover:text-detail ">
+                    {e.name}
+                  </div>
+                </NavLink>
+              )
+            )}
             {isInstalling && (
               <NavLink
                 onClick={ConAlert("Sure to Update ?", handleUpdate)}

@@ -17,12 +17,54 @@
       "link": "/sale_summary"
     },
     {
-      "name": "Tank Data",
-      "link": "/tank_data"
-    },
-    {
       "name": "Fuel Balance",
       "link": "/fuel_balance"
+    },
+    {
+      "name": "Daily List",
+      "link": "/daily_list"
+    },
+    {
+      "name": "Fuel In",
+      "link": "/fuel_in"
+    },
+    {
+      "name": "Sale Ledger",
+      "link": "/sale_ledger"
+    },
+    {
+      "name": "Totalizer Diff",
+      "link": "/total_dif"
+    },
+    {
+      "name": "Price Change",
+      "link": "/price_chg"
+    },
+    {
+      "name": "Daily Sale H/O",
+      "link": "/sale_ho"
+    }
+  ],
+  "SIDE_MANAGER_ATG": [
+    {
+      "name": "Dashboard",
+      "link": "/"
+    },
+    {
+      "name": "Control",
+      "link": "/device"
+    },
+    {
+      "name": "Daily Sale",
+      "link": "/daily_sale"
+    },
+    {
+      "name": "Sale Summary",
+      "link": "/sale_summary"
+    },
+    {
+      "name": "Tank Data",
+      "link": "/tank_data"
     },
     {
       "name": "Daily List",

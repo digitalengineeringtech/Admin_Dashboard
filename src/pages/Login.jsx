@@ -68,9 +68,11 @@ const Login = () => {
     }
   };
 
+  console.log("data", L_data, "...................");
+
   useEffect(() => {
     if (data.token) {
-      console.log(data.token);
+      console.log(data.token, "this is data.token");
       saveToken(data.token);
       navigate("/");
       localStorage.setItem("installed", true);
@@ -81,6 +83,7 @@ const Login = () => {
     if (L_data.token) {
       console.log(L_data.token);
       saveToken(L_data.token);
+      localStorage.setItem("atg", L_data.hasAtg);
       navigate("/");
       setIsAuth((pre) => !pre);
       setEmail("");
@@ -237,4 +240,3 @@ const Login = () => {
 };
 
 export default Login;
-

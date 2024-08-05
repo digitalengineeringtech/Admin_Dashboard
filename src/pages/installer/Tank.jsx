@@ -73,8 +73,22 @@ const Tank = () => {
       setAmount("none");
       setLiter("none");
       setFuel("none");
+      setTank("none");
       setStation("none");
-      setNoz("none");
+      setCap("");
+      setOpen("");
+      setStationId("");
+      setNoz1("none");
+      setNoz2("none");
+      setNoz3("none");
+      setNoz4("none");
+      setNoz5("none");
+      setNoz6("none");
+      setNoz7("none");
+      setNoz8("none");
+      setNoz9("none");
+      setNoz10("none");
+      // setNoz("none");
       fetchItGet(`fuel-balance/all`, token);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -134,7 +148,7 @@ const Tank = () => {
       cap === "" ||
       open === "" ||
       tank === "none" ||
-      fuelType === "none" ||
+      fuel === "none" ||
       noz1 === "none"
       // accessDb === "none"
     ) {
@@ -177,13 +191,15 @@ const Tank = () => {
         noz8 !== "none" && formData.append("nozzles", noz8?.value);
         noz9 !== "none" && formData.append("nozzles", noz9?.value);
         noz10 !== "none" && formData.append("nozzles", noz10?.value);
-        
+
         // /fuel-balance
         // try {
         //   postToCloud(`fuel-balance`, formData, token);
         // } catch {
         //   console.log("error in uploading upload");
         // }
+
+        console.log(formData);
 
         cloudInstance
           .post("fuel-balance", formData, {
@@ -195,8 +211,7 @@ const Tank = () => {
           .then((res) => {
             if (res.data.con) {
               setCloudFail(false);
-              fetchIt("fuel-balance", formData, token);
-              console.log(formData, ".....this is form data....");
+              const result = fetchIt("fuel-balance", formData, token);
             } else {
               setCloudFail(true);
             }

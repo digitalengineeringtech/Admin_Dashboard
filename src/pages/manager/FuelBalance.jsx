@@ -19,8 +19,13 @@ const FuelBalance = () => {
   const tableRef = useRef(null);
 
   let start = new Date();
+  start.setHours(0);
+  start.setMinutes(0);
+  start.setSeconds(0);
   const [token, setToken] = useState("none");
   const [sDate, setSDate] = useState(start);
+
+  console.log(sDate, "this is start");
 
   let initial = new Date(sDate);
   initial.setHours(0);
@@ -39,6 +44,7 @@ const FuelBalance = () => {
   const formattedDate = sDate.toISOString().split("T")[0];
 
   const route = `/fuel-balance/by-one-date?sDate=${sDate}`;
+  console.log(`/fuel-balance/by-one-date?sDate=${sDate}`, "this is start");
   // const route = `/fuel-balance/by-one-date?sDate=${formattedDate}&eDate=${formattedDate}`;
   console.log(initial, "..........");
   const [{ data_g, loading_g, error_g, pagi_g }, fetchItGet] = UseGet();
@@ -57,9 +63,17 @@ const FuelBalance = () => {
   console.log(data_g, start, "hkhkhkkhkhkhkhkhkhkhkhkk");
   console.log(purpose);
 
-  const stockHeader = ["No", "Fuel Type", "Opening", "Receive", "Balance"];
+  const stockHeader = [
+    "No",
+    "Tank No",
+    "Fuel Type",
+    "Opening",
+    "Receive",
+    "Balance",
+  ];
   const stockRow = data_g?.map((element, index) => (
     <Table.Tr key={element.no} className=" duration-150 text-center">
+      <Table.Td>{index + 1}</Table.Td>
       <Table.Td>{index + 1}</Table.Td>
       <Table.Td>{element.fuelType}</Table.Td>
       <Table.Td>{element?.opening?.toFixed(2)}</Table.Td>

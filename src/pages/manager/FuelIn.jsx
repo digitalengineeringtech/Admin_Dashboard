@@ -53,10 +53,14 @@ const FuelIn = () => {
   const [number, setNumber] = useState();
   const tableRef = useRef(null);
   let start = new Date();
+  start.setHours(0);
+  start.setMinutes(0);
+  start.setSeconds(0);
   const [token, setToken] = useState("none");
   const [sDate, setSDate] = useState(start);
   const [{ data_pch, loading_pch, error_pch }, patchIt] = UsePatch();
   const [startBtn, setstartBtn] = useState(false);
+  const [atgStatus, setAtgStatus] = useState();
 
   const { loadToken } = useTokenStorage();
   useEffect(() => {
@@ -64,9 +68,12 @@ const FuelIn = () => {
     if (token) {
       setToken(token);
     }
+
+    const check = localStorage.getItem("atg");
+    check === "true" ? setAtgStatus(true) : setAtgStatus(false);
   }, []);
 
-  console.log(data_c_post, ".. this is up to cloud ....................");
+  console.log(atgStatus, ".. this is up to cloud ....................");
 
   // const tank = data_g_2.map((e) => e.tankNo);
 
@@ -118,6 +125,45 @@ const FuelIn = () => {
       <Table.Td>{element.fuel_in_code}</Table.Td>
       <Table.Td>{element.driver}</Table.Td>
       <Table.Td>{element.bowser}</Table.Td>
+      <Table.Td>{element.receive_balance}</Table.Td>
+      <Table.Td>{element.tank_balance?.toFixed(3)}</Table.Td>
+      {/* <Table.Td>{element.balance}</Table.Td> */}
+      {/* <Table.Td>{element.saleLiter}</Table.Td> */}
+      {/* <Table.Td>
+        {element.salePrice.toLocaleString(undefined, {
+          maximumFractionDigits: 3,
+        })}
+      </Table.Td>
+      <Table.Td>
+        {element.totalPrice.toLocaleString(undefined, {
+          maximumFractionDigits: 3,
+        })}
+      </Table.Td>
+      <Table.Td>{element.totalizer_liter.toFixed(3)}</Table.Td>
+      <Table.Td>
+        {element.totalizer_amount.toLocaleString(undefined, {
+          maximumFractionDigits: 3,
+        })}
+      </Table.Td> */}
+    </Table.Tr>
+  ));
+
+  const tableHeaderAtg = [
+    "Receive Data",
+    "Fuel Type",
+    "Driver",
+    "Bowser No",
+    "Tank Opening",
+    "Receive Volume",
+    "Tank Closing",
+  ];
+  const tableRowAtg = stock?.map((element) => (
+    <Table.Tr key={element.no} className=" duration-150 text-sm text-center">
+      <Table.Td>{element.receive_date}</Table.Td>
+      <Table.Td>{element.fuel_type}</Table.Td>
+      <Table.Td>{element.driver}</Table.Td>
+      <Table.Td>{element.bowser}</Table.Td>
+      <Table.Td>{element.opening || 0}</Table.Td>
       <Table.Td>{element.receive_balance}</Table.Td>
       <Table.Td>{element.tank_balance?.toFixed(3)}</Table.Td>
       {/* <Table.Td>{element.balance}</Table.Td> */}
@@ -344,30 +390,53 @@ const FuelIn = () => {
           value={number}
           onChange={(e) => setNumber(e.target.value)}
         />
-        {/* <SearchButton
-          title="ADD"
-          onClick={ConAlert("Are you sure ?", true, handleClick)}
-        /> */}
-        <button
-          onClick={startClick}
-          className={`w-[300px]  mt-auto  text-secondary  items-center justify-center gap-3 flex font-mono text-lg active:scale-95 duration-100 bg-[#38b59e] h-[56px] rounded-md`}
-        >
-          Start
-        </button>
-        <button
-          onClick={endClick}
-          className={`w-[300px]  mt-auto  text-secondary  items-center justify-center gap-3 flex font-mono text-lg active:scale-95 duration-100 bg-[#38b59e] h-[56px] rounded-md`}
-        >
-          End
-        </button>
+        {!atgStatus && (
+          <TextInput
+            style="!w-[300px]"
+            label="Receive Liters"
+            placeholder="Receive Liters"
+            value={receive}
+            onChange={(e) => setReceive(e.target.value)}
+          />
+        )}
+        {atgStatus ? (
+          <div className="flex justify-between w-full">
+            {" "}
+            <button
+              onClick={startClick}
+              className={`w-[300px]  mt-auto  text-secondary  items-center justify-center gap-3 flex font-mono text-lg active:scale-95 duration-100 bg-[#38b59e] h-[56px] rounded-md`}
+            >
+              Start
+            </button>
+            <button
+              onClick={endClick}
+              className={`w-[300px]  mt-auto  text-secondary  items-center justify-center gap-3 flex font-mono text-lg active:scale-95 duration-100 bg-[#38b59e] h-[56px] rounded-md`}
+            >
+              End
+            </button>
+          </div>
+        ) : (
+          <SearchButton
+            title="ADD"
+            onClick={ConAlert("Are you sure ?", true, handleClick)}
+          />
+        )}
       </div>
       {isData ? (
         <div className="mt-8">
-          <FilterTable
-            tableRef={tableRef}
-            header={tableHeader}
-            rows={tableRow}
-          />
+          {atgStatus ? (
+            <FilterTable
+              tableRef={tableRef}
+              header={tableHeaderAtg}
+              rows={tableRowAtg}
+            />
+          ) : (
+            <FilterTable
+              tableRef={tableRef}
+              header={tableHeader}
+              rows={tableRow}
+            />
+          )}
         </div>
       ) : (
         <div className="w-full h-[250px] gap-5 text-nodata flex items-center justify-center border-2 border-nodata mt-10 rounded-xl">

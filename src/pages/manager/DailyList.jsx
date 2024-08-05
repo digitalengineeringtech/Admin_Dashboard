@@ -191,12 +191,12 @@ const DailyList = () => {
         <NavLink className="text-xl px-6 py-2 rounded-md" to="/daily_list" end>
           Reports
         </NavLink>
-        <NavLink
+        {/* <NavLink
           to="/daily_list/stock"
           className="text-xl px-6 py-2 rounded-md"
         >
           Stock Balances
-        </NavLink>
+        </NavLink> */}
       </div>
       {isData ? (
         <div className="mt-2">

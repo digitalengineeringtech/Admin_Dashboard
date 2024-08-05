@@ -92,7 +92,10 @@ const DailySale = () => {
     console.log("hello");
   }, [con]);
 
-  console.log(data_g_3, "ddddddddddddddddhhhhhhhhhh");
+  console.log(
+    `detail-sale/pagi/by-date/1?sDate=${start}&eDate=${end}${purposeRoute}${fuelRoute}${nozzleRoute}${casherRoute}${carNo}`,
+    "dddd"
+  );
 
   useEffect(() => {
     if (data_g?.length > 0) {

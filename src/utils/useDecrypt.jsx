@@ -33,6 +33,7 @@ function useTokenStorage() {
   // Clear the token from local storage
   const clearToken = () => {
     localStorage.removeItem("encryptedToken");
+    localStorage.removeItem("atg");
     setToken(null);
   };
 

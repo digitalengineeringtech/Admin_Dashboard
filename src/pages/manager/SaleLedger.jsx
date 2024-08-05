@@ -24,6 +24,8 @@ import ConAlert from "../../components/alert/ConAlert";
 import Swal from "sweetalert2";
 import { useDownloadExcel } from "react-export-table-to-excel";
 import { useReactToPrint } from "react-to-print";
+import TankDrop from "../../components/TankDrop";
+import { localInstance } from "../../api/axios";
 
 const SaleLedger = () => {
   const [{ data_g, loading_g, error_g }, fetchItGet] = UseGet();
@@ -90,7 +92,6 @@ const SaleLedger = () => {
     fetchItGet(`/tank-data/pagi/1?dailyReportDate=${start}`, token);
     fetchItGet2("/device", token);
     fetchItGet3(`/fuel-balance/by-one-date?sDate=${sDate}`, token);
-
     console.log("wkwk");
   }, [con, refresh]);
 
@@ -218,8 +219,9 @@ const SaleLedger = () => {
   const [{ data, loading, error }, fetchIt] = UsePost();
   const [fuelType, setFuelType] = useState();
   const [fuelType2, setFuelType2] = useState();
-  const [todayTank, setTodayTank] = useState();
   const [fuelId, setFuelId] = useState();
+  const [todayTank, setTodayTank] = useState();
+  const [tank, setTank] = useState();
 
   const [adjust, setAdjust] = useState();
   const tableRef = useRef(null);
@@ -228,6 +230,8 @@ const SaleLedger = () => {
     filename: "Meter Balance",
     sheet: "Meter Balance",
   });
+
+  console.log(tank?.tankNo, Number(todayTank), "..tank................");
 
   const handlePrint = useReactToPrint({
     content: () => tableRef.current,
@@ -314,13 +318,15 @@ const SaleLedger = () => {
       <Table.Td>{element.fuelType}</Table.Td>
       <Table.Td>{element.opening?.toFixed(2)}</Table.Td>
       <Table.Td>{element.balance?.toFixed(2)}</Table.Td>
-      <Table.Td>{(element.opening - element.balance)?.toFixed(2)}</Table.Td>
+      <Table.Td>
+        {(element.opening - (element.balance - element.fuelIn))?.toFixed(2)}
+      </Table.Td>
     </Table.Tr>
   ));
 
   const stockHeader = [
-    "No",
     "Tank",
+    "Fuel Type",
     "Opening",
     "Receive",
     "Issue",
@@ -332,52 +338,68 @@ const SaleLedger = () => {
     "Today G/L",
     "Total G/L",
   ];
-  const stockRow = stock?.map((element, index) => (
-    <Table.Tr key={element.no} className=" duration-150 text-center">
-      <Table.Td>{index + 1}</Table.Td>
-      <Table.Td>{element.fuelType}</Table.Td>
-      <Table.Td>{element.opening?.toFixed(2)}</Table.Td>
-      <Table.Td>{element.fuelIn?.toFixed(2)}</Table.Td>
-      {/* <Table.Td>{element.issue?.toFixed(2)}</Table.Td> */}
-      <Table.Td>{element.cash}</Table.Td>
-      <Table.Td>
-        {(
-          element.balance -
-          element.opening -
-          element.fuelIn +
-          element.cash
-        )?.toFixed(2)}
-      </Table.Td>
-      <Table.Td>{element.balance?.toFixed(2)}</Table.Td>
-      <Table.Td>
-        {element.fuelType == "001-Octane Ron(92)"
-          ? n2?.toFixed(2) || 0
-          : element.fuelType == "004-Diesel"
-          ? hsd?.toFixed(2) || 0
-          : element.fuelType == "002-Octane Ron(95)"
-          ? n5?.toFixed(2) || 0
-          : element.fuelType == "005-Premium Diesel"
-          ? phsd?.toFixed(2) || 0
-          : "-"}
-      </Table.Td>
-      <Table.Td>{element.opening?.toFixed(2)}</Table.Td>
-      <Table.Td>{(element.opening - element.balance)?.toFixed(2)}</Table.Td>
-      <Table.Td>
-        {(element.opening - element.balance - element.cash)?.toFixed(2)}
-      </Table.Td>
-      <Table.Td>
-        {element.fuelType == "001-Octane Ron(92)"
-          ? (n2 - element.balance)?.toFixed(2) || 0
-          : element.fuelType == "004-Diesel"
-          ? (hsd - element.balance)?.toFixed(2) || 0
-          : element.fuelType == "002-Octane Ron(95)"
-          ? (n5 - element.balance)?.toFixed(2) || 0
-          : element.fuelType == "005-Premium Diesel"
-          ? (phsd - element.balance)?.toFixed(2) || 0
-          : "-"}
-      </Table.Td>
-    </Table.Tr>
-  ));
+  const stockRow = stock
+    ?.sort((a, b) => a.tankNo - b.tankNo)
+    .map((element, index) => (
+      <Table.Tr key={element.no} className=" duration-150 text-center">
+        <Table.Td>{element.tankNo}</Table.Td>
+        <Table.Td>{element.fuelType}</Table.Td>
+        <Table.Td>{element.opening?.toFixed(2)}</Table.Td>
+        <Table.Td>{element.fuelIn?.toFixed(2)}</Table.Td>
+        {/* <Table.Td>{element.issue?.toFixed(2)}</Table.Td> */}
+        <Table.Td>{element.cash}</Table.Td>
+        <Table.Td>
+          {(
+            element.balance -
+            element.opening -
+            element.fuelIn +
+            element.cash
+          )?.toFixed(2)}
+        </Table.Td>
+        <Table.Td>{element.balance?.toFixed(2)}</Table.Td>
+        <Table.Td>
+          {/* {element.fuelType == "001-Octane Ron(92)"
+            ? n2?.toFixed(2) || 0
+            : element.fuelType == "004-Diesel"
+            ? hsd?.toFixed(2) || 0
+            : element.fuelType == "002-Octane Ron(95)"
+            ? n5?.toFixed(2) || 0
+            : element.fuelType == "005-Premium Diesel"
+            ? phsd?.toFixed(2) || 0
+            : "-"} */}
+          {element.todayTank}
+        </Table.Td>
+        <Table.Td>{element.opening?.toFixed(2)}</Table.Td>
+        <Table.Td>
+          {(element.opening - (element.balance - element.fuelIn))?.toFixed(2)}
+        </Table.Td>
+        <Table.Td>
+          {(
+            element.balance -
+            element.opening -
+            element.fuelIn +
+            element.cash
+          )?.toFixed(2)}
+        </Table.Td>
+        <Table.Td>
+          {/* {element.fuelType == "001-Octane Ron(92)"
+            ? (n2 - element.balance)?.toFixed(2) || 0
+            : element.fuelType == "004-Diesel"
+            ? (hsd - element.balance)?.toFixed(2) || 0
+            : element.fuelType == "002-Octane Ron(95)"
+            ? (n5 - element.balance)?.toFixed(2) || 0
+            : element.fuelType == "005-Premium Diesel"
+            ? (phsd - element.balance)?.toFixed(2) || 0
+            : "-"} */}
+          {(
+            element.balance -
+            element.opening -
+            element.fuelIn +
+            element.cash
+          )?.toFixed(2)}
+        </Table.Td>
+      </Table.Tr>
+    ));
 
   const handleClick1 = () => {
     // const formattedDate2 = sDate.toISOString().split("T")[0];
@@ -393,12 +415,26 @@ const SaleLedger = () => {
     setRefresh((pre) => !pre);
   };
 
+  // const handleClick2 = () => {
+  //   // const formattedDate2 = sDate.toISOString().split("T")[0];
+  //   fetchIt(
+  //     `/balance-statement/today-balance?id=${fuelType2?._id}`,
+  //     {
+  //       todayTankAmount: todayTank,
+  //     },
+  //     token
+  //   );
+  //   setTodayTank("");
+  //   setFuelType2("");
+  //   setRefresh((pre) => !pre);
+  // };
   const handleClick2 = () => {
     // const formattedDate2 = sDate.toISOString().split("T")[0];
     fetchIt(
-      `/balance-statement/today-balance?id=${fuelType2?._id}`,
+      `/fuel-balance/add-today-tank`,
       {
-        todayTankAmount: todayTank,
+        tankNo: tank?.tankNo,
+        todayTank: Number(todayTank),
       },
       token
     );
@@ -407,10 +443,10 @@ const SaleLedger = () => {
     setRefresh((pre) => !pre);
   };
 
-  // console.log(
-  //   fuelType2,
-  //   "/.SDSDSSSDSDSDSSDSDSS...................................."
-  // );
+  console.log(
+    data,
+    "/.SDSDSSSDSDSDSSDSDSS...................................."
+  );
 
   return (
     <div className="w-full pt-28">
@@ -498,12 +534,19 @@ const SaleLedger = () => {
                 Add Today Tank Balance
               </div>
               <div className="flex gap-5 mt-2">
-                <FuelInDrop
+                {/* <FuelInDrop
                   placeholder="Please Select"
                   label="Fuel Type"
                   data={stock}
                   value={fuelType2}
                   setValue={setFuelType2}
+                /> */}
+                <TankDrop
+                  placeholder="Please Select"
+                  label="Tank No."
+                  data={data_g_3}
+                  value={tank}
+                  setValue={setTank}
                 />
                 <TextInput
                   style="!w-[300px]"

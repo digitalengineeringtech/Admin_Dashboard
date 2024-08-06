@@ -278,7 +278,9 @@ const Manager = () => {
                     {totalCalcu
                       .map((e) => Number(e.totalPrice))
                       .reduce((pv, cv) => pv + cv, 0)
-                      .toFixed(2)}
+                      .toLocaleString(undefined, {
+                        maximumFractionDigits: 0,
+                      })}
                   </h1>
                   <h1 className="text-[2.5rem]  text-detail/80">MMK</h1>
                 </div>
@@ -357,7 +359,9 @@ const Manager = () => {
                     {totalCalcu
                       .map((e) => Number(e.totalPrice))
                       .reduce((pv, cv) => pv + cv, 0)
-                      .toFixed(2)}
+                      .toLocaleString(undefined, {
+                        maximumFractionDigits: 0,
+                      })}
                   </h1>
                   <h1 className="text-[3rem]  text-detail/80">MMK</h1>
                 </div>

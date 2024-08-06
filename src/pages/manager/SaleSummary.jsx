@@ -34,7 +34,7 @@ const SaleSummary = () => {
     UseGet2();
   const [{ data_g_3, loading_g_3, error_g_3, pagi_g_3 }, fetchItGet3] =
     UseGet3();
-  console.log(start);
+  // console.log(start);
   const [okData, setOkData] = useState([]);
   const [dynamic, setDynamic] = useState([]);
   const [token, setToken] = useState("none");
@@ -62,7 +62,7 @@ const SaleSummary = () => {
   const next = new Date(sDate);
   next.setDate(sDate.getDate() + 1);
   // start = new Date(start);
-  console.log(next, "yyyyyyyyyyyyyyyyyyyyyyyyyy");
+  // console.log(next, "yyyyyyyyyyyyyyyyyyyyyyyyyy");
 
   const currentDate = sDate;
 
@@ -72,13 +72,15 @@ const SaleSummary = () => {
 
   const formattedDate = `${year}-${month}-${day}`;
 
-  console.log(formattedDate, "............");
+  // console.log(formattedDate, "............");
   // const [eDate, setEDate] = useState(end);
 
-  const tPrice = data_g.map((e) => e.totalPrice).reduce((pv, cv) => pv + cv, 0);
-  console.log("=========ddd===========================");
-  console.log(tPrice);
-  console.log("====================================");
+  const tPrice = parseFloat(
+    data_g.map((e) => Number(e.totalPrice)).reduce((pv, cv) => pv + cv, 0)
+  );
+  // console.log("=========ddd===========================");
+  // console.log(tPrice);
+  // console.log("====================================");
 
   const [con, setCon] = useState(false);
 
@@ -104,10 +106,10 @@ const SaleSummary = () => {
     }
   }, [data_g, loading_g, error_g, fetchItGet]);
 
-  console.log(
-    data_g,
-    "lfffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
-  );
+  // console.log(
+  //   data_g,
+  //   "lfffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+  // );
 
   const summaryHeader = [
     "Date/Time",
@@ -136,7 +138,7 @@ const SaleSummary = () => {
       <Table.Td>
         {tPrice
           ? tPrice?.toLocaleString(undefined, {
-              maximumFractionDigits: 3,
+              maximumFractionDigits: 0,
             })
           : "-"}
       </Table.Td>
@@ -191,11 +193,11 @@ const SaleSummary = () => {
     }
   }, [nozzle, data_g]);
 
-  console.log(
-    data_g_3,
-    nozzle,
-    "........................................................................."
-  );
+  // console.log(
+  //   data_g_3,
+  //   nozzle,
+  //   "........................................................................."
+  // );
 
   const handleClick = () => {
     // fetchItGet(`/detail-sale/by-date/?sDate=${sDate}`, token);
@@ -206,9 +208,9 @@ const SaleSummary = () => {
     fetchItGet3(`/device`, token);
   };
 
-  console.log("===66=================================");
-  console.log(data_g);
-  console.log("====================================");
+  // console.log("===66=================================");
+  // console.log(data_g);
+  // console.log("====================================");
 
   const nozz = data_g.map((e) => {
     return e.nozzleNo;
@@ -216,14 +218,19 @@ const SaleSummary = () => {
 
   const uniqueArray = [...new Set(nozz)];
 
-  console.log(uniqueArray, "...................", nozz);
+  // console.log(uniqueArray, "...................", nozz);
 
   const nozData = uniqueArray.map((e) => {
     const data = data_g
       .filter((pump) => e == pump.nozzleNo)
       ?.filter((ea) => ea.asyncAlready != "0");
 
-    console.log(data, "this is data");
+    // console.log(
+    //   data_g
+    //     .filter((pump) => e == pump.nozzleNo)
+    //     ?.filter((ea) => ea.asyncAlready != "0")[0],
+    //   "this is data"
+    // );
 
     // < first to last
     // const diff =
@@ -232,9 +239,9 @@ const SaleSummary = () => {
 
     // last to first >
     const diff =
-      data[0]?.devTotalizar_liter -
-      (data[data.length - 1]?.devTotalizar_liter -
-        data[data.length - 1]?.saleLiter);
+      Number(data[0]?.devTotalizar_liter) -
+      (Number(data[data.length - 1]?.devTotalizar_liter) -
+        Number(data[data.length - 1]?.saleLiter));
     // return data;
 
     return {
@@ -246,7 +253,7 @@ const SaleSummary = () => {
     };
   });
 
-  console.log(nozData, "this is nozData");
+  // console.log(nozData, "this is nozData");
 
   useEffect(() => {
     let ninety2 = 0;
@@ -261,19 +268,19 @@ const SaleSummary = () => {
     // data_g?.map((obj) => {
     nozData?.map((obj) => {
       if (obj.fuel_type === "001-Octane Ron(92)") {
-        ninety2 += obj.devTotalizerDif;
+        ninety2 += Number(obj.devTotalizerDif);
       }
       if (obj.fuel_type === "002-Octane Ron(95)") {
-        ninety5 += obj.devTotalizerDif;
+        ninety5 += Number(obj.devTotalizerDif);
       }
       if (obj.fuel_type === "004-Diesel") {
-        diesel += obj.devTotalizerDif;
+        diesel += Number(obj.devTotalizerDif);
       }
       if (obj.fuel_type === "005-Premium Diesel") {
-        premium += obj.devTotalizerDif;
+        premium += Number(obj.devTotalizerDif);
       }
 
-      totalPrice += obj.totalPrice;
+      totalPrice += Number(obj.totalPrice);
     });
 
     SetNinety2LotalLiter(ninety2);
@@ -284,7 +291,7 @@ const SaleSummary = () => {
     SetTotalPrice(totalPrice);
   }, [data_g, data_g_2, data_g_3]);
 
-  console.log(sDate, "lllllllllllllllll");
+  // console.log(sDate, "lllllllllllllllll");
 
   useEffect(() => {
     if (data_g) {
@@ -298,9 +305,9 @@ const SaleSummary = () => {
     );
     const totalLiter = matchingEntry ? matchingEntry.totalLiter : 0;
 
-    console.log("............................");
-    console.log(totalLiter, literByNoz, matchingEntry);
-    console.log("............................");
+    // console.log("............................");
+    // console.log(totalLiter, literByNoz, matchingEntry);
+    // console.log("............................");
     return (
       <Table.Tr key={element._id} className=" duration-150 text-sm text-center">
         <Table.Td>{element.nozzle_no || "-"}</Table.Td>
@@ -316,7 +323,7 @@ const SaleSummary = () => {
     );
   });
 
-  console.log(nozData, "noz Data");
+  // console.log(nozData, "noz Data");
 
   function handleDownloadExcel() {
     downloadExcel({

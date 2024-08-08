@@ -159,16 +159,18 @@ const DailySale = () => {
         })}
       </Table.Td>
       <Table.Td className="flex items-center justify-center">
-        {element.saleLiter == "0" && (
-          <div
-            onClick={() => {
-              open(), setDdata({ id: element._id, noz: element.nozzleNo });
-            }}
-            className="bg-[#f7e87b] active:scale-90 duration-75 cursor-pointer flex w-10 h-10 items-center  rounded-full justify-center "
-          >
-            <BiError className="text-2xl text-gray-500 -mt-1" />
-          </div>
-        )}
+        {element.saleLiter == "0" &&
+          element.isCancel == "0" &&
+          element.isError == "0" && (
+            <div
+              onClick={() => {
+                open(), setDdata({ id: element._id, noz: element.nozzleNo });
+              }}
+              className="bg-[#f7e87b] active:scale-90 duration-75 cursor-pointer flex w-10 h-10 items-center  rounded-full justify-center "
+            >
+              <BiError className="text-2xl text-gray-500 -mt-1" />
+            </div>
+          )}
       </Table.Td>
     </Table.Tr>
   ));

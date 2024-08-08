@@ -223,7 +223,8 @@ const SaleSummary = () => {
   const nozData = uniqueArray.map((e) => {
     const data = data_g
       .filter((pump) => e == pump.nozzleNo)
-      ?.filter((ea) => ea.asyncAlready != "0");
+      ?.filter((ea) => ea.asyncAlready != "0")
+      ?.filter((e) => e.devTotalizar_liter != 0);
 
     // console.log(
     //   data_g

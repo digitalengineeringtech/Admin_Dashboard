@@ -203,7 +203,7 @@ const DeviceControl = () => {
       <Table.Td className="select-none">
         {element.salePrice?.toFixed(2).toLocaleString(undefined, {
           maximumFractionDigits: 3,
-        })}
+        }) || "0.00"}
       </Table.Td>
       <Table.Td className="select-none">
         {element.totalPrice?.toFixed(2).toLocaleString(undefined, {

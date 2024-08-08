@@ -197,24 +197,24 @@ const DeviceControl = () => {
       <Table.Td className="select-none">{element.nozzleNo}</Table.Td>
       <Table.Td className="select-none">{element.fuelType}</Table.Td>
       <Table.Td className="select-none">
-        {(parseFloat(element?.saleLiter) / 4.16).toFixed(3)}
+        {(parseFloat(element?.saleLiter) / 4.16)?.toFixed(3)}
       </Table.Td>
       <Table.Td className="select-none">{element.saleLiter}</Table.Td>
       <Table.Td className="select-none">
-        {element.salePrice.toFixed(2).toLocaleString(undefined, {
+        {element.salePrice?.toFixed(2).toLocaleString(undefined, {
           maximumFractionDigits: 3,
         })}
       </Table.Td>
       <Table.Td className="select-none">
-        {element.totalPrice.toFixed(2).toLocaleString(undefined, {
+        {element.totalPrice?.toFixed(2).toLocaleString(undefined, {
           maximumFractionDigits: 3,
         })}
       </Table.Td>
       <Table.Td className="select-none">
-        {element.devTotalizar_liter.toFixed(3)}
+        {element.devTotalizar_liter?.toFixed(3)}
       </Table.Td>
       <Table.Td className="select-none">
-        {element.devTotalizar_amount.toFixed(2).toLocaleString(undefined, {
+        {element.devTotalizar_amount?.toFixed(2).toLocaleString(undefined, {
           maximumFractionDigits: 3,
         })}
       </Table.Td>
@@ -291,7 +291,7 @@ const DeviceControl = () => {
           e.vehicleType,
           e.nozzleNo,
           e.fuelType,
-          (parseFloat(e?.saleLiter) / 4.16).toFixed(3),
+          (parseFloat(e?.saleLiter) / 4.16)?.toFixed(3),
           e.saleLiter,
           e.salePrice.toLocaleString(undefined, {
             maximumFractionDigits: 3,
@@ -299,7 +299,7 @@ const DeviceControl = () => {
           e.totalPrice.toLocaleString(undefined, {
             maximumFractionDigits: 3,
           }),
-          e.totalizer_liter.toFixed(3),
+          e.totalizer_liter?.toFixed(3),
           e.totalizer_amount.toLocaleString(undefined, {
             maximumFractionDigits: 3,
           }),

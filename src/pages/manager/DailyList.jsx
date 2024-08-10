@@ -34,11 +34,13 @@ const DailyList = () => {
   let today = new Date();
   start.setHours(0);
   start.setMinutes(0);
+  start.setSeconds(0);
   // start = new Date(start);
 
   let end = new Date();
   end.setHours(23);
-  end.setMinutes(0);
+  end.setMinutes(59);
+  end.setSeconds(59);
   end = new Date(end);
 
   const [sDate, setSDate] = useState(start);
@@ -57,7 +59,6 @@ const DailyList = () => {
   useEffect(() => {
     setCon(true);
   }, []);
-
 
   useEffect(() => {
     fetchItGet(`detail-sale/by-date/?sDate=${sDate}&eDate=${eDate}`, token);
@@ -81,7 +82,6 @@ const DailyList = () => {
     // setStock(data_g_3); normal
     setStock(data_g_3.slice(0, 4));
   }, [data_g_3, refresh]);
-
 
   useEffect(() => {
     const fuelCalcu = fuelData.map((e, index) => {

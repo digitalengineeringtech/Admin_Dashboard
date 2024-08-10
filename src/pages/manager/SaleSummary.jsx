@@ -14,15 +14,18 @@ import FilterTable from "../../components/table/FilterTable";
 import { Table } from "@mantine/core";
 import { downloadExcel } from "react-export-table-to-excel";
 import { useReactToPrint } from "react-to-print";
+import format from "../../utils/format";
 
 const SaleSummary = () => {
   let start = new Date();
   start.setHours(0);
   start.setMinutes(0);
+  start.setSeconds(0);
 
   let end = new Date();
   end.setHours(23);
   end.setMinutes(59);
+  end.setSeconds(59);
 
   // let end = new Date();
   // end.setHours(23);
@@ -106,10 +109,11 @@ const SaleSummary = () => {
     }
   }, [data_g, loading_g, error_g, fetchItGet]);
 
-  // console.log(
-  //   data_g,
-  //   "lfffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
-  // );
+  console.log(
+    sDate,
+    eDate,
+    "lfffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+  );
 
   const summaryHeader = [
     "Date/Time",
@@ -121,9 +125,12 @@ const SaleSummary = () => {
   ];
   const summaryRow = (
     <Table.Tr className=" duration-150 text-sm text-center">
-      <Table.Td>
-        {/* {sDate?.toDateString()} | {eDate?.toDateString()} */}
-        {sDate?.toDateString()}
+      <Table.Td >
+        {/* {sDate?.toDateString()} | {eDate?.toDateString()} */}<span className="me-3">From</span>
+        {format(sDate)}
+        <br />
+         <span className="me-3">To</span>
+        {format(eDate)}
       </Table.Td>
       <Table.Td>
         {ninety2LotalLiter ? ninety2LotalLiter.toFixed(3) : "-"}

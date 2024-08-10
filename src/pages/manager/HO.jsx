@@ -43,11 +43,13 @@ const HO = () => {
   let today = new Date();
   start.setHours(0);
   start.setMinutes(0);
+  start.setSeconds(0);
   // start = new Date(start);
 
   let end = new Date();
   end.setHours(23);
   end.setMinutes(59);
+  end.setSeconds(59);
   end = new Date(end);
 
   const [sDate, setSDate] = useState(start);
@@ -99,7 +101,7 @@ const HO = () => {
     setStock(data_g_3);
   }, [data_g_3, refresh, data_g]);
 
-    console.log(data_g_3, "....................................................");
+  console.log(data_g_3, "....................................................");
 
   //   if (data_g.length > 0) {
   //     console.log("sksksks");
@@ -181,8 +183,8 @@ const HO = () => {
       const unitPrice = data_g_2.filter((unit) => unit.fuel_type == e.value)[0]
         ?.daily_price;
       const open = data_g_3.find((f) => f.fuelType == e.value);
-        console.log(open, "open");
-        
+      console.log(open, "open");
+
       return {
         fueltype: e.value,
         totalLiter: calcuLiter,

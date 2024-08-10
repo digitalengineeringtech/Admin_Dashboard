@@ -9,10 +9,12 @@ export default function CalendarPick({ label, date, setDate }) {
         <Calendar
           className="mx-3 w-[275px]  !outline-0 text-lg h-[40px]"
           id="buttondisplay"
+          dateFormat="dd/mm/yy"
           value={date}
           onChange={(e) => setDate(e.value)}
           showIcon
           showTime
+          showSeconds
           hourFormat="24"
         />
       </div>

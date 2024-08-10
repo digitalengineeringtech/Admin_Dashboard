@@ -45,6 +45,8 @@ const SaleLedger = () => {
   let today = new Date();
   start.setHours(0);
   start.setMinutes(0);
+  start.setSeconds(0);
+
   // start = new Date(start);
 
   let end = new Date(start);

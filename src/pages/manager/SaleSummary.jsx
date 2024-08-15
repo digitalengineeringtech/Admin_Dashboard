@@ -125,11 +125,12 @@ const SaleSummary = () => {
   ];
   const summaryRow = (
     <Table.Tr className=" duration-150 text-sm text-center">
-      <Table.Td >
-        {/* {sDate?.toDateString()} | {eDate?.toDateString()} */}<span className="me-3">From</span>
+      <Table.Td>
+        {/* {sDate?.toDateString()} | {eDate?.toDateString()} */}
+        <span className="me-3">From</span>
         {format(sDate)}
         <br />
-         <span className="me-3">To</span>
+        <span className="me-3">To</span>
         {format(eDate)}
       </Table.Td>
       <Table.Td>
@@ -253,7 +254,7 @@ const SaleSummary = () => {
     // return data;
 
     return {
-      nozzle_no: e,
+      nozzle_no: e, 
       // totalLiter: data.reduce((sum, current) => sum + current.saleLiter, 0),
       data: data,
       fuel_type: data[0]?.fuelType,

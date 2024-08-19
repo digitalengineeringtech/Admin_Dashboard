@@ -93,12 +93,12 @@ const Login = () => {
   // console.log(L_data);
   return (
     <div className="flex justify-center h-screen items-center login_bg">
-      <div className="flex bg-secondary rounded-2xl w-[1000px] pt-6 pb-14 flex-col justify-center items-center">
-        <div className=" w-full mb-10  ">
-          <div className="border-b-2 mx-auto w-[80%] pb-4 border-detail/20">
+      <div className="flex bg-secondary rounded-3xl w-[1000px] pt-6 pb-14 flex-col justify-center items-center">
+        <div className=" w-full mb-10 flex relative justify-center">
+          <div className="border-b-2 flex items-center justify-center mx-auto w-40 h-40 rounded-full absolute top-[-90px] left-0 right-0 shadow-md shadow-detail/20 z-50 bg-white">
             <img
-              className="h-14 mx-auto"
-              src="../../static/images/det_logo_dark.png"
+              className="h-28 mx-auto ps-2 pb-2"
+              src="../../static/images/logo.png"
               alt="dd"
             />
           </div>

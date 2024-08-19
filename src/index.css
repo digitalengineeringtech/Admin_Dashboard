@@ -37,7 +37,7 @@
   background-position: bottom;
   /* background-attachment: fixed; */
 }
-.active .side{
+.active .side {
   color: #25b0ff !important;
 }
 .active {
@@ -67,7 +67,7 @@
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: rgb(56, 181, 158);
+  background: #25b0ff;
   border-radius: 10px;
 }
 

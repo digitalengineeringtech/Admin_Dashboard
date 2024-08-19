@@ -5,8 +5,8 @@
 }
 .card {
   border-radius: 20px;
-  background: linear-gradient(145deg, #ffffff, #e2e2e2);
-  box-shadow: 7px 7px 12px #d0d0d0, -7px -7px 12px #ffffff;
+  background: linear-gradient(145deg, #ffffff, #e1ecf2);
+  box-shadow: 7px 7px 12px #e0f2fc, -7px -7px 12px #ffffff;
 }
 .card5 {
   border-radius: 20px;

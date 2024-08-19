@@ -5,7 +5,7 @@ export default {
       colors: {
         primary: "#25B0FF10",
         secondary: "#FFFFFF",
-        detail: "#25B0FF",
+        detail: "#33b0f9",
         text: "#3C3C3C",
         icon: "#7C7C7C",
         inputB: "#25B0FF40",

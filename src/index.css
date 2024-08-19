@@ -21,6 +21,9 @@
   background-position: center;
   background-attachment: fixed;
 }
+.gg{
+  color: #33b0f9;
+}
 .side_bg {
   /* background-image: url("../public/static/images/new.png"); */
   background-image: url("../static/images/side_bg.png");

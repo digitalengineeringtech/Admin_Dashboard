@@ -42,7 +42,7 @@ const SelectDrop = ({ data, value, cls, setValue, placeholder, label }) => {
             opacity: 1,
             transition: { duration: 0.15 },
           }}
-          className=" z-50 absolute bg-[#eff7f6] p-3 border border-inputB w-full h-[200px] overflow-y-scroll mt-1 rounded-xl "
+          className=" z-50 absolute bg-[#DCF3FF] p-3 border border-inputB w-full h-[200px] overflow-y-scroll mt-1 rounded-xl "
         >
           {data.map((item, index) => (
             <div

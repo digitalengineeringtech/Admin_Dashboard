@@ -375,7 +375,7 @@ const DailySale = () => {
             />
           </div>
         ) : (
-          <div className="w-full h-[250px] gap-5 text-nodata flex items-center justify-center border-2 border-nodata mt-10 rounded-xl">
+          <div className="w-full h-[250px] gap-5 text-detail/50 flex items-center justify-center border-2 border-detail/40 mt-10 rounded-xl">
             <div className="flex items-center gap-4">
               <RiErrorWarningLine className="text-[6rem]" />
               <div className="font-mono text-[2.5rem]">NO DATA FOUND</div>

@@ -278,14 +278,14 @@ const FuelIn = () => {
         title: "Fuel added successfully!",
         icon: "success",
         buttonsStyling: false,
-        iconColor: "#38b59e",
-        color: "#38b59e",
+        iconColor: "#33b0f9",
+        color: "#33b0f9",
         width: "25em",
         background: "#ffffff",
         customClass: {
           title: "text-white",
           confirmButton:
-            "bg-detail text-secondary rounded-lg border-2 border-detail hover:text-[#38b59e] duration-150 hover:bg-secondary w-[300px] font-mono py-2",
+            "bg-detail text-secondary rounded-lg border-2 border-detail hover:text-[#33b0f9] duration-150 hover:bg-secondary w-[300px] font-mono py-2",
         },
       });
     }
@@ -404,13 +404,13 @@ const FuelIn = () => {
             {" "}
             <button
               onClick={startClick}
-              className={`w-[300px]  mt-auto  text-secondary  items-center justify-center gap-3 flex font-mono text-lg active:scale-95 duration-100 bg-[#38b59e] h-[56px] rounded-md`}
+              className={`w-[300px]  mt-auto  text-secondary  items-center justify-center gap-3 flex font-mono text-lg active:scale-95 duration-100 bg-[#33b0f9] h-[56px] rounded-md`}
             >
               Start
             </button>
             <button
               onClick={endClick}
-              className={`w-[300px]  mt-auto  text-secondary  items-center justify-center gap-3 flex font-mono text-lg active:scale-95 duration-100 bg-[#38b59e] h-[56px] rounded-md`}
+              className={`w-[300px]  mt-auto  text-secondary  items-center justify-center gap-3 flex font-mono text-lg active:scale-95 duration-100 bg-[#33b0f9] h-[56px] rounded-md`}
             >
               End
             </button>

@@ -13,7 +13,6 @@
   @tailwind utilities;
 }
 
-
 .login_bg {
   /* background-image: url("../public/static/images/new.png"); */
   background-image: url("../static/images/login_bg.png");
@@ -38,9 +37,11 @@
   background-position: bottom;
   /* background-attachment: fixed; */
 }
+.active .side{
+  color: #25b0ff !important;
+}
 .active {
   background-color: white;
-  color: #38b59e !important;
 }
 
 .example::-webkit-scrollbar {

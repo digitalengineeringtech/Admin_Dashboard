@@ -190,7 +190,7 @@ const Sidebar = () => {
         }}
         animate={state ? "open" : "close"}
         variants={bg}
-        className="absolute z-50 w-[250px] shadow-xl shadow-shadow/20 ml-[-160px] side_bg h-screen"
+        className="absolute z-50 w-[250px] shadow-xl shadow-detail/10 ml-[-160px] side_bg h-screen"
       >
         <motion.div
           onClick={() => open()}
@@ -253,7 +253,7 @@ const Sidebar = () => {
           variants={pfp}
           className={`bg-secondary animate-duration-[360ms] ${
             isBouncing ? "animate-shake" : ""
-          }  animate-twice border-2 border-[#D0F0E9] justify-center  items-center top-[50%] flex absolute ms-4 left-[200px] w-14 h-14 rounded-full`}
+          }  animate-twice border-2 border-detail/80 justify-center  items-center top-[50%] flex absolute ms-4 left-[200px] w-14 h-14 rounded-full`}
         >
           <FaCaretLeft className="text-xl text-detail" />
         </motion.div>

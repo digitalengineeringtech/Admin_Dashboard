@@ -46,7 +46,7 @@ const Nav = ({ title }) => {
   //     })
   return (
     <div className="xl:w-[91%] w-[88%] z-40 2xl:w-[92%] mb-6 absolute">
-      <div className="w-full nav_bg shadow-xl shadow-shadow/20  items-center flex justify-between px-8 rounded-lg h-20">
+      <div className="w-full nav_bg shadow-xl shadow-detail/10  items-center flex justify-between px-8 rounded-lg h-20">
         <div className="text-[1.7rem] text-text font-bold font-sans">
           {title}
         </div>

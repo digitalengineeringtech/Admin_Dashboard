@@ -12,7 +12,7 @@ export default {
         input: "#25B0FF10",
         subText: "#DDDDDD",
         danger: "#EB6A6A",
-        shadow: "#3aaf94",
+        shadow: "#25B0FF",
         nodata: "#38b59e40",
       },
     },

@@ -8,7 +8,7 @@ export default {
         detail: "#25B0FF",
         text: "#3C3C3C",
         icon: "#7C7C7C",
-        inputB: "#25B0FF30",
+        inputB: "#25B0FF40",
         input: "#25B0FF10",
         subText: "#DDDDDD",
         danger: "#EB6A6A",

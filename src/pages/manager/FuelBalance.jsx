@@ -74,13 +74,15 @@ const FuelBalance = () => {
   const stockRow = data_g?.map((element, index) => (
     <Table.Tr key={element.no} className=" duration-150 text-center">
       <Table.Td>{index + 1}</Table.Td>
-      <Table.Td>{index + 1}</Table.Td>
+      <Table.Td>{element.tankNo}</Table.Td>
       <Table.Td>{element.fuelType}</Table.Td>
       <Table.Td>{element?.opening?.toFixed(2)}</Table.Td>
       <Table.Td>{element.fuelIn}</Table.Td>
       <Table.Td>{element?.balance?.toFixed(2)}</Table.Td>
     </Table.Tr>
   ));
+
+  console.log(data_g, "this is data_g");
 
   const handleClick = () => {
     const formattedDate2 = sDate.toISOString().split("T")[0];

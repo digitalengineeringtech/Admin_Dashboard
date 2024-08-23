@@ -505,7 +505,7 @@ const SaleLedger = () => {
                 />
               </div>
             </div>
-            <div className=" mt-10 ">
+            {/* <div className=" mt-10 ">
               <div className="text-3xl ms-2 text-detail font-bold font-mono my-auto">
                 Adjust Amount
               </div>
@@ -530,7 +530,7 @@ const SaleLedger = () => {
                   onClick={ConAlert("Are you sure ?", true, handleClick1)}
                 />
               </div>
-            </div>
+            </div> */}
             <div className=" mt-8 ">
               <div className="text-3xl ms-2 text-detail font-bold font-mono my-auto">
                 Add Today Tank Balance

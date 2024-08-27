@@ -387,11 +387,11 @@ const SaleSummary = () => {
             : ""}
         </Table.Td>
         <Table.Td>{element.pricePerLiter || "-"}</Table.Td>
-        <Table.Td>{element.openingTotalizerLiter || "-"}</Table.Td>
-        <Table.Td>{element.closingTotalizerLiter || "-"}</Table.Td>
-        <Table.Td>{element.differentLiter || "-"}</Table.Td>
-        <Table.Td>{element.saleLiter || "-"}</Table.Td>
-        <Table.Td>{element.saleDiffetentLiter || "-"}</Table.Td>
+        <Table.Td>{element.openingTotalizerLiter?.toFixed(3) || "-"}</Table.Td>
+        <Table.Td>{element.closingTotalizerLiter?.toFixed(3) || "-"}</Table.Td>
+        <Table.Td>{element.differentLiter?.toFixed(3) || "-"}</Table.Td>
+        <Table.Td>{element.saleLiter?.toFixed(3) || "-"}</Table.Td>
+        <Table.Td>{element.saleDifferentLiter?.toFixed(3) || "-"}</Table.Td>
         <Table.Td>{element.totalPrice || "-"}</Table.Td>
         <Table.Td>
           {element.priceDifferent.toLocaleString(undefined, {

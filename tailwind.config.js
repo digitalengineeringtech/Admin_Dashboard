@@ -15,6 +15,9 @@ export default {
         shadow: "#25B0FF",
         nodata: "#38b59e40",
       },
+      screens: {
+        extra: "1820px",
+      },
     },
   },
   plugins: [require("tailwindcss-animated")],

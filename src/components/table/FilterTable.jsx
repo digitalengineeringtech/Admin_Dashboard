@@ -1,13 +1,14 @@
 import React, { useRef } from "react";
 import { Table } from "@mantine/core";
+import clsx from "clsx";
 
-const FilterTable = ({ header, label, rows, tableRef }) => {
+const FilterTable = ({ header, className, label, rows, tableRef, type }) => {
   // const tableRef = useRef();
 
   // console.log(tableRef, ".........................");
   return (
     <div className="">
-      <h3 className="text-text ms-3 mb-3 text-xl">{label}</h3>
+      {label && <h3 className="text-text ms-3 mb-3 text-xl">{label}</h3>}
       <div className=" p-4 rounded-xl bg-secondary  shadow-md shadow-shadow/20 ">
         <Table
           // withRowBorders={true}
@@ -19,12 +20,18 @@ const FilterTable = ({ header, label, rows, tableRef }) => {
           highlightOnHover
           stickyHeader={true}
           withColumnBorders
-          className=" text-text "
+          className=" text-text col-span-4"
         >
           <Table.Thead className="text-center bg-[#E4F5FF] sticky top-0">
             <Table.Tr className="text-[1rem] font-semibold text-center ">
               {header?.map((item, index) => (
-                <Table.Td key={index} className="bg-[#E4F5FF] text-text">
+                <Table.Td
+                  key={index}
+                  className={clsx("bg-[#E4F5FF] text-text", {
+                    "w-[20px]": index == 0 && type == "detail",
+                  })}
+                  // className="bg-[#E4F5FF] text-text"
+                >
                   {item}
                 </Table.Td>
               ))}

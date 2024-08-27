@@ -135,7 +135,18 @@ const Stock = () => {
       <Table.Td>{index + 1}</Table.Td>
       <Table.Td>{element.dateOfDay}</Table.Td>
       {/* <Table.Td>{element.pump}</Table.Td> */}
-      <Table.Td>{element.fuelType}</Table.Td>
+      <Table.Td>
+        {" "}
+        {element?.fuelType == "001-Octane Ron(92)"
+          ? "92 RON"
+          : element?.fuelType == "002-Octane Ron(95)"
+          ? "95 RON"
+          : element?.fuelType == "004-Diesel"
+          ? "HSD"
+          : element?.fuelType == "005-Premium Diesel"
+          ? "PHSD"
+          : ""}
+      </Table.Td>
       <Table.Td>{element.openingBalance.toFixed(2)}</Table.Td>
       <Table.Td>{element.balance.toFixed(2)}</Table.Td>
       <Table.Td>{element.issue.toFixed(2)}</Table.Td>
@@ -159,7 +170,18 @@ const Stock = () => {
   const stockRow = stock?.map((element, index) => (
     <Table.Tr key={element.no} className=" duration-150 text-center">
       <Table.Td>{index + 1}</Table.Td>
-      <Table.Td>{element.fuelType}</Table.Td>
+      <Table.Td>
+        {" "}
+        {element?.fuelType == "001-Octane Ron(92)"
+          ? "92 RON"
+          : element?.fuelType == "002-Octane Ron(95)"
+          ? "95 RON"
+          : element?.fuelType == "004-Diesel"
+          ? "HSD"
+          : element?.fuelType == "005-Premium Diesel"
+          ? "PHSD"
+          : ""}
+      </Table.Td>
       <Table.Td>{element.openingBalance.toFixed(2)}</Table.Td>
       <Table.Td>{element.receive.toFixed(2)}</Table.Td>
       <Table.Td>{element.issue.toFixed(2)}</Table.Td>

@@ -320,7 +320,18 @@ const HO = () => {
   ];
   const stockRow = notCredit?.map((element, index) => (
     <Table.Tr key={element.no} className=" duration-150 text-center">
-      <Table.Td>{element.fueltype}</Table.Td>
+      <Table.Td>
+        {" "}
+        {element?.fueltype == "001-Octane Ron(92)"
+          ? "92 RON"
+          : element?.fueltype == "002-Octane Ron(95)"
+          ? "95 RON"
+          : element?.fueltype == "004-Diesel"
+          ? "HSD"
+          : element?.fueltype == "005-Premium Diesel"
+          ? "PHSD"
+          : ""}
+      </Table.Td>
       <Table.Td>{element.open || 0}</Table.Td>
       <Table.Td>{element?.receive || 0}</Table.Td>
       <Table.Td>{Number(element.totalLiter)?.toFixed(2)}</Table.Td>
@@ -343,7 +354,18 @@ const HO = () => {
   ));
   const stockRow1 = notCredit1?.map((element, index) => (
     <Table.Tr key={element.no} className=" duration-150 text-center">
-      <Table.Td>{element.fueltype}</Table.Td>
+      <Table.Td>
+        {" "}
+        {element?.fueltype == "001-Octane Ron(92)"
+          ? "92 RON"
+          : element?.fueltype == "002-Octane Ron(95)"
+          ? "95 RON"
+          : element?.fueltype == "004-Diesel"
+          ? "HSD"
+          : element?.fueltype == "005-Premium Diesel"
+          ? "PHSD"
+          : ""}
+      </Table.Td>
       <Table.Td>{element.pricePerLiter || 0}</Table.Td>
       <Table.Td>{element?.totalLiter?.toFixed(2) || 0}</Table.Td>
       <Table.Td>

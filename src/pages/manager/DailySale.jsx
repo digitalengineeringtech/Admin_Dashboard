@@ -141,7 +141,18 @@ const DailySale = () => {
       <Table.Td>{element.carNo}</Table.Td>
       <Table.Td>{element.vehicleType}</Table.Td>
       <Table.Td>{element.nozzleNo}</Table.Td>
-      <Table.Td>{element.fuelType}</Table.Td>
+      <Table.Td>
+        {" "}
+        {element?.fuelType == "001-Octane Ron(92)"
+          ? "92 RON"
+          : element?.fuelType == "002-Octane Ron(95)"
+          ? "95 RON"
+          : element?.fuelType == "004-Diesel"
+          ? "HSD"
+          : element?.fuelType == "005-Premium Diesel"
+          ? "PHSD"
+          : ""}
+      </Table.Td>
       <Table.Td>{(parseFloat(element?.saleLiter) / 4.16)?.toFixed(3)}</Table.Td>
       <Table.Td>{element.saleLiter}</Table.Td>
       <Table.Td>
@@ -150,7 +161,7 @@ const DailySale = () => {
         }) || "0.00"}
       </Table.Td>
       <Table.Td>
-        {element.totalPrice?.toFixed(2).toLocaleString(undefined, {
+        {element.totalPrice?.toLocaleString(undefined, {
           maximumFractionDigits: 3,
         })}
       </Table.Td>

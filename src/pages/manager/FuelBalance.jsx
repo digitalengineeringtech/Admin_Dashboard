@@ -75,7 +75,17 @@ const FuelBalance = () => {
     <Table.Tr key={element.no} className=" duration-150 text-center">
       <Table.Td>{index + 1}</Table.Td>
       <Table.Td>{element.tankNo}</Table.Td>
-      <Table.Td>{element.fuelType}</Table.Td>
+      <Table.Td>
+        {element?.fuelType == "001-Octane Ron(92)"
+          ? "92 RON"
+          : element?.fuelType == "002-Octane Ron(95)"
+          ? "95 RON"
+          : element?.fuelType == "004-Diesel"
+          ? "HSD"
+          : element?.fuelType == "005-Premium Diesel"
+          ? "PHSD"
+          : ""}
+      </Table.Td>
       <Table.Td>{element?.opening?.toFixed(2)}</Table.Td>
       <Table.Td>{element.fuelIn}</Table.Td>
       <Table.Td>{element?.balance?.toFixed(2)}</Table.Td>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Chart from "chart.js/auto";
 import fuelData from "../../pages/installer/drop_data/fuel";
 import UseGet from "../../api/hooks/UseGet";
@@ -6,6 +6,11 @@ import UseGet2 from "../../api/hooks/UseGet2";
 import UseGet3 from "../../api/hooks/UseGet3";
 import useTokenStorage from "../../utils/useDecrypt";
 import color from "../../pages/installer/drop_data/color";
+import FilterTable from "../../components/table/FilterTable";
+import { useReactToPrint } from "react-to-print";
+import { Table } from "@mantine/core";
+import CustomTable from "../../components/table/CustomTable";
+import clsx from "clsx";
 
 const Manager = () => {
   const [totalCalcu, setTotalCalcu] = useState([]);
@@ -15,6 +20,107 @@ const Manager = () => {
   const [{ data_g, loading_g, error_g }, fetchItGet] = UseGet();
   const [{ data_g_2, loading_g_2, error_g_2 }, fetchItGet2] = UseGet2();
   const [{ data_g_3, loading_g_3, error_g_3 }, fetchItGet3] = UseGet3();
+  const [literByNoz, setLiterByNoz] = useState([]);
+  const [nozzle, setNozzle] = useState([]);
+
+  const tableRef2 = useRef();
+  const handlePrint2 = useReactToPrint({
+    content: () => tableRef2.current,
+  });
+
+  // const detailRow = (
+  //   <Table.Tr className=" duration-150 text-sm text-center">
+  //     <Table.Td>eee</Table.Td>
+  //     <Table.Td>eee</Table.Td>
+  //     <Table.Td>eee</Table.Td>
+  //     <Table.Td>eee</Table.Td>
+  //   </Table.Tr>
+  // );
+
+  const detailRow = totalCalcu.map((element, index) => {
+    return (
+      <Table.Tr key={index} className=" text-lg duration-150 text-center">
+        <Table.Td>
+          {element?.fueltype == "001-Octane Ron(92)"
+            ? "92 RON"
+            : element?.fueltype == "002-Octane Ron(95)"
+            ? "95 RON"
+            : element?.fueltype == "004-Diesel"
+            ? "HSD"
+            : element?.fueltype == "005-Premium Diesel"
+            ? "PHSD"
+            : ""}
+        </Table.Td>
+        <Table.Td>
+          {element.pricePerLiter.toLocaleString(undefined, {
+            maximumFractionDigits: 0,
+          })}
+        </Table.Td>
+        <Table.Td>{element.totalLiter}</Table.Td>
+        <Table.Td>
+          {element.totalAmount.toLocaleString(undefined, {
+            maximumFractionDigits: 0,
+          })}
+        </Table.Td>
+      </Table.Tr>
+    );
+  });
+
+  console.log(totalCalcu, "this is total", detailRow);
+  const detailHeader = [
+    "Fuel Type",
+    "Price Per Liter",
+    "Total Sale Liter",
+    "Total Sale Amount",
+  ];
+  const detailHeader1 = [
+    "Nozzle No.",
+    "Fuel Type",
+    "Price Per Liter",
+    "Total Sale Liter",
+    "Total Sale Amount",
+  ];
+
+  const singleHeader = (
+    <Table.Tr className="duration-150 font-bold text-center">
+      {totalCalcu.map((element, index) => (
+        <Table.Td
+          className={clsx("bg-[#E4F5FF] w-[120px] text-text")}
+          key={index}
+        >
+          {element?.fueltype == "001-Octane Ron(92)"
+            ? "92 RON"
+            : element?.fueltype == "002-Octane Ron(95)"
+            ? "95 RON"
+            : element?.fueltype == "004-Diesel"
+            ? "HSD"
+            : element?.fueltype == "005-Premium Diesel"
+            ? "PHSD"
+            : ""}
+        </Table.Td>
+      ))}
+    </Table.Tr>
+  );
+
+  const singleBody = (
+    <Table.Tr className="duration-150 text-center">
+      {totalCalcu.map((element, index) => (
+        <Table.Td className={clsx("text-sm w-[120px] text-text")} key={index}>
+          {element.totalAmount.toLocaleString(undefined, {
+            maximumFractionDigits: 0,
+          })}
+        </Table.Td>
+      ))}
+    </Table.Tr>
+  );
+
+  // const singleRow = (
+  //   <Table.Tr className="duration-150 text-center">
+  //     {totalCalcu.map((element, index) => {
+  //       <Table.Td key={index}>{element.totalAmount}</Table.Td>;
+  //     })}
+  //   </Table.Tr>
+  // );
 
   let start = new Date();
   start.setHours(0);
@@ -25,7 +131,7 @@ const Manager = () => {
   let end = new Date();
   end.setHours(23);
   end.setMinutes(59);
-  end.setSeconds(59)
+  end.setSeconds(59);
   end = new Date(end);
 
   const [atgStatus, setAtgStatus] = useState();
@@ -52,7 +158,7 @@ const Manager = () => {
   // eslint-disable-next-line no-unused-vars
   const [startDate, setStartDate] = useState(start);
 
-  // console.log(startDate, endDate, "ggggg");
+  console.log(nozzle, data_g_2, "ggggg", literByNoz);
 
   const dataArr = data_g_3[
     data_g_3.length == 0 ? data_g_3.length : data_g_3.length - 1
@@ -64,6 +170,20 @@ const Manager = () => {
     };
   });
 
+  const tankLabel = dataArr?.map((row) => {
+    return row?.fuel == ("Petrol 92" || "92 0ctane")
+      ? "92 RON"
+      : row?.fuel == "95 Octane"
+      ? "95 RON"
+      : row?.fuel == "Diesel"
+      ? "HSD"
+      : row?.fuel == "Super Diesel"
+      ? "PHSD"
+      : "";
+  });
+
+  console.log(tankLabel, "this is tank label");
+
   const [con, setCon] = useState();
   useEffect(() => {
     (async function () {
@@ -74,9 +194,17 @@ const Manager = () => {
       new Chart(document.getElementById("acquisitions"), {
         type: "bar",
         data: {
-          labels: data.map(
-            (row) => row.fuel + " " + "( tank" + row.tank + " )"
-          ),
+          labels: data.map((row) => {
+            return row?.fuel == ("Petrol 92" || "92 0ctane")
+              ? "92 RON" + " " + "( " + row.tank + " )"
+              : row?.fuel == "95 Octane"
+              ? "95 RON" + " " + "( " + row.tank + " )"
+              : row?.fuel == "Diesel"
+              ? "HSD" + " " + "( " + row.tank + " )"
+              : row?.fuel == "Super Diesel"
+              ? "PHSD" + " " + "( " + row.tank + " )"
+              : "";
+          }),
           datasets: [
             {
               label: "Acquisitions by tank",
@@ -84,6 +212,58 @@ const Manager = () => {
               backgroundColor: barColors,
             },
           ],
+        },
+        options: {
+          // maxBarThickness: 30,
+          scales: {
+            x: {
+              grid: {
+                offset: true,
+              },
+            },
+          },
+        },
+      });
+    })();
+  });
+
+  useEffect(() => {
+    (async function () {
+      const data = dataArr;
+
+      const barColors = ["#95e199", "#40afbf", "#c9a9c5", "#ef7070", "#e6cf63"];
+
+      new Chart(document.getElementById("acquisitions1"), {
+        type: "bar",
+        data: {
+          labels: data.map((row) => {
+            return row?.fuel == ("Petrol 92" || "92 0ctane")
+              ? "92 RON" + " " + "( " + row.tank + " )"
+              : row?.fuel == "95 Octane"
+              ? "95 RON" + " " + "( " + row.tank + " )"
+              : row?.fuel == "Diesel"
+              ? "HSD" + " " + "( " + row.tank + " )"
+              : row?.fuel == "Super Diesel"
+              ? "PHSD" + " " + "( " + row.tank + " )"
+              : "";
+          }),
+          datasets: [
+            {
+              label: "Acquisitions by tank",
+              data: data.map((row) => row.count),
+              backgroundColor: barColors,
+            },
+          ],
+        },
+        options: {
+          // maxBarThickness: 30,
+          scales: {
+            x: {
+              grid: {
+                offset: true,
+              },
+            },
+          },
         },
       });
     })();
@@ -101,6 +281,34 @@ const Manager = () => {
 
     // console.log("wkwk");
   }, [startDate, endDate, token]);
+
+  useEffect(() => {
+    if (data_g_2?.length > 0) {
+      setNozzle((prevNozzle) => [
+        ...prevNozzle,
+        ...data_g_2.map((e) => e.nozzle_no),
+      ]);
+    }
+  }, [data_g_2]);
+
+  useEffect(() => {
+    if (nozzle.length > 0) {
+      const updatedLiterByNoz = nozzle.map((e) => {
+        const totalLiter = data_g
+          .filter((d) => d.nozzleNo === e)
+          .map((g) => g.saleLiter)
+          .reduce((pv, cv) => pv + cv, 0);
+
+        return {
+          nozzle_no: e,
+          totalLiter: totalLiter,
+        };
+      });
+      console.log("gggggggggggggggggggggg");
+
+      setLiterByNoz(updatedLiterByNoz);
+    }
+  }, [nozzle, data_g]);
 
   // console.log("==ggggg==================================");
   // console.log(
@@ -154,10 +362,64 @@ const Manager = () => {
     setTotalCalcu(fuelCalcu);
   }, [data_g, fuelData]);
 
+  const head = (
+    <Table.Tr className="text-[1rem] text-lg font-semibold text-center ">
+      {detailHeader?.map((item, index) => (
+        <Table.Td
+          key={index}
+          className={clsx("bg-[#E4F5FF] w-[120px] text-text")}
+          // className="bg-[#E4F5FF] text-text"
+        >
+          {item}
+        </Table.Td>
+      ))}
+    </Table.Tr>
+  );
+
+  console.log(singleHeader, "this is single row", head);
+
+  const detailRow1 = data_g_2?.map((element) => {
+    const matchingEntry = literByNoz.find(
+      (entry) => entry.nozzle_no === element.nozzle_no
+    );
+    const totalLiter = matchingEntry ? matchingEntry.totalLiter : 0;
+
+    // console.log("............................");
+    // console.log(totalLiter, literByNoz, matchingEntry);
+    // console.log("............................");
+    return (
+      <Table.Tr key={element._id} className=" duration-150 text-sm text-center">
+        <Table.Td>{element.nozzle_no || "-"}</Table.Td>
+        <Table.Td>
+          {element?.fuel_type == "001-Octane Ron(92)"
+            ? "92 RON"
+            : element?.fuel_type == "002-Octane Ron(95)"
+            ? "95 RON"
+            : element?.fuel_type == "004-Diesel"
+            ? "HSD"
+            : element?.fuel_type == "005-Premium Diesel"
+            ? "PHSD"
+            : ""}
+        </Table.Td>
+        <Table.Td>
+          {element.daily_price.toLocaleString(undefined, {
+            maximumFractionDigits: 0,
+          }) || "-"}
+        </Table.Td>
+        <Table.Td>{totalLiter.toFixed(3) || "-"}</Table.Td>
+        <Table.Td>
+          {(element.daily_price * totalLiter).toLocaleString(undefined, {
+            maximumFractionDigits: 3,
+          }) || "-"}
+        </Table.Td>
+      </Table.Tr>
+    );
+  });
+
   return (
     <div className="w-full pt-28">
-      <div className="pb-6">
-        {size ? (
+      <div className="pb-6 mx-auto">
+        {/* {size ? (
           <div className="grid grid-rows-10  grid-cols-12 gap-8 w-full ">
             {totalCalcu.map((e, index) => (
               <div
@@ -178,7 +440,7 @@ const Manager = () => {
                     <div className={` `}>
                       Total - {Number(e?.totalPrice).toFixed(2)} MMK
                     </div>
-                    <div className={` `}>
+                    <div className={``}>
                       Total - {Number(e?.totalLiter).toFixed(2)} Liter
                     </div>
                   </div>
@@ -197,7 +459,7 @@ const Manager = () => {
                 </div>
               </div>
             ))}
-            {/* 
+            
             <div className="bg-[#f8f4dd] shadow-shadow/10 gap-4 p-4 border-2 border-[#e7d477] shadow-xl  flex items-center justify-center row-span-5 col-span-4 rounded-2xl">
               <div className="w-full h-full 2xl:gap-2 items-center flex ps-3 bg-secondary rounded-xl ">
                 <img
@@ -225,7 +487,7 @@ const Manager = () => {
                   <div className=" text-[#eccf40]">MMK</div>
                 </div>
               </div>
-            </div> */}
+            </div>
           </div>
         ) : con ? (
           <div className="grid grid-rows-10 h-[300px]  grid-cols-12 gap-8 w-full ">
@@ -268,30 +530,37 @@ const Manager = () => {
               </div>
             ))}
           </div>
-        ) : (
-          <div className="grid grid-rows-10 h-[300px]  grid-cols-12 gap-8 w-full ">
-            <div className=" manager_bg col-span-4 row-span-10 flex-col p-10 h-full   rounded-xl flex items-center justify-center shadow-lg shadow-shadow/20">
-              <div className="bg-secondary 2xl:justify-around rounded-2xl 2xl:flex-row  flex-col w-full h-[100%] flex items-center justify-center">
-                <div className="flex flex-col leading-10 justify-center items-center">
-                  <h1 className="text-[2rem]  text-detail/80">
-                    Today Total Sale
-                  </h1>
-                  <h1 className="text-[3rem] font-bold text-detail my-3 mb-4">
-                    {totalCalcu
-                      .map((e) => Number(e.totalPrice))
-                      .reduce((pv, cv) => pv + cv, 0)
-                      .toLocaleString(undefined, {
-                        maximumFractionDigits: 0,
-                      })}
-                  </h1>
-                  <h1 className="text-[2.5rem]  text-detail/80">MMK</h1>
-                </div>
+        ) : ( */}
+        <div className="flex  justify-around  w-full ">
+          <div className="justify-between manager_bg w-[400px] flex-col p-3  rounded-2xl flex items-center shadow-lg shadow-shadow/20">
+            <div className="bg-secondary h-[185px]  2xl:justify-around rounded-xl 2xl:flex-row  flex-col w-full  flex items-center justify-center">
+              <div className="flex flex-col leading-10 justify-center items-center">
+                <h1 className="text-[1.8rem]  text-detail/80">
+                  Today Total Sale
+                </h1>
+                <h1 className="text-[2.8rem] font-bold text-detail my-2">
+                  {totalCalcu
+                    .map((e) => Number(e.totalPrice))
+                    .reduce((pv, cv) => pv + cv, 0)
+                    .toLocaleString(undefined, {
+                      maximumFractionDigits: 0,
+                    })}
+                </h1>
+                <h1 className="text-[1.8rem]  text-detail/80">MMK</h1>
               </div>
             </div>
-            {totalCalcu.map((e, index) => (
-              // console.log(
-              //   `Index: ${index}, textColor: ${e.textColor}, bgColor: ${e.bgColor}, borderColor: ${e.borderColor}`
-              // ),
+            <div className="w-full">
+              <CustomTable
+                cls="w-[375px]"
+                head={singleHeader}
+                tableRef={tableRef2}
+                header={singleHeader}
+                rows={singleBody}
+              />
+            </div>
+          </div>
+          {/* update */}
+          {/* {totalCalcu.map((e, index) => (
               <div
                 style={{
                   borderColor: e.borderColor,
@@ -307,10 +576,6 @@ const Manager = () => {
                   />
                   <div className="flex flex-col" style={{ color: e.textColor }}>
                     <div className={`font-semibold `}>{e.fueltype}</div>
-                    {/* className=
-                        {!e.textColor == ""
-                          ? `font-semibold `
-                          : `font-semibold text-[#31a55b]`} */}
                     <div className={` `}>
                       Total - {Number(e?.totalPrice).toFixed(2)} MMK
                     </div>
@@ -332,12 +597,42 @@ const Manager = () => {
                   </div>
                 </div>
               </div>
-            ))}
+            ))} */}
+          <CustomTable
+            cls="2xl:w-[460px] w-[50vw]"
+            head={head}
+            tableRef={tableRef2}
+            header={detailHeader}
+            rows={detailRow}
+          />
+          {/* w-[200px] 2xl:w-[700px] h-[365px] */}
+          <div className=" 2xl:flex flex-col hidden relative h-[365px] w-[31vw] extra:w-[38vw] items-center justify-end  ">
+            {dataArr ? (
+              <div className="">
+                <div className="text-2xl p-3 bg-secondary px-6 shadow-md shadow-shadow/20 rounded-xl text-gray-500 mb-4 extra:hidden">
+                  Tank Data Chart
+                </div>
+                <canvas
+                  responsive={true}
+                  maintainAspectRatio={true}
+                  id="acquisitions"
+                  className="bg-secondary p-4 rounded-xl shadow-md shadow-shadow/20"
+                ></canvas>
+              </div>
+            ) : atgStatus ? (
+              <div className="text-4xl  font-semibold  text-gray-300 px-20 py-28 rounded-xl bg-secondary my-auto">
+                There is no Today Tank Data
+              </div>
+            ) : (
+              <div className="text-4xl text-center px-20 py-28 rounded-xl bg-secondary my-auto leading-[3rem] font-semibold text-gray-300">
+                Tank Data Chart <br /> is only for ATG user
+              </div>
+            )}
           </div>
-        )}
-
-        <div className=" mt-8 flex gap-6 h-[400px] items-center">
-          <div className="w-[850px] h-full p-5 items-center flex justify-center rounded-xl px-6 shadow-lg shadow-shadow/20 bg-secondary">
+        </div>
+        {/* )} */}
+        <div className=" mt-14 justify-around flex  items-start">
+          {/* <div className="w-[850px] h-full p-5 items-center flex justify-center rounded-xl px-6 shadow-lg shadow-shadow/20 bg-secondary">
             {dataArr ? (
               <canvas id="acquisitions" className="my-auto"></canvas>
             ) : atgStatus ? (
@@ -349,8 +644,18 @@ const Manager = () => {
                 Tank Data Chart <br /> is only for ATG user
               </div>
             )}
+          </div> */}
+          {/* //here */}
+          <div className="w-[45vw]">
+            <FilterTable
+              type="detail"
+              tableRef={tableRef2}
+              header={detailHeader1}
+              rows={detailRow1}
+            />
           </div>
-          {con ? (
+
+          {/* {con ? (
             <div className=" manager_bg flex-col p-10 h-full w-[500px] 2xl:w-[820px] rounded-xl flex items-center justify-center shadow-lg shadow-shadow/20">
               <div className="bg-secondary 2xl:justify-around rounded-2xl 2xl:flex-row pt-2 flex-col w-full h-[100%] flex items-center justify-center">
                 <div className="flex flex-col leading-10 justify-center items-center">
@@ -368,7 +673,7 @@ const Manager = () => {
                   <h1 className="text-[3rem]  text-detail/80">MMK</h1>
                 </div>
               </div>
-              {/* <div className="bg-secondary 2xl:justify-around rounded-2xl 2xl:flex-row  flex-col w-full h-[100%] flex items-center justify-end">
+              <div className="bg-secondary 2xl:justify-around rounded-2xl 2xl:flex-row  flex-col w-full h-[100%] flex items-center justify-end">
               <div className="flex flex-col leading-10 mb-[-40px] justify-center items-center">
                 <h1 className="text-[2rem] 2xl:mr-[-30px] text-detail/80">
                   Today Total Sale
@@ -384,10 +689,29 @@ const Manager = () => {
                 alt=""
                 className="w-[60%] 2xl:w-[43%]"
               />
-            </div> */}
             </div>
-          ) : (
-            <div className=" manager_bg flex-col p-10 h-full w-[500px] 2xl:w-[820px] rounded-xl flex items-center justify-center shadow-lg shadow-shadow/20">
+            </div>
+          ) : ( */}
+          <div className="w-[45%]">
+            <div className=" 2xl:hidden mb-10 flex-col flex relative w-full extra:w-[38vw] items-center justify-end  ">
+              {dataArr ? (
+                <canvas
+                  responsive={true}
+                  maintainAspectRatio={true}
+                  id="acquisitions1"
+                  className="bg-secondary p-4 rounded-xl shadow-md shadow-shadow/20"
+                ></canvas>
+              ) : atgStatus ? (
+                <div className="text-4xl font-semibold px-20 py-20 rounded-xl bg-secondary my-auto text-gray-300">
+                  There is no Today Tank Data
+                </div>
+              ) : (
+                <div className="text-4xl text-center px-20 py-20 rounded-xl bg-secondary my-auto leading-[3rem] font-semibold text-gray-300">
+                  Tank Data Chart <br /> is only for ATG user
+                </div>
+              )}
+            </div>
+            <div className=" manager_bg flex-col p-10 h-full w-full rounded-xl flex items-center justify-center shadow-lg shadow-shadow/20">
               <div className="bg-secondary 2xl:justify-around rounded-2xl flex-col w-full flex items-center justify-center">
                 <img
                   src="../../static/images/Fuel station-pana.png"
@@ -396,7 +720,8 @@ const Manager = () => {
                 />
               </div>
             </div>
-          )}
+          </div>
+          {/* )} */}
 
           {/* <div className="bg-secondary hidden h-full w-[850px] rounded-xl 2xl:flex items-center justify-center shadow-lg shadow-shadow/20">
             <img

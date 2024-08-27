@@ -317,7 +317,15 @@ const SaleLedger = () => {
       <Table.Td>{index + 1}</Table.Td>
       <Table.Td>{element.createAt}</Table.Td>
       {/* <Table.Td>{element.pump}</Table.Td> */}
-      <Table.Td>{element.fuelType}</Table.Td>
+      <Table.Td> {element?.fuelType == "001-Octane Ron(92)"
+          ? "92 RON"
+          : element?.fuelType == "002-Octane Ron(95)"
+          ? "95 RON"
+          : element?.fuelType == "004-Diesel"
+          ? "HSD"
+          : element?.fuelType == "005-Premium Diesel"
+          ? "PHSD"
+          : ""}</Table.Td>
       <Table.Td>{element.opening?.toFixed(2)}</Table.Td>
       <Table.Td>{element.balance?.toFixed(2)}</Table.Td>
       <Table.Td>
@@ -345,11 +353,19 @@ const SaleLedger = () => {
     .map((element, index) => (
       <Table.Tr key={element.no} className=" duration-150 text-center">
         <Table.Td>{element.tankNo}</Table.Td>
-        <Table.Td>{element.fuelType}</Table.Td>
+        <Table.Td> {element?.fuelType == "001-Octane Ron(92)"
+          ? "92 RON"
+          : element?.fuelType == "002-Octane Ron(95)"
+          ? "95 RON"
+          : element?.fuelType == "004-Diesel"
+          ? "HSD"
+          : element?.fuelType == "005-Premium Diesel"
+          ? "PHSD"
+          : ""}</Table.Td>
         <Table.Td>{element.opening?.toFixed(2)}</Table.Td>
         <Table.Td>{element.fuelIn?.toFixed(2)}</Table.Td>
         {/* <Table.Td>{element.issue?.toFixed(2)}</Table.Td> */}
-        <Table.Td>{element.cash}</Table.Td>
+        <Table.Td>{element.cash?.toFixed(2)}</Table.Td>
         <Table.Td>
           {(
             element.balance -

@@ -114,7 +114,15 @@ const Report = () => {
   const pumpTestRows = totalPTest?.map((element, index) => (
     <Table.Tr key={index} className=" duration-150 text-center">
       <Table.Td>{index + 1}</Table.Td>
-      <Table.Td>{element.fueltype}</Table.Td>
+      <Table.Td> {element?.fueltype == "001-Octane Ron(92)"
+          ? "92 RON"
+          : element?.fueltype == "002-Octane Ron(95)"
+          ? "95 RON"
+          : element?.fueltype == "004-Diesel"
+          ? "HSD"
+          : element?.fueltype == "005-Premium Diesel"
+          ? "PHSD"
+          : ""}</Table.Td>
       <Table.Td>{element.totalLiter?.toFixed(2)}</Table.Td>
       <Table.Td>{element.pricePerLiter}</Table.Td>
       <Table.Td>{Number(element.totalAmount)?.toFixed(2)}</Table.Td>
@@ -124,7 +132,15 @@ const Report = () => {
   const pumpTestRows2 = totalPTest?.map((element, index) => (
     <tr key={index} className=" duration-150 text-center">
       <td>{index + 1}</td>
-      <td>{element.fueltype}</td>
+      <td> {element?.fueltype == "001-Octane Ron(92)"
+          ? "92 RON"
+          : element?.fueltype == "002-Octane Ron(95)"
+          ? "95 RON"
+          : element?.fueltype == "004-Diesel"
+          ? "HSD"
+          : element?.fueltype == "005-Premium Diesel"
+          ? "PHSD"
+          : ""}</td>
       <td>{element.totalLiter?.toFixed(2)}</td>
       <td>{element.pricePerLiter}</td>
       <td>{Number(element.totalAmount)?.toFixed(2)}</td>
@@ -134,7 +150,15 @@ const Report = () => {
   const officeUseRow = totalOTest?.map((element, index) => (
     <Table.Tr key={element.price} className=" duration-150 text-center">
       <Table.Td>{index + 1}</Table.Td>
-      <Table.Td>{element.fueltype}</Table.Td>
+      <Table.Td> {element?.fueltype == "001-Octane Ron(92)"
+          ? "92 RON"
+          : element?.fueltype == "002-Octane Ron(95)"
+          ? "95 RON"
+          : element?.fueltype == "004-Diesel"
+          ? "HSD"
+          : element?.fueltype == "005-Premium Diesel"
+          ? "PHSD"
+          : ""}</Table.Td>
       <Table.Td>{element.totalLiter?.toFixed(2)}</Table.Td>
       <Table.Td>{element.pricePerLiter}</Table.Td>
       <Table.Td>{Number(element.totalAmount)?.toFixed(2)}</Table.Td>
@@ -144,7 +168,15 @@ const Report = () => {
   const officeUseRow2 = totalOTest?.map((element, index) => (
     <tr key={element.price} className=" duration-150 text-center">
       <td>{index + 1}</td>
-      <td>{element.fueltype}</td>
+      <td> {element?.fueltype == "001-Octane Ron(92)"
+          ? "92 RON"
+          : element?.fueltype == "002-Octane Ron(95)"
+          ? "95 RON"
+          : element?.fueltype == "004-Diesel"
+          ? "HSD"
+          : element?.fueltype == "005-Premium Diesel"
+          ? "PHSD"
+          : ""}</td>
       <td>{element.totalLiter?.toFixed(2)}</td>
       <td>{element.pricePerLiter}</td>
       <td>{element.totalAmount}</td>
@@ -155,7 +187,15 @@ const Report = () => {
   const dailySale = notCredit?.map((element, index) => (
     <Table.Tr key={index} className=" duration-150 text-center">
       <Table.Td>{index + 1}</Table.Td>
-      <Table.Td>{element.fueltype}</Table.Td>
+      <Table.Td> {element?.fueltype == "001-Octane Ron(92)"
+          ? "92 RON"
+          : element?.fueltype == "002-Octane Ron(95)"
+          ? "95 RON"
+          : element?.fueltype == "004-Diesel"
+          ? "HSD"
+          : element?.fueltype == "005-Premium Diesel"
+          ? "PHSD"
+          : ""}</Table.Td>
       <Table.Td>{element.totalLiter?.toFixed(2)}</Table.Td>
       <Table.Td>{element.pricePerLiter}</Table.Td>
       <Table.Td>{Number(element.totalAmount)?.toFixed(2)}</Table.Td>
@@ -174,7 +214,15 @@ const Report = () => {
   const dailySale2 = notCredit?.map((element, index) => (
     <tr key={index} className=" duration-150 text-center">
       <td>{index + 1}</td>
-      <td colspan={2}>{element.fueltype}</td>
+      <td colspan={2}> {element?.fueltype == "001-Octane Ron(92)"
+          ? "92 RON"
+          : element?.fueltype == "002-Octane Ron(95)"
+          ? "95 RON"
+          : element?.fueltype == "004-Diesel"
+          ? "HSD"
+          : element?.fueltype == "005-Premium Diesel"
+          ? "PHSD"
+          : ""}</td>
       <td>{element.totalLiter}</td>
       <td colspan={2}>{element.pricePerLiter}</td>
       <td colspan={2}>{Number(element.totalAmount).toFixed(2)}</td>
@@ -193,7 +241,15 @@ const Report = () => {
   const secDailySale = totalCredit?.map((element, index) => (
     <Table.Tr key={index} className=" duration-150 text-center">
       <Table.Td>{index + 1}</Table.Td>
-      <Table.Td>{element.fueltype}</Table.Td>
+      <Table.Td> {element?.fueltype == "001-Octane Ron(92)"
+          ? "92 RON"
+          : element?.fueltype == "002-Octane Ron(95)"
+          ? "95 RON"
+          : element?.fueltype == "004-Diesel"
+          ? "HSD"
+          : element?.fueltype == "005-Premium Diesel"
+          ? "PHSD"
+          : ""}</Table.Td>
       <Table.Td>{element.totalLiter}</Table.Td>
       <Table.Td>{element.pricePerLiter}</Table.Td>
       <Table.Td>{element.totalAmount}</Table.Td>
@@ -209,7 +265,15 @@ const Report = () => {
   const secDailySale2 = totalCredit?.map((element, index) => (
     <tr key={index} className=" duration-150 text-center">
       <td>{index + 1}</td>
-      <td colspan={2}>{element.fueltype}</td>
+      <td colspan={2}> {element?.fueltype == "001-Octane Ron(92)"
+          ? "92 RON"
+          : element?.fueltype == "002-Octane Ron(95)"
+          ? "95 RON"
+          : element?.fueltype == "004-Diesel"
+          ? "HSD"
+          : element?.fueltype == "005-Premium Diesel"
+          ? "PHSD"
+          : ""}</td>
       <td>{element.totalLiter}</td>
       <td colspan={2}>{element.pricePerLiter}</td>
       <td colspan={2}>{element.totalAmount}</td>

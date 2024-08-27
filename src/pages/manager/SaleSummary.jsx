@@ -92,10 +92,21 @@ const SaleSummary = () => {
   }, []);
 
   useEffect(() => {
-    // fetchItGet(`/detail-sale/by-date/?sDate=${sDate}`, token);
-    fetchItGet2(`/detail-sale/total_statement?reqDate=${formattedDate}`, token);
+    //oldVersion
+    // // fetchItGet(`/detail-sale/by-date/?sDate=${sDate}`, token);
+    // fetchItGet2(`/detail-sale/total_statement?reqDate=${formattedDate}`, token);
+    // // fetchItGet(`/detail-sale/by-date/?sDate=${sDate}&eDate=${next}`, token);
+    // fetchItGet(`/detail-sale/by-date/?sDate=${sDate}&eDate=${eDate}`, token);
+
+    fetchItGet2(
+      `/detail-sale/sale-summary-detail?sDate=${sDate}&eDate=${eDate}`,
+      token
+    );
     // fetchItGet(`/detail-sale/by-date/?sDate=${sDate}&eDate=${next}`, token);
-    fetchItGet(`/detail-sale/by-date/?sDate=${sDate}&eDate=${eDate}`, token);
+    fetchItGet(
+      `/detail-sale/sale-summary?sDate=${sDate}&eDate=${eDate}`,
+      token
+    );
 
     fetchItGet3(`/device`, token);
   }, [con]);
@@ -117,10 +128,10 @@ const SaleSummary = () => {
 
   const summaryHeader = [
     "Date/Time",
-    "Octane Ron(92)",
-    "Octane Ron(95)",
-    "Diesel",
-    "Premium Diesel",
+    "92 Ron",
+    "95 Ron",
+    "HSD",
+    "PHSD",
     "Total Price (Kyat)",
   ];
   const summaryRow = (
@@ -163,8 +174,13 @@ const SaleSummary = () => {
     "Nozzle No",
     "Fuel Type",
     "Price per Liter",
+    "Opening Totalizer",
+    "Closing Totalizer",
+    "Different Liter",
     "Total Sale Liter",
+    "Sale Different Liter",
     "Total Price",
+    "Price Different",
   ];
 
   // let nozzle = [];
@@ -208,17 +224,26 @@ const SaleSummary = () => {
   // );
 
   const handleClick = () => {
-    // fetchItGet(`/detail-sale/by-date/?sDate=${sDate}`, token);
-    fetchItGet2(`detail-sale/total_statement?reqDate=${formattedDate}`, token);
+    //oldVersion
+    // fetchItGet2(`detail-sale/total_statement?reqDate=${formattedDate}`, token);
+    fetchItGet2(
+      `/detail-sale/sale-summary-detail?sDate=${sDate}&eDate=${eDate}`,
+      token
+    );
+
+    //oldVersion
     // fetchItGet(`/detail-sale/by-date/?sDate=${sDate}&eDate=${next}`, token);
-    fetchItGet(`/detail-sale/by-date/?sDate=${sDate}&eDate=${eDate}`, token);
+    fetchItGet(
+      `/detail-sale/sale-summary?sDate=${sDate}&eDate=${eDate}`,
+      token
+    );
 
     fetchItGet3(`/device`, token);
   };
 
-  // console.log("===66=================================");
-  // console.log(data_g);
-  // console.log("====================================");
+  console.log("===66=================================");
+  console.log(data_g_2, data_g);
+  console.log("====================================");
 
   const nozz = data_g.map((e) => {
     return e.nozzleNo;
@@ -254,7 +279,7 @@ const SaleSummary = () => {
     // return data;
 
     return {
-      nozzle_no: e, 
+      nozzle_no: e,
       // totalLiter: data.reduce((sum, current) => sum + current.saleLiter, 0),
       data: data,
       fuel_type: data[0]?.fuelType,
@@ -275,7 +300,9 @@ const SaleSummary = () => {
     // fetchfrom detailsale statement
     // data_g_2?.map((obj) => {
     // data_g?.map((obj) => {
-    nozData?.map((obj) => {
+    //oldVersion
+    // nozData?.map((obj) => {
+    data_g?.map((obj) => {
       if (obj.fuel_type === "001-Octane Ron(92)") {
         ninety2 += Number(obj.devTotalizerDif);
       }
@@ -308,23 +335,66 @@ const SaleSummary = () => {
     }
   }, [data_g, loading_g, error_g]);
 
-  const detailRow = data_g_3?.map((element) => {
-    const matchingEntry = literByNoz.find(
-      (entry) => entry.nozzle_no === element.nozzle_no
-    );
-    const totalLiter = matchingEntry ? matchingEntry.totalLiter : 0;
+  // const detailRow = data_g_3?.map((element) => {
+  //   const matchingEntry = literByNoz.find(
+  //     (entry) => entry.nozzle_no === element.nozzle_no
+  //   );
+  //   const totalLiter = matchingEntry ? matchingEntry.totalLiter : 0;
 
+  //   // console.log("............................");
+  //   // console.log(totalLiter, literByNoz, matchingEntry);
+  //   // console.log("............................");
+  //   return (
+  //     <Table.Tr key={element._id} className=" duration-150 text-sm text-center">
+  //       <Table.Td>{element.nozzle_no || "-"}</Table.Td>
+  //       <Table.Td>
+  //         {element?.fuel_type == "001-Octane Ron(92)"
+  //           ? "92 RON"
+  //           : element?.fuel_type == "002-Octane Ron(95)"
+  //           ? "95 RON"
+  //           : element?.fuel_type == "004-Diesel"
+  //           ? "HSD"
+  //           : element?.fuel_type == "005-Premium Diesel"
+  //           ? "PHSD"
+  //           : ""}
+  //       </Table.Td>
+  //       <Table.Td>{element.daily_price || "-"}</Table.Td>
+  //       <Table.Td>{totalLiter.toFixed(3) || "-"}</Table.Td>
+  //       <Table.Td>
+  //         {(element.daily_price * totalLiter).toLocaleString(undefined, {
+  //           maximumFractionDigits: 3,
+  //         }) || "-"}
+  //       </Table.Td>
+  //     </Table.Tr>
+  //   );
+  // });
+  const detailRow = data_g_2?.map((element) => {
     // console.log("............................");
     // console.log(totalLiter, literByNoz, matchingEntry);
     // console.log("............................");
     return (
       <Table.Tr key={element._id} className=" duration-150 text-sm text-center">
-        <Table.Td>{element.nozzle_no || "-"}</Table.Td>
-        <Table.Td>{element.fuel_type || "-"}</Table.Td>
-        <Table.Td>{element.daily_price || "-"}</Table.Td>
-        <Table.Td>{totalLiter.toFixed(3) || "-"}</Table.Td>
+        <Table.Td>{element.nozzleNo || "-"}</Table.Td>
         <Table.Td>
-          {(element.daily_price * totalLiter).toLocaleString(undefined, {
+          {element?.fuelType == "001-Octane Ron(92)"
+            ? "92 RON"
+            : element?.fuelType == "002-Octane Ron(95)"
+            ? "95 RON"
+            : element?.fuelType == "004-Diesel"
+            ? "HSD"
+            : element?.fuelType == "005-Premium Diesel"
+            ? "PHSD"
+            : ""}
+        </Table.Td>
+        <Table.Td>{element.pricePerLiter || "-"}</Table.Td>
+        <Table.Td>{element.openingTotalizerLiter || "-"}</Table.Td>
+        <Table.Td>{element.closingTotalizerLiter || "-"}</Table.Td>
+        <Table.Td>{element.differentLiter || "-"}</Table.Td>
+        <Table.Td>{element.saleLiter || "-"}</Table.Td>
+        <Table.Td>{element.saleDiffetentLiter || "-"}</Table.Td>
+        <Table.Td>{element.totalPrice || "-"}</Table.Td>
+        <Table.Td>
+          {element.priceDifferent.toLocaleString(undefined, {
             maximumFractionDigits: 3,
           }) || "-"}
         </Table.Td>
@@ -419,6 +489,7 @@ const SaleSummary = () => {
           <div className="">
             <div className="mt-8">
               <FilterTable
+                type="detail"
                 tableRef={tableRef2}
                 header={detailHeader}
                 rows={detailRow}

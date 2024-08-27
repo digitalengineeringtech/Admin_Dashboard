@@ -96,7 +96,8 @@ const Card = ({
 
   const nozzle1FuelDetailRef = useRef({ liter: "", price: "" });
 
-  Client.on("message", (topic, message) => {
+  Client.on("message", (topic, message, process) => {
+    console.log(message.content, "this is content");
     if (topic.startsWith("detpos/device/livedata/") && /[1-8]$/.test(topic)) {
       let data = message.toString().split(regex);
       const updatedNozzle1FuelDetail = {

@@ -225,7 +225,18 @@ const TotalDif = () => {
     return (
       <Table.Tr key={element._id} className=" duration-150 text-sm text-center">
         <Table.Td>{element.nozzle_no || "-"}</Table.Td>
-        <Table.Td>{element.fuel_type || "-"}</Table.Td>
+        <Table.Td>
+          {" "}
+          {element?.fuel_type == "001-Octane Ron(92)"
+            ? "92 RON"
+            : element?.fuel_type == "002-Octane Ron(95)"
+            ? "95 RON"
+            : element?.fuel_type == "004-Diesel"
+            ? "HSD"
+            : element?.fuel_type == "005-Premium Diesel"
+            ? "PHSD"
+            : ""}
+        </Table.Td>
         <Table.Td>
           {Number((element.firstTotalizer - element.firstsale)?.toFixed(3)) ||
             "-"}

@@ -469,8 +469,21 @@ const SaleSummary = () => {
   return (
     <div className="w-full pt-28">
       <div className="flex  flex-wrap gap-4 gap-x-10  justify-between">
-        <CalendarPick date={sDate} setDate={setSDate} label="Start Date" />
-        <CalendarPick date={eDate} setDate={setEDate} label="End Date" />
+        <CalendarPick
+          value={sDate}
+          start={true}
+          setValue={setSDate}
+          date={sDate}
+          setDate={setSDate}
+          label="Start Date"
+        />
+        <CalendarPick
+          value={eDate}
+          setValue={setEDate}
+          date={eDate}
+          setDate={setEDate}
+          label="End Date"
+        />
         {/* <div className="">
           <CalendarPick date={eDate} setDate={setEDate} label="End Date" />
         </div> */}

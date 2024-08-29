@@ -338,8 +338,21 @@ const DailySale = () => {
     <>
       <div className="w-full pt-28">
         <div className="flex flex-wrap gap-4 gap-x-10 justify-between">
-          <CalendarPick date={sDate} setDate={setSDate} label="Start Date" />
-          <CalendarPick date={eDate} setDate={setEDate} label="End Date" />
+          <CalendarPick
+            date={sDate}
+            value={sDate}
+            start={true}
+            setValue={setSDate}
+            setDate={setSDate}
+            label="Start Date"
+          />
+          <CalendarPick
+            value={eDate}
+            setValue={setEDate}
+            date={eDate}
+            setDate={setEDate}
+            label="End Date"
+          />
           <SelectDrop
             placeholder="All"
             label="Fuel Type"

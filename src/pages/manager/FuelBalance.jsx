@@ -127,7 +127,14 @@ const FuelBalance = () => {
   return (
     <div className="w-full pt-28">
       <div className="flex  flex-wrap gap-4 gap-x-10 justify-between">
-        <CalendarPick date={sDate} setDate={setSDate} label="Start Date" />
+        <CalendarPick
+          value={sDate}
+          start={true}
+          setValue={setSDate}
+          date={sDate}
+          setDate={setSDate}
+          label="Start Date"
+        />
         {/* <SelectDrop
           placeholder="All"
           label="Fuel Type"

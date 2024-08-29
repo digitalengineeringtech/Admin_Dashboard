@@ -56,7 +56,7 @@ const Manager = () => {
             maximumFractionDigits: 0,
           })}
         </Table.Td>
-        <Table.Td>{element.totalLiter}</Table.Td>
+        <Table.Td>{element.totalLiter.toFixed(3)}</Table.Td>
         <Table.Td>
           {element.totalAmount.toLocaleString(undefined, {
             maximumFractionDigits: 0,

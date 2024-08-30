@@ -489,7 +489,7 @@ const SaleSummary = () => {
         </div> */}
         <SearchButton onClick={handleClick} />
       </div>
-      {isData ? (
+      {!loading_g && !loading_g_2 ? (
         <div className="">
           <div className="mt-8">
             <FilterTable

@@ -91,6 +91,7 @@ const SaleSummary = () => {
     setCon(true);
   }, []);
 
+
   useEffect(() => {
     //oldVersion
     // // fetchItGet(`/detail-sale/by-date/?sDate=${sDate}`, token);

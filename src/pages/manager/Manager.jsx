@@ -11,6 +11,7 @@ import { useReactToPrint } from "react-to-print";
 import { Table } from "@mantine/core";
 import CustomTable from "../../components/table/CustomTable";
 import clsx from "clsx";
+import UseGet4 from "../../api/hooks/UseGet4";
 
 const Manager = () => {
   const [totalCalcu, setTotalCalcu] = useState([]);
@@ -20,6 +21,8 @@ const Manager = () => {
   const [{ data_g, loading_g, error_g }, fetchItGet] = UseGet();
   const [{ data_g_2, loading_g_2, error_g_2 }, fetchItGet2] = UseGet2();
   const [{ data_g_3, loading_g_3, error_g_3 }, fetchItGet3] = UseGet3();
+  const [{ data_g_4, loading_g_4, error_g_4 }, fetchItGet4] = UseGet4();
+
   const [literByNoz, setLiterByNoz] = useState([]);
   const [nozzle, setNozzle] = useState([]);
 
@@ -36,6 +39,11 @@ const Manager = () => {
   //     <Table.Td>eee</Table.Td>
   //   </Table.Tr>
   // );
+
+  const [ninety2LotalLiter, SetNinety2LotalLiter] = useState(0);
+  const [ninety5LotalLiter, SetNinety5LotalLiter] = useState(0);
+  const [dieselLotalLiter, SetDieselLotalLiter] = useState(0);
+  const [phsdLotalLiter, SetphshLotalLiter] = useState(0);
 
   const detailRow = totalCalcu.map((element, index) => {
     return (
@@ -56,9 +64,29 @@ const Manager = () => {
             maximumFractionDigits: 0,
           })}
         </Table.Td>
-        <Table.Td>{element.totalLiter.toFixed(3)}</Table.Td>
         <Table.Td>
-          {element.totalAmount.toLocaleString(undefined, {
+          {element?.fueltype == "001-Octane Ron(92)"
+            ? ninety2LotalLiter
+            : element?.fueltype == "002-Octane Ron(95)"
+            ? ninety5LotalLiter
+            : element?.fueltype == "004-Diesel"
+            ? dieselLotalLiter
+            : element?.fueltype == "005-Premium Diesel"
+            ? phsdLotalLiter
+            : ""}
+        </Table.Td>
+        <Table.Td>
+          {(
+            (element?.fueltype == "001-Octane Ron(92)"
+              ? ninety2LotalLiter
+              : element?.fueltype == "002-Octane Ron(95)"
+              ? ninety5LotalLiter
+              : element?.fueltype == "004-Diesel"
+              ? dieselLotalLiter
+              : element?.fueltype == "005-Premium Diesel"
+              ? phsdLotalLiter
+              : 5) * element.pricePerLiter
+          ).toLocaleString(undefined, {
             maximumFractionDigits: 0,
           })}
         </Table.Td>
@@ -133,6 +161,50 @@ const Manager = () => {
   end.setMinutes(59);
   end.setSeconds(59);
   end = new Date(end);
+
+  // fetchItGet(
+  //   `/detail-sale/sale-summary?sDate=${sDate}&eDate=${eDate}`,
+  //   token
+  // );
+
+  useEffect(() => {
+    let ninety2 = 0;
+    let ninety5 = 0;
+    let diesel = 0;
+    let premium = 0;
+    let totalLiter = 0;
+    let totalPrice = 0;
+
+    // fetchfrom detailsale statement
+    // data_g_2?.map((obj) => {
+    // data_g?.map((obj) => {
+    //oldVersion
+    // nozData?.map((obj) => {
+
+    data_g_4?.map((obj) => {
+      if (obj.fuel_type === "001-Octane Ron(92)") {
+        ninety2 += Number(obj.devTotalizerDif);
+      }
+      if (obj.fuel_type === "002-Octane Ron(95)") {
+        ninety5 += Number(obj.devTotalizerDif);
+      }
+      if (obj.fuel_type === "004-Diesel") {
+        diesel += Number(obj.devTotalizerDif);
+      }
+      if (obj.fuel_type === "005-Premium Diesel") {
+        premium += Number(obj.devTotalizerDif);
+      }
+
+      totalPrice += Number(obj.totalPrice);
+    });
+
+    SetNinety2LotalLiter(ninety2);
+    SetNinety5LotalLiter(ninety5);
+    SetDieselLotalLiter(diesel);
+    SetphshLotalLiter(premium);
+    // SettotalLiter(totalLiter);
+    // SetTotalPrice(totalPrice);
+  }, [data_g, data_g_2, data_g_3]);
 
   const [atgStatus, setAtgStatus] = useState();
 
@@ -278,6 +350,10 @@ const Manager = () => {
       token
     );
     fetchItGet2("/device", token);
+    fetchItGet4(
+      `/detail-sale/sale-summary?sDate=${startDate}&eDate=${endDate}`,
+      token
+    );
 
     // console.log("wkwk");
   }, [startDate, endDate, token]);
@@ -415,6 +491,8 @@ const Manager = () => {
       </Table.Tr>
     );
   });
+
+  console.log(data_g_4, "this is data_g_4", startDate, endDate);
 
   return (
     <div className="w-full pt-28">

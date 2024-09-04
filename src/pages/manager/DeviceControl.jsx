@@ -31,6 +31,7 @@ const DeviceControl = () => {
   const { loading, setLoading } = useContext(LoadContext);
   const client = mqtt.connect("ws://detpos:asdffdsa@192.168.0.100:9001");
   // const client = mqtt.connect("ws://detpos:asdffdsa@192.168.1.145:9001");
+  client.setMaxListeners(20);
   const { refresh, setRefresh } = useContext(Re);
 
   const [token, setToken] = useState("none");
@@ -85,9 +86,14 @@ const DeviceControl = () => {
 
   const nozzle1FuelDetailRef = useRef({ liter: "", price: "" });
 
-  client.on("connect", () => {
-    client.subscribe("detpos/#", (err) => {
-      err && console.log(err);
+  useEffect(() => {
+    client.on("connect", () => {
+      client.subscribe("detpos/#", (err) => {
+        err && console.log(err);
+      });
+      return () => {
+        client.end(); // Properly close the connection
+      };
     });
   });
 

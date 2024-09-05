@@ -691,10 +691,10 @@ const Manager = () => {
                   Tank Data Chart
                 </div>
                 <canvas
-                  responsive={true}
-                  maintainAspectRatio={true}
+                  responsive={false}
+                  maintainAspectRatio={false}
                   id="acquisitions"
-                  className="bg-secondary p-4 rounded-xl shadow-md shadow-shadow/20"
+                  className="bg-secondary p-4 w-[33vw] rounded-xl shadow-md shadow-shadow/20"
                 ></canvas>
               </div>
             ) : atgStatus ? (

@@ -15,6 +15,7 @@ import { Table } from "@mantine/core";
 import { downloadExcel } from "react-export-table-to-excel";
 import { useReactToPrint } from "react-to-print";
 import format from "../../utils/format";
+import LoaderCom from "../../components/LoaderCom";
 
 const SaleSummary = () => {
   let start = new Date();
@@ -90,7 +91,6 @@ const SaleSummary = () => {
   useEffect(() => {
     setCon(true);
   }, []);
-
 
   useEffect(() => {
     //oldVersion
@@ -468,59 +468,62 @@ const SaleSummary = () => {
   });
 
   return (
-    <div className="w-full pt-28">
-      <div className="flex  flex-wrap gap-4 gap-x-10  justify-between">
-        <CalendarPick
-          value={sDate}
-          start={true}
-          setValue={setSDate}
-          date={sDate}
-          setDate={setSDate}
-          label="Start Date"
-        />
-        <CalendarPick
-          value={eDate}
-          setValue={setEDate}
-          date={eDate}
-          setDate={setEDate}
-          label="End Date"
-        />
-        {/* <div className="">
+    <>
+      {(loading_g_2 || loading_g) && <LoaderCom />}
+      <div className="w-full pt-28">
+        <div className="flex  flex-wrap gap-4 gap-x-10  justify-between">
+          <CalendarPick
+            value={sDate}
+            start={true}
+            setValue={setSDate}
+            date={sDate}
+            setDate={setSDate}
+            label="Start Date"
+          />
+          <CalendarPick
+            value={eDate}
+            setValue={setEDate}
+            date={eDate}
+            setDate={setEDate}
+            label="End Date"
+          />
+          {/* <div className="">
           <CalendarPick date={eDate} setDate={setEDate} label="End Date" />
         </div> */}
-        <SearchButton onClick={handleClick} />
-      </div>
-      {!loading_g && !loading_g_2 ? (
-        <div className="">
-          <div className="mt-8">
-            <FilterTable
-              tableRef={tableRef}
-              header={summaryHeader}
-              rows={summaryRow}
-            />
-            <Footer print={handlePrint} onClick={handleDownloadExcel} />
-          </div>
+          <SearchButton onClick={handleClick} />
+        </div>
+        {!loading_g && !loading_g_2 ? (
           <div className="">
             <div className="mt-8">
               <FilterTable
-                type="detail"
-                tableRef={tableRef2}
-                header={detailHeader}
-                rows={detailRow}
+                tableRef={tableRef}
+                header={summaryHeader}
+                rows={summaryRow}
               />
-              <Footer print={handlePrint2} onClick={handleDownloadExcel2} />
+              <Footer print={handlePrint} onClick={handleDownloadExcel} />
+            </div>
+            <div className="">
+              <div className="mt-8">
+                <FilterTable
+                  type="detail"
+                  tableRef={tableRef2}
+                  header={detailHeader}
+                  rows={detailRow}
+                />
+                <Footer print={handlePrint2} onClick={handleDownloadExcel2} />
+              </div>
             </div>
           </div>
-        </div>
-      ) : (
-        <div className="w-full h-[250px] gap-5 text-detail/40 flex items-center justify-center border-2 border-detail/40 mt-10 rounded-xl">
-          <div className="flex items-center gap-4">
-            <RiErrorWarningLine className="text-[6rem]" />
-            <div className="font-mono text-[2.5rem]">NO DATA FOUND</div>
+        ) : (
+          <div className="w-full h-[250px] gap-5 text-detail/40 flex items-center justify-center border-2 border-detail/40 mt-10 rounded-xl">
+            <div className="flex items-center gap-4">
+              <RiErrorWarningLine className="text-[6rem]" />
+              <div className="font-mono text-[2.5rem]">NO DATA FOUND</div>
+            </div>
           </div>
-        </div>
-      )}
-    </div>
+        )}
+      </div>
+    </>
   );
 };
 

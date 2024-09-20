@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import "react-dropdown/style.css";
 import { FaAngleDown } from "react-icons/fa";
 
-const FuelInDrop = ({ data, value, setValue, placeholder, label }) => {
+const FuelInDrop = ({ data, value, setValue, placeholder, label, setTank }) => {
   const [con, setCon] = useState(false);
   //   const [value, setValue] = useState("");
   //   const [name, setName] = useState("");
@@ -49,6 +49,7 @@ const FuelInDrop = ({ data, value, setValue, placeholder, label }) => {
               onClick={() => {
                 setCon(false);
                 setValue(item);
+                setTank(item);
               }}
               key={index}
               className="ps-4 mb-1 bg-secondary text-text border border-nodata rounded-lg shadow-sm shadow-shadow/20  py-2 text-lg hover:bg-detail hover:text-secondary cursor-pointer duration-100"

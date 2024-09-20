@@ -373,20 +373,23 @@ const FuelIn = () => {
           value={fuelType}
           setValue={setFuelType}
         /> */}
-        <FuelInDrop
-          placeholder="Please Select"
-          label="Fuel Type"
-          data={data_g_2}
-          value={fuelType}
-          setValue={setFuelType}
-        />
         <TankDrop
           placeholder="Please Select"
           label="Tank No."
           data={data_g_2}
           value={tank}
           setValue={setTank}
+          setFuel={setFuelType}
         />
+        <FuelInDrop
+          placeholder="Please Select"
+          label="Fuel Type"
+          data={data_g_2}
+          value={fuelType}
+          setValue={setFuelType}
+          setTank={setTank}
+        />
+
         <TextInput
           style="!w-[300px]"
           label="Driver Name"

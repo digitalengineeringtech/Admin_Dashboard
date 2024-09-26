@@ -69,7 +69,7 @@ const Manager = () => {
           })}
         </Table.Td>
         <Table.Td>
-          {element?.fueltype == "001-Octane Ron(92)"
+          {(element?.fueltype == "001-Octane Ron(92)"
             ? ninety2LotalLiter
             : element?.fueltype == "002-Octane Ron(95)"
             ? ninety5LotalLiter
@@ -77,7 +77,8 @@ const Manager = () => {
             ? dieselLotalLiter
             : element?.fueltype == "005-Premium Diesel"
             ? phsdLotalLiter
-            : ""}
+            : ""
+          ).toFixed(3)}
         </Table.Td>
         <Table.Td>
           {(

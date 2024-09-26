@@ -45,6 +45,10 @@ const Manager = () => {
   const [dieselLotalLiter, SetDieselLotalLiter] = useState(0);
   const [phsdLotalLiter, SetphshLotalLiter] = useState(0);
 
+  console.log("............");
+  console.log(totalCalcu, data_g_4);
+  console.log("............");
+
   const detailRow = totalCalcu.map((element, index) => {
     return (
       <Table.Tr key={index} className=" text-lg duration-150 text-center">
@@ -204,7 +208,7 @@ const Manager = () => {
     SetphshLotalLiter(premium);
     // SettotalLiter(totalLiter);
     // SetTotalPrice(totalPrice);
-  }, [data_g, data_g_2, data_g_3]);
+  }, [data_g, data_g_2, data_g_3, data_g_4]);
 
   const [atgStatus, setAtgStatus] = useState();
 

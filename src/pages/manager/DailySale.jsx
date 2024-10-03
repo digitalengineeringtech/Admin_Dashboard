@@ -9,6 +9,7 @@ import { Modal, Table } from "@mantine/core";
 import FilterTable from "../../components/table/FilterTable";
 import UseGet from "../../api/hooks/UseGet";
 import UseGet3 from "../../api/hooks/UseGet3";
+import UseGet2 from "../../api/hooks/UseGet2";
 import purposes from "../installer/drop_data/purposes";
 import useTokenStorage from "../../utils/useDecrypt";
 import fuelData from "../installer/drop_data/manager/managerFuel";
@@ -30,6 +31,7 @@ import UsePatch from "../../api/hooks/UsePatch";
 import Alert from "../../components/alert/Alert";
 import ErrorAlert from "../../components/alert/ErrorAlert";
 import { localInstance } from "../../api/axios";
+import SelectDrop3 from "../../components/device/SelectDrop2";
 
 const DailySale = () => {
   let start = new Date();
@@ -60,6 +62,7 @@ const DailySale = () => {
   const [eDate, setEDate] = useState(end);
   const [fuelType, setFuelType] = useState();
   const [email, setEmail] = useState();
+  const [cashType, setCashType] = useState("");
   const [pswd, setPswd] = useState();
   const [purposeUse, setPurposeUse] = useState();
   const [noz, setNoz] = useState();
@@ -75,10 +78,14 @@ const DailySale = () => {
   const casherRoute = casher?.name ? `&casherCode=${casher?.name}` : "";
   const carNo = num ? `&carNo=${num}` : "";
 
-  const route = `detail-sale/pagi/by-date/1?sDate=${sDate}&eDate=${eDate}${purposeRoute}${fuelRoute}${nozzleRoute}${casherRoute}${carNo}`;
+  const cash = cashType != "" ? `&cashType=${cashType}` : "";
+  const route = `detail-sale/pagi/by-date/1?sDate=${sDate}&eDate=${eDate}${purposeRoute}${fuelRoute}${nozzleRoute}${casherRoute}${carNo}${cash}`;
+  const route2 = `detail-sale/without-pagi/by-date?sDate=${sDate}&eDate=${eDate}${purposeRoute}${fuelRoute}${nozzleRoute}${casherRoute}${carNo}${cash}`;
   const [{ data_g, loading_g, error_g, pagi_g }, fetchItGet] = UseGet();
   const [{ data_g_3, loading_g_3, error_g_3, pagi_g_3 }, fetchItGet3] =
     UseGet3();
+  const [{ data_g_2, loading_g_2, error_g_2, pagi_g_2 }, fetchItGet2] =
+    UseGet2();
   const [con, setCon] = useState(false);
 
   useEffect(() => {
@@ -87,7 +94,11 @@ const DailySale = () => {
 
   useEffect(() => {
     fetchItGet(
-      `detail-sale/pagi/by-date/1?sDate=${start}&eDate=${end}${purposeRoute}${fuelRoute}${nozzleRoute}${casherRoute}${carNo}`,
+      `detail-sale/pagi/by-date/1?sDate=${start}&eDate=${end}${purposeRoute}${fuelRoute}${nozzleRoute}${casherRoute}${carNo}${cash}`,
+      token
+    );
+    fetchItGet2(
+      `detail-sale/without-pagi/by-date?sDate=${start}&eDate=${end}${purposeRoute}${fuelRoute}${nozzleRoute}${casherRoute}${carNo}${cash}`,
       token
     );
     fetchItGet3(`user`, token);
@@ -95,7 +106,7 @@ const DailySale = () => {
   }, [con]);
 
   console.log(
-    `detail-sale/pagi/by-date/1?sDate=${start}&eDate=${end}${purposeRoute}${fuelRoute}${nozzleRoute}${casherRoute}${carNo}`,
+    `detail-sale/without-pagi/by-date?sDate=${sDate}&eDate=${eDate}${purposeRoute}${fuelRoute}${nozzleRoute}${casherRoute}${carNo}${cash}`,
     "dddd"
   );
 
@@ -114,6 +125,7 @@ const DailySale = () => {
     "Sale Date",
     "Vehicle No",
     "Purpose",
+    "Cash Type",
     "Nozzle",
     "Fuel",
     "Sale Gallon",
@@ -122,7 +134,7 @@ const DailySale = () => {
     "Total Price",
     "Totallizer liter",
     "Totallizer Amount",
-    "Action",
+    // "Action",
   ];
   const tableRow = data_g?.map((element) => (
     <Table.Tr
@@ -140,6 +152,7 @@ const DailySale = () => {
       </Table.Td>
       <Table.Td>{element.carNo}</Table.Td>
       <Table.Td>{element.vehicleType}</Table.Td>
+      <Table.Td>{element.cashType}</Table.Td>
       <Table.Td>{element.nozzleNo}</Table.Td>
       <Table.Td>
         {" "}
@@ -171,7 +184,7 @@ const DailySale = () => {
           maximumFractionDigits: 3,
         })}
       </Table.Td>
-      <Table.Td className="flex items-center justify-center">
+      {/* <Table.Td className="flex items-center justify-center">
         {element.saleLiter == "0" &&
           element.isCancel == "0" &&
           element.isError == "0" && (
@@ -184,7 +197,7 @@ const DailySale = () => {
               <BiError className="text-2xl text-gray-500 -mt-1" />
             </div>
           )}
-      </Table.Td>
+      </Table.Td> */}
     </Table.Tr>
   ));
 
@@ -226,8 +239,8 @@ const DailySale = () => {
 
   const [opened, { open, close }] = useDisclosure(false);
 
-  console.log(tableRef.current != null, "ooooooooooooooooo");
-  console.log(tableRef.current, "..............................");
+  // console.log(tableRef.current != null, "ooooooooooooooooo");
+  // console.log(tableRef.current, "..............................");
 
   const recordsPerPage = 50;
   const totalPages = Math.ceil(pagi_g / recordsPerPage);
@@ -334,6 +347,14 @@ const DailySale = () => {
     }
   };
 
+  const totalSale = data_g_2
+    ?.map((e) => e.saleLiter)
+    .reduce((pv, cv) => pv + cv, 0);
+
+  console.log("==eeeeeeeeeeeeeeeeeeee==================================");
+  console.log(data_g_2);
+  console.log("====================================");
+
   return (
     <>
       <div className="w-full pt-28">
@@ -388,7 +409,17 @@ const DailySale = () => {
             value={num}
             onChange={(e) => setNum(e.target.value)}
           />
-          <SearchButton onClick={() => fetchItGet(route, token)} />
+          <SelectDrop3
+            header="Cash Type"
+            selectedItem={cashType}
+            onSelectedItem={(item) => setCashType(item.method)}
+            label="Cash Type"
+          />
+          <SearchButton
+            onClick={() => {
+              fetchItGet(route, token), fetchItGet2(route2, token);
+            }}
+          />
         </div>
         {isData ? (
           <div className="mt-8">
@@ -397,6 +428,17 @@ const DailySale = () => {
               header={tableHeader}
               rows={tableRow}
             />
+            <div className="mt-5 flex  px-4">
+              <div className="text-[20px] text-gray-600">
+                Total Sale :{" "}
+                <span className="text-gray-700 font-semibold">
+                  {totalSale.toLocaleString(undefined, {
+                    maximumFractionDigits: 3,
+                  })}{" "}
+                </span>
+                MMK
+              </div>
+            </div>
           </div>
         ) : (
           <div className="w-full h-[250px] gap-5 text-detail/50 flex items-center justify-center border-2 border-detail/40 mt-10 rounded-xl">

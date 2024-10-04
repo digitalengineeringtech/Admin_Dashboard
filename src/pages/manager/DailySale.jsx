@@ -40,6 +40,8 @@ const DailySale = () => {
   start.setSeconds(0);
   start = new Date(start);
 
+  const tableRef = useRef(null);
+
   let end = new Date();
   end.setHours(23);
   end.setMinutes(59);
@@ -69,6 +71,7 @@ const DailySale = () => {
   const [casher, setCasher] = useState();
   const [num, setNum] = useState();
   const [err, setErr] = useState(false);
+  const [ref, setRef] = useState();
 
   const purposeRoute = purposeUse?.value
     ? `&vehicleType=${purposeUse?.value}`
@@ -113,6 +116,7 @@ const DailySale = () => {
   useEffect(() => {
     if (data_g?.length > 0) {
       setIsData(true);
+      setRef(tableRef);
     } else {
       setIsData(false);
     }
@@ -136,6 +140,28 @@ const DailySale = () => {
     "Totallizer Amount",
     // "Action",
   ];
+  const totalSale = data_g_2
+    ?.map((e) => e.saleLiter)
+    .reduce((pv, cv) => pv + cv, 0);
+  const tab = (
+    <Table.Tr
+      //  style={
+      //    element.asyncAlready == "2" && {
+      //      backgroundColor: "#B8E5FF30",
+      //    }
+      //  }
+      className="hidden duration-150 text-sm text-center"
+    >
+      <Table.Td>Total Sale</Table.Td>
+      <Table.Td>
+        {" "}
+        {totalSale.toLocaleString(undefined, {
+          maximumFractionDigits: 3,
+        })}{" "}
+        kyats
+      </Table.Td>
+    </Table.Tr>
+  );
   const tableRow = data_g?.map((element) => (
     <Table.Tr
       key={element.no}
@@ -227,10 +253,9 @@ const DailySale = () => {
   };
   const [down, setDown] = useState(null);
   const [d, setD] = useState(false);
-  const tableRef = useRef(null);
   const fun = () => {
     const { onDownload } = useDownloadExcel({
-      currentTableRef: tableRef.current,
+      currentTableRef: tableRef?.current,
       filename: "Users table",
       sheet: "Users",
     });
@@ -245,6 +270,12 @@ const DailySale = () => {
   const recordsPerPage = 50;
   const totalPages = Math.ceil(pagi_g / recordsPerPage);
 
+  const { onDownload } = useDownloadExcel({
+    currentTableRef: ref?.current,
+    filename: "Daily Sale Report",
+    sheet: "Daily Sale Report",
+  });
+
   function handleDownloadExcel() {
     downloadExcel({
       fileName: "Daily Sale Report",
@@ -257,6 +288,7 @@ const DailySale = () => {
           e.createAt,
           e.carNo,
           e.vehicleType,
+          e.cashType,
           e.nozzleNo,
           e.fuelType,
           (parseFloat(e?.saleLiter) / 4.16)?.toFixed(3),
@@ -267,8 +299,8 @@ const DailySale = () => {
           e.totalPrice.toLocaleString(undefined, {
             maximumFractionDigits: 3,
           }),
-          e.totalizer_liter?.toFixed(3),
-          e.totalizer_amount.toLocaleString(undefined, {
+          e.devTotalizar_liter?.toFixed(3),
+          e.devTotalizar_amount.toLocaleString(undefined, {
             maximumFractionDigits: 3,
           }),
         ]),
@@ -347,9 +379,7 @@ const DailySale = () => {
     }
   };
 
-  const totalSale = data_g_2
-    ?.map((e) => e.saleLiter)
-    .reduce((pv, cv) => pv + cv, 0);
+  console.log(ref?.current, "this is ref");
 
   console.log("==eeeeeeeeeeeeeeeeeeee==================================");
   console.log(data_g_2);
@@ -424,9 +454,11 @@ const DailySale = () => {
         {isData ? (
           <div className="mt-8">
             <FilterTable
+              tab={tab}
               tableRef={tableRef}
               header={tableHeader}
               rows={tableRow}
+              totalSale={totalSale}
             />
             <div className="mt-5 flex  px-4">
               <div className="text-[20px] text-gray-600">
@@ -434,7 +466,7 @@ const DailySale = () => {
                 <span className="text-gray-700 font-semibold">
                   {totalSale.toLocaleString(undefined, {
                     maximumFractionDigits: 3,
-                  })}{" "}
+                  })}
                 </span>
                 MMK
               </div>
@@ -448,19 +480,22 @@ const DailySale = () => {
             </div>
           </div>
         )}
-        {data_g && (
-          <div className="">
-            <Footer
-              print={handlePrint}
-              onClick={handleDownloadExcel}
-              totalPages={totalPages}
-              onPageChange={onPageChange}
-              pagi="true"
-              // first={first}
-              // rows={rows}
-            />
-          </div>
-        )}
+        {/* {data_g && ( */}
+        <div className="">
+          <Footer
+            print={handlePrint}
+            onClick={() => {
+              onDownload();
+            }}
+            // onClick={handleDownloadExcel}
+            totalPages={totalPages}
+            onPageChange={onPageChange}
+            pagi="true"
+            // first={first}
+            // rows={rows}
+          />
+        </div>
+        {/* )} */}
       </div>
       <Modal
         opened={opened}

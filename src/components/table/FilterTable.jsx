@@ -2,7 +2,16 @@ import React, { useRef } from "react";
 import { Table } from "@mantine/core";
 import clsx from "clsx";
 
-const FilterTable = ({ header, className, label, rows, tableRef, type }) => {
+const FilterTable = ({
+  header,
+  className,
+  label,
+  rows,
+  tab,
+  tableRef,
+  type,
+  totalSale,
+}) => {
   // const tableRef = useRef();
 
   // console.log(tableRef, ".........................");
@@ -37,7 +46,10 @@ const FilterTable = ({ header, className, label, rows, tableRef, type }) => {
               ))}
             </Table.Tr>
           </Table.Thead>
-          <Table.Tbody className="text-[1.1rem]">{rows}</Table.Tbody>
+          <Table.Tbody className="text-[1.1rem]">
+            {rows}
+            {tab && tab}
+          </Table.Tbody>
         </Table>
       </div>
     </div>

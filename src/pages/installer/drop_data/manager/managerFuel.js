@@ -9,7 +9,7 @@ const data = [
   },
   {
     name: "95 RON",
-    value: "002-Octane ron(95)",
+    value: "002-Octane Ron(95)",
   },
   {
     name: "HSD",

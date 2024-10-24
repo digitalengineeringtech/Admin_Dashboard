@@ -122,8 +122,7 @@ const SaleSummary = () => {
   }, [data_g, loading_g, error_g, fetchItGet]);
 
   console.log(
-    sDate,
-    eDate,
+    data_g_2,
     "lfffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
   );
 

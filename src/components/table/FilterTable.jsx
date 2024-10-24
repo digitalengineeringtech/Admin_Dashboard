@@ -8,9 +8,12 @@ const FilterTable = ({
   label,
   rows,
   tab,
+  con1,
   tableRef,
   type,
   totalSale,
+  total,
+  con,
 }) => {
   // const tableRef = useRef();
 
@@ -49,6 +52,42 @@ const FilterTable = ({
           <Table.Tbody className="text-[1.1rem]">
             {rows}
             {tab && tab}
+            {con && (
+              <Table.Tr>
+                <Table.Td colSpan={8}></Table.Td>
+                <Table.Td colSpan={2} className="text-center">
+                  Total
+                </Table.Td>
+                <Table.Td className="text-center">{total}</Table.Td>
+              </Table.Tr>
+            )}
+            {con && (
+              <Table.Tr>
+                <Table.Td colSpan={8}></Table.Td>
+                <Table.Td colSpan={2} className="text-center">
+                  Return Amount
+                </Table.Td>
+                <Table.Td className="text-center">0.00</Table.Td>
+              </Table.Tr>
+            )}
+            {con1 && (
+              <Table.Tr>
+                <Table.Td colSpan={7}></Table.Td>
+                <Table.Td colSpan={2} className="text-center">
+                  Total
+                </Table.Td>
+                <Table.Td className="text-center">{total}</Table.Td>
+              </Table.Tr>
+            )}
+            {con1 && (
+              <Table.Tr>
+                <Table.Td colSpan={7}></Table.Td>
+                <Table.Td colSpan={2} className="text-center">
+                  Return Amount
+                </Table.Td>
+                <Table.Td className="text-center">0.00</Table.Td>
+              </Table.Tr>
+            )}
           </Table.Tbody>
         </Table>
       </div>

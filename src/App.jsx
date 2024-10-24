@@ -33,6 +33,13 @@ import TotalDif from "./pages/manager/TotalDif";
 import HO from "./pages/manager/HO";
 import BalanceStatement from "./pages/installer/BalanceStatement";
 import Tank from "./pages/installer/Tank";
+import CreditSale from "./pages/manager/CreditSale";
+import CustomerList from "./pages/manager/CustomerList";
+import TestCompo from "./pages/manager/Customers";
+import CustomerEdit from "./pages/manager/CustomerEdit";
+import Customers from "./pages/manager/Customers";
+import CreditSaleList from "./pages/manager/CreditSaleList";
+import CreditEdit from "./pages/manager/CreditEdit";
 
 const App = () => {
   const [isInstalling, setIsInstalling] = useState(false);
@@ -122,9 +129,41 @@ const App = () => {
           path: "/tank_data",
           element: <TankData />,
         },
+        // {
+        //   path: "/customer_list",
+        //   element: <CustomerList />,
+        // },
+        {
+          path: "/customer_list",
+          element: <Customers />,
+          children: [
+            {
+              index: true,
+              element: <CustomerList />,
+            },
+            {
+              path: "/customer_list/edit/:id",
+              element: <CustomerEdit />,
+            },
+          ],
+        },
         {
           path: "/price_chg",
           element: <PriceChg />,
+        },
+        {
+          path: "/credit_sale",
+          element: <CreditSale />,
+          children: [
+            {
+              index: true,
+              element: <CreditSaleList />,
+            },
+            {
+              path: "/credit_sale/edit/:id",
+              element: <CreditEdit />,
+            },
+          ],
         },
         {
           path: "/total_dif",

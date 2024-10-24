@@ -104,6 +104,7 @@ const Sidebar = () => {
     <FaMoneyCheckAlt />,
     <MdDifference />,
     <IoMdPricetag />,
+    <FaChartBar />,
     <FaRegFileLines />,
   ];
   const installerIcon = [

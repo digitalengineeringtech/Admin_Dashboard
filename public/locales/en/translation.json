@@ -29,6 +29,14 @@
       "link": "/fuel_in"
     },
     {
+      "name": "Credit Sale",
+      "link": "/credit_sale"
+    },
+    {
+      "name": "Customers",
+      "link": "/customer_list"
+    },
+    {
       "name": "Sale Ledger",
       "link": "/sale_ledger"
     },

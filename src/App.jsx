@@ -3,6 +3,7 @@ import {
   RouterProvider,
   Navigate,
   createBrowserRouter,
+  useNavigate,
 } from "react-router-dom";
 import Layout from "./layout/Layout";
 import DailyList from "./pages/manager/DailyList";
@@ -40,6 +41,7 @@ import CustomerEdit from "./pages/manager/CustomerEdit";
 import Customers from "./pages/manager/Customers";
 import CreditSaleList from "./pages/manager/CreditSaleList";
 import CreditEdit from "./pages/manager/CreditEdit";
+import Admin from "./pages/Admin";
 
 const App = () => {
   const [isInstalling, setIsInstalling] = useState(false);
@@ -77,6 +79,7 @@ const App = () => {
   //     setIsInstalling(JSON.parse(localStorage.getItem("installed")));
   //   }
   // }, []);
+  const navigate = useNavigate();
 
   const managerRouter = createBrowserRouter([
     {
@@ -177,6 +180,10 @@ const App = () => {
           path: "/sale_ho",
           element: <HO />,
         },
+        {
+          path: "/admin",
+          element: <Admin />,
+        },
       ],
     },
   ]);
@@ -188,7 +195,7 @@ const App = () => {
     },
     {
       path: "/",
-      element: auth ? <Layout /> : <Navigate to="/login" />,
+      element: auth ? <Layout /> : <navigate to="/login" />,
       children: [
         // {
         //   index: true,
@@ -236,6 +243,14 @@ const App = () => {
       ],
     },
   ]);
+
+  console.log(window.location.pathname, "this is path");
+
+  useEffect(() => {
+    if (window.location.pathname == "/admin") {
+      localStorage.getItem("admin") != true && Navigate("/");
+    }
+  });
 
   // console.log("hellolllllllllllllllllllllllllllllllll", reFresh);
   return (

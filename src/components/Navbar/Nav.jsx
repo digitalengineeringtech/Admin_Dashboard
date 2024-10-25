@@ -5,6 +5,8 @@ import { IoLinkSharp } from "react-icons/io5";
 import { localInstance } from "../../api/axios";
 import useTokenStorage from "../../utils/useDecrypt";
 import LoadContext from "../../services/LoadContext";
+import { RiAdminFill } from "react-icons/ri";
+import { useNavigate, useNavigation } from "react-router-dom";
 
 const Nav = ({ title }) => {
   const { loading, setLoading } = useContext(LoadContext);
@@ -16,6 +18,8 @@ const Nav = ({ title }) => {
       setToken(token);
     }
   }, []);
+
+  const navigate = useNavigate();
 
   const handleClick = async (token) => {
     console.log(token, "lllllllllllllllllllllllllllll");
@@ -30,7 +34,7 @@ const Nav = ({ title }) => {
         },
       }
     );
-    console.log(response)
+    console.log(response);
     setLoading(false);
   };
 
@@ -60,6 +64,15 @@ const Nav = ({ title }) => {
           >
             <IoLinkSharp className="text-2xl" />
             CONNECT
+          </div>
+        )}
+        {path == "/" && (
+          <div
+            onClick={() => navigate("/admin")}
+            className="hover:scale-105 flex gap-2 items-center active:scale-95 duration-100 select-none font-mono text-lg font-semibold py-3 bg-detail text-secondary px-4 rounded-lg text"
+          >
+            <RiAdminFill className="text-2xl" />
+            To Admin Panel
           </div>
         )}
       </div>

@@ -359,10 +359,6 @@ const DailySale = () => {
         }
       );
 
-      console.log(
-        response,
-        "lllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllll"
-      );
       // Check if there's any error in the response data
       if (!response?.data?.con) {
         // If there's an error, set the error state to true
@@ -378,12 +374,6 @@ const DailySale = () => {
       setErr(true);
     }
   };
-
-  console.log(ref?.current, "this is ref");
-
-  console.log("==eeeeeeeeeeeeeeeeeeee==================================");
-  console.log(data_g_2);
-  console.log("====================================");
 
   return (
     <>

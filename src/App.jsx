@@ -79,7 +79,7 @@ const App = () => {
   //     setIsInstalling(JSON.parse(localStorage.getItem("installed")));
   //   }
   // }, []);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const managerRouter = createBrowserRouter([
     {
@@ -244,13 +244,13 @@ const App = () => {
     },
   ]);
 
-  console.log(window.location.pathname, "this is path");
+  // console.log(window.location.pathname, "this is path");
 
-  useEffect(() => {
-    if (window.location.pathname == "/admin") {
-      localStorage.getItem("admin") != true && Navigate("/");
-    }
-  });
+  // useEffect(() => {
+  //   if (window.location.pathname == "/admin") {
+  //     localStorage.getItem("admin") != true && Navigate("/");
+  //   }
+  // });
 
   // console.log("hellolllllllllllllllllllllllllllllllll", reFresh);
   return (

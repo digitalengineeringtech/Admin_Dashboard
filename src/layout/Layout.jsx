@@ -4,6 +4,7 @@ import Login from "../pages/Login";
 import Nav from "../components/Navbar/Nav";
 import { useContext, useEffect, useState } from "react";
 import AuthContext from "../services/AuthContext";
+import { ImCross } from "react-icons/im";
 
 const Layout = () => {
   const navigate = useNavigate();

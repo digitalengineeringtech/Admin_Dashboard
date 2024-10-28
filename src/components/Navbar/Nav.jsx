@@ -7,6 +7,9 @@ import useTokenStorage from "../../utils/useDecrypt";
 import LoadContext from "../../services/LoadContext";
 import { RiAdminFill } from "react-icons/ri";
 import { useNavigate, useNavigation } from "react-router-dom";
+import { Modal, TextInput } from "@mantine/core";
+import { useDisclosure } from "@mantine/hooks";
+import { ImCross } from "react-icons/im";
 
 const Nav = ({ title }) => {
   const { loading, setLoading } = useContext(LoadContext);
@@ -18,6 +21,9 @@ const Nav = ({ title }) => {
       setToken(token);
     }
   }, []);
+  const [opened, { open, close }] = useDisclosure(false);
+  const [email, setEmail] = useState();
+  const [pswd, setPswd] = useState();
 
   const navigate = useNavigate();
 
@@ -68,7 +74,7 @@ const Nav = ({ title }) => {
         )}
         {path == "/" && (
           <div
-            onClick={() => navigate("/admin")}
+            onClick={() => open()}
             className="hover:scale-105 flex gap-2 items-center active:scale-95 duration-100 select-none font-mono text-lg font-semibold py-3 bg-detail text-secondary px-4 rounded-lg text"
           >
             <RiAdminFill className="text-2xl" />
@@ -76,6 +82,71 @@ const Nav = ({ title }) => {
           </div>
         )}
       </div>
+      <Modal
+        opened={opened}
+        radius={20}
+        size={700}
+        centered
+        withCloseButton={false}
+      >
+        <div className="flex  border-b mb-4 border-gray-300 pb-3 items-end">
+          <div className="flex justify-between items-center">
+            <div className="text-2xl ms-4 select-none text-text font-semibold font-sans">
+              Authorization
+            </div>
+            {/* {err && (
+              <div className="text-red-500 ms-10">Something was wrong !</div>
+            )} */}
+          </div>
+          <div
+            onClick={() => {
+              close();
+            }}
+            className="w-12 h-12 rounded-full ms-auto  bg-danger text-secondary hover:border-2 border-2 border-danger hover:border-danger duration-100 hover:bg-transparent hover:text-danger flex items-center justify-center"
+          >
+            <ImCross />
+          </div>
+        </div>
+        <div className=" px-4">
+          <div className="flex justify-between">
+            <div className="flex mb-4 justify-between">
+              <div className="">
+                <TextInput
+                  style="!w-[300px]"
+                  label="Email "
+                  placeholder="Email "
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+              </div>
+            </div>
+            <div className="flex justify-between">
+              <div className="">
+                <TextInput
+                  style="!w-[300px]"
+                  label="Password"
+                  placeholder="Password"
+                  value={pswd}
+                  onChange={(e) => setPswd(e.target.value)}
+                />
+              </div>
+            </div>
+          </div>
+          <div className=" flex items-center justify-between">
+            <button
+              // onClick={
+              //   email !== undefined && pswd !== undefined
+              //     ? ConAlert("Are you sure ?", handleClick)
+              //     : () => ErrorAlert("Some Fields are Empty")
+              // }
+              onClick={handleClick}
+              className={`w-[300px] ml-auto mt-2 text-secondary  items-center justify-center gap-3 flex  font-mono text-xl active:scale-95 duration-100 bg-[#38b59e] h-[56px] rounded-md`}
+            >
+              Update
+            </button>
+          </div>
+        </div>
+      </Modal>
     </div>
   );
 };

@@ -14,11 +14,15 @@ import useTokenStorage from "../utils/useDecrypt";
 import { Link, Outlet } from "react-router-dom";
 import { TbEdit } from "react-icons/tb";
 import FilterTable from "../components/table/FilterTable";
+import ConAlert from "../components/alert/ConAlert.jsx";
+import UsePost from "../api/hooks/UsePost.jsx";
+import CalendarPick from "../components/CalendarPick.jsx";
 // import FilterTable from "../../components/table/FilterTable";
 
 const Admin = () => {
   // const [path, setPath] = useState();
   const navigate = useNavigate();
+
   const [name, setName] = useState();
   const [phone, setPhone] = useState();
   const [cusType, setCusType] = useState(); //drop
@@ -27,12 +31,23 @@ const Admin = () => {
   const [debAmount, setDebAmount] = useState();
   const [debLiter, setDebLiter] = useState();
   const [creditType, setCreditType] = useState(); //drop
-  const [dueDate, setDueDate] = useState(); //date (next 4months or 5months)
+  // const [dueDate, setDueDate] = useState(); //date (next 4months or 5months)
   const [limit, setLimit] = useState();
   const [opened, { open, close }] = useDisclosure(false);
   const [cus, setCus] = useState(false);
   const [token, setToken] = useState();
+  const [cardId, setCardId] = useState();
+
   const { loadToken } = useTokenStorage();
+  const [{ data, loading, error }, fetchIt] = UsePost();
+  let start = new Date();
+
+  start.setHours(0);
+  start.setMinutes(0);
+  start.setSeconds(0);
+  start = new Date(start);
+
+  const [sDate, setSDate] = useState(start)
 
   const creditRoute = `http://localhost:9000/api/customer-credit`;
   useEffect(() => {
@@ -61,6 +76,8 @@ const Admin = () => {
     console.log("hello");
   }, [con]);
 
+  console.log(data_g, 'this is create')
+
   const totalSale = data_g_2
     ?.filter((e) => e?.cashType == "Credit Card")
     ?.map((e) => e.saleLiter)
@@ -84,20 +101,49 @@ const Admin = () => {
     "Action",
   ];
 
+  console.log(cusType, creditType)
+
+  const Edit = (id)=> {
+    // navigate(`/admin?id=${id}`)
+    const data = data_g_3.filter(e=>e._id === id)[0]
+    const cusTypeFilter =  cusTypeData.filter(e=>e.value === data.customer.cusType)
+    const creditTypeFilter =  creditTypeData.filter(e=>e.value === data.creditType)
+    const vehicle = vehicles.filter((e)=>e.value === data.customer.cusVehicleType )
+    setName(data.customer.cusName)
+    setPhone(data.customer.cusPhone)
+    setCusType(cusTypeFilter[0])
+    setVehicle(vehicle[0])
+    setVehicleNo(data.customer.cusCarNo)
+    setDebAmount(data.customer.cusDebAmount)
+    setDebLiter(data.customer.cusDebLiter)
+    setCreditType(creditTypeFilter[0])
+    setLimit(data.limitAmount)
+    setCus(data.customer.cusType)
+    setCardId(data.customer.cusCardId)
+    setSDate(data.creditDueDate)
+    open()
+  }
+
   const tableRef = useRef(null);
 
-  console.log({
-    name,
-    phone,
-    cusType: cusType?.value,
-    vechicle: vechicle?.value,
-    vehicleNo,
-    debAmount,
-    debLiter,
-    creditType: creditType?.value,
-    dueDate,
-    limit,
-  });
+  const handleCancel = ()=>{
+    setName()
+    setPhone()
+    setCusType()
+    setVehicle()
+    setVehicleNo()
+    setDebAmount()
+    setDebLiter()
+    setCreditType()
+    setLimit()
+    setCus()
+    setCardId()
+    setSDate(sDate)
+    close()
+    // navigate('/admin')
+  }
+
+
   useEffect(() => {
     // if (data_g?.length > 0) {
     //   setIsData(true);
@@ -144,7 +190,7 @@ const Admin = () => {
     >
       <Table.Td>{index + 1}</Table.Td>
       <Table.Td>{element.customer.cusName}</Table.Td>
-      <Table.Td>hello</Table.Td>
+      <Table.Td>{element.customer.cusCardId}</Table.Td>
       <Table.Td>{element.customer.cusCarNo}</Table.Td>
       <Table.Td>{element.customer.cusPhone}</Table.Td>
       <Table.Td>Yangon</Table.Td>
@@ -158,7 +204,7 @@ const Admin = () => {
       <Table.Td>{element.creditDueDate.slice(0, 10)}</Table.Td>
       <Table.Td>
         <div
-          onClick={() => open()}
+          onClick={() => Edit(element._id)}
           // to={`/customer_list/edit/${element.customer._id}`}
 
           className="flex items-center active:scale-90 duration-100 justify-center w-10 h-10 rounded-full bg-red-300"
@@ -188,22 +234,22 @@ const Admin = () => {
   const cusTypeData = [
     {
       label: "Credit",
-      value: "Credit Card",
+      value: "credit",
     },
     {
       label: "Credit ",
-      value: "Credit Card",
+      value: "credit",
     },
   ];
 
   const creditTypeData = [
     {
       label: "Limit Amount",
-      value: "Limit Amount ",
+      value: "limit_by_amount",
     },
     {
       label: "Credit ",
-      value: "Credit Card",
+      value: "credit",
     },
   ];
 
@@ -226,6 +272,46 @@ const Admin = () => {
     { label: "Heavy Machinery", value: "Heavy Machinery" },
     { label: "Commercial Vehicle", value: "Commercial Vehicle" },
   ];
+
+  const handleCreate = async ()=>{
+    const splitDate = sDate.toLocaleDateString().split('/')
+    const formattedDate = `${splitDate[2]}-${splitDate[0]}-${splitDate[1]}`;
+    const data = {
+     cusName:name,
+     cusPhone:phone,
+     cusType: cusType?.value,
+     cusVehicleType: vechicle?.value,
+     cusCarNo:vehicleNo,
+     cusCardId: cardId,
+     cusDebAmount:debAmount || 0,
+     cusDebLiter:debLiter || 0,
+     creditType: creditType?.value,
+     creditDueDate:formattedDate,
+     limitAmount:limit,
+   }
+   // const data ={
+   //    cusName: "Htet Aung Khant",
+   //      cusPhone: "03399393993",
+   //      cusType: "credit",
+   //      cusCardId: "00002",
+   //      cusVehicleType: "Car",
+   //      cusCarNo: "1L/7513",
+   //      cusDebAmount: 0,
+   //      cusDebLiter: 0,
+   //      creditType: "limit_by_amount",
+   //      creditDueDate: "2024-10-31",
+   //      limitAmount: 500000
+   // }
+
+
+   const validate = Object.values(data).every(e=>e !== null && e !== undefined && e !== '' )
+    if(validate){
+      console.log("keepON")
+      await fetchIt("/customer", data, token);
+    }else{
+      console.log("err")
+    }
+  }
 
   return (
     <div className="mt-28">
@@ -262,15 +348,20 @@ const Admin = () => {
             Nozzle Information
           </div>
           <div
-            onClick={() => {
-              close();
-            }}
+            onClick={() => handleCancel()}
             className="w-12 h-12 rounded-full ms-auto  bg-danger text-secondary hover:border-2 border-2 border-danger hover:border-danger duration-100 hover:bg-transparent hover:text-danger flex items-center justify-center"
           >
             <ImCross />
           </div>
         </div>
         <div className="bg-white flex justify-between gap-x-2 flex-wrap gap-y-6 rounded-6 p-8">
+          <TextInput
+              style="!w-[300px]"
+              label="Customer Name"
+              placeholder="Customer Name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+          />
           <SelectDrop
             placeholder="Please Select"
             label="Customer Type"
@@ -294,17 +385,17 @@ const Admin = () => {
           />
           <TextInput
             style="!w-[300px]"
-            label="Customer Name"
-            placeholder="Customer Name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
-          <TextInput
-            style="!w-[300px]"
             label="Phone Number"
             placeholder="Phone Number "
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
+          />
+          <TextInput
+              style="!w-[300px]"
+              label="Car Id"
+              placeholder="Car Id"
+              value={cardId}
+              onChange={(e) => setCardId(e.target.value)}
           />
           <TextInput
             style="!w-[300px]"
@@ -316,7 +407,7 @@ const Admin = () => {
           <TextInput
             style="!w-[300px]"
             label="Deb Amount"
-            placeholder="Deb Amount"
+            placeholder="0"
             value={debAmount}
             onChange={(e) => setDebAmount(Number(e.target.value))}
           />
@@ -324,7 +415,7 @@ const Admin = () => {
           <TextInput
             style="!w-[300px]"
             label="Deb Liter"
-            placeholder="Deb Liter"
+            placeholder="0"
             value={debLiter}
             onChange={(e) => setDebLiter(Number(e.target.value))}
           />
@@ -335,19 +426,25 @@ const Admin = () => {
             value={limit}
             onChange={(e) => setLimit(Number(e.target.value))}
           />
-          <TextInput
-            style="!w-[300px]"
-            label="Due Date"
-            placeholder="Due Date"
-            value={dueDate}
-            onChange={(e) => setDueDate(e.target.value)}
+          {/*<TextInput*/}
+          {/*  style="!w-[300px]"*/}
+          {/*  label="Due Date"*/}
+          {/*  placeholder="Due Date"*/}
+          {/*  value={dueDate}*/}
+          {/*  onChange={(e) => setDueDate(e.target.value)}*/}
+          {/*/>*/}
+          <CalendarPick
+              date={sDate}
+              value={sDate}
+              start={true}
+              setValue={setSDate}
+              setDate={setSDate}
+              label="Start Date"
           />
 
           <SearchButton
             title="Create"
-            onClick={() => {
-              fetchItGet(route, token), fetchItGet2(route2, token);
-            }}
+            onClick={ConAlert("Are you sure ?", true, handleCreate)}
           />
         </div>
       </Modal>

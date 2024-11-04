@@ -193,7 +193,7 @@ const CreditEdit = () => {
     </Table.Tr>
   );
   const tableRow = data_g
-    ?.filter((e) => e?.cashType == "Credit Card")
+    ?.filter((e) => e?.cashType == "Credit")
     ?.filter((e) => e?._id == id)
     ?.map((element, index) => (
       <Table.Tr
@@ -234,7 +234,7 @@ const CreditEdit = () => {
           }) || "0.00"}
         </Table.Td>
         <Table.Td>
-          {element.totalPrice?.toLocaleString(undefined, {
+          {element?.totalPrice?.toLocaleString(undefined, {
             maximumFractionDigits: 3,
           })}
         </Table.Td>
@@ -247,20 +247,17 @@ const CreditEdit = () => {
     data_g_3.filter((e) => e.customer._id == "67172dce7be67777387f3e03"),
     data_g.cus_id
   );
-  console.log(
-    data_g_3?.filter((e) => e?.customer?._id == data_g[0]?.cus_id),
-    "........................"
-  );
+
 
   const vocono = data_g
-    ?.filter((e) => e?.cashType == "Credit Card")
+    ?.filter((e) => e?.cashType == "Credit")
     ?.filter((e) => e?._id == id);
 
-  const customer = data_g_3?.filter((e) => e.customer._id == vocono[0]?.cus_id);
-  console.log(customer, "this is customer");
+  const customer = data_g_3?.filter((e) => e.customer._id == vocono[0]?.customer);
+  // console.log(customer, "this is customer");
 
   const creditRow = data_g_3
-    ?.filter((e) => e.customer._id == vocono[0]?.cus_id)
+    ?.filter((e) => e.customer._id == vocono[0]?.customer)
     ?.map((element, index) => (
       <Table.Tr
         key={index}
@@ -291,6 +288,14 @@ const CreditEdit = () => {
         </Table.Td>
       </Table.Tr>
     ));
+
+
+  console.log(
+      data_g_3,
+      // data_g_3?.filter((e) => e?.customer?._id == data_g[0]?.cus_id),
+      vocono,
+      "........................"
+  );
 
   // console.log(
   //   "start",
@@ -347,7 +352,7 @@ const CreditEdit = () => {
       tablePayload: {
         header: tableHeader,
         // accept two different data structures
-        body: data_g.map((e) => [
+        body: data_g?.map((e) => [
           e.vocono,
           e.createAt,
           e.carNo,
@@ -486,7 +491,7 @@ const CreditEdit = () => {
                   <Table.Tr
                     // key={index}
                     style={
-                      customer.asyncAlready == "2" && {
+                      customer?.asyncAlready == "2" && {
                         backgroundColor: "#B8E5FF30",
                       }
                     }
@@ -504,15 +509,15 @@ const CreditEdit = () => {
                     <Table.Td className="text-lg text-gray-600">
                       {
                         data_g
-                          ?.filter((e) => e?.cashType == "Credit Card")
-                          ?.filter((e) => e?._id == id)[0].vocono
+                          ?.filter((e) => e?.cashType == "Credit")
+                          ?.filter((e) => e?._id == id)[0]?.vocono
                       }
                     </Table.Td>
                   </Table.Tr>
                   <Table.Tr
                     // key={index}
                     style={
-                      customer.asyncAlready == "2" && {
+                      customer?.asyncAlready == "2" && {
                         backgroundColor: "#B8E5FF30",
                       }
                     }
@@ -522,19 +527,19 @@ const CreditEdit = () => {
                       Customer Name
                     </Table.Td>
                     <Table.Td className="text-lg  text-gray-600">
-                      {customer[0].customer.cusName}
+                      {customer[0]?.customer.cusName}
                     </Table.Td>
                     <Table.Td className="text-lg font-semibold text-gray-600">
                       Vehicle No.
                     </Table.Td>
                     <Table.Td className="text-lg text-gray-600">
-                      {customer[0].customer.cusCarNo}
+                      {customer[0]?.customer.cusCarNo}
                     </Table.Td>
                   </Table.Tr>
                   <Table.Tr
                     // key={index}
                     style={
-                      customer.asyncAlready == "2" && {
+                      customer?.asyncAlready == "2" && {
                         backgroundColor: "#B8E5FF30",
                       }
                     }
@@ -544,19 +549,19 @@ const CreditEdit = () => {
                       Phone Number
                     </Table.Td>
                     <Table.Td className="text-lg text-gray-600">
-                      {customer[0].customer.cusPhone}
+                      {customer[0]?.customer.cusPhone}
                     </Table.Td>
                     <Table.Td className="text-lg font-semibold text-gray-600">
                       Type
                     </Table.Td>
                     <Table.Td className="text-lg text-gray-600">
-                      {customer[0].creditType}
+                      {customer[0]?.creditType}
                     </Table.Td>
                   </Table.Tr>
                   <Table.Tr
                     // key={index}
                     style={
-                      customer.asyncAlready == "2" && {
+                      customer?.asyncAlready == "2" && {
                         backgroundColor: "#B8E5FF30",
                       }
                     }
@@ -582,7 +587,7 @@ const CreditEdit = () => {
               total={
                 data_g
                   ?.filter((e) => e?.cashType == "Credit Card")
-                  ?.filter((e) => e?._id == id)[0].totalPrice
+                  ?.filter((e) => e?._id == id)[0]?.totalPrice
               }
               header={tableHeader}
               rows={tableRow}

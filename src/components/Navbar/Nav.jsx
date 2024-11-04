@@ -163,12 +163,11 @@ const Nav = ({ title }) => {
           </div>
           <div className=" flex items-center justify-between">
             <button
-                // onClick={
-                //   email !== undefined && pswd !== undefined
-                //     ? ConAlert("Are you sure ?", handleClick)
-                //     : () => ErrorAlert("Some Fields are Empty")
-                // }
-                onClick={handleLoginSubmit}
+                onClick={()=> {
+                  navigate('admin')
+                  close()
+                }}
+                // onClick={handleLoginSubmit}
                 className={`w-[300px] ml-auto mt-2 text-secondary  items-center justify-center gap-3 flex  font-mono text-xl active:scale-95 duration-100 bg-detail h-[56px] rounded-md`}
             >
               Submit

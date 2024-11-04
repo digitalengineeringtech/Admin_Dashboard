@@ -212,7 +212,7 @@ const Card = ({
   };
   // console.log(finalData, "and final is", final, "and all done is ", allDone);
 
-  // console.log(printFormInfo, "......................");
+  console.log(premitFormInfo, "......................");
   // console.log(token);
 
   ///preset
@@ -316,6 +316,7 @@ const Card = ({
           salePrice: obj.daily_price,
           device: "website",
           cusCardId: premitFormInfo.cusCardId
+          // cusCardId: "sdfg3"
         },
         {
           headers: {

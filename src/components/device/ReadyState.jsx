@@ -156,7 +156,7 @@ const ReadyState = ({
     }
 
     console.log("work");
-  }, [readyStateItem, customer, category, carNo, paymentNo, numberValue]);
+  }, [readyStateItem, customer, category,cusId, carNo, paymentNo, numberValue]);
 
   console.log(cusId, 'thisiisisi')
 

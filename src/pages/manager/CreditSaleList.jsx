@@ -189,7 +189,7 @@ const CreditSaleList = () => {
   console.log(isData, "this is ", data_g);
 
   const tableRow = data_g
-    ?.filter((e, index) => e?.cashType == "Credit Card")
+    ?.filter((e, index) => e?.cashType == "Credit")
     ?.map((element, index) => (
       <Table.Tr
         key={element.no}
@@ -209,7 +209,7 @@ const CreditSaleList = () => {
           className="text-blue-500 cursor-pointer underline"
           onClick={() => console.log("hello")}
         >
-          <Link to={`/customer_list/edit/${element.cus_id}`}>Htoo Khant</Link>
+          <Link to={`/customer_list/edit/${element.customer}`}>Htoo Khant</Link>
         </Table.Td>
         <Table.Td>{element.carNo}</Table.Td>
         <Table.Td>{element.vehicleType}</Table.Td>

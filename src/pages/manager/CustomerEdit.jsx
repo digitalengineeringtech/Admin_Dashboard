@@ -167,7 +167,7 @@ const CustomerEdit = () => {
     "Action",
   ];
   const totalSale = data_g_2
-    ?.filter((e) => e?.cashType == "Credit Card")
+    ?.filter((e) => e?.cashType == "Credit")
     ?.map((e) => e.saleLiter)
     .reduce((pv, cv) => pv + cv, 0);
 
@@ -190,8 +190,8 @@ const CustomerEdit = () => {
     </Table.Tr>
   );
   const tableRow = data_g
-    ?.filter((e) => e?.cashType == "Credit Card")
-    ?.filter((e) => e?.cus_id == id)
+    ?.filter((e) => e?.cashType == "Credit")
+    ?.filter((e) => e?.customer == id)
     ?.map((element, index) => (
       <Table.Tr
         key={element.no}
@@ -438,7 +438,7 @@ const CustomerEdit = () => {
 
   const total = data_g
     ?.filter((e) => e?.cashType == "Credit Card")
-    ?.filter((e) => e?.cus_id == id)
+    ?.filter((e) => e?.customer == id)
     .map((e) => e.totalPrice)
     ?.reduce((pv, cv) => pv + cv, 0);
 

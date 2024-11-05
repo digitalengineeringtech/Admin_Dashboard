@@ -269,7 +269,7 @@ const CustomerList = () => {
     >
       <Table.Td>{index + 1}</Table.Td>
       <Table.Td>{element.customer.cusName}</Table.Td>
-      <Table.Td>hello</Table.Td>
+      <Table.Td>{element.customer.cusCardId}</Table.Td>
       <Table.Td>{element.customer.cusCarNo}</Table.Td>
       <Table.Td>{element.customer.cusPhone}</Table.Td>
       <Table.Td>Yangon</Table.Td>

@@ -454,6 +454,10 @@ const CreditEdit = () => {
 
   const navigate = useNavigate();
 
+  const handleReturn = async()=>{
+    open()
+  }
+
   return (
     <>
       {cus & (data_g_3.length > 0) & (data_g.length > 0) ? (
@@ -467,7 +471,7 @@ const CreditEdit = () => {
                 text="Back"
               />
               <Button
-                onClick={() => open()}
+                onClick={ConAlert("Are you sure ?", true,()=>handleReturn())}
                 className="justify-center text-white bg-detail"
                 icon={<FaPlusCircle className="text-xl" />}
                 text="Add"
@@ -583,7 +587,7 @@ const CreditEdit = () => {
             <FilterTable
               tab={tab}
               tableRef={tableRef}
-              con1={true}
+              con1={false}
               total={
                 data_g
                   ?.filter((e) => e?.cashType == "Credit Card")

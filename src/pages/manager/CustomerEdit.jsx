@@ -37,6 +37,7 @@ import CustomerDrop from "../installer/CustomerDrop";
 import { Link, Outlet, useNavigate, useParams } from "react-router-dom";
 import { IoCaretBackOutline } from "react-icons/io5";
 import { FaPlusCircle } from "react-icons/fa";
+import usePatch from "../../api/hooks/UsePatch";
 
 const CustomerEdit = () => {
   let start = new Date();
@@ -395,8 +396,14 @@ const CustomerEdit = () => {
   //   "ellllelellllllllllllllllllllllllllllleeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
   // );
 
+  console.log(start.toISOString().slice(0,10), sDate)
+
   const handleClick = async () => {
-    const data = { email: email, password: pswd };
+    const data = {
+      customerCredit: "672054a08fff6394f246afd4",
+      returnAmount: amount,
+      returnDate: start.toISOString().slice(0,10)
+    };
 
     try {
       //  patchIt(
@@ -405,8 +412,8 @@ const CustomerEdit = () => {
       //     token
       //   );
 
-      const response = await localInstance.patch(
-        `detail-sale/error?_id=${ddata.id}&nozzleNo=${ddata.noz}`,
+      const response = await localInstance.put(
+        `/credit-return `,
         data,
         {
           headers: {
@@ -588,7 +595,6 @@ const CustomerEdit = () => {
       </div>
       {/* <Outlet /> */}
       {/* )} */}
-
       <Modal
         opened={opened}
         radius={20}
@@ -631,7 +637,7 @@ const CustomerEdit = () => {
               <button
                 onClick={
                   amount !== undefined
-                    ? ConAlert("Are you sure ?", handleClick)
+                    ? ConAlert("Are you sure ?",true, handleClick)
                     : () => ErrorAlert("Some Fields are Empty")
                 }
                 // onClick={handleClick}

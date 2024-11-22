@@ -47,6 +47,7 @@ const CustomerEdit = () => {
   start = new Date(start);
 
   const tableRef = useRef(null);
+  const { id } = useParams();
 
   let end = new Date();
   end.setHours(23);
@@ -105,15 +106,17 @@ const CustomerEdit = () => {
     setCon(true);
   }, []);
 
+  const customer = data_g_3?.filter((e) => e?._id == id);
+
   useEffect(() => {
-    fetchItGet(
-      `detail-sale/pagi/by-date/1?sDate=${start}&eDate=${end}${purposeRoute}${fuelRoute}${nozzleRoute}${casherRoute}${carNo}${cash}`,
-      token
-    );
-    fetchItGet2(
-      `detail-sale/without-pagi/by-date?sDate=${start}&eDate=${end}${purposeRoute}${fuelRoute}${nozzleRoute}${casherRoute}${carNo}${cash}`,
-      token
-    );
+    fetchItGet(`detail-sale/credit/only-pagi/1`, token);
+    // fetchItGet(
+    //   `detail-sale/pagi/by-date/1?sDate=${start}&eDate=${end}${purposeRoute}${fuelRoute}${nozzleRoute}${casherRoute}${carNo}${cash}`,
+    //   token
+    // );
+    if (customer) {
+      fetchItGet2(`credit-return?customerCredit=${id}`, token);
+    }
     fetchItGet3(creditRoute, token);
     console.log("hello");
   }, [con]);
@@ -133,8 +136,15 @@ const CustomerEdit = () => {
     }
   }, [data_g, data_g_3, loading_g, error_g, fetchItGet]);
 
-  const { id } = useParams();
-  console.log(data_g, "this is idgggggggg");
+  const totalSale = data_g_2
+    ?.map((e) => e?.detailSale.totalPrice)
+    .reduce((pv, cv) => pv + cv, 0);
+
+  const CReturn = data_g_2
+    ?.map((e) => (e.isPaid ? e?.returnAmount : 0))
+    .reduce((pv, cv) => pv + cv, 0);
+
+  console.log(data_g_2, "this is idgggggggg", totalSale);
   // console.log(totalPages);
 
   const tableHeader = [
@@ -167,10 +177,6 @@ const CustomerEdit = () => {
     "Due Date",
     "Action",
   ];
-  const totalSale = data_g_2
-    ?.filter((e) => e?.cashType == "Credit")
-    ?.map((e) => e.saleLiter)
-    .reduce((pv, cv) => pv + cv, 0);
 
   const tab = (
     <Table.Tr
@@ -190,15 +196,15 @@ const CustomerEdit = () => {
       </Table.Td>
     </Table.Tr>
   );
-  const tableRow = data_g
-    ?.filter((e) => e?.cashType == "Credit")
-    ?.filter((e) => e?.customer == id)
+  const tableRow = data_g_2
+    // ?.filter((e) => e?.cashType == "Credit")
+    // ?.filter((e) => e?.customer?._id == id)
     ?.map((element, index) => (
       <Table.Tr
         key={element.no}
         style={
-          element.asyncAlready == "2" && {
-            backgroundColor: "#B8E5FF30",
+          element?.isPaid == true && {
+            backgroundColor: "#eeee",
           }
         }
         className=" duration-150 text-sm text-center"
@@ -206,34 +212,35 @@ const CustomerEdit = () => {
         <Table.Td>{index + 1}</Table.Td>
         <Table.Td>{element.vocono}</Table.Td>
         <Table.Td>
-          {element.createAt.slice(0, 10)} {element.createAt.slice(11, 19)}
+          {element?.detailSale.createAt.slice(0, 10)}{" "}
+          {element?.detailSale.createAt.slice(11, 19)}
         </Table.Td>
-        <Table.Td>{element.carNo}</Table.Td>
-        <Table.Td>{element.vehicleType}</Table.Td>
-        <Table.Td>{element.nozzleNo}</Table.Td>
+        <Table.Td>{element?.detailSale.carNo}</Table.Td>
+        <Table.Td>{element?.detailSale.vehicleType}</Table.Td>
+        <Table.Td>{element?.detailSale.nozzleNo}</Table.Td>
         <Table.Td>
           {" "}
-          {element?.fuelType == "001-Octane Ron(92)"
+          {element?.detailSale?.fuelType == "001-Octane Ron(92)"
             ? "92 RON"
-            : element?.fuelType == "002-Octane Ron(95)"
+            : element?.detailSale?.fuelType == "002-Octane Ron(95)"
             ? "95 RON"
-            : element?.fuelType == "004-Diesel"
+            : element?.detailSale?.fuelType == "004-Diesel"
             ? "HSD"
-            : element?.fuelType == "005-Premium Diesel"
+            : element?.detailSale?.fuelType == "005-Premium Diesel"
             ? "PHSD"
             : ""}
         </Table.Td>
         <Table.Td>
-          {(parseFloat(element?.saleLiter) / 4.16)?.toFixed(3)}
+          {(parseFloat(element?.detailSale?.saleLiter) / 4.16)?.toFixed(3)}
         </Table.Td>
-        <Table.Td>{element.saleLiter}</Table.Td>
+        <Table.Td>{element?.detailSale.saleLiter}</Table.Td>
         <Table.Td>
-          {element.salePrice?.toFixed(2).toLocaleString(undefined, {
+          {element?.detailSale.salePrice?.toFixed(2).toLocaleString(undefined, {
             maximumFractionDigits: 3,
           }) || "0.00"}
         </Table.Td>
         <Table.Td>
-          {element.totalPrice?.toLocaleString(undefined, {
+          {element?.detailSale.totalPrice?.toLocaleString(undefined, {
             maximumFractionDigits: 3,
           })}
         </Table.Td>
@@ -255,8 +262,6 @@ const CustomerEdit = () => {
     ));
 
   // const nameDrop = data_g_3?.map((e, index)=>e.cusName)
-
-  const customer = data_g_3?.filter((e) => e.customer._id == id);
 
   // const creditRow = data_g_3
   //   ?.filter((e) => e.customer._id == id)
@@ -304,10 +309,7 @@ const CustomerEdit = () => {
 
   const onPageChange = (event) => {
     console.log(event);
-    fetchItGet(
-      `detail-sale/pagi/by-date/${event}?sDate=${sDate}&eDate=${eDate}${purposeRoute}${fuelRoute}${nozzleRoute}`,
-      token
-    );
+    fetchItGet(`detail-sale/credit/only-pagi/${event}`, token);
   };
   const [down, setDown] = useState(null);
   const [d, setD] = useState(false);
@@ -396,13 +398,15 @@ const CustomerEdit = () => {
   //   "ellllelellllllllllllllllllllllllllllleeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
   // );
 
-  console.log(start.toISOString().slice(0,10), sDate)
+  console.log(start.toISOString().slice(0, 10), sDate);
 
   const handleClick = async () => {
     const data = {
-      customerCredit: "672054a08fff6394f246afd4",
-      returnAmount: amount,
-      returnDate: start.toISOString().slice(0,10)
+      customerCredit: "673ec0c6763cf31ea828688e",
+      // returnAmount: amount,
+      returnAmount: 2000,
+      // returnDate: start.toISOString().slice(0,10)
+      returnDate: "2024-11-20",
     };
 
     try {
@@ -412,16 +416,12 @@ const CustomerEdit = () => {
       //     token
       //   );
 
-      const response = await localInstance.put(
-        `/credit-return `,
-        data,
-        {
-          headers: {
-            Authorization: "Bearer " + token,
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
+      const response = await localInstance.put(`/credit-return `, data, {
+        headers: {
+          Authorization: "Bearer " + token,
+          "Content-Type": "multipart/form-data",
+        },
+      });
 
       console.log(
         response,
@@ -546,13 +546,13 @@ const CustomerEdit = () => {
                     }
                     className=" duration-150 text-sm text-center"
                   >
-                    <Table.Td className="text-lg font-semibold text-gray-600">
+                    {/* <Table.Td className="text-lg font-semibold text-gray-600">
                       Address
                     </Table.Td>
                     <Table.Td colSpan={3} className="text-lg text-gray-600">
                       163 12Th Floor Rachapak Building Sukhumvit 21 Road,
                       Bangkok
-                    </Table.Td>
+                    </Table.Td> */}
                   </Table.Tr>
                 </Table.Tbody>
               </Table>
@@ -567,6 +567,7 @@ const CustomerEdit = () => {
               rows={tableRow}
               con={true}
               totalSale={totalSale}
+              CReturn={CReturn}
             />
           </div>
         </div>
@@ -637,7 +638,7 @@ const CustomerEdit = () => {
               <button
                 onClick={
                   amount !== undefined
-                    ? ConAlert("Are you sure ?",true, handleClick)
+                    ? ConAlert("Are you sure ?", true, handleClick)
                     : () => ErrorAlert("Some Fields are Empty")
                 }
                 // onClick={handleClick}

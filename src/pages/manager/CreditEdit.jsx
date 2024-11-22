@@ -115,10 +115,7 @@ const CreditEdit = () => {
       `detail-sale/pagi/by-date/1?sDate=${start}&eDate=${end}${purposeRoute}${fuelRoute}${nozzleRoute}${casherRoute}${carNo}${cash}`,
       token
     );
-    fetchItGet2(
-      `detail-sale/without-pagi/by-date?sDate=${start}&eDate=${end}${purposeRoute}${fuelRoute}${nozzleRoute}${casherRoute}${carNo}${cash}`,
-      token
-    );
+    fetchItGet2(`credit-return`, token);
     fetchItGet3(creditRoute, token);
     console.log("hello");
   }, [con]);
@@ -192,9 +189,9 @@ const CreditEdit = () => {
       </Table.Td>
     </Table.Tr>
   );
-  const tableRow = data_g
-    ?.filter((e) => e?.cashType == "Credit")
-    ?.filter((e) => e?._id == id)
+  const tableRow = data_g_2
+    // ?.filter((e) => e?.cashType == "Credit")
+    ?.filter((e) => e?.detailSale?._id == id)
     ?.map((element, index) => (
       <Table.Tr
         key={element.no}
@@ -207,34 +204,35 @@ const CreditEdit = () => {
       >
         <Table.Td>{index + 1}</Table.Td>
         <Table.Td>
-          {element.createAt.slice(0, 10)} {element.createAt.slice(11, 19)}
+          {element?.detailSale?.createAt.slice(0, 10)}{" "}
+          {element?.detailSale?.createAt.slice(11, 19)}
         </Table.Td>
-        <Table.Td>{element.vehicleType}</Table.Td>
-        <Table.Td>{element.carNo}</Table.Td>
-        <Table.Td>{element.nozzleNo}</Table.Td>
+        <Table.Td>{element?.detailSale.vehicleType}</Table.Td>
+        <Table.Td>{element?.detailSale.carNo}</Table.Td>
+        <Table.Td>{element?.detailSale.nozzleNo}</Table.Td>
         <Table.Td>
           {" "}
-          {element?.fuelType == "001-Octane Ron(92)"
+          {element?.detailSale?.fuelType == "001-Octane Ron(92)"
             ? "92 RON"
-            : element?.fuelType == "002-Octane Ron(95)"
+            : element?.detailSale?.fuelType == "002-Octane Ron(95)"
             ? "95 RON"
-            : element?.fuelType == "004-Diesel"
+            : element?.detailSale?.fuelType == "004-Diesel"
             ? "HSD"
-            : element?.fuelType == "005-Premium Diesel"
+            : element?.detailSale?.fuelType == "005-Premium Diesel"
             ? "PHSD"
             : ""}
         </Table.Td>
         <Table.Td>
-          {(parseFloat(element?.saleLiter) / 4.16)?.toFixed(3)}
+          {(parseFloat(element?.detailSale?.saleLiter) / 4.16)?.toFixed(3)}
         </Table.Td>
-        <Table.Td>{element.saleLiter}</Table.Td>
+        <Table.Td>{element?.detailSale.saleLiter}</Table.Td>
         <Table.Td>
-          {element.salePrice?.toFixed(2).toLocaleString(undefined, {
+          {element?.detailSale.salePrice?.toFixed(2).toLocaleString(undefined, {
             maximumFractionDigits: 3,
           }) || "0.00"}
         </Table.Td>
         <Table.Td>
-          {element?.totalPrice?.toLocaleString(undefined, {
+          {element?.detailSale?.totalPrice?.toLocaleString(undefined, {
             maximumFractionDigits: 3,
           })}
         </Table.Td>
@@ -248,12 +246,13 @@ const CreditEdit = () => {
     data_g.cus_id
   );
 
-
   const vocono = data_g
     ?.filter((e) => e?.cashType == "Credit")
     ?.filter((e) => e?._id == id);
 
-  const customer = data_g_3?.filter((e) => e.customer._id == vocono[0]?.customer);
+  const customer = data_g_3?.filter(
+    (e) => e.customer._id == vocono[0]?.customer
+  );
   // console.log(customer, "this is customer");
 
   const creditRow = data_g_3
@@ -289,12 +288,11 @@ const CreditEdit = () => {
       </Table.Tr>
     ));
 
-
   console.log(
-      data_g_3,
-      // data_g_3?.filter((e) => e?.customer?._id == data_g[0]?.cus_id),
-      vocono,
-      "........................"
+    data_g_3,
+    // data_g_3?.filter((e) => e?.customer?._id == data_g[0]?.cus_id),
+    vocono,
+    "........................"
   );
 
   // console.log(
@@ -448,15 +446,15 @@ const CreditEdit = () => {
     }
   };
 
-  // console.log("==eeeeeeeeeeeeeeeeeeee==================================");
-  // console.log(data_g_2);
-  // console.log("====================================");
+  console.log("==eeeeeeeeeeeeeeeeeeee==================================");
+  console.log(data_g_2);
+  console.log("====================================");
 
   const navigate = useNavigate();
 
-  const handleReturn = async()=>{
-    open()
-  }
+  const handleReturn = async () => {
+    open();
+  };
 
   return (
     <>
@@ -470,12 +468,12 @@ const CreditEdit = () => {
                 icon={<IoCaretBackOutline className="text-xl" />}
                 text="Back"
               />
-              <Button
-                onClick={ConAlert("Are you sure ?", true,()=>handleReturn())}
+              {/* <Button
+                onClick={ConAlert("Are you sure ?", true, () => handleReturn())}
                 className="justify-center text-white bg-detail"
                 icon={<FaPlusCircle className="text-xl" />}
                 text="Add"
-              />
+              /> */}
             </div>
             <div className=" p-4 rounded-xl bg-secondary w-[85%] shadow-md shadow-shadow/20 ">
               <Table
@@ -571,13 +569,13 @@ const CreditEdit = () => {
                     }
                     className=" duration-150 text-sm text-center"
                   >
-                    <Table.Td className="text-lg font-semibold text-gray-600">
+                    {/* <Table.Td className="text-lg font-semibold text-gray-600">
                       Address
                     </Table.Td>
                     <Table.Td colSpan={3} className="text-lg text-gray-600">
                       163 12Th Floor Rachapak Building Sukhumvit 21 Road,
                       Bangkok
-                    </Table.Td>
+                    </Table.Td> */}
                   </Table.Tr>
                 </Table.Tbody>
               </Table>
@@ -585,7 +583,7 @@ const CreditEdit = () => {
           </div>
           <div className="mt-8">
             <FilterTable
-              tab={tab}
+              // tab={tab}
               tableRef={tableRef}
               con1={false}
               total={

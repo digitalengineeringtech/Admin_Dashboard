@@ -47,7 +47,7 @@ const Admin = () => {
   start.setSeconds(0);
   start = new Date(start);
 
-  const [sDate, setSDate] = useState(start)
+  const [sDate, setSDate] = useState(start);
 
   const creditRoute = `http://localhost:9000/api/customer-credit`;
   useEffect(() => {
@@ -68,15 +68,20 @@ const Admin = () => {
     //   `detail-sale/pagi/by-date/1?sDate=${start}&eDate=${end}${purposeRoute}${fuelRoute}${nozzleRoute}${casherRoute}${carNo}${cash}`,
     //   token
     // );
+
+    fetchItGet(`detail-sale/pagi/1?cusCardId=asdf`, token);
+
     // fetchItGet2(
     //   `detail-sale/without-pagi/by-date?sDate=${start}&eDate=${end}${purposeRoute}${fuelRoute}${nozzleRoute}${casherRoute}${carNo}${cash}`,
     //   token
     // );
+
     fetchItGet3(creditRoute, token);
+    
     console.log("hello");
   }, [con]);
 
-  console.log(data_g, 'this is create')
+  console.log(data_g, "this is create");
 
   const totalSale = data_g_2
     ?.filter((e) => e?.cashType == "Credit Card")
@@ -101,48 +106,53 @@ const Admin = () => {
     "Action",
   ];
 
-  console.log(cusType, creditType)
+  console.log(cusType, creditType);
 
-  const Edit = (id)=> {
+  const Edit = (id) => {
     // navigate(`/admin?id=${id}`)
-    const data = data_g_3.filter(e=>e._id === id)[0]
-    const cusTypeFilter =  cusTypeData.filter(e=>e.value === data.customer.cusType)
-    const creditTypeFilter =  creditTypeData.filter(e=>e.value === data.creditType)
-    const vehicle = vehicles.filter((e)=>e.value === data.customer.cusVehicleType )
-    setName(data.customer.cusName)
-    setPhone(data.customer.cusPhone)
-    setCusType(cusTypeFilter[0])
-    setVehicle(vehicle[0])
-    setVehicleNo(data.customer.cusCarNo)
-    setDebAmount(data.customer.cusDebAmount)
-    setDebLiter(data.customer.cusDebLiter)
-    setCreditType(creditTypeFilter[0])
-    setLimit(data.limitAmount)
-    setCus(data.customer.cusType)
-    setCardId(data.customer.cusCardId)
-    setSDate(data.creditDueDate)
-    open()
-  }
+    const data = data_g_3.filter((e) => e._id === id)[0];
+    const cusTypeFilter = cusTypeData.filter(
+      (e) => e.value === data.customer.cusType
+    );
+    const creditTypeFilter = creditTypeData.filter(
+      (e) => e.value === data.creditType
+    );
+    const vehicle = vehicles.filter(
+      (e) => e.value === data.customer.cusVehicleType
+    );
+    setName(data.customer.cusName);
+    setPhone(data.customer.cusPhone);
+    setCusType(cusTypeFilter[0]);
+    setVehicle(vehicle[0]);
+    setVehicleNo(data.customer.cusCarNo);
+    setDebAmount(data.customer.cusDebAmount);
+    setDebLiter(data.customer.cusDebLiter);
+    setCreditType(creditTypeFilter[0]);
+    setLimit(data.limitAmount);
+    setCus(data.customer.cusType);
+    setCardId(data.customer.cusCardId);
+    setSDate(data.creditDueDate);
+    open();
+  };
 
   const tableRef = useRef(null);
 
-  const handleCancel = ()=>{
-    setName()
-    setPhone()
-    setCusType()
-    setVehicle()
-    setVehicleNo()
-    setDebAmount()
-    setDebLiter()
-    setCreditType()
-    setLimit()
-    setCus()
-    setCardId()
-    setSDate(sDate)
-    close()
+  const handleCancel = () => {
+    setName();
+    setPhone();
+    setCusType();
+    setVehicle();
+    setVehicleNo();
+    setDebAmount();
+    setDebLiter();
+    setCreditType();
+    setLimit();
+    setCus();
+    setCardId();
+    setSDate(sDate);
+    close();
     // navigate('/admin')
-  }
-
+  };
 
   useEffect(() => {
     // if (data_g?.length > 0) {
@@ -273,45 +283,46 @@ const Admin = () => {
     { label: "Commercial Vehicle", value: "Commercial Vehicle" },
   ];
 
-  const handleCreate = async ()=>{
-    const splitDate = sDate.toLocaleDateString().split('/')
+  const handleCreate = async () => {
+    const splitDate = sDate.toLocaleDateString().split("/");
     const formattedDate = `${splitDate[2]}-${splitDate[0]}-${splitDate[1]}`;
     const data = {
-     cusName:name,
-     cusPhone:phone,
-     cusType: cusType?.value,
-     cusVehicleType: vechicle?.value,
-     cusCarNo:vehicleNo,
-     cusCardId: cardId,
-     cusDebAmount:debAmount || 0,
-     cusDebLiter:debLiter || 0,
-     creditType: creditType?.value,
-     creditDueDate:formattedDate,
-     limitAmount:limit,
-   }
-   // const data ={
-   //    cusName: "Htet Aung Khant",
-   //      cusPhone: "03399393993",
-   //      cusType: "credit",
-   //      cusCardId: "00002",
-   //      cusVehicleType: "Car",
-   //      cusCarNo: "1L/7513",
-   //      cusDebAmount: 0,
-   //      cusDebLiter: 0,
-   //      creditType: "limit_by_amount",
-   //      creditDueDate: "2024-10-31",
-   //      limitAmount: 500000
-   // }
+      cusName: name,
+      cusPhone: phone,
+      cusType: cusType?.value,
+      cusVehicleType: vechicle?.value,
+      cusCarNo: vehicleNo,
+      cusCardId: cardId,
+      cusDebAmount: debAmount || 0,
+      cusDebLiter: debLiter || 0,
+      creditType: creditType?.value,
+      creditDueDate: formattedDate,
+      limitAmount: limit,
+    };
+    // const data ={
+    //    cusName: "Htet Aung Khant",
+    //      cusPhone: "03399393993",
+    //      cusType: "credit",
+    //      cusCardId: "00002",
+    //      cusVehicleType: "Car",
+    //      cusCarNo: "1L/7513",
+    //      cusDebAmount: 0,
+    //      cusDebLiter: 0,
+    //      creditType: "limit_by_amount",
+    //      creditDueDate: "2024-10-31",
+    //      limitAmount: 500000
+    // }
 
-
-   const validate = Object.values(data).every(e=>e !== null && e !== undefined && e !== '' )
-    if(validate){
-      console.log("keepON")
+    const validate = Object.values(data).every(
+      (e) => e !== null && e !== undefined && e !== ""
+    );
+    if (validate) {
+      console.log("keepON");
       await fetchIt("/customer", data, token);
-    }else{
-      console.log("err")
+    } else {
+      console.log("err");
     }
-  }
+  };
 
   return (
     <div className="mt-28">
@@ -356,11 +367,11 @@ const Admin = () => {
         </div>
         <div className="bg-white flex justify-between gap-x-2 flex-wrap gap-y-6 rounded-6 p-8">
           <TextInput
-              style="!w-[300px]"
-              label="Customer Name"
-              placeholder="Customer Name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
+            style="!w-[300px]"
+            label="Customer Name"
+            placeholder="Customer Name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
           />
           <SelectDrop
             placeholder="Please Select"
@@ -391,11 +402,11 @@ const Admin = () => {
             onChange={(e) => setPhone(e.target.value)}
           />
           <TextInput
-              style="!w-[300px]"
-              label="Car Id"
-              placeholder="Car Id"
-              value={cardId}
-              onChange={(e) => setCardId(e.target.value)}
+            style="!w-[300px]"
+            label="Car Id"
+            placeholder="Car Id"
+            value={cardId}
+            onChange={(e) => setCardId(e.target.value)}
           />
           <TextInput
             style="!w-[300px]"
@@ -434,12 +445,12 @@ const Admin = () => {
           {/*  onChange={(e) => setDueDate(e.target.value)}*/}
           {/*/>*/}
           <CalendarPick
-              date={sDate}
-              value={sDate}
-              start={true}
-              setValue={setSDate}
-              setDate={setSDate}
-              label="Start Date"
+            date={sDate}
+            value={sDate}
+            start={true}
+            setValue={setSDate}
+            setDate={setSDate}
+            label="Start Date"
           />
 
           <SearchButton

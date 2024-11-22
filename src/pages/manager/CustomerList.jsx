@@ -66,7 +66,7 @@ const CustomerList = () => {
 
   const [sDate, setSDate] = useState(start);
   const [eDate, setEDate] = useState(end);
-  const [fuelType, setFuelType] = useState();
+  const [customer, setCustomer] = useState();
   const [email, setEmail] = useState();
   const [cashType, setCashType] = useState("");
   const [pswd, setPswd] = useState();
@@ -81,7 +81,9 @@ const CustomerList = () => {
   const purposeRoute = purposeUse?.value
     ? `&vehicleType=${purposeUse?.value}`
     : "";
-  const fuelRoute = fuelType?.value ? `&fuelType=${fuelType?.value}` : "";
+  const cus_filter = customer?.value ? `cusName=${customer?.value}` : "";
+  const limit_filter = limit ? `&limitAmount=${limit}` : "";
+  const veh_filter = num ? `&cusCarNo=${num}` : "";
   const nozzleRoute = noz?.value ? `&nozzleNo=${noz?.value}` : "";
   const casherRoute = casher?.name ? `&casherCode=${casher?.name}` : "";
   const carNo = num ? `&carNo=${num}` : "";
@@ -89,7 +91,7 @@ const CustomerList = () => {
   const cash = cashType != "" ? `&cashType=${cashType}` : "";
   // const route = `detail-sale/pagi/by-date/1?sDate=${sDate}&eDate=${eDate}${purposeRoute}${fuelRoute}${nozzleRoute}${casherRoute}${carNo}${cash}`;
   // const route2 = `detail-sale/without-pagi/by-date?sDate=${sDate}&eDate=${eDate}${purposeRoute}${fuelRoute}${nozzleRoute}${casherRoute}${carNo}${cash}`;
-  const creditRoute = `http://localhost:9000/api/customer-credit`;
+  const creditRoute = `http://localhost:9000/api/customer-credit?${cus_filter}${limit_filter}${veh_filter}`;
   const [{ data_g, loading_g, error_g, pagi_g }, fetchItGet] = UseGet();
   const [{ data_g_3, loading_g_3, error_g_3, pagi_g_3 }, fetchItGet3] =
     UseGet3();
@@ -268,22 +270,22 @@ const CustomerList = () => {
       className=" duration-150 text-sm text-center"
     >
       <Table.Td>{index + 1}</Table.Td>
-      <Table.Td>{element.customer.cusName}</Table.Td>
-      <Table.Td>{element.customer.cusCardId}</Table.Td>
-      <Table.Td>{element.customer.cusCarNo}</Table.Td>
-      <Table.Td>{element.customer.cusPhone}</Table.Td>
+      <Table.Td>{element.customer?.cusName}</Table.Td>
+      <Table.Td>{element.customer?.cusCardId}</Table.Td>
+      <Table.Td>{element.customer?.cusCarNo}</Table.Td>
+      <Table.Td>{element.customer?.cusPhone}</Table.Td>
       <Table.Td>Yangon</Table.Td>
       <Table.Td>12/yapatha(N)140923</Table.Td>
-      <Table.Td>{element.customer.cusVehicleType}</Table.Td>
+      <Table.Td>{element.customer?.cusVehicleType}</Table.Td>
       <Table.Td>{element.creditType}</Table.Td>
-      <Table.Td>{element.customer.cusDebAmount}</Table.Td>
-      <Table.Td>{element.customer.cusDebLiter}</Table.Td>
+      <Table.Td>{element.customer?.cusDebAmount}</Table.Td>
+      <Table.Td>{element.customer?.cusDebLiter}</Table.Td>
       <Table.Td>{element.limitAmount}</Table.Td>
       <Table.Td>{element.createdAt.slice(0, 10)}</Table.Td>
       <Table.Td>{element.creditDueDate.slice(0, 10)}</Table.Td>
       <Table.Td>
         <Link
-          to={`/customer_list/edit/${element.customer._id}`}
+          to={`/customer_list/edit/${element?._id}`}
           className="flex items-center active:scale-90 duration-100 justify-center w-10 h-10 rounded-full bg-red-300"
         >
           <TbEdit className="text-xl font-bold" />
@@ -464,8 +466,8 @@ const CustomerList = () => {
           placeholder="All"
           label="Customer Name"
           data={data_g_3}
-          value={fuelType}
-          setValue={setFuelType}
+          value={customer}
+          setValue={setCustomer}
         />
         <TextInput
           style="!w-[300px]"

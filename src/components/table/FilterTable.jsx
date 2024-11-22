@@ -9,6 +9,7 @@ const FilterTable = ({
   rows,
   tab,
   con1,
+  CReturn,
   tableRef,
   type,
   totalSale,
@@ -17,7 +18,7 @@ const FilterTable = ({
 }) => {
   // const tableRef = useRef();
 
-  // console.log(tableRef, ".........................");
+  console.log(totalSale, ".........this is................");
   return (
     <div className="">
       {label && <h3 className="text-text ms-3 mb-3 text-xl">{label}</h3>}
@@ -58,7 +59,7 @@ const FilterTable = ({
                 <Table.Td colSpan={2} className="text-center">
                   Total
                 </Table.Td>
-                <Table.Td className="text-center">{total}</Table.Td>
+                <Table.Td className="text-center">{totalSale}</Table.Td>
               </Table.Tr>
             )}
             {con && (
@@ -67,7 +68,7 @@ const FilterTable = ({
                 <Table.Td colSpan={2} className="text-center">
                   Return Amount
                 </Table.Td>
-                <Table.Td className="text-center">0.00</Table.Td>
+                <Table.Td className="text-center">{CReturn}</Table.Td>
               </Table.Tr>
             )}
             {con1 && (
@@ -76,7 +77,7 @@ const FilterTable = ({
                 <Table.Td colSpan={2} className="text-center">
                   Total
                 </Table.Td>
-                <Table.Td className="text-center">{total}</Table.Td>
+                <Table.Td className="text-center">{totalSale}</Table.Td>
               </Table.Tr>
             )}
             {con1 && (
@@ -85,7 +86,7 @@ const FilterTable = ({
                 <Table.Td colSpan={2} className="text-center">
                   Return Amount
                 </Table.Td>
-                <Table.Td className="text-center">0.00</Table.Td>
+                <Table.Td className="text-center">{CReturn}</Table.Td>
               </Table.Tr>
             )}
           </Table.Tbody>

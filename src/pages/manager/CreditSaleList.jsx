@@ -88,7 +88,8 @@ const CreditSaleList = () => {
   const carNo = num ? `&carNo=${num}` : "";
 
   const cash = cashType != "" ? `&cashType=${cashType}` : "";
-  const route = `detail-sale/pagi/by-date/1?sDate=${sDate}&eDate=${eDate}${purposeRoute}${fuelRoute}${nozzleRoute}${casherRoute}${carNo}${cash}`;
+  // const route = `detail-sale/pagi/by-date/1?sDate=${sDate}&eDate=${eDate}${purposeRoute}${fuelRoute}${nozzleRoute}${casherRoute}${carNo}${cash}`;
+  const route = `detail-sale/credit/only-pagi/1`;
   const route2 = `detail-sale/without-pagi/by-date?sDate=${sDate}&eDate=${eDate}${purposeRoute}${fuelRoute}${nozzleRoute}${casherRoute}${carNo}${cash}`;
   const creditRoute = `http://localhost:9000/api/customer-credit`;
   const [{ data_g, loading_g, error_g, pagi_g }, fetchItGet] = UseGet();
@@ -103,15 +104,13 @@ const CreditSaleList = () => {
     setCon(true);
   }, []);
 
-  useEffect(() => {
-    fetchItGet(
-      `detail-sale/pagi/by-date/1?sDate=${start}&eDate=${end}${purposeRoute}${fuelRoute}${nozzleRoute}${casherRoute}${carNo}${cash}`,
-      token
-    );
-    fetchItGet2(
-      `detail-sale/without-pagi/by-date?sDate=${start}&eDate=${end}${purposeRoute}${fuelRoute}${nozzleRoute}${casherRoute}${carNo}${cash}`,
-      token
-    );
+  const cusName = useEffect(() => {
+    // fetchItGet(
+    //   `detail-sale/pagi/by-date/1?sDate=${start}&eDate=${end}${purposeRoute}${fuelRoute}${nozzleRoute}${casherRoute}${carNo}${cash}`,
+    //   token
+    // );
+    fetchItGet2(`credit-return`, token);
+    fetchItGet(`detail-sale/credit/only-pagi/1`, token);
     fetchItGet3(creditRoute, token);
     // console.log("hello");
   }, [con]);
@@ -131,7 +130,7 @@ const CreditSaleList = () => {
     }
   }, [data_g, data_g_3, loading_g, error_g, fetchItGet]);
 
-  console.log(cusData, "this is cus Data");
+  console.log(data_g_2[0], "this is Data");
 
   const tableHeader = [
     "No",
@@ -186,70 +185,80 @@ const CreditSaleList = () => {
     </Table.Tr>
   );
 
-  console.log(isData, "this is ", data_g);
+  // console.log(isData, "this is ", data_g);
 
-  const tableRow = data_g
-    ?.filter((e, index) => e?.cashType == "Credit")
+  const tableRow = data_g_2
+    ?.reverse()
+    // ?.filter((e, index) => e?.cashType == "Credit")
     ?.map((element, index) => (
       <Table.Tr
-        key={element.no}
+        key={index}
         style={
-          element.asyncAlready == "2" && {
-            backgroundColor: "#B8E5FF30",
+          element?.isPaid == true && {
+            backgroundColor: "#75757530",
           }
         }
         className=" duration-150 text-sm text-center"
       >
         <Table.Td>{index + 1}</Table.Td>
-        <Table.Td>{element.vocono}</Table.Td>
+        <Table.Td>{element?.detailSale?.vocono}</Table.Td>
         <Table.Td>
-          {element.createAt.slice(0, 10)} {element.createAt.slice(11, 19)}
+          {element?.detailSale?.createAt.slice(0, 10)}{" "}
+          {element?.detailSale?.createAt.slice(11, 19)}
         </Table.Td>
         <Table.Td
           className="text-blue-500 cursor-pointer underline"
           onClick={() => console.log("hello")}
         >
-          <Link to={`/customer_list/edit/${element.customer}`}>Htoo Khant</Link>
+          {/* <Link to={`/customer_list/edit/${element.customer}`}>test</Link> */}
+          <Link to={`/customer_list/edit/${element?.customerCredit?._id}`}>
+            {element?.customerCredit?.customer?.cusName}
+          </Link>
         </Table.Td>
-        <Table.Td>{element.carNo}</Table.Td>
-        <Table.Td>{element.vehicleType}</Table.Td>
-        <Table.Td>{element.cashType}</Table.Td>
-        <Table.Td>{element.nozzleNo}</Table.Td>
-
+        <Table.Td>{element?.detailSale?.carNo}</Table.Td>
+        <Table.Td>{element?.detailSale?.vehicleType}</Table.Td>
+        <Table.Td>{element?.detailSale?.cashType}</Table.Td>
+        <Table.Td>{element?.detailSale?.nozzleNo}</Table.Td>
         <Table.Td>
           {" "}
-          {element?.fuelType == "001-Octane Ron(92)"
+          {element?.detailSale?.fuelType == "001-Octane Ron(92)"
             ? "92 RON"
-            : element?.fuelType == "002-Octane Ron(95)"
+            : element?.detailSale?.fuelType == "002-Octane Ron(95)"
             ? "95 RON"
-            : element?.fuelType == "004-Diesel"
+            : element?.detailSale?.fuelType == "004-Diesel"
             ? "HSD"
-            : element?.fuelType == "005-Premium Diesel"
+            : element?.detailSale?.fuelType == "005-Premium Diesel"
             ? "PHSD"
             : ""}
         </Table.Td>
         <Table.Td>
-          {(parseFloat(element?.saleLiter) / 4.16)?.toFixed(3)}
+          {(parseFloat(element?.detailSale?.saleLiter) / 4.16)?.toFixed(3)}
         </Table.Td>
-        <Table.Td>{element.saleLiter}</Table.Td>
+        <Table.Td>{element?.detailSale?.saleLiter}</Table.Td>
         <Table.Td>
-          {element.salePrice?.toFixed(2).toLocaleString(undefined, {
-            maximumFractionDigits: 3,
-          }) || "0.00"}
+          {element?.detailSale?.salePrice
+            ?.toFixed(2)
+            .toLocaleString(undefined, {
+              maximumFractionDigits: 3,
+            }) || "0.00"}
         </Table.Td>
         <Table.Td>
-          {element.totalPrice?.toLocaleString(undefined, {
-            maximumFractionDigits: 3,
-          })}
-        </Table.Td>
-        <Table.Td>{element.devTotalizar_liter?.toFixed(3)}</Table.Td>
-        <Table.Td>
-          {element.devTotalizar_amount?.toFixed(2).toLocaleString(undefined, {
+          {element?.detailSale?.totalPrice?.toLocaleString(undefined, {
             maximumFractionDigits: 3,
           })}
         </Table.Td>
         <Table.Td>
-          <Link to={`edit/${element._id}`}>
+          {element?.detailSale?.devTotalizar_liter?.toFixed(3)}
+        </Table.Td>
+        <Table.Td>
+          {element?.detailSale?.devTotalizar_amount
+            ?.toFixed(2)
+            .toLocaleString(undefined, {
+              maximumFractionDigits: 3,
+            })}
+        </Table.Td>
+        <Table.Td>
+          <Link to={`edit/${element?.detailSale._id}`}>
             <div className="flex items-center active:scale-90 duration-100 justify-center w-10 h-10 cursor-pointer rounded-full bg-red-300">
               <TbEdit className="text-xl font-bold" />
             </div>
@@ -271,28 +280,28 @@ const CreditSaleList = () => {
       </Table.Td> */}
       </Table.Tr>
     ));
-  const creditRow = data_g_3?.map((element, index) => (
-    <Table.Tr
-      key={index}
-      style={
-        element.asyncAlready == "2" && {
-          backgroundColor: "#B8E5FF30",
-        }
-      }
-      className=" duration-150 text-sm text-center"
-    >
-      <Table.Td>{element.customer.cusName}</Table.Td>
-      <Table.Td>{element.customer.cusCarNo}</Table.Td>
-      <Table.Td>{element.customer.cusPhone}</Table.Td>
-      <Table.Td>{element.customer.cusVehicleType}</Table.Td>
-      <Table.Td>{element.creditType}</Table.Td>
-      <Table.Td>{element.customer.cusDebAmount}</Table.Td>
-      <Table.Td>{element.customer.cusDebLiter}</Table.Td>
-      <Table.Td>{element.limitAmount}</Table.Td>
-      <Table.Td>{element.createdAt.slice(0, 10)}</Table.Td>
-      <Table.Td>{element.creditDueDate.slice(0, 10)}</Table.Td>
-    </Table.Tr>
-  ));
+  // const creditRow = data_g_3?.map((element, index) => (
+  //   <Table.Tr
+  //     key={index}
+  //     style={
+  //       element.asyncAlready == "2" && {
+  //         backgroundColor: "#B8E5FF30",
+  //       }
+  //     }
+  //     className=" duration-150 text-sm text-center"
+  //   >
+  //     <Table.Td>{element?.customer.cusName}</Table.Td>
+  //     <Table.Td>{element?.customer.cusCarNo}</Table.Td>
+  //     <Table.Td>{element?.customer.cusPhone}</Table.Td>
+  //     <Table.Td>{element?.customer.cusVehicleType}</Table.Td>
+  //     <Table.Td>{element?.creditType}</Table.Td>
+  //     <Table.Td>{element?.customer.cusDebAmount}</Table.Td>
+  //     <Table.Td>{element?.customer.cusDebLiter}</Table.Td>
+  //     <Table.Td>{element?.limitAmount}</Table.Td>
+  //     <Table.Td>{element?.createdAt.slice(0, 10)}</Table.Td>
+  //     <Table.Td>{element?.creditDueDate.slice(0, 10)}</Table.Td>
+  //   </Table.Tr>
+  // ));
 
   // console.log(
   //   "start",
@@ -312,10 +321,7 @@ const CreditSaleList = () => {
   // console.log(pagi_g);
 
   const onPageChange = (event) => {
-    fetchItGet(
-      `detail-sale/pagi/by-date/${event}?sDate=${sDate}&eDate=${eDate}${purposeRoute}${fuelRoute}${nozzleRoute}`,
-      token
-    );
+    fetchItGet(`detail-sale/credit/only-pagi/${event}`, token);
   };
   const [down, setDown] = useState(null);
   const [d, setD] = useState(false);
@@ -331,15 +337,15 @@ const CreditSaleList = () => {
   const [opened, { open, close }] = useDisclosure(false);
 
   // console.log(tableRef.current != null, "ooooooooooooooooo");
-  console.log(data_g_3, "..............................");
+  // console.log(data_g_3, "..............................");
 
   const recordsPerPage = 50;
   const totalPages = Math.ceil(pagi_g / recordsPerPage);
 
   const { onDownload } = useDownloadExcel({
     currentTableRef: ref?.current,
-    filename: "Daily Sale Report",
-    sheet: "Daily Sale Report",
+    filename: "Credit Sale Report",
+    sheet: "Credit Sale Report",
   });
 
   function handleDownloadExcel() {
@@ -453,9 +459,9 @@ const CreditSaleList = () => {
 
   // console.log(ref?.current, "this is ref");
 
-  // console.log("==eeeeeeeeeeeeeeeeeeee==================================");
-  // console.log(data_g_2);
-  // console.log("====================================");
+  console.log("==eeeeeeeeeeeeeeeeeeee==================================");
+  console.log(data_g.reverse());
+  console.log("====================================");
 
   return (
     <>
@@ -547,13 +553,13 @@ const CreditSaleList = () => {
         {isData ? (
           <div className="mt-8">
             <FilterTable
-              tab={tab}
+              // tab={tab}
               tableRef={tableRef}
               header={tableHeader}
               rows={tableRow}
               totalSale={totalSale}
             />
-            <div className="mt-5 flex  px-4">
+            {/* <div className="mt-5 flex  px-4">
               <div className="text-[20px] text-gray-600">
                 Total Sale :{" "}
                 <span className="text-gray-700 font-semibold">
@@ -563,7 +569,7 @@ const CreditSaleList = () => {
                 </span>
                 MMK
               </div>
-            </div>
+            </div> */}
           </div>
         ) : (
           <div className="w-full h-[250px] gap-5 text-detail/50 flex items-center justify-center border-2 border-detail/40 mt-10 rounded-xl">

@@ -13,7 +13,6 @@ import { ImCross } from "react-icons/im";
 import TextInput from "../../components/inputbox/TextInput";
 import useLocalLogin from "../../api/hooks/UseLocalLogin.jsx";
 
-
 const Nav = ({ title }) => {
   const { loading, setLoading } = useContext(LoadContext);
   const [token, setToken] = useState("none");
@@ -30,7 +29,6 @@ const Nav = ({ title }) => {
   const [{ L_data, L_loading, L_error }, L_fetchData] = useLocalLogin();
 
   const navigate = useNavigate();
-
 
   const handleClick = async (token) => {
     console.log(token, "lllllllllllllllllllllllllllll");
@@ -49,29 +47,38 @@ const Nav = ({ title }) => {
     setLoading(false);
   };
 
-  useEffect(() => {
-    if(L_data.length > 0){
-      navigate('admin')
-    }
-  }, [L_data, L_loading]);
-  console.log(L_data, 'this is L_data')
-
-  const handleLoginSubmit = () => {
-    if (email == null || pswd == null) {
-      // setEError("email require !");
-      // setPError("password require !");
-    } else {
-      // setEError(null);
-      // setPError(null);
-      const user = new FormData();
-      user.append("email", email);
-      user.append("password", pswd);
-      L_fetchData("user/login", user).catch(function (error) {
-        console.log(error);
-        // setErrorCommon("Something was wrong");
+  const handleSubmit = async (token) => {
+    console.log(token, "lllllllllllllllllllllllllllll");
+    setLoading(true);
+    const user = new FormData();
+    user.append("email", email);
+    user.append("password", pswd);
+    const response = await localInstance
+      .post("user/login", user, {
+        headers: {
+          Authorization: "Bearer " + token,
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then((response) => {
+        console.log(typeof response.data.con);
+        if (response.data.con == true) {
+          navigate("admin");
+          close();
+        } else {
+          alert("Invalid email or password");
+        }
       });
-    }
+    console.log(response, "this is response object");
+    setLoading(false);
   };
+
+  // useEffect(() => {
+  //   if (L_data.length > 0) {
+  //     navigate("admin");
+  //   }
+  // }, [L_data, L_loading]);
+  // console.log(L_data, "this is L_data");
 
   const path = window.location.pathname;
 
@@ -103,7 +110,8 @@ const Nav = ({ title }) => {
         )}
         {path == "/" && (
           <div
-            onClick={open}
+            // onClick={open}
+            onClick={() => navigate("admin")}
             className="hover:scale-105 flex gap-2 items-center active:scale-95 duration-100 select-none font-mono text-lg font-semibold py-3 bg-detail text-secondary px-4 rounded-lg text"
           >
             <RiAdminFill className="text-2xl" />
@@ -112,11 +120,11 @@ const Nav = ({ title }) => {
         )}
       </div>
       <Modal
-          opened={opened}
-          radius={20}
-          size={700}
-          centered
-          withCloseButton={false}
+        opened={opened}
+        radius={20}
+        size={700}
+        centered
+        withCloseButton={false}
       >
         <div className="flex  border-b mb-4 border-gray-300 pb-3 items-end">
           <div className="flex justify-between items-center">
@@ -128,10 +136,10 @@ const Nav = ({ title }) => {
             {/*)}*/}
           </div>
           <div
-              onClick={() => {
-                close();
-              }}
-              className="w-12 h-12 rounded-full ms-auto  bg-danger text-secondary hover:border-2 border-2 border-danger hover:border-danger duration-100 hover:bg-transparent hover:text-danger flex items-center justify-center"
+            onClick={() => {
+              close();
+            }}
+            className="w-12 h-12 rounded-full ms-auto  bg-danger text-secondary hover:border-2 border-2 border-danger hover:border-danger duration-100 hover:bg-transparent hover:text-danger flex items-center justify-center"
           >
             <ImCross />
           </div>
@@ -141,34 +149,35 @@ const Nav = ({ title }) => {
             <div className="flex mb-4 justify-between">
               <div className="">
                 <TextInput
-                    style="!w-[300px]"
-                    label="Email "
-                    placeholder="Email "
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                  style="!w-[300px]"
+                  label="Email "
+                  placeholder="Email "
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
             </div>
             <div className="flex justify-between">
               <div className="">
                 <TextInput
-                    style="!w-[300px]"
-                    label="Password"
-                    placeholder="Password"
-                    value={pswd}
-                    onChange={(e) => setPswd(e.target.value)}
+                  style="!w-[300px]"
+                  label="Password"
+                  placeholder="Password"
+                  value={pswd}
+                  onChange={(e) => setPswd(e.target.value)}
                 />
               </div>
             </div>
           </div>
           <div className=" flex items-center justify-between">
             <button
-                onClick={()=> {
-                  navigate('admin')
-                  close()
-                }}
-                // onClick={handleLoginSubmit}
-                className={`w-[300px] ml-auto mt-2 text-secondary  items-center justify-center gap-3 flex  font-mono text-xl active:scale-95 duration-100 bg-detail h-[56px] rounded-md`}
+              onClick={() => {
+                // navigate("admin");
+                // close();
+                handleSubmit(token);
+              }}
+              // onClick={handleLoginSubmit}
+              className={`w-[300px] ml-auto mt-2 text-secondary  items-center justify-center gap-3 flex  font-mono text-xl active:scale-95 duration-100 bg-detail h-[56px] rounded-md`}
             >
               Submit
             </button>

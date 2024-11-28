@@ -155,8 +155,6 @@ const CustomerList = () => {
     "Customer ID",
     "Vehicle No.",
     "Phone No.",
-    "Address",
-    "NRC",
     "Vehicle Type",
     "Credit Type",
     "Debit Amount",
@@ -274,8 +272,8 @@ const CustomerList = () => {
       <Table.Td>{element.customer?.cusCardId}</Table.Td>
       <Table.Td>{element.customer?.cusCarNo}</Table.Td>
       <Table.Td>{element.customer?.cusPhone}</Table.Td>
-      <Table.Td>Yangon</Table.Td>
-      <Table.Td>12/yapatha(N)140923</Table.Td>
+      {/* <Table.Td>Yangon</Table.Td>
+      <Table.Td>12/yapatha(N)140923</Table.Td> */}
       <Table.Td>{element.customer?.cusVehicleType}</Table.Td>
       <Table.Td>{element.creditType}</Table.Td>
       <Table.Td>{element.customer?.cusDebAmount}</Table.Td>

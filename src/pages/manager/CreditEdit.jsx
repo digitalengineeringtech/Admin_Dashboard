@@ -97,7 +97,7 @@ const CreditEdit = () => {
   const cash = cashType != "" ? `&cashType=${cashType}` : "";
   // const route = `detail-sale/pagi/by-date/1?sDate=${sDate}&eDate=${eDate}${purposeRoute}${fuelRoute}${nozzleRoute}${casherRoute}${carNo}${cash}`;
   // const route2 = `detail-sale/without-pagi/by-date?sDate=${sDate}&eDate=${eDate}${purposeRoute}${fuelRoute}${nozzleRoute}${casherRoute}${carNo}${cash}`;
-  const creditRoute = `http://localhost:9000/api/customer-credit`;
+  const creditRoute = `/customer-credit`;
   const [{ data_g, loading_g, error_g, pagi_g }, fetchItGet] = UseGet();
   const [{ data_g_3, loading_g_3, error_g_3, pagi_g_3 }, fetchItGet3] =
     UseGet3();
@@ -150,6 +150,8 @@ const CreditEdit = () => {
     "Total Price",
   ];
 
+  const vocono = data_g_2?.filter((e) => e?.detailSale._id == id);
+
   const creditHeader = [
     "No.",
     "Customer Name",
@@ -189,74 +191,62 @@ const CreditEdit = () => {
       </Table.Td>
     </Table.Tr>
   );
-  const tableRow = data_g_2
-    // ?.filter((e) => e?.cashType == "Credit")
-    ?.filter((e) => e?.detailSale?._id == id)
-    ?.map((element, index) => (
-      <Table.Tr
-        key={element.no}
-        style={
-          element.asyncAlready == "2" && {
-            backgroundColor: "#B8E5FF30",
-          }
+  const tableRow = vocono?.map((element, index) => (
+    <Table.Tr
+      key={element.no}
+      style={
+        element.asyncAlready == "2" && {
+          backgroundColor: "#B8E5FF30",
         }
-        className=" duration-150 text-sm text-center"
-      >
-        <Table.Td>{index + 1}</Table.Td>
-        <Table.Td>
-          {element?.detailSale?.createAt.slice(0, 10)}{" "}
-          {element?.detailSale?.createAt.slice(11, 19)}
-        </Table.Td>
-        <Table.Td>{element?.detailSale.vehicleType}</Table.Td>
-        <Table.Td>{element?.detailSale.carNo}</Table.Td>
-        <Table.Td>{element?.detailSale.nozzleNo}</Table.Td>
-        <Table.Td>
-          {" "}
-          {element?.detailSale?.fuelType == "001-Octane Ron(92)"
-            ? "92 RON"
-            : element?.detailSale?.fuelType == "002-Octane Ron(95)"
-            ? "95 RON"
-            : element?.detailSale?.fuelType == "004-Diesel"
-            ? "HSD"
-            : element?.detailSale?.fuelType == "005-Premium Diesel"
-            ? "PHSD"
-            : ""}
-        </Table.Td>
-        <Table.Td>
-          {(parseFloat(element?.detailSale?.saleLiter) / 4.16)?.toFixed(3)}
-        </Table.Td>
-        <Table.Td>{element?.detailSale.saleLiter}</Table.Td>
-        <Table.Td>
-          {element?.detailSale.salePrice?.toFixed(2).toLocaleString(undefined, {
-            maximumFractionDigits: 3,
-          }) || "0.00"}
-        </Table.Td>
-        <Table.Td>
-          {element?.detailSale?.totalPrice?.toLocaleString(undefined, {
-            maximumFractionDigits: 3,
-          })}
-        </Table.Td>
-      </Table.Tr>
-    ));
+      }
+      className=" duration-150 text-sm text-center"
+    >
+      <Table.Td>{index + 1}</Table.Td>
+      <Table.Td>
+        {element?.detailSale?.createAt.slice(0, 10)}{" "}
+        {element?.detailSale?.createAt.slice(11, 19)}
+      </Table.Td>
+      <Table.Td>{element?.detailSale.vehicleType}</Table.Td>
+      <Table.Td>{element?.detailSale.carNo}</Table.Td>
+      <Table.Td>{element?.detailSale.nozzleNo}</Table.Td>
+      <Table.Td>
+        {" "}
+        {element?.detailSale?.fuelType == "001-Octane Ron(92)"
+          ? "92 RON"
+          : element?.detailSale?.fuelType == "002-Octane Ron(95)"
+          ? "95 RON"
+          : element?.detailSale?.fuelType == "004-Diesel"
+          ? "HSD"
+          : element?.detailSale?.fuelType == "005-Premium Diesel"
+          ? "PHSD"
+          : ""}
+      </Table.Td>
+      <Table.Td>
+        {(parseFloat(element?.detailSale?.saleLiter) / 4.16)?.toFixed(3)}
+      </Table.Td>
+      <Table.Td>{element?.detailSale.saleLiter}</Table.Td>
+      <Table.Td>
+        {element?.detailSale.salePrice?.toFixed(2).toLocaleString(undefined, {
+          maximumFractionDigits: 3,
+        }) || "0.00"}
+      </Table.Td>
+      <Table.Td>
+        {element?.detailSale?.totalPrice?.toLocaleString(undefined, {
+          maximumFractionDigits: 3,
+        })}
+      </Table.Td>
+    </Table.Tr>
+  ));
 
   // const nameDrop = data_g_3?.map((e, index)=>e.cusName)
 
-  console.log(
-    data_g_3.filter((e) => e.customer._id == "67172dce7be67777387f3e03"),
-    data_g.cus_id
-  );
-
-  const vocono = data_g
-    ?.filter((e) => e?.cashType == "Credit")
-    ?.filter((e) => e?._id == id);
-
-  const customer = data_g_3?.filter(
-    (e) => e.customer._id == vocono[0]?.customer
-  );
-  // console.log(customer, "this is customer");
+  // const customer = data_g_2?.filter((e) => e?.detailSale?._id == id)[0]
+  //   ?.customerCredit?.customer;
+  const customer = [vocono[0]?.customerCredit];
+  console.log([vocono[0]?.customerCredit], "this is vocono", data_g_3);
 
   const creditRow = data_g_3
-    ?.filter((e) => e.customer._id == vocono[0]?.customer)
+    ?.filter((e) => e.customer._id == vocono[0]?.customerCredit?._id)
     ?.map((element, index) => (
       <Table.Tr
         key={index}
@@ -288,12 +278,12 @@ const CreditEdit = () => {
       </Table.Tr>
     ));
 
-  console.log(
-    data_g_3,
-    // data_g_3?.filter((e) => e?.customer?._id == data_g[0]?.cus_id),
-    vocono,
-    "........................"
-  );
+  // console.log(
+  //   data_g_2,
+  //   // data_g_3?.filter((e) => e?.customer?._id == data_g[0]?.cus_id),
+  //   vocono,
+  //   "........................"
+  // );
 
   // console.log(
   //   "start",
@@ -446,9 +436,17 @@ const CreditEdit = () => {
     }
   };
 
-  console.log("==eeeeeeeeeeeeeeeeeeee==================================");
-  console.log(data_g_2);
-  console.log("====================================");
+  // console.log("==eeeeeeeeeeeeeeeeeeee==================================");
+  // console.log(data_g_2[0]?.detailSale?._id, id);
+  // console.log("====================================");
+
+  // console.log(
+  //   // data_g_3.filter((e) => e.customer._id == "67172dce7be67777387f3e03"),
+  //   data_g_3,
+  //   data_g_2?.customerCredit?.customer,
+  //   data_g_2?.detailSale?._id,
+  //   "this is customer "
+  // );
 
   const navigate = useNavigate();
 
@@ -458,7 +456,8 @@ const CreditEdit = () => {
 
   return (
     <>
-      {cus & (data_g_3.length > 0) & (data_g.length > 0) ? (
+      {data_g_2 ? (
+        // {cus & (data_g_3.length > 0) & (data_g.length > 0) ? (
         <div className="mt-5 mb-2">
           <div className="flex justify-between px-10">
             <div className="flex w-[11%] flex-col justify-end ms-3 gap-2 ">
@@ -509,11 +508,7 @@ const CreditEdit = () => {
                       Vocono
                     </Table.Td>
                     <Table.Td className="text-lg text-gray-600">
-                      {
-                        data_g
-                          ?.filter((e) => e?.cashType == "Credit")
-                          ?.filter((e) => e?._id == id)[0]?.vocono
-                      }
+                      {vocono[0]?.vocono}
                     </Table.Td>
                   </Table.Tr>
                   <Table.Tr

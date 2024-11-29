@@ -5,6 +5,7 @@ import { Choose } from "./Choose";
 import SelectDrop from "./SelectDrop";
 import SelectDrop2 from "../SelectDrop";
 import SearchButton from "./SearchButton";
+import SelectDrop3 from "./SelectDrop2.jsx";
 
 const ReadyState = ({
   //   handleReadyPermit,
@@ -18,6 +19,7 @@ const ReadyState = ({
   obj,
   setPremitFormInfo,
   presetButtonDisable,
+                      printFormInfo
 }) => {
   const customers = [
     {
@@ -59,10 +61,14 @@ const ReadyState = ({
     { label: "Station Use", value: 30 },
   ];
 
+  const [cashType, setCashType] = useState(printFormInfo?.cashType);
+
+
   const [readyStateItem, setReadyStateItem] = useState("Kyats");
   const [customer, setCustomer] = useState(customers[0]);
   const [category, setCategory] = useState({ label: "Cycle", value: 1 });
   const [carNo, setCarNo] = useState("");
+  const [cusId, setCusId] = useState("");
   const [paymentNo, setPyamentNo] = useState("Cash");
   const [numberValue, setNumberValue] = useState("");
   const [lNeed, setLNeed] = useState(false);
@@ -70,7 +76,8 @@ const ReadyState = ({
   const handleCarNo = (text) => {
     setCarNo(text);
   };
-  console.log(readyStateItem, "ready state");
+
+  console.log(readyStateItem,cashType, "ready state");
   useEffect(() => {
     if (readyStateItem == "Liters") {
       setLNeed(true);
@@ -107,9 +114,10 @@ const ReadyState = ({
         cou_id: customer.cou_id,
         vehicleType: category.label,
         carNo: carNo,
-        cashType: paymentNo,
+        cashType: cashType,
         type: readyStateItem,
         value: numberValue,
+        cusCardId: cusId
       });
       // } else {
       //     setLNeed(true);
@@ -139,15 +147,18 @@ const ReadyState = ({
         cou_id: customer.cou_id,
         vehicleType: category.label,
         carNo: carNo,
-        cashType: paymentNo,
+        cashType: cashType,
         type: readyStateItem,
         value: numberValue,
+        cusCardId: cusId
       });
       console.log("liter work");
     }
 
     console.log("work");
-  }, [readyStateItem, customer, category, carNo, paymentNo, numberValue]);
+  }, [readyStateItem, customer, category,cusId, carNo, paymentNo, numberValue]);
+
+  console.log(cusId, 'thisiisisi')
 
   return (
     <div>
@@ -173,32 +184,37 @@ const ReadyState = ({
           />
         </div>
         <div className="col-span-4">
-          <SelectDrop
-            header="Customer Name"
-            customer
-            selectedItem={customer}
-            onSelectedItem={(customer) => setCustomer(customer)}
-            items={customers}
-            label="Customer Name"
+          {/*<SelectDrop*/}
+          {/*  header="Customer Name"*/}
+          {/*  customer*/}
+          {/*  selectedItem={customer}*/}
+          {/*  onSelectedItem={(customer) => setCustomer(customer)}*/}
+          {/*  items={customers}*/}
+          {/*  label="Customer Name"*/}
+          {/*/>*/}
+          <SelectDrop3
+              header="Cash Type"
+              selectedItem={cashType}
+              onSelectedItem={(item) => setCashType(item.method)}
+              label="Cash Type"
           />
         </div>
         <div className="col-span-4">
-          <SelectDrop
-            customerId
-            header="Customer Id"
-            selectedItem={customer}
-            onSelectedItem={(customer) => setCustomer(customer)}
-            items={customers}
-            label="Customer Name"
+          <TextInput
+              value={cusId}
+              selectedItem={readyStateItem}
+              label="Customer Id"
+              onChange={(value) => setCusId(value.target.value)}
+              placeholder="Customer Id"
           />
         </div>
         <div className="col-span-4">
           <SelectDrop2
-            placeholder="All"
-            label="Purpose of Use"
-            data={categories}
-            value={category}
-            setValue={setCategory}
+              placeholder="All"
+              label="Purpose of Use"
+              data={categories}
+              value={category}
+              setValue={setCategory}
           />
         </div>
         <div className="col-span-4 mt-auto">

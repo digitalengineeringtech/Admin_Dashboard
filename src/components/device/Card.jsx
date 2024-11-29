@@ -196,6 +196,7 @@ const Card = ({
   //   };
   // }, []);
 
+
   const [myInfo, setMyInfo] = useState({
     objectId: null,
     saleLiter: 0,
@@ -211,7 +212,7 @@ const Card = ({
   };
   // console.log(finalData, "and final is", final, "and all done is ", allDone);
 
-  // console.log(printFormInfo, "......................");
+  console.log(premitFormInfo, "......................");
   // console.log(token);
 
   ///preset
@@ -233,6 +234,7 @@ const Card = ({
           cashType: premitFormInfo.cashType,
           salePrice: obj.daily_price,
           device: "website",
+          cusCardId: premitFormInfo.cusCardId
         },
         {
           headers: {
@@ -276,6 +278,7 @@ const Card = ({
           customerName: premitFormInfo.couName,
           customerId: premitFormInfo.cou_id,
           customerObjId: premitFormInfo.couObjId,
+          cusCardId: premitFormInfo.cusCardId
         });
         setRealTimeEdit({
           object_Id: permitObject.data.result._id,
@@ -284,6 +287,7 @@ const Card = ({
           purpose_of_use: permitObject.data.result.vehicleType,
           customer_name: premitFormInfo.couName,
           customer_id: premitFormInfo.cou_id,
+          cusCardId: premitFormInfo.cusCardId
         });
         setIsPermit(true);
       }
@@ -296,6 +300,9 @@ const Card = ({
 
     if (premitFormInfo.type === "Kyats") {
       setLoading(true);
+      console.log( premitFormInfo,'-------------------')
+
+      console.log('hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh')
       const permitObject = await localInstance.post(
         `detail-sale/preset?depNo=${obj.dep_no}&nozzleNo=${obj.nozzle_no}`,
         {
@@ -304,9 +311,12 @@ const Card = ({
           kyat: premitFormInfo.value,
           carNo: !premitFormInfo.carNo == "" ? premitFormInfo.carNo : "-",
           vehicleType: premitFormInfo.vehicleType,
-          cashType: premitFormInfo.cashType,
+          cashType: premitFormInfo.cashType, //Credit
+          // cashType: 'Credit',
           salePrice: obj.daily_price,
           device: "website",
+          cusCardId: premitFormInfo.cusCardId
+          // cusCardId: "sdfg3"
         },
         {
           headers: {
@@ -347,6 +357,7 @@ const Card = ({
             customerName: premitFormInfo.couName,
             customerId: premitFormInfo.cou_id,
             customerObjId: premitFormInfo.couObjId,
+            cusCardId: premitFormInfo.cusCardId
           });
           setRealTimeEdit({
             object_Id: permitObject.data.result._id,
@@ -355,6 +366,7 @@ const Card = ({
             purpose_of_use: permitObject.data.result.vehicleType,
             customer_name: premitFormInfo.couName,
             customer_id: premitFormInfo.cou_id,
+            cusCardId: premitFormInfo.cusCardId
           });
           setIsPermit(true);
         }
@@ -408,6 +420,7 @@ const Card = ({
           cashType: premitFormInfo.cashType,
           couObjId: premitFormInfo.couObjId,
           device: "website",
+          cusCardId: premitFormInfo.cusCardId
         },
         {
           headers: {
@@ -462,6 +475,7 @@ const Card = ({
           customerName: premitFormInfo.couName,
           customerId: premitFormInfo.cou_id,
           customerObjId: premitFormInfo.couObjId,
+          cusCardId: premitFormInfo.cusCardId
         });
 
         setRealTimeEdit({
@@ -471,6 +485,7 @@ const Card = ({
           purpose_of_use: permitObject.data.result.vehicleType,
           customer_name: premitFormInfo.couName,
           customer_id: premitFormInfo.cou_id,
+          cusCardId: premitFormInfo.cusCardId
         });
         setIsPermit(true);
       }
@@ -841,6 +856,7 @@ const Card = ({
         {readyState ? (
           <ReadyState
             obj={obj}
+            printFormInfo={printFormInfo}
             setDisableButton={setDisableButton}
             disable={disableButton}
             setPremitFormInfo={setPremitFormInfo}

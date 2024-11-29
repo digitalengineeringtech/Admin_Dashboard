@@ -11,8 +11,12 @@ const data = [
   },
   {
     name: "95 RON",
-    value: "002-Octane ron(95)",
-    label:"95 RON"
+// <<<<<<< HPH
+//     value: "002-Octane ron(95)",
+//     label:"95 RON"
+// =======
+    value: "002-Octane Ron(95)",
+// >>>>>>> sixKendra
   },
   {
     name: "HSD",

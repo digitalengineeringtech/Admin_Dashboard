@@ -3,6 +3,7 @@ import {
   RouterProvider,
   Navigate,
   createBrowserRouter,
+  useNavigate,
 } from "react-router-dom";
 import Layout from "./layout/Layout";
 import DailyList from "./pages/manager/DailyList";
@@ -33,6 +34,14 @@ import TotalDif from "./pages/manager/TotalDif";
 import HO from "./pages/manager/HO";
 import BalanceStatement from "./pages/installer/BalanceStatement";
 import Tank from "./pages/installer/Tank";
+import CreditSale from "./pages/manager/CreditSale";
+import CustomerList from "./pages/manager/CustomerList";
+import TestCompo from "./pages/manager/Customers";
+import CustomerEdit from "./pages/manager/CustomerEdit";
+import Customers from "./pages/manager/Customers";
+import CreditSaleList from "./pages/manager/CreditSaleList";
+import CreditEdit from "./pages/manager/CreditEdit";
+import Admin from "./pages/Admin";
 
 const App = () => {
   const [isInstalling, setIsInstalling] = useState(false);
@@ -70,6 +79,7 @@ const App = () => {
   //     setIsInstalling(JSON.parse(localStorage.getItem("installed")));
   //   }
   // }, []);
+  // const navigate = useNavigate();
 
   const managerRouter = createBrowserRouter([
     {
@@ -122,9 +132,41 @@ const App = () => {
           path: "/tank_data",
           element: <TankData />,
         },
+        // {
+        //   path: "/customer_list",
+        //   element: <CustomerList />,
+        // },
+        {
+          path: "/customer_list",
+          element: <Customers />,
+          children: [
+            {
+              index: true,
+              element: <CustomerList />,
+            },
+            {
+              path: "/customer_list/edit/:id",
+              element: <CustomerEdit />,
+            },
+          ],
+        },
         {
           path: "/price_chg",
           element: <PriceChg />,
+        },
+        {
+          path: "/credit_sale",
+          element: <CreditSale />,
+          children: [
+            {
+              index: true,
+              element: <CreditSaleList />,
+            },
+            {
+              path: "/credit_sale/edit/:id",
+              element: <CreditEdit />,
+            },
+          ],
         },
         {
           path: "/total_dif",
@@ -138,6 +180,10 @@ const App = () => {
           path: "/sale_ho",
           element: <HO />,
         },
+        {
+          path: "/admin",
+          element: <Admin />,
+        },
       ],
     },
   ]);
@@ -149,7 +195,7 @@ const App = () => {
     },
     {
       path: "/",
-      element: auth ? <Layout /> : <Navigate to="/login" />,
+      element: auth ? <Layout /> : <navigate to="/login" />,
       children: [
         // {
         //   index: true,
@@ -197,6 +243,14 @@ const App = () => {
       ],
     },
   ]);
+
+  // console.log(window.location.pathname, "this is path");
+
+  // useEffect(() => {
+  //   if (window.location.pathname == "/admin") {
+  //     localStorage.getItem("admin") != true && Navigate("/");
+  //   }
+  // });
 
   // console.log("hellolllllllllllllllllllllllllllllllll", reFresh);
   return (

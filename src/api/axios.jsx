@@ -3,7 +3,7 @@ import axios from "axios";
 export const localInstance = axios.create({
   // baseURL: "http://192.168.1.146:9000/api",
   baseURL: "http://192.168.0.100:9000/api",
-  // baseURL: "http://192.168.1.145:9000/api",
+  // baseURL: "http://192.168.1.187:9000/api",
   // baseURL: "http://127.0.0.1:9000/api",
 });
 

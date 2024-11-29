@@ -30,7 +30,7 @@ const SelectDrop2 = ({
     },
     {
       id: 3,
-      method: "Credit Card",
+      method: "Credit",
       iconName: "credit-card",
     },
     {

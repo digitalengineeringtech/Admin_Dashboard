@@ -73,10 +73,13 @@ const DailyList = () => {
     const yesterday = new Date(sDate);
     yesterday.setDate(sDate.getDate() + 1);
     const formattedYesterday = yesterday.toISOString().split("T")[0];
+    console.log(formattedYesterday, "This is formattedYesterday")
     fetchItGet(`detail-sale/by-date/?sDate=${sDate}&eDate=${eDate}`, token);
     fetchItGet2("/device", token);
     fetchItGet3(`/balance-statement/?reqDate=${formattedYesterday}`, token);
   };
+
+  console.log(data_g, data_g_2, data_g_3, "This is data")
 
   useEffect(() => {
     // setStock(data_g_3); normal

@@ -184,6 +184,8 @@ const Report = () => {
     </tr>
   ));
 
+  console.log(notCredit, "This is notCredit")
+
   const dailySale = notCredit?.map((element, index) => (
     <Table.Tr key={index} className=" duration-150 text-center">
       <Table.Td>{index + 1}</Table.Td>

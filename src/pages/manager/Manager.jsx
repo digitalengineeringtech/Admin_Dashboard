@@ -45,9 +45,9 @@ const Manager = () => {
   const [dieselLotalLiter, SetDieselLotalLiter] = useState(0);
   const [phsdLotalLiter, SetphshLotalLiter] = useState(0);
 
-  console.log("............");
-  console.log(totalCalcu, data_g_4);
-  console.log("............");
+  //console.log("............");
+  //console.log(totalCalcu, data_g_4);
+  //console.log("............");
 
   const detailRow = totalCalcu.map((element, index) => {
     return (
@@ -99,7 +99,7 @@ const Manager = () => {
     );
   });
 
-  console.log(totalCalcu, "this is total", detailRow);
+  //console.log(totalCalcu, "this is total", detailRow);
   const detailHeader = [
     "Fuel Type",
     "Price Per Liter",
@@ -235,11 +235,11 @@ const Manager = () => {
   // eslint-disable-next-line no-unused-vars
   const [startDate, setStartDate] = useState(start);
 
-  console.log(nozzle, data_g_2, "ggggg", literByNoz);
+  //console.log(nozzle, data_g_2, "ggggg", literByNoz);
 
   const dataArr = data_g_3[
     data_g_3.length == 0 ? data_g_3.length : data_g_3.length - 1
-  ]?.data.map((e) => {
+  ]?.data?.map((e) => {
     return {
       fuel: e.oilType,
       tank: e.id,
@@ -259,7 +259,7 @@ const Manager = () => {
       : "";
   });
 
-  console.log(tankLabel, "this is tank label");
+  //console.log(tankLabel, "this is tank label");
 
   const [con, setCon] = useState();
   useEffect(() => {
@@ -271,7 +271,7 @@ const Manager = () => {
       new Chart(document.getElementById("acquisitions"), {
         type: "bar",
         data: {
-          labels: data.map((row) => {
+          labels: data?.map((row) => {
             return row?.fuel == ("Petrol 92" || "92 0ctane")
               ? "92 RON" + " " + "( " + row.tank + " )"
               : row?.fuel == "95 Octane"
@@ -285,7 +285,7 @@ const Manager = () => {
           datasets: [
             {
               label: "Acquisitions by tank",
-              data: data.map((row) => row.count),
+              data: data?.map((row) => row.count),
               backgroundColor: barColors,
             },
           ],
@@ -313,7 +313,7 @@ const Manager = () => {
       new Chart(document.getElementById("acquisitions1"), {
         type: "bar",
         data: {
-          labels: data.map((row) => {
+          labels: data?.map((row) => {
             return row?.fuel == ("Petrol 92" || "92 0ctane")
               ? "92 RON" + " " + "( " + row.tank + " )"
               : row?.fuel == "95 Octane"
@@ -327,7 +327,7 @@ const Manager = () => {
           datasets: [
             {
               label: "Acquisitions by tank",
-              data: data.map((row) => row.count),
+              data: data?.map((row) => row.count),
               backgroundColor: barColors,
             },
           ],
@@ -346,10 +346,10 @@ const Manager = () => {
     })();
   });
 
-  console.log(data_g_3, "........................");
+  //console.log(data_g_3, "........................");
 
   useEffect(() => {
-    fuelData.length > 4 ? setCon(true) : setCon(false);
+    fuelData?.length > 4 ? setCon(true) : setCon(false);
     fetchItGet(
       `detail-sale/by-date/?sDate=${startDate}&eDate=${endDate}`,
       token
@@ -360,7 +360,7 @@ const Manager = () => {
       token
     );
 
-    // console.log("wkwk");
+    // //console.log("wkwk");
   }, [startDate, endDate, token]);
 
   useEffect(() => {
@@ -385,26 +385,26 @@ const Manager = () => {
           totalLiter: totalLiter,
         };
       });
-      console.log("gggggggggggggggggggggg");
+      //console.log("gggggggggggggggggggggg");
 
       setLiterByNoz(updatedLiterByNoz);
     }
   }, [nozzle, data_g]);
 
-  // console.log("==ggggg==================================");
-  // console.log(
+  // //console.log("==ggggg==================================");
+  // //console.log(
   //   data_g_3,
   //   start.toLocaleDateString(`fr-CA`),
   //   data_g_3[data_g_3.length == 0 ? data_g_3.length : data_g_3.length - 1]
   //     ?.data,
   //   dataArr
   // );
-  // console.log("==ggggg==================================");
+  // //console.log("==ggggg==================================");
 
-  // console.log("====llllll================================");
-  // console.log(startDate, endDate);
-  // console.log(data_g, data_g_2);
-  // console.log("====llllll================================");
+  // //console.log("====llllll================================");
+  // //console.log(startDate, endDate);
+  // //console.log(data_g, data_g_2);
+  // //console.log("====llllll================================");
 
   const [size, setSize] = useState();
 
@@ -413,10 +413,10 @@ const Manager = () => {
       setSize(true);
     }
   }, [window.innerWidth]);
-  // console.log(size);
+  // //console.log(size);
 
   useEffect(() => {
-    const fuelCalcu = fuelData.map((e, index) => {
+    const fuelCalcu = fuelData?.map((e, index) => {
       const calcuLiter = data_g
         .filter((fuel) => fuel.fuelType == e.value)
         .map((element) => element.saleLiter)
@@ -457,7 +457,7 @@ const Manager = () => {
     </Table.Tr>
   );
 
-  console.log(singleHeader, "this is single row", head);
+  //console.log(singleHeader, "this is single row", head);
 
   const detailRow1 = data_g_2?.map((element) => {
     const matchingEntry = literByNoz.find(
@@ -465,9 +465,9 @@ const Manager = () => {
     );
     const totalLiter = matchingEntry ? matchingEntry.totalLiter : 0;
 
-    // console.log("............................");
-    // console.log(totalLiter, literByNoz, matchingEntry);
-    // console.log("............................");
+    // //console.log("............................");
+    // //console.log(totalLiter, literByNoz, matchingEntry);
+    // //console.log("............................");
     return (
       <Table.Tr key={element._id} className=" duration-150 text-sm text-center">
         <Table.Td>{element.nozzle_no || "-"}</Table.Td>
@@ -497,7 +497,7 @@ const Manager = () => {
     );
   });
 
-  console.log(data_g_4, "this is data_g_4", startDate, endDate);
+  //console.log(data_g_4, "this is data_g_4", startDate, endDate);
 
   return (
     <div className="w-full pt-28">

@@ -33,26 +33,31 @@ const ConAlert = (title, success, fun) => {
       if (result.isConfirmed) {
         // const res = saleClose(token);
 
-        // success
-        //   ? Swal.fire({
-        //       title: "Created Successfully !",
-        //       icon: "success",
-        //       buttonsStyling: false,
-        //       iconColor: "#33b0f9",
-        //       color: "#33b0f9",
-        //       width: "25em",
-        //       background: "#ffffff",
-        //       customClass: {
-        //         title: "text-white",
-        //         confirmButton:
-        //           "bg-detail text-secondary rounded-lg border-2 border-detail hover:text-[#33b0f9] duration-150 hover:bg-secondary w-[300px] font-mono py-2",
-        //       },
-        //     })
-        //   : ErrorAlert("Failed to create !");
-        // fun();
-        console.log("kkkkk");
-        // console.log(fun);
+        const checkLogout = title.includes("Logout");
+        // console.log(checkLogout);
+
+        if (!checkLogout) {
+          success
+            ? Swal.fire({
+                title: "Created Successfully !",
+                icon: "success",
+                buttonsStyling: false,
+                iconColor: "#33b0f9",
+                color: "#33b0f9",
+                width: "25em",
+                background: "#ffffff",
+                customClass: {
+                  title: "text-white",
+                  confirmButton:
+                    "bg-detail text-secondary rounded-lg border-2 border-detail hover:text-[#33b0f9] duration-150 hover:bg-secondary w-[300px] font-mono py-2",
+                },
+              })
+            : ErrorAlert("Failed to create !");
+        }
         fun();
+        // // fun();
+        // console.log("kkkkk");
+        // // console.log(fun);
         console.log("kkkkk");
         // refetch();
       } else if (result.isDenied) {

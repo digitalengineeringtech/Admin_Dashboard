@@ -30,6 +30,9 @@ import UseGet2 from "../../api/hooks/UseGet2";
 import TankDrop from "../../components/TankDrop";
 import UseCloudPost from "../../api/hooks/UseCloudPost";
 import UsePatch from "../../api/hooks/UsePatch";
+import Button from "../../components/footer/Button";
+import UseGet4 from "../../api/hooks/UseGet4";
+import UsePut from "../../api/hooks/UsePut";
 
 const FuelIn = () => {
   const [isData, setIsData] = useState(true);
@@ -43,14 +46,19 @@ const FuelIn = () => {
   const [date, setDate] = useState(null);
   const [receive, setReceive] = useState();
   const navigate = useNavigate();
+  const [{ data_g_4, loading_g_4, error_g_4, pagi_g_4 }, fetchItGet4] =
+    UseGet4();
   const [{ data_g_3, loading_g_3, error_g_3, pagi_g_3 }, fetchItGet3] =
     UseGet3();
   const [{ data_g_2, loading_g_2, error_g_2 }, fetchItGet2] = UseGet2();
   const [{ data, loading, error }, fetchIt] = UsePost();
+  const [{ data_put, loading_put, error_put }, putIt] = UsePut();
   const [{ data_c_post, loading_c_post, error_c_post }, postToCloud] =
     UseCloudPost();
   const [driverName, setDriverName] = useState();
   const [number, setNumber] = useState();
+  const [terminalName, setTerminalName] = useState();
+  const [sendTerminal, setSendTerminal] = useState();
   const tableRef = useRef(null);
   let start = new Date();
   start.setHours(0);
@@ -61,6 +69,7 @@ const FuelIn = () => {
   const [{ data_pch, loading_pch, error_pch }, patchIt] = UsePatch();
   const [startBtn, setstartBtn] = useState(false);
   const [atgStatus, setAtgStatus] = useState();
+  const [findOpening, setFindOpening] = useState();
 
   const { loadToken } = useTokenStorage();
   useEffect(() => {
@@ -74,6 +83,7 @@ const FuelIn = () => {
   }, []);
 
   console.log(atgStatus, ".. this is up to cloud ....................");
+  console.log(data, "this is usePost Data");
 
   // const tank = data_g_2.map((e) => e.tankNo);
 
@@ -95,7 +105,7 @@ const FuelIn = () => {
   // const route = `/balance-statement/?reqDate=${formattedDate}`;
   const [{ data_g, loading_g, error_g, pagi_g }, fetchItGet] = UseGet();
 
-  console.log(data_g_3);
+  console.log(data_g_3, "333333333333333333333333333333333");
 
   const [con, setCon] = useState(false);
 
@@ -107,20 +117,72 @@ const FuelIn = () => {
     fetchItGet(route, token);
   }, [con, data]);
 
+  // const tableHeader = [
+  //   "Receive Data",
+  //   "Fuel Type",
+  //   "Fuel in Code",
+  //   "Driver",
+  //   "Bowser No",
+  //   // "Tank",
+  //   // "Tank Capacity",
+  //   "Receive Volume",
+  //   "Balance",
+  // ];
   const tableHeader = [
-    "Receive Data",
     "Fuel Type",
     "Fuel in Code",
-    "Driver",
-    "Bowser No",
-    // "Tank",
-    // "Tank Capacity",
+    "Opening",
+    "Terminal Balance",
     "Receive Volume",
     "Balance",
+    "Driver",
+    "Bowser No",
+    "Terminal",
   ];
+  // const tableRow = stock?.map((element) => (
+  //   <Table.Tr key={element.no} className=" duration-150 text-sm text-center">
+  //     <Table.Td>{element.receive_date}</Table.Td>
+  //     <Table.Td>
+  //       {" "}
+  //       {element?.fuel_type == "001-Octane Ron(92)"
+  //         ? "92 RON"
+  //         : element?.fuel_type == "002-Octane Ron(95)"
+  //         ? "95 RON"
+  //         : element?.fuel_type == "004-Diesel"
+  //         ? "HSD"
+  //         : element?.fuel_type == "005-Premium Diesel"
+  //         ? "PHSD"
+  //         : ""}
+  //     </Table.Td>
+  //     <Table.Td>{element.fuel_in_code}</Table.Td>
+  //     <Table.Td>{element.driver}</Table.Td>
+  //     <Table.Td>{element.bowser}</Table.Td>
+  //     <Table.Td>{element.receive_balance}</Table.Td>
+  //     <Table.Td>{element.tank_balance?.toFixed(3)}</Table.Td>
+  //     {/* <Table.Td>{element.balance}</Table.Td> */}
+  //     {/* <Table.Td>{element.saleLiter}</Table.Td> */}
+  //     {/* <Table.Td>
+  //       {element.salePrice.toLocaleString(undefined, {
+  //         maximumFractionDigits: 3,
+  //       })}
+  //     </Table.Td>
+  //     <Table.Td>
+  //       {element.totalPrice.toLocaleString(undefined, {
+  //         maximumFractionDigits: 3,
+  //       })}
+  //     </Table.Td>
+  //     <Table.Td>{element.totalizer_liter.toFixed(3)}</Table.Td>
+  //     <Table.Td>
+  //       {element.totalizer_amount.toLocaleString(undefined, {
+  //         maximumFractionDigits: 3,
+  //       })}
+  //     </Table.Td> */}
+  //   </Table.Tr>
+  // ));
+  console.log(stock, "This is Stock");
   const tableRow = stock?.map((element) => (
     <Table.Tr key={element.no} className=" duration-150 text-sm text-center">
-      <Table.Td>{element.receive_date}</Table.Td>
+      {/* <Table.Td>{element.receive_date}</Table.Td> */}
       <Table.Td>
         {" "}
         {element?.fuel_type == "001-Octane Ron(92)"
@@ -134,10 +196,15 @@ const FuelIn = () => {
           : ""}
       </Table.Td>
       <Table.Td>{element.fuel_in_code}</Table.Td>
+      <Table.Td>{element.opening || "-"}</Table.Td>
+      <Table.Td>{element.send_balance || "-"}</Table.Td>
+      <Table.Td>{element.receive_balance}</Table.Td>
+      <Table.Td>{element.tank_balance}</Table.Td>
       <Table.Td>{element.driver}</Table.Td>
       <Table.Td>{element.bowser}</Table.Td>
-      <Table.Td>{element.receive_balance}</Table.Td>
-      <Table.Td>{element.tank_balance?.toFixed(3)}</Table.Td>
+      <Table.Td>{element.terminal || "-"}</Table.Td>
+      {/* <Table.Td>{element.receive_balance}</Table.Td>
+      <Table.Td>{element.tank_balance?.toFixed(3)}</Table.Td> */}
       {/* <Table.Td>{element.balance}</Table.Td> */}
       {/* <Table.Td>{element.saleLiter}</Table.Td> */}
       {/* <Table.Td>
@@ -160,7 +227,7 @@ const FuelIn = () => {
   ));
 
   const tableHeaderAtg = [
-    "Receive Data",
+    "Receive Date",
     "Fuel Type",
     "Driver",
     "Bowser No",
@@ -215,23 +282,53 @@ const FuelIn = () => {
   //   "...................................................................................................."
   // );
 
+  // useEffect(() => {
+  //   console.log("wkk");
+  //   fetchItGet4(`/fuelin/check/fuel-balance`, token);
+  // }, [con]);
+  // console.log(con, data);
+
   useEffect(() => {
     fetchItGet3(`/fuelIn/pagi/1`, token);
     fetchItGet2(`/fuel-balance/by-one-date?sDate=${sDate}`, token);
     // fetchItGet2(`/fuel-balance/by-date?sDate=${initial}&eDate=${sDate}`, token);
   }, [con, data]);
 
+  console.log(data_g_2, "This is fuel Balance");
+
+  useEffect(() => {
+    const finder =
+      fuelType?.fuelType == "001-Octane Ron(92)"
+        ? data_g_2.find((i) => i?.fuelType == "001-Octane Ron(92)")
+        : fuelType?.fuelType == "002-Octane Ron(95)"
+        ? data_g_2.find((i) => i?.fuelType == "002-Octane Ron(95)")
+        : fuelType?.fuelType == "004-Diesel"
+        ? data_g_2.find((i) => i?.fuelType == "004-Diesel")
+        : fuelType?.fuelType == "005-Premium Diesel"
+        ? data_g_2.find((i) => i?.fuelType == "005-Premium Diesel")
+        : "No Fuel Type"
+
+    setFindOpening(finder);
+  }, [fuelType, data_g_2]);
+
+  console.log(findOpening?.opening, "This is finding opening");
+  // console.log(tank, "This is tank data")
+
   const handleClick = () => {
-    var utcTimeOne = new Date();
+    let utcTimeOne = new Date();
     utcTimeOne = utcTimeOne.toLocaleDateString("fr-CA");
+    // console.log(utcTimeOne);
     // const formattedDate2 = sDate.toISOString().split("T")[0];
 
     const dataObj = {
-      stationDetailId: fuelType.stationId,
+      // stationDetailId: fuelType.stationId,
       driver: driverName,
       bowser: number,
-      tankNo: tank.tankNo,
+      opening: findOpening?.opening?.toString(),
       fuel_type: fuelType.fuelType,
+      tankNo: tank?.tankNo?.toString(),
+      terminal: terminalName,
+      send_balance: sendTerminal,
       receive_balance: receive,
       receive_date: utcTimeOne,
       asyncAlready: "1",
@@ -250,11 +347,14 @@ const FuelIn = () => {
     //   token
     // );
 
-    fetchIt(`/fuelIn`, dataObj, token);
+    // fetchIt(`/fuelIn`, dataObj, token);
+    fetchIt(`/fuelin`, dataObj, token);
     setReceive("");
     setFuelType("");
     setDriverName("");
     setNumber("");
+    setTerminalName("");
+    setSendTerminal("");
 
     // try {
     //   postToCloud(`/fuelIn`, dataObj, token);
@@ -266,12 +366,10 @@ const FuelIn = () => {
     // }
   };
 
-  // if (data?.con == true) {
-
-  // }
+  // console.log(data, "This is handleClick Data");
 
   console.log("====================================");
-  console.log(data);
+  console.log(data_g_3);
   console.log("====================================");
 
   useEffect(() => {
@@ -320,6 +418,8 @@ const FuelIn = () => {
     });
   }
 
+  console.log(fuelType, "This is fueltype data")
+
   const startClick = () => {
     var utcTimeOne = new Date();
     utcTimeOne = utcTimeOne.toLocaleDateString("fr-CA");
@@ -329,18 +429,24 @@ const FuelIn = () => {
       stationDetailId: fuelType.stationId,
       driver: driverName,
       bowser: number,
-      tankNo: tank.tankNo,
+      tankNo: tank.tankNo.toString(),
       fuel_type: fuelType.fuelType,
-      // receive_balance: receive,
-      receive_date: utcTimeOne,
+      terminal: terminalName,
+      send_balance: sendTerminal,
+      receive_balance: "0",
+      // receive_date: utcTimeOne,
       // asyncAlready: "1",
     };
     console.log(dataObj, "this is dataObj");
+    // console.log(tank.tankNo.toString(), "This is tankNo")
 
-    fetchIt(`/fuelIn/atg`, dataObj, token);
+    // fetchIt(`/fuelIn/atg`, dataObj, token);
+    fetchIt(`/fuelin/atg`, dataObj, token);
     setReceive("");
     setFuelType("");
     setDriverName("");
+    setTerminalName("");
+    setSendTerminal("");
     setNumber("");
     setTank();
   };
@@ -359,14 +465,23 @@ const FuelIn = () => {
       tankNo: tankNo,
       // asyncAlready: "1",
     };
-    fetchIt(`/fuelIn/atg/update`, dataObj, token);
+    console.log(dataObj);
+    // fetchIt(`/fuelIn/atg/update`, dataObj, token);
+    putIt(`/fuelin/atg/update`, dataObj, token);
     localStorage.removeItem("stationId");
     localStorage.removeItem("tankNo");
   };
 
+  // console.log(data_g_2);
+  // console.log(tank);
+  console.log(data,"This is start btn data")
+  console.log(data_put,"this is data_put");
+  // console.log(fuelType, "this is fuel Type")
+  // console.log(token)
+
   return (
     <div className="w-full pt-28">
-      <div className="flex flex-wrap gap-4 gap-x-10 justify-between">
+      <div className="flex flex-wrap gap-4 gap-x-10 justify-start">
         {/* <SelectDrop
           label="Tank Number"
           data={tank}
@@ -404,15 +519,30 @@ const FuelIn = () => {
           value={number}
           onChange={(e) => setNumber(e.target.value)}
         />
+        <TextInput
+          style="!w-[300px]"
+          label="Terminal ID/Name"
+          placeholder="Terminal ID/Name"
+          value={terminalName}
+          onChange={(e) => setTerminalName(e.target.value)}
+        />
+        <TextInput
+          style="!w-[300px]"
+          label="Send Amount From Terminal"
+          placeholder="Send Amount From Terminal"
+          value={sendTerminal}
+          onChange={(e) => setSendTerminal(e.target.value)}
+        />
         {!atgStatus && (
           <TextInput
             style="!w-[300px]"
-            label="Receive Liters"
-            placeholder="Receive Liters"
+            label="Receive Amount"
+            placeholder="Receive Amount"
             value={receive}
             onChange={(e) => setReceive(e.target.value)}
           />
         )}
+
         {atgStatus ? (
           <div className="flex justify-between w-full">
             {" "}
@@ -436,6 +566,7 @@ const FuelIn = () => {
           />
         )}
       </div>
+
       {isData ? (
         <div className="mt-8">
           {atgStatus ? (

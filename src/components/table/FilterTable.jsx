@@ -18,7 +18,6 @@ const FilterTable = ({
 }) => {
   // const tableRef = useRef();
 
-  console.log(totalSale, ".........this is................");
   return (
     <div className="">
       {label && <h3 className="text-text ms-3 mb-3 text-xl">{label}</h3>}

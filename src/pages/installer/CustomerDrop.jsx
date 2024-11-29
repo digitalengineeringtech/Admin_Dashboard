@@ -17,9 +17,20 @@ const CustomerDrop = ({ data, value, cls, setValue, placeholder, label }) => {
     duration: 10,
   };
 
-  console.log("====================================");
-  console.log(value, data);
-  console.log("====================================");
+  // console.log("====================================");
+  // console.log(value, data);
+  // console.log("====================================");
+  const [search, setSearch] = useState("");
+  const searchData = data?.filter((e) =>
+    e?.customer?.cusName.toLowerCase().trim().includes(search.toLowerCase())
+  );
+  // console.log("====================================");
+  // console.log(searchData);
+  // console.log("====================================");
+
+  // const filterData = (value)=>{
+  //   const filteredData = data.filter((e) => e.customer.cusName.toLowerCase() === value
+  // }
 
   return (
     <div className={cls ? cls : ` w-[300px] relative`}>
@@ -28,8 +39,8 @@ const CustomerDrop = ({ data, value, cls, setValue, placeholder, label }) => {
         onClick={() => setCon((pre) => !pre)}
         className="bg-input border border-inputB z-30 text-text duration-100 select-none items-center w-full p-4 flex justify-between rounded-lg active:scale-95"
       >
-        {value?.customer.cusName
-          ? value?.customer.cusName
+        {value?.customer?.cusName
+          ? value?.customer?.cusName
           : placeholder
           ? placeholder
           : "Please Select"}
@@ -44,7 +55,17 @@ const CustomerDrop = ({ data, value, cls, setValue, placeholder, label }) => {
           }}
           className=" z-50 absolute bg-[#DCF3FF] p-3 border border-inputB w-full h-[200px] overflow-y-scroll mt-1 rounded-xl "
         >
-          {data.map((item, index) => (
+          <div className="flex">
+            <input
+              className={`bg-[#fafafa] text-lg mb-3  border border-inputB text-text outline-detail/40 w-[100%] h-[60px] rounded-md  px-4 `}
+              // type={type}
+              value={value}
+              onChange={(e) => setSearch(e.target.value)}
+              placeholder="Search"
+            />
+          </div>
+
+          {searchData.map((item, index) => (
             <div
               onClick={() => {
                 setCon(false);
@@ -53,7 +74,7 @@ const CustomerDrop = ({ data, value, cls, setValue, placeholder, label }) => {
               key={index}
               className="ps-4 mb-1 bg-secondary text-text border border-nodata rounded-lg shadow-sm shadow-shadow/20  py-2 text-lg hover:bg-detail hover:text-secondary cursor-pointer duration-100"
             >
-              {item.customer.cusName}
+              {item?.customer?.cusName}
             </div>
           ))}
         </motion.div>

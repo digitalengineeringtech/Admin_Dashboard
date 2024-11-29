@@ -404,9 +404,9 @@ const CustomerEdit = () => {
     const data = {
       customerCredit: "673ec0c6763cf31ea828688e",
       // returnAmount: amount,
-      returnAmount: 2000,
+      returnAmount: Number(amount),
       // returnDate: start.toISOString().slice(0,10)
-      returnDate: "2024-11-20",
+      returnDate: start.toISOString().slice(0, 10),
     };
 
     try {

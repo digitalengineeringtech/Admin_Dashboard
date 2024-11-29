@@ -35,6 +35,8 @@ import SelectDrop3 from "../../components/device/SelectDrop2";
 import { TbEdit } from "react-icons/tb";
 import CustomerDrop from "../installer/CustomerDrop";
 import { Link, useSearchParams } from "react-router-dom";
+import { FaAngleDown } from "react-icons/fa";
+import Cover from "../../components/Cover";
 
 const CreditSaleList = () => {
   let start = new Date();
@@ -50,6 +52,9 @@ const CreditSaleList = () => {
   end.setMinutes(59);
   end.setSeconds(59);
   end = new Date(end);
+
+  const [sCon, setSCon] = useState(true);
+  const [eCon, setECon] = useState(true);
 
   const [token, setToken] = useState("none");
   const { loadToken } = useTokenStorage();
@@ -71,7 +76,7 @@ const CreditSaleList = () => {
   const [email, setEmail] = useState();
   const [cashType, setCashType] = useState("");
   const [pswd, setPswd] = useState();
-  const [purposeUse, setPurposeUse] = useState();
+  const [purposeUse, setPurposeUse] = useState({ name: "All", value: "" });
   const [noz, setNoz] = useState();
   const [casher, setCasher] = useState();
   const [num, setNum] = useState();
@@ -84,8 +89,12 @@ const CreditSaleList = () => {
     : "";
   const fuelRoute = fuelType?.value ? `&fuelType=${fuelType?.value}` : "";
   const nozzleRoute = noz?.value ? `&nozzleNo=${noz?.value}` : "";
+  const statusRoute = purposeUse?.value ? `&isPaid=true` : "";
   const casherRoute = casher?.name ? `&casherCode=${casher?.name}` : "";
   const carNo = num ? `&carNo=${num}` : "";
+  const cusName = cusType?.customer._id
+    ? `&customer=${cusType?.customer._id}`
+    : "";
 
   const cash = cashType != "" ? `&cashType=${cashType}` : "";
   // const route = `detail-sale/pagi/by-date/1?sDate=${sDate}&eDate=${eDate}${purposeRoute}${fuelRoute}${nozzleRoute}${casherRoute}${carNo}${cash}`;
@@ -104,7 +113,9 @@ const CreditSaleList = () => {
     setCon(true);
   }, []);
 
-  const cusName = useEffect(() => {
+  const startRoute = !sCon & !eCon ? `?sDate=${sDate}&eDate=${eDate}` : "";
+
+  useEffect(() => {
     // fetchItGet(
     //   `detail-sale/pagi/by-date/1?sDate=${start}&eDate=${end}${purposeRoute}${fuelRoute}${nozzleRoute}${casherRoute}${carNo}${cash}`,
     //   token
@@ -129,8 +140,6 @@ const CreditSaleList = () => {
       setCus(false);
     }
   }, [data_g, data_g_3, loading_g, error_g, fetchItGet]);
-
-  console.log(data_g_2[0], "this is Data");
 
   const tableHeader = [
     "No",
@@ -162,10 +171,12 @@ const CreditSaleList = () => {
     "Registered At",
     "Due Date",
   ];
+
   const totalSale = data_g_2
     ?.filter((e) => e?.cashType == "Credit Card")
     ?.map((e) => e.saleLiter)
     .reduce((pv, cv) => pv + cv, 0);
+
   const tab = (
     <Table.Tr
       //  style={
@@ -453,35 +464,39 @@ const CreditSaleList = () => {
 
   const status = [
     { name: "All", value: "" },
-    { name: "Paided", value: "Paided" },
-    { name: "Unpaided", value: "Unpaided" },
+    { name: "Paided", value: "true" },
+    { name: "Unpaided", value: "false" },
   ];
 
   // console.log(ref?.current, "this is ref");
-
-  console.log("==eeeeeeeeeeeeeeeeeeee==================================");
-  console.log(data_g.reverse());
-  console.log("====================================");
 
   return (
     <>
       <div className="w-full">
         <div className="flex flex-wrap gap-4 gap-x-10 justify-between">
-          <CalendarPick
-            date={sDate}
-            value={sDate}
-            start={true}
-            setValue={setSDate}
-            setDate={setSDate}
-            label="Start Date"
-          />
-          <CalendarPick
-            value={eDate}
-            setValue={setEDate}
-            date={eDate}
-            setDate={setEDate}
-            label="End Date"
-          />
+          {sCon ? (
+            <Cover label="Start Date" onClick={() => setSCon(false)} />
+          ) : (
+            <CalendarPick
+              value={sDate}
+              setValue={setSDate}
+              date={sDate}
+              setDate={setSDate}
+              label="Start Date"
+            />
+          )}
+          {eCon ? (
+            <Cover label="End Date" onClick={() => setECon(false)} />
+          ) : (
+            <CalendarPick
+              value={eDate}
+              setValue={setEDate}
+              date={eDate}
+              setDate={setEDate}
+              label="End Date"
+            />
+          )}
+
           {/* <SelectDrop
             placeholder="All"
             label="Fuel Type"
@@ -496,13 +511,13 @@ const CreditSaleList = () => {
             value={purposeUse}
             setValue={setPurposeUse}
           />
-          <TextInput
+          {/* <TextInput
             style="!w-[300px]"
             label="Voucher No."
             placeholder="Voucher No."
             value={vocono}
             onChange={(e) => setVocono(e.target.value)}
-          />
+          /> */}
           {/* <SelectDrop
             label="Nozzle"
             placeholder="All"
@@ -533,7 +548,15 @@ const CreditSaleList = () => {
           />
           <SearchButton
             onClick={() => {
-              fetchItGet(route, token), fetchItGet2(route2, token);
+              console.log(
+                `credit-return${startRoute}${cusName}${statusRoute}`,
+                "route........"
+              );
+              fetchItGet2(
+                `credit-return${startRoute}${cusName}${statusRoute}`,
+                token
+              );
+              fetchItGet(`detail-sale/credit/only-pagi/1`, token);
               fetchItGet3(creditRoute, token);
             }}
           />

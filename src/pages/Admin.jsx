@@ -5,7 +5,7 @@ import SelectDrop from "../components/SelectDrop";
 import SearchButton from "../components/SearchButton";
 import { Modal, Table } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import { ImCross } from "react-icons/im";
+import { ImCross, ImSearch } from "react-icons/im";
 import UseGet from "../api/hooks/UseGet";
 import UseGet3 from "../api/hooks/UseGet3";
 import UseGet2 from "../api/hooks/UseGet2";
@@ -17,7 +17,11 @@ import FilterTable from "../components/table/FilterTable";
 import ConAlert from "../components/alert/ConAlert.jsx";
 import UsePost from "../api/hooks/UsePost.jsx";
 import CalendarPick from "../components/CalendarPick.jsx";
+import { IconsManifest } from "react-icons/lib";
 // import FilterTable from "../../components/table/FilterTable";
+import { FaPlusCircle } from "react-icons/fa";
+import { localInstance } from "../api/axios.jsx";
+import Swal from "sweetalert2";
 
 const Admin = () => {
   // const [path, setPath] = useState();
@@ -77,7 +81,7 @@ const Admin = () => {
     // );
 
     fetchItGet3(creditRoute, token);
-    
+
     console.log("hello");
   }, [con]);
 
@@ -120,7 +124,7 @@ const Admin = () => {
     const vehicle = vehicles.filter(
       (e) => e.value === data.customer.cusVehicleType
     );
-    setName(data.customer.cusName);
+    setName(data.customer?.cusName);
     setPhone(data.customer.cusPhone);
     setCusType(cusTypeFilter[0]);
     setVehicle(vehicle[0]);
@@ -199,7 +203,7 @@ const Admin = () => {
       className=" duration-150 text-sm text-center"
     >
       <Table.Td>{index + 1}</Table.Td>
-      <Table.Td>{element.customer.cusName}</Table.Td>
+      <Table.Td>{element.customer?.cusName}</Table.Td>
       <Table.Td>{element.customer.cusCardId}</Table.Td>
       <Table.Td>{element.customer.cusCarNo}</Table.Td>
       <Table.Td>{element.customer.cusPhone}</Table.Td>
@@ -318,7 +322,63 @@ const Admin = () => {
     );
     if (validate) {
       console.log("keepON");
-      await fetchIt("/customer", data, token);
+      // const res = await fetchIt("/customer", data, token);
+      localInstance
+        .post("/customer", data, {
+          headers: {
+            Authorization: "Bearer " + token,
+            "Content-Type": "multipart/form-data",
+          },
+        })
+        .then((res) => {
+          console.log(res);
+          if (res.data.con) {
+            Swal.fire({
+              title: "Account was created successfully!",
+              icon: "success",
+              buttonsStyling: false,
+              iconColor: "#33b0f9",
+              color: "#33b0f9",
+              width: "25em",
+              background: "#ffffff",
+              customClass: {
+                title: "text-white",
+                confirmButton:
+                  "bg-detail text-secondary rounded-lg border-2 border-detail hover:text-[#33b0f9] duration-150 hover:bg-secondary w-[300px] font-mono py-2",
+              },
+            });
+            setName();
+            setPhone();
+            setCusType();
+            setVehicle();
+            setVehicleNo();
+            setDebAmount();
+            setDebLiter();
+            setCreditType();
+            setLimit();
+            setCus();
+            setCardId();
+            setSDate(sDate);
+            close();
+          }
+          
+        })
+        .catch((e) => {
+          Swal.fire({
+            title: "Something was Wrong!",
+            icon: "success",
+            buttonsStyling: false,
+            iconColor: "#FCA5A5",
+            color: "#FCA5A5",
+            width: "25em",
+            background: "#ffffff",
+            customClass: {
+              title: "text-white",
+              confirmButton:
+                "bg-detail text-secondary rounded-lg border-2 border-detail hover:text-[#FCA5A5] duration-150 hover:bg-secondary w-[300px] font-mono py-2",
+            },
+          });
+        });
     } else {
       console.log("err");
     }
@@ -326,7 +386,13 @@ const Admin = () => {
 
   return (
     <div className="mt-28">
-      <SearchButton title="Create" onClick={() => open()} />
+      <SearchButton
+        style={"!w-[200px]"}
+        // icon={<IconsManifest />}
+        icon={<FaPlusCircle className="ms-[-18px] text-secondary" />}
+        title="Create"
+        onClick={() => open()}
+      />
       <div className="">
         {cus ? (
           <div className="mt-8 mb-2">
@@ -452,7 +518,6 @@ const Admin = () => {
             setDate={setSDate}
             label="Start Date"
           />
-
           <SearchButton
             title="Create"
             onClick={ConAlert("Are you sure ?", true, handleCreate)}

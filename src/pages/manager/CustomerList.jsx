@@ -84,6 +84,9 @@ const CustomerList = () => {
   const cus_filter = customer?.value ? `cusName=${customer?.value}` : "";
   const limit_filter = limit ? `&limitAmount=${limit}` : "";
   const veh_filter = num ? `&cusCarNo=${num}` : "";
+  const cusName = customer?.customer._id
+    ? `&customer=${customer?.customer._id}`
+    : "";
   const nozzleRoute = noz?.value ? `&nozzleNo=${noz?.value}` : "";
   const casherRoute = casher?.name ? `&casherCode=${casher?.name}` : "";
   const carNo = num ? `&carNo=${num}` : "";
@@ -91,7 +94,7 @@ const CustomerList = () => {
   const cash = cashType != "" ? `&cashType=${cashType}` : "";
   // const route = `detail-sale/pagi/by-date/1?sDate=${sDate}&eDate=${eDate}${purposeRoute}${fuelRoute}${nozzleRoute}${casherRoute}${carNo}${cash}`;
   // const route2 = `detail-sale/without-pagi/by-date?sDate=${sDate}&eDate=${eDate}${purposeRoute}${fuelRoute}${nozzleRoute}${casherRoute}${carNo}${cash}`;
-  const creditRoute = `http://localhost:9000/api/customer-credit?${cus_filter}${limit_filter}${veh_filter}`;
+  const creditRoute = `http://localhost:9000/api/customer-credit?${cus_filter}${cusName}${limit_filter}${veh_filter}`;
   const [{ data_g, loading_g, error_g, pagi_g }, fetchItGet] = UseGet();
   const [{ data_g_3, loading_g_3, error_g_3, pagi_g_3 }, fetchItGet3] =
     UseGet3();
@@ -330,7 +333,7 @@ const CustomerList = () => {
   const [opened, { open, close }] = useDisclosure(false);
 
   // console.log(tableRef.current != null, "ooooooooooooooooo");
-  console.log(data_g_3, "..............................");
+  // console.log(data_g_3, "..............................");
 
   const recordsPerPage = 50;
   const totalPages = Math.ceil(pagi_g / recordsPerPage);
@@ -424,10 +427,10 @@ const CustomerList = () => {
         }
       );
 
-      console.log(
-        response,
-        "lllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllll"
-      );
+      // console.log(
+      //   response,
+      //   "lllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllll"
+      // );
       // Check if there's any error in the response data
       if (!response?.data?.con) {
         // If there's an error, set the error state to true
@@ -444,10 +447,10 @@ const CustomerList = () => {
     }
   };
 
-  console.log(ref?.current, "this is ref");
+  // console.log(ref?.current, "this is ref");
 
   console.log("==eeeeeeeeeeeeeeeeeeee==================================");
-  console.log(data_g_2);
+  console.log(customer?.customer.cusName);
   console.log("====================================");
 
   return (
@@ -512,6 +515,7 @@ const CustomerList = () => {
           onClick={() => {
             // fetchItGet(route, token),
             //   fetchItGet2(route2, token),
+            console.log(creditRoute);
             fetchItGet3(creditRoute, token);
           }}
         />

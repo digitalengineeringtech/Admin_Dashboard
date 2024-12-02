@@ -61,7 +61,7 @@ const Nav = ({ title }) => {
         },
       }
     );
-// <<<<<<< HPH
+    // <<<<<<< HPH
     // console.log(response);
     setLoading(false);
   };
@@ -195,11 +195,9 @@ const Nav = ({ title }) => {
       });
     }
   };
-// =======
-    console.log(response);
-    setLoading(false);
-  };
-
+  // =======
+  // console.log(response);
+  setLoading(false);
   const handleSubmit = async (token) => {
     console.log(token, "lllllllllllllllllllllllllllll");
     setLoading(true);
@@ -232,7 +230,7 @@ const Nav = ({ title }) => {
   //   }
   // }, [L_data, L_loading]);
   // console.log(L_data, "this is L_data");
-// >>>>>>> sixKendra
+  // >>>>>>> sixKendra
 
   const path = window.location.pathname;
 
@@ -263,26 +261,28 @@ const Nav = ({ title }) => {
           </div>
         )}
         {path == "/" && (
-// <<<<<<< HPH
-          <button
-            disabled={disabled}
-            onClick={() => handleStartBtn(token)}
-            // onClickCapture={handleCheckPostData}
-            className="disabled:cursor-not-allowed hover:scale-105 flex gap-2 items-center active:scale-95 duration-100 select-none font-mono text-lg font-semibold py-3 bg-detail text-secondary px-4 rounded-lg text"
-          >
-            <IoLinkSharp className="text-2xl" />
-            START
-          </button>
-// =======
-          <div
-            // onClick={open}
-            onClick={() => navigate("admin")}
-            className="hover:scale-105 flex gap-2 items-center active:scale-95 duration-100 select-none font-mono text-lg font-semibold py-3 bg-detail text-secondary px-4 rounded-lg text"
-          >
-            <RiAdminFill className="text-2xl" />
-            To Admin Panel
+          // <<<<<<< HPH
+          <div className="flex gap-6">
+            <button
+              disabled={disabled}
+              onClick={() => handleStartBtn(token)}
+              // onClickCapture={handleCheckPostData}
+              className="disabled:cursor-not-allowed hover:scale-105 flex gap-2 items-center active:scale-95 duration-100 select-none font-mono text-lg font-semibold py-3 bg-detail text-secondary px-4 rounded-lg text"
+            >
+              <IoLinkSharp className="text-2xl" />
+              START
+            </button>
+            {/* // ======= */}
+            <div
+              // onClick={open}
+              onClick={() => navigate("admin")}
+              className="hover:scale-105 flex gap-2 items-center active:scale-95 duration-100 select-none font-mono text-lg font-semibold py-3 bg-detail text-secondary px-4 rounded-lg text"
+            >
+              <RiAdminFill className="text-2xl" />
+              To Admin Panel
+            </div>
           </div>
-// >>>>>>> sixKendra
+          // >>>>>>> sixKendra
         )}
       </div>
       <Modal

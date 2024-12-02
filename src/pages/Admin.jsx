@@ -73,7 +73,7 @@ const Admin = () => {
     //   token
     // );
 
-    fetchItGet(`detail-sale/pagi/1?cusCardId=asdf`, token);
+    fetchItGet(`detail-sale/pagi/1?cusCardId=asdffdsa`, token);
 
     // fetchItGet2(
     //   `detail-sale/without-pagi/by-date?sDate=${start}&eDate=${end}${purposeRoute}${fuelRoute}${nozzleRoute}${casherRoute}${carNo}${cash}`,
@@ -85,7 +85,7 @@ const Admin = () => {
     console.log("hello");
   }, [con]);
 
-  console.log(data_g, "this is create");
+  console.log(data_g_3, "this is create");
 
   const totalSale = data_g_2
     ?.filter((e) => e?.cashType == "Credit Card")
@@ -361,7 +361,6 @@ const Admin = () => {
             setSDate(sDate);
             close();
           }
-          
         })
         .catch((e) => {
           Swal.fire({

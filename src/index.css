@@ -21,7 +21,7 @@
   background-position: center;
   background-attachment: fixed;
 }
-.gg{
+.gg {
   color: #33b0f9;
 }
 .side_bg {
@@ -45,6 +45,11 @@
 }
 .active {
   background-color: white;
+  border: 1px solid #25b0ff !important;
+  color: #25b0ff !important;
+}
+.active:hover {
+  color: white !important;
 }
 
 .example::-webkit-scrollbar {

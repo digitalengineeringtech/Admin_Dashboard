@@ -133,6 +133,12 @@ const CreditSaleList = () => {
     } else {
       setIsData(false);
     }
+    if (data_g_2?.length > 0) {
+      setIsData(true);
+      setRef(tableRef);
+    } else {
+      setIsData(false);
+    }
     if (data_g_3?.length > 0) {
       setCus(true);
       setRef(tableRef);
@@ -177,6 +183,8 @@ const CreditSaleList = () => {
     ?.map((e) => e.saleLiter)
     .reduce((pv, cv) => pv + cv, 0);
 
+  console.log(data_g_2, "............this is data_g_2");
+
   const tab = (
     <Table.Tr
       //  style={
@@ -196,11 +204,17 @@ const CreditSaleList = () => {
     </Table.Tr>
   );
 
-  // console.log(isData, "this is ", data_g);
+  console.log(
+    purposeUse,
+    data_g_2?.reverse()?.filter((e, index) => e?.isPaid == purposeUse?.value),
+    "this is "
+  );
 
   const tableRow = data_g_2
     ?.reverse()
-    // ?.filter((e, index) => e?.cashType == "Credit")
+    ?.filter((e, index) =>
+      purposeUse.value == "" ? e : e.isPaid == purposeUse.value
+    )
     ?.map((element, index) => (
       <Table.Tr
         key={index}
@@ -464,8 +478,8 @@ const CreditSaleList = () => {
 
   const status = [
     { name: "All", value: "" },
-    { name: "Paided", value: "true" },
-    { name: "Unpaided", value: "false" },
+    { name: "Paided", value: true },
+    { name: "Unpaided", value: false },
   ];
 
   // console.log(ref?.current, "this is ref");
@@ -552,10 +566,7 @@ const CreditSaleList = () => {
                 `credit-return${startRoute}${cusName}${statusRoute}`,
                 "route........"
               );
-              fetchItGet2(
-                `credit-return${startRoute}${cusName}${statusRoute}`,
-                token
-              );
+              fetchItGet2(`credit-return${startRoute}${cusName}`, token);
               fetchItGet(`detail-sale/credit/only-pagi/1`, token);
               fetchItGet3(creditRoute, token);
             }}

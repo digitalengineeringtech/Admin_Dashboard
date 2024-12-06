@@ -42,6 +42,8 @@ import Customers from "./pages/manager/Customers";
 import CreditSaleList from "./pages/manager/CreditSaleList";
 import CreditEdit from "./pages/manager/CreditEdit";
 import Admin from "./pages/Admin";
+import AdminLayout from "./pages/manager/AdminLayout";
+import Discount from "./pages/manager/Discount";
 
 const App = () => {
   const [isInstalling, setIsInstalling] = useState(false);
@@ -169,6 +171,20 @@ const App = () => {
           ],
         },
         {
+          path: "/admin",
+          element: <AdminLayout />,
+          children: [
+            {
+              index: true,
+              element: <Admin />,
+            },
+            {
+              path: "/admin/discount",
+              element: <Discount />,
+            },
+          ],
+        },
+        {
           path: "/total_dif",
           element: <TotalDif />,
         },
@@ -180,10 +196,10 @@ const App = () => {
           path: "/sale_ho",
           element: <HO />,
         },
-        {
-          path: "/admin",
-          element: <Admin />,
-        },
+        // {
+        //   path: "/admin",
+        //   element: <Admin />,
+        // },
       ],
     },
   ]);

@@ -116,6 +116,7 @@ const CustomerList = () => {
     //   token
     // );
     fetchItGet3(creditRoute, token);
+    fetchItGet2(creditRoute, token);
     console.log("hello");
   }, [con]);
 
@@ -167,10 +168,10 @@ const CustomerList = () => {
     "Due Date",
     "Action",
   ];
-  const totalSale = data_g_2
-    ?.filter((e) => e?.cashType == "Credit Card")
-    ?.map((e) => e.saleLiter)
-    .reduce((pv, cv) => pv + cv, 0);
+  // const totalSale = data_g_2
+  //   ?.filter((e) => e?.cashType == "Credit Card")
+  //   ?.map((e) => e.saleLiter)
+  //   .reduce((pv, cv) => pv + cv, 0);
   const tab = (
     <Table.Tr
       //  style={
@@ -182,10 +183,10 @@ const CustomerList = () => {
     >
       <Table.Td>Total Sale</Table.Td>
       <Table.Td>
-        {totalSale.toLocaleString(undefined, {
+        {/* {totalSale.toLocaleString(undefined, {
           maximumFractionDigits: 3,
         })}{" "}
-        kyats
+        kyats */}
       </Table.Td>
     </Table.Tr>
   );
@@ -466,7 +467,7 @@ const CustomerList = () => {
         <CustomerDrop
           placeholder="All"
           label="Customer Name"
-          data={data_g_3}
+          data={data_g_2}
           value={customer}
           setValue={setCustomer}
         />

@@ -140,9 +140,14 @@ const DailySale = () => {
     "Totallizer Amount",
     // "Action",
   ];
+
   const totalSale = data_g_2
-    ?.map((e) => e.saleLiter)
-    .reduce((pv, cv) => pv + cv, 0);
+    ?.map((e) => e?.totalPrice)
+    .reduce((pv, cv) => pv + cv, 0)
+    .toLocaleString(undefined, {
+      maximumFractionDigits: 0,
+    });
+
   const tab = (
     <Table.Tr
       //  style={
@@ -157,7 +162,7 @@ const DailySale = () => {
         {" "}
         {totalSale.toLocaleString(undefined, {
           maximumFractionDigits: 3,
-        })}{" "}
+        })}
         kyats
       </Table.Td>
     </Table.Tr>

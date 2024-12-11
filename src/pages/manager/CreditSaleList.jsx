@@ -109,11 +109,17 @@ const CreditSaleList = () => {
   const [con, setCon] = useState(false);
   const cusData = [{ customer: { cusName: "All" } }, ...data_g_3];
 
+  const [btnCon, setBtnCon] = useState(true);
+
   useEffect(() => {
     setCon(true);
   }, []);
 
+  const [tableData, setTableData] = useState();
+
   const startRoute = !sCon & !eCon ? `?sDate=${sDate}&eDate=${eDate}` : "";
+
+  // const status
 
   useEffect(() => {
     // fetchItGet(
@@ -146,6 +152,40 @@ const CreditSaleList = () => {
       setCus(false);
     }
   }, [data_g, data_g_3, loading_g, error_g, fetchItGet]);
+
+  useEffect(() => {
+    if (data_g_2?.length > 0) {
+      if (
+        purposeUse?.name != "All" ||
+        (cusType?.customer?.cusName != undefined &&
+          cusType.customer?.cusName != "All")
+      ) {
+        console.log("in first if");
+        if (purposeUse?.name != "All") {
+          console.log("in second if");
+          setTableData(statusFilter(purposeUse?.value));
+        }
+        if (
+          cusType?.customer?.cusName != undefined &&
+          cusType.customer?.cusName != "All"
+        ) {
+          console.log("in third if");
+          setTableData(nameFilter(cusType?.customer?.cusName));
+        }
+      } else {
+        setTableData(data_g_2);
+      }
+    }
+  }, [data_g_2, loading_g_2, btnCon]);
+
+  console.log(
+    "================================",
+    cusType,
+    purposeUse,
+    purposeUse?.name != "All" ||
+      (cusType?.customer?.cusName != undefined &&
+        cusType.customer?.cusName != "All")
+  );
 
   const tableHeader = [
     "No",
@@ -183,8 +223,6 @@ const CreditSaleList = () => {
     ?.map((e) => e.saleLiter)
     .reduce((pv, cv) => pv + cv, 0);
 
-  console.log(data_g_2, "............this is data_g_2");
-
   const tab = (
     <Table.Tr
       //  style={
@@ -204,13 +242,7 @@ const CreditSaleList = () => {
     </Table.Tr>
   );
 
-  console.log(
-    purposeUse,
-    data_g_2?.reverse()?.filter((e, index) => e?.isPaid == purposeUse?.value),
-    "this is "
-  );
-
-  const tableRow = data_g_2
+  const tableRow = tableData
     ?.reverse()
     ?.filter((e, index) =>
       purposeUse.value == "" ? e : e.isPaid == purposeUse.value
@@ -405,6 +437,17 @@ const CreditSaleList = () => {
     });
   }
 
+  const statusFilter = (condi) => {
+    return data_g_2?.filter((e) => e.isPaid == condi);
+  };
+
+  const nameFilter = (name) => {
+    return data_g_2?.filter(
+      (e) => e?.customerCredit?.customer?.cusName == name
+    );
+  };
+  // console.log(data_g_2, "this is data_g_2");
+
   const handlePrint = useReactToPrint({
     content: () => tableRef.current,
   });
@@ -562,13 +605,10 @@ const CreditSaleList = () => {
           />
           <SearchButton
             onClick={() => {
-              console.log(
-                `credit-return${startRoute}${cusName}${statusRoute}`,
-                "route........"
-              );
               fetchItGet2(`credit-return${startRoute}${cusName}`, token);
               fetchItGet(`detail-sale/credit/only-pagi/1`, token);
               fetchItGet3(creditRoute, token);
+              setBtnCon((prev) => !prev);
             }}
           />
         </div>

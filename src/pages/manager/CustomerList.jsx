@@ -106,6 +106,26 @@ const CustomerList = () => {
     setCon(true);
   }, []);
 
+  const vehicleFilter = (carNum) => {
+    return data_g_2?.filter((e) => e.customer.cusCarNo == carNum);
+  };
+
+  const [btnCon, setBtnCon] = useState();
+  const [tableData, setTableData] = useState();
+
+  console.log(data_g_3, num);
+
+  useEffect(() => {
+    if (data_g_3?.length > 0) {
+      if (num) {
+        console.log("in second if");
+        setTableData(vehicleFilter(num));
+      } else {
+        setTableData(data_g_3);
+      }
+    }
+  }, [data_g_3, loading_g_3, btnCon]);
+
   useEffect(() => {
     // fetchItGet(
     //   `detail-sale/pagi/by-date/1?sDate=${start}&eDate=${end}${purposeRoute}${fuelRoute}${nozzleRoute}${casherRoute}${carNo}${cash}`,
@@ -261,7 +281,8 @@ const CustomerList = () => {
 
   // const nameDrop = data_g_3?.map((e, index)=>e.cusName)
 
-  const creditRow = data_g_3?.map((element, index) => (
+  // const creditRow = data_g_3?.map((element, index) => (
+  const creditRow = tableData?.map((element, index) => (
     <Table.Tr
       key={index}
       style={
@@ -518,6 +539,7 @@ const CustomerList = () => {
             //   fetchItGet2(route2, token),
             console.log(creditRoute);
             fetchItGet3(creditRoute, token);
+            setCon((prev) => !prev);
           }}
         />
       </div>

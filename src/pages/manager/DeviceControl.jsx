@@ -29,8 +29,8 @@ const DeviceControl = () => {
   end = new Date(end);
 
   const { loading, setLoading } = useContext(LoadContext);
-  const client = mqtt.connect("ws://detpos:asdffdsa@192.168.0.100:9001");
-  // const client = mqtt.connect("ws://detpos:asdffdsa@192.168.1.145:9001");
+  // const client = mqtt.connect("ws://detpos:asdffdsa@192.168.0.100:9001");
+  const client = mqtt.connect("ws://detpos:asdffdsa@127.0.0.1:9001");
   client.setMaxListeners(20);
   const { refresh, setRefresh } = useContext(Re);
 
@@ -159,7 +159,7 @@ const DeviceControl = () => {
         printWindow.document.write(content);
         printWindow.document.close();
         printWindow.print();
-        printWindow.close();
+        // printWindow.close();
       } else {
         ErrorAlert("Some Station Info are Empty");
       }
@@ -188,7 +188,7 @@ const DeviceControl = () => {
     "Action",
   ];
 
-  // console.log(data_g_2, "....");
+  console.log(data_g_2, "....");
   const tableRow = data_g_2?.map((element) => (
     <Table.Tr key={element.no} className=" duration-150 text-sm text-center">
       <Table.Td className="select-none">{element.vocono}</Table.Td>
@@ -486,6 +486,7 @@ const DeviceControl = () => {
 
   // console.log(data_g_2.map((e) => parseInt(e.nozzle_no)));
   // console.log(permitData, "permit data");
+  console.log(data_g, "This is data_g")
   return (
     <>
       {loading && <LoaderCom />}
@@ -548,7 +549,7 @@ const DeviceControl = () => {
             <div style={{ fontSize: "0.5rem" }}>
               <div className="flex justify-center">
                 <img
-                  src={url}
+                  src={ url}
                   style={{
                     // width: "25vw",
                     height: "70px",

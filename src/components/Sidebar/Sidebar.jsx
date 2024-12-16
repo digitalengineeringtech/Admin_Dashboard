@@ -78,6 +78,10 @@ const Sidebar = () => {
   const ins = i18n.store.data.en.translation.SIDE_INSTALLER;
   const manag = i18n.store.data.en.translation.SIDE_MANAGER;
   const manag_atg = i18n.store.data.en.translation.SIDE_MANAGER_ATG;
+  const adminRoute = [{
+    name: "Manager Dashboard",
+    link: "/"
+  }]
 
   useEffect(() => {
     const check = JSON.parse(localStorage.getItem("installed"));
@@ -104,6 +108,7 @@ const Sidebar = () => {
     <FaMoneyCheckAlt />,
     <MdDifference />,
     <IoMdPricetag />,
+    <FaChartBar />,
     <FaRegFileLines />,
   ];
   const installerIcon = [

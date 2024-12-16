@@ -2,10 +2,22 @@ import React, { useRef } from "react";
 import { Table } from "@mantine/core";
 import clsx from "clsx";
 
-const FilterTable = ({ header, className, label, rows, tableRef, type }) => {
+const FilterTable = ({
+  header,
+  className,
+  label,
+  rows,
+  tab,
+  con1,
+  CReturn,
+  tableRef,
+  type,
+  totalSale,
+  total,
+  con,
+}) => {
   // const tableRef = useRef();
 
-  // console.log(tableRef, ".........................");
   return (
     <div className="">
       {label && <h3 className="text-text ms-3 mb-3 text-xl">{label}</h3>}
@@ -37,7 +49,46 @@ const FilterTable = ({ header, className, label, rows, tableRef, type }) => {
               ))}
             </Table.Tr>
           </Table.Thead>
-          <Table.Tbody className="text-[1.1rem]">{rows}</Table.Tbody>
+          <Table.Tbody className="text-[1.1rem]">
+            {rows}
+            {tab && tab}
+            {con && (
+              <Table.Tr>
+                <Table.Td colSpan={8}></Table.Td>
+                <Table.Td colSpan={2} className="text-center">
+                  Total
+                </Table.Td>
+                <Table.Td className="text-center">{totalSale}</Table.Td>
+              </Table.Tr>
+            )}
+            {con && (
+              <Table.Tr>
+                <Table.Td colSpan={8}></Table.Td>
+                <Table.Td colSpan={2} className="text-center">
+                  Return Amount
+                </Table.Td>
+                <Table.Td className="text-center">{CReturn}</Table.Td>
+              </Table.Tr>
+            )}
+            {con1 && (
+              <Table.Tr>
+                <Table.Td colSpan={7}></Table.Td>
+                <Table.Td colSpan={2} className="text-center">
+                  Total
+                </Table.Td>
+                <Table.Td className="text-center">{totalSale}</Table.Td>
+              </Table.Tr>
+            )}
+            {con1 && (
+              <Table.Tr>
+                <Table.Td colSpan={7}></Table.Td>
+                <Table.Td colSpan={2} className="text-center">
+                  Return Amount
+                </Table.Td>
+                <Table.Td className="text-center">{CReturn}</Table.Td>
+              </Table.Tr>
+            )}
+          </Table.Tbody>
         </Table>
       </div>
     </div>

@@ -4,6 +4,7 @@ import Login from "../pages/Login";
 import Nav from "../components/Navbar/Nav";
 import { useContext, useEffect, useState } from "react";
 import AuthContext from "../services/AuthContext";
+import { ImCross } from "react-icons/im";
 
 const Layout = () => {
   const navigate = useNavigate();
@@ -36,7 +37,7 @@ const Layout = () => {
   // console.log(window.location.pathname);
   const path = window.location.pathname;
   const [state, setState] = useState();
-  const dd = useParams();
+  const { id } = useParams();
 
   // console.log(dd);
   useEffect(() => {
@@ -65,8 +66,20 @@ const Layout = () => {
       case "/fuel_in":
         setState("Fuel In");
         break;
+      case "/credit_sale":
+        setState("Credit Sales");
+        break;
+      case `/credit_sale/edit/${id}`:
+        setState("Credit Sales Detail");
+        break;
       case "/price_chg":
         setState("Price Change");
+        break;
+      case `/customer_list/edit/${id}`:
+        setState("Customer Detail");
+        break;
+      case `/customer_list`:
+        setState("Customer List");
         break;
       case "/sale_ledger":
         setState("Sale Ledger");

@@ -29,8 +29,9 @@ const DeviceControl = () => {
   end = new Date(end);
 
   const { loading, setLoading } = useContext(LoadContext);
+  // const client = mqtt.connect("ws://detpos:asdffdsa@127.0.0.1:9001");
   const client = mqtt.connect("ws://detpos:asdffdsa@192.168.0.100:9001");
-  // const client = mqtt.connect("ws://detpos:asdffdsa@192.168.1.146:9001");
+  client.setMaxListeners(20);
   const { refresh, setRefresh } = useContext(Re);
 
   const [token, setToken] = useState("none");
@@ -85,9 +86,14 @@ const DeviceControl = () => {
 
   const nozzle1FuelDetailRef = useRef({ liter: "", price: "" });
 
-  client.on("connect", () => {
-    client.subscribe("detpos/#", (err) => {
-      err && console.log(err);
+  useEffect(() => {
+    client.on("connect", () => {
+      client.subscribe("detpos/#", (err) => {
+        err && console.log(err);
+      });
+      return () => {
+        client.end(); // Properly close the connection
+      };
     });
   });
 
@@ -195,7 +201,17 @@ const DeviceControl = () => {
       <Table.Td className="select-none">{element.carNo}</Table.Td>
       <Table.Td className="select-none">{element.vehicleType}</Table.Td>
       <Table.Td className="select-none">{element.nozzleNo}</Table.Td>
-      <Table.Td className="select-none">{element.fuelType}</Table.Td>
+      <Table.Td className="select-none">
+        {element?.fuelType == "001-Octane Ron(92)"
+          ? "92 RON"
+          : element?.fuelType == "002-Octane Ron(95)"
+          ? "95 RON"
+          : element?.fuelType == "004-Diesel"
+          ? "HSD"
+          : element?.fuelType == "005-Premium Diesel"
+          ? "PHSD"
+          : ""}
+      </Table.Td>
       <Table.Td className="select-none">
         {(parseFloat(element?.saleLiter) / 4.16)?.toFixed(3)}
       </Table.Td>
@@ -206,7 +222,7 @@ const DeviceControl = () => {
         }) || "0.00"}
       </Table.Td>
       <Table.Td className="select-none">
-        {element.totalPrice?.toFixed(2).toLocaleString(undefined, {
+        {element.totalPrice?.toLocaleString(undefined, {
           maximumFractionDigits: 3,
         })}
       </Table.Td>

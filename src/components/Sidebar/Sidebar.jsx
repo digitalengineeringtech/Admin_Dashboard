@@ -104,6 +104,7 @@ const Sidebar = () => {
     <FaMoneyCheckAlt />,
     <MdDifference />,
     <IoMdPricetag />,
+    <FaChartBar />,
     <FaRegFileLines />,
   ];
   const installerIcon = [
@@ -190,7 +191,7 @@ const Sidebar = () => {
         }}
         animate={state ? "open" : "close"}
         variants={bg}
-        className="absolute z-50 w-[250px] shadow-xl shadow-shadow/20 ml-[-160px] side_bg h-screen"
+        className="absolute z-50 w-[250px] shadow-xl shadow-detail/10 ml-[-160px] side_bg h-screen"
       >
         <motion.div
           onClick={() => open()}
@@ -199,14 +200,14 @@ const Sidebar = () => {
           transition={{ duration: 0.2, type: "tween" }}
           className="bg-secondary cursor-pointer mx-auto rounded-lg ml-[-35px] pt-3 w-[150px] h-[150px] mt-5"
         >
-          <div className="bg-[#69eccf] w-24 h-24 mx-auto overflow-hidden flex items-center justify-center rounded-full">
+          <div className="bg-detail/60 w-24 h-24 mx-auto overflow-hidden flex items-center justify-center rounded-full">
             <img
               src="../../../static/images/manager(2).png"
               alt=""
               className="w-[80%] mb-[-20px]"
             />
           </div>
-          <div className="mt-1 text-[#69eccf] text-lg font-semibold text-center">
+          <div className="mt-1 text-detail text-lg font-semibold text-center">
             Manager{" "}
           </div>
         </motion.div>
@@ -217,19 +218,19 @@ const Sidebar = () => {
           transition={{ duration: 0.2, type: "tween" }}
           className=" mx-auto rounded-lg ml-[-73px] w-[220px]  mt-5"
         >
-          <div className="flex scroll_bar_right pl-3 gap-y-2 h-[62vh] overflow-y-scroll flex-col">
+          <div className="flex scroll_bar_right pl-3 gap-y-2 h-[62vh] overflow-y-scroll flex-col ">
             {(isInstalling ? ins : atgStatus ? manag_atg : manag).map(
               (e, index) => (
                 <NavLink
                   key={index}
                   onClick={() => setState(false)}
                   to={e.link}
-                  className="py-4 scroll_bar_left flex gap-3 duration-150 items-center text-gray-600 px-4 group rounded-md hover:bg-secondary"
+                  className="py-4  scroll_bar_left flex gap-3 duration-150 items-center text-gray-600 px-4 group rounded-md hover:bg-secondary"
                 >
-                  <div className="text-2xl duration-150 group-hover:text-detail">
+                  <div className="text-2xl side duration-150 text-gray-700 group-hover:text-detail">
                     {isInstalling ? installerIcon[index] : managerIcon[index]}
                   </div>
-                  <div className=" text-xl duration-150 group-hover:text-detail ">
+                  <div className=" side text-xl text-gray-700 duration-150 group-hover:text-detail ">
                     {e.name}
                   </div>
                 </NavLink>
@@ -253,9 +254,9 @@ const Sidebar = () => {
           variants={pfp}
           className={`bg-secondary animate-duration-[360ms] ${
             isBouncing ? "animate-shake" : ""
-          }  animate-twice border-2 border-[#D0F0E9] justify-center  items-center top-[50%] flex absolute ms-4 left-[200px] w-14 h-14 rounded-full`}
+          }  animate-twice border-2 border-detail/80 justify-center  items-center top-[50%] flex absolute ms-4 left-[200px] w-14 h-14 rounded-full`}
         >
-          <FaCaretLeft className="text-xl text-[#69eccf]" />
+          <FaCaretLeft className="text-xl text-detail" />
         </motion.div>
         <motion.button
           animate={state ? "open" : "close"}
@@ -281,7 +282,7 @@ const Sidebar = () => {
           animate={!state ? "open" : "close"}
           variants={pfp}
           transition={{ duration: 0.2, type: "tween" }}
-          className="bg-[#69eccf] z-50 mt-4 overflow-hidden justify-center items-center flex fixed left-3 w-16 h-16 rounded-lg"
+          className="bg-detail/70 z-50 mt-4 overflow-hidden justify-center items-center flex fixed left-3 w-16 h-16 rounded-lg"
         >
           {/* <MdAccountCircle /> */}
           <img

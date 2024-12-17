@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import "react-dropdown/style.css";
 import { FaAngleDown } from "react-icons/fa";
 
-const SelectDrop = ({ data, value, cls, setValue, placeholder, label }) => {
+const CustomerDrop = ({ data, value, cls, setValue, placeholder, label }) => {
   const [con, setCon] = useState(false);
   //   const [value, setValue] = useState("");
   //   const [name, setName] = useState("");
@@ -17,9 +17,9 @@ const SelectDrop = ({ data, value, cls, setValue, placeholder, label }) => {
     duration: 10,
   };
 
-  // console.log("====================================");
-  // console.log(value);
-  // console.log("====================================");
+  console.log("====================================");
+  console.log(value, data);
+  console.log("====================================");
 
   return (
     <div className={cls ? cls : ` w-[300px] relative`}>
@@ -28,8 +28,8 @@ const SelectDrop = ({ data, value, cls, setValue, placeholder, label }) => {
         onClick={() => setCon((pre) => !pre)}
         className="bg-input border border-inputB z-30 text-text duration-100 select-none items-center w-full p-4 flex justify-between rounded-lg active:scale-95"
       >
-        {value?.name
-          ? value?.name
+        {value?.customer.cusName
+          ? value?.customer.cusName
           : placeholder
           ? placeholder
           : "Please Select"}
@@ -53,7 +53,7 @@ const SelectDrop = ({ data, value, cls, setValue, placeholder, label }) => {
               key={index}
               className="ps-4 mb-1 bg-secondary text-text border border-nodata rounded-lg shadow-sm shadow-shadow/20  py-2 text-lg hover:bg-detail hover:text-secondary cursor-pointer duration-100"
             >
-              {item.name}
+              {item.customer.cusName}
             </div>
           ))}
         </motion.div>
@@ -62,4 +62,4 @@ const SelectDrop = ({ data, value, cls, setValue, placeholder, label }) => {
   );
 };
 
-export default SelectDrop;
+export default CustomerDrop;

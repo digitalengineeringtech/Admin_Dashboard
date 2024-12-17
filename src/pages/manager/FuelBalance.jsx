@@ -74,13 +74,25 @@ const FuelBalance = () => {
   const stockRow = data_g?.map((element, index) => (
     <Table.Tr key={element.no} className=" duration-150 text-center">
       <Table.Td>{index + 1}</Table.Td>
-      <Table.Td>{index + 1}</Table.Td>
-      <Table.Td>{element.fuelType}</Table.Td>
+      <Table.Td>{element.tankNo}</Table.Td>
+      <Table.Td>
+        {element?.fuelType == "001-Octane Ron(92)"
+          ? "92 RON"
+          : element?.fuelType == "002-Octane Ron(95)"
+          ? "95 RON"
+          : element?.fuelType == "004-Diesel"
+          ? "HSD"
+          : element?.fuelType == "005-Premium Diesel"
+          ? "PHSD"
+          : ""}
+      </Table.Td>
       <Table.Td>{element?.opening?.toFixed(2)}</Table.Td>
       <Table.Td>{element.fuelIn}</Table.Td>
       <Table.Td>{element?.balance?.toFixed(2)}</Table.Td>
     </Table.Tr>
   ));
+
+  console.log(data_g, "this is data_g");
 
   const handleClick = () => {
     const formattedDate2 = sDate.toISOString().split("T")[0];
@@ -115,7 +127,14 @@ const FuelBalance = () => {
   return (
     <div className="w-full pt-28">
       <div className="flex  flex-wrap gap-4 gap-x-10 justify-between">
-        <CalendarPick date={sDate} setDate={setSDate} label="Start Date" />
+        <CalendarPick
+          value={sDate}
+          start={true}
+          setValue={setSDate}
+          date={sDate}
+          setDate={setSDate}
+          label="Start Date"
+        />
         {/* <SelectDrop
           placeholder="All"
           label="Fuel Type"

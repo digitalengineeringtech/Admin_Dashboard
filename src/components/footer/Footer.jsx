@@ -36,7 +36,7 @@ const Footer = ({
           page={2}
           total={totalPages}
           onChange={onPageChange}
-          color="#38b59e"
+          color="#33b0f9"
           withEdges
         />
       )}

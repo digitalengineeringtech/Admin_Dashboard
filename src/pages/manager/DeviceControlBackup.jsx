@@ -54,9 +54,6 @@ const DeviceControl = () => {
     });
   });
 
-  console.log("====================================");
-  console.log(loading);
-  console.log("====================================");
 
   client.on("message", (topic, message) => {
     // message is Buffer

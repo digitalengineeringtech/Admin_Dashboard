@@ -4,19 +4,19 @@ const data = [
     value: "",
   },
   {
-    name: "001-Octane Ron(92)",
+    name: "92 RON",
     value: "001-Octane Ron(92)",
   },
   {
-    name: "002-Octane Ron(95)",
-    value: "002-Octane ron(95)",
+    name: "95 RON",
+    value: "002-Octane Ron(95)",
   },
   {
-    name: "004-Diesel",
+    name: "HSD",
     value: "004-Diesel",
   },
   {
-    name: "005-Premium Disel",
+    name: "PHSD",
     value: "005-Premium Diesel",
   },
 ];

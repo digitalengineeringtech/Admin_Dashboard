@@ -11,8 +11,8 @@ const SearchButton = ({ onClick, title, disable }) => {
       className={`w-[300px]  mt-auto  text-secondary  items-center justify-center gap-3 flex  ${
         !con ? "mr-auto" : ""
       } font-mono text-xl ${
-        disable ? "bg-gray-300" : " bg-[#38b59e]"
-      } active:scale-95 duration-100 bg-[#38b59e] h-[56px] rounded-md`}
+        disable ? "bg-gray-300" : " bg-detail"
+      } active:scale-95 duration-100 bg-detail h-[56px] rounded-md`}
     >
       {title ? title : "SEARCH"}
     </button>

@@ -16,6 +16,7 @@ const DailySale = ({
       <div className=" p-4 rounded-xl bg-secondary  shadow-md shadow-shadow/20 ">
         <Table
           ref={tableRef}
+          borderColor={"#bacedb"}
           verticalSpacing="md"
           striped
           withTableBorder
@@ -39,9 +40,9 @@ const DailySale = ({
             {rows}
             <Table.Tr className="font-semibold duration-150 text-center">
               <Table.Td colSpan={4}></Table.Td>
-              <Table.Td>{(footer?.totalAmount)?.toFixed(2)}</Table.Td>
+              <Table.Td>{footer?.totalAmount?.toFixed(2)}</Table.Td>
               <Table.Td></Table.Td>
-              <Table.Td>{(footer?.disAmount)?.toFixed(2)}</Table.Td>
+              <Table.Td>{footer?.disAmount?.toFixed(2)}</Table.Td>
               <Table.Td>-</Table.Td>
             </Table.Tr>
             {rows2}

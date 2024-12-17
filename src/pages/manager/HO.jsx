@@ -320,7 +320,18 @@ const HO = () => {
   ];
   const stockRow = notCredit?.map((element, index) => (
     <Table.Tr key={element.no} className=" duration-150 text-center">
-      <Table.Td>{element.fueltype}</Table.Td>
+      <Table.Td>
+        {" "}
+        {element?.fueltype == "001-Octane Ron(92)"
+          ? "92 RON"
+          : element?.fueltype == "002-Octane Ron(95)"
+          ? "95 RON"
+          : element?.fueltype == "004-Diesel"
+          ? "HSD"
+          : element?.fueltype == "005-Premium Diesel"
+          ? "PHSD"
+          : ""}
+      </Table.Td>
       <Table.Td>{element.open || 0}</Table.Td>
       <Table.Td>{element?.receive || 0}</Table.Td>
       <Table.Td>{Number(element.totalLiter)?.toFixed(2)}</Table.Td>
@@ -343,7 +354,18 @@ const HO = () => {
   ));
   const stockRow1 = notCredit1?.map((element, index) => (
     <Table.Tr key={element.no} className=" duration-150 text-center">
-      <Table.Td>{element.fueltype}</Table.Td>
+      <Table.Td>
+        {" "}
+        {element?.fueltype == "001-Octane Ron(92)"
+          ? "92 RON"
+          : element?.fueltype == "002-Octane Ron(95)"
+          ? "95 RON"
+          : element?.fueltype == "004-Diesel"
+          ? "HSD"
+          : element?.fueltype == "005-Premium Diesel"
+          ? "PHSD"
+          : ""}
+      </Table.Td>
       <Table.Td>{element.pricePerLiter || 0}</Table.Td>
       <Table.Td>{element?.totalLiter?.toFixed(2) || 0}</Table.Td>
       <Table.Td>
@@ -434,9 +456,21 @@ const HO = () => {
   return (
     <div className="w-full pt-28">
       <div className="flex  flex-wrap gap-4 gap-x-10  justify-between">
-        <CalendarPick date={sDate} setDate={setSDate} label="Start Date" />
+        <CalendarPick
+          value={sDate}
+          setValue={setSDate}
+          date={sDate}
+          setDate={setSDate}
+          label="Start Date"
+        />
         <div className="">
-          <CalendarPick date={eDate} setDate={setEDate} label="End Date" />
+          <CalendarPick
+            value={eDate}
+            setValue={setEDate}
+            date={eDate}
+            setDate={setEDate}
+            label="End Date"
+          />
         </div>
         <SearchButton onClick={handleClick} />
       </div>

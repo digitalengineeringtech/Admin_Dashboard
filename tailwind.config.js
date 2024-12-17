@@ -3,17 +3,20 @@ export default {
   theme: {
     extend: {
       colors: {
-        primary: "#eff4f2",
+        primary: "#25B0FF10",
         secondary: "#FFFFFF",
-        detail: "#38b59e",
+        detail: "#33b0f9",
         text: "#3C3C3C",
         icon: "#7C7C7C",
-        inputB: "#99d4c8",
-        input: "#effffc",
+        inputB: "#25B0FF40",
+        input: "#25B0FF10",
         subText: "#DDDDDD",
         danger: "#EB6A6A",
-        shadow: "#3aaf94",
+        shadow: "#25B0FF",
         nodata: "#38b59e40",
+      },
+      screens: {
+        extra: "1820px",
       },
     },
   },

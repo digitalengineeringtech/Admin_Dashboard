@@ -225,7 +225,18 @@ const TotalDif = () => {
     return (
       <Table.Tr key={element._id} className=" duration-150 text-sm text-center">
         <Table.Td>{element.nozzle_no || "-"}</Table.Td>
-        <Table.Td>{element.fuel_type || "-"}</Table.Td>
+        <Table.Td>
+          {" "}
+          {element?.fuel_type == "001-Octane Ron(92)"
+            ? "92 RON"
+            : element?.fuel_type == "002-Octane Ron(95)"
+            ? "95 RON"
+            : element?.fuel_type == "004-Diesel"
+            ? "HSD"
+            : element?.fuel_type == "005-Premium Diesel"
+            ? "PHSD"
+            : ""}
+        </Table.Td>
         <Table.Td>
           {Number((element.firstTotalizer - element.firstsale)?.toFixed(3)) ||
             "-"}
@@ -304,7 +315,7 @@ const TotalDif = () => {
         .reduce((pv, cv) => pv + cv, 0);
       const totalizer = data_g
         .filter((voc) => voc.nozzleNo == e.nozzle_no)
-        .reverse()[0]?.devTotalizar_liter;  
+        .reverse()[0]?.devTotalizar_liter;
       const firstsale = data_g
         .filter((voc) => voc.nozzleNo == e.nozzle_no)
         .reverse()[0]?.saleLiter;
@@ -336,8 +347,21 @@ const TotalDif = () => {
   return (
     <div className="w-full pt-28">
       <div className="flex  flex-wrap gap-4 gap-x-10  justify-between">
-        <CalendarPick date={sDate} setDate={setSDate} label="Date" />
-        <CalendarPick date={eDate} setDate={setEDate} label="End Date" />
+        <CalendarPick
+          value={sDate}
+          start={true}
+          setValue={setSDate}
+          date={sDate}
+          setDate={setSDate}
+          label="Date"
+        />
+        <CalendarPick
+          value={eDate}
+          setValue={setEDate}
+          date={eDate}
+          setDate={setEDate}
+          label="End Date"
+        />
 
         {/* <div className="">
           <CalendarPick date={eDate} setDate={setEDate} label="End Date" />

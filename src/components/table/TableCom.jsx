@@ -20,6 +20,7 @@ const TableCom = ({ data, tableRef, footer, footer2, label, header, rows }) => {
       <div className=" p-4 rounded-xl bg-secondary  shadow-md shadow-shadow/20 ">
         <Table
           ref={tableRef}
+          borderColor={"#bacedb"}
           verticalSpacing="md"
           striped
           withTableBorder

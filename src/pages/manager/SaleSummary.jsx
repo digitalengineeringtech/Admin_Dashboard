@@ -15,6 +15,7 @@ import { Table } from "@mantine/core";
 import { downloadExcel } from "react-export-table-to-excel";
 import { useReactToPrint } from "react-to-print";
 import format from "../../utils/format";
+import LoaderCom from "../../components/LoaderCom";
 
 const SaleSummary = () => {
   let start = new Date();
@@ -92,10 +93,21 @@ const SaleSummary = () => {
   }, []);
 
   useEffect(() => {
-    // fetchItGet(`/detail-sale/by-date/?sDate=${sDate}`, token);
-    fetchItGet2(`/detail-sale/total_statement?reqDate=${formattedDate}`, token);
+    //oldVersion
+    // // fetchItGet(`/detail-sale/by-date/?sDate=${sDate}`, token);
+    // fetchItGet2(`/detail-sale/total_statement?reqDate=${formattedDate}`, token);
+    // // fetchItGet(`/detail-sale/by-date/?sDate=${sDate}&eDate=${next}`, token);
+    // fetchItGet(`/detail-sale/by-date/?sDate=${sDate}&eDate=${eDate}`, token);
+
+    fetchItGet2(
+      `/detail-sale/sale-summary-detail?sDate=${sDate}&eDate=${eDate}`,
+      token
+    );
     // fetchItGet(`/detail-sale/by-date/?sDate=${sDate}&eDate=${next}`, token);
-    fetchItGet(`/detail-sale/by-date/?sDate=${sDate}&eDate=${eDate}`, token);
+    fetchItGet(
+      `/detail-sale/sale-summary?sDate=${sDate}&eDate=${eDate}`,
+      token
+    );
 
     fetchItGet3(`/device`, token);
   }, [con]);
@@ -110,17 +122,16 @@ const SaleSummary = () => {
   }, [data_g, loading_g, error_g, fetchItGet]);
 
   console.log(
-    sDate,
-    eDate,
+    data_g_2,
     "lfffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
   );
 
   const summaryHeader = [
     "Date/Time",
-    "Octane Ron(92)",
-    "Octane Ron(95)",
-    "Diesel",
-    "Premium Diesel",
+    "92 Ron",
+    "95 Ron",
+    "HSD",
+    "PHSD",
     "Total Price (Kyat)",
   ];
   const summaryRow = (
@@ -163,8 +174,13 @@ const SaleSummary = () => {
     "Nozzle No",
     "Fuel Type",
     "Price per Liter",
+    "Opening Totalizer",
+    "Closing Totalizer",
+    "Different Liter",
     "Total Sale Liter",
+    "Sale Different Liter",
     "Total Price",
+    "Price Different",
   ];
 
   // let nozzle = [];
@@ -208,17 +224,26 @@ const SaleSummary = () => {
   // );
 
   const handleClick = () => {
-    // fetchItGet(`/detail-sale/by-date/?sDate=${sDate}`, token);
-    fetchItGet2(`detail-sale/total_statement?reqDate=${formattedDate}`, token);
+    //oldVersion
+    // fetchItGet2(`detail-sale/total_statement?reqDate=${formattedDate}`, token);
+    fetchItGet2(
+      `/detail-sale/sale-summary-detail?sDate=${sDate}&eDate=${eDate}`,
+      token
+    );
+
+    //oldVersion
     // fetchItGet(`/detail-sale/by-date/?sDate=${sDate}&eDate=${next}`, token);
-    fetchItGet(`/detail-sale/by-date/?sDate=${sDate}&eDate=${eDate}`, token);
+    fetchItGet(
+      `/detail-sale/sale-summary?sDate=${sDate}&eDate=${eDate}`,
+      token
+    );
 
     fetchItGet3(`/device`, token);
   };
 
-  // console.log("===66=================================");
-  // console.log(data_g);
-  // console.log("====================================");
+  console.log("===66=================================");
+  console.log(data_g_2, data_g);
+  console.log("====================================");
 
   const nozz = data_g.map((e) => {
     return e.nozzleNo;
@@ -254,7 +279,7 @@ const SaleSummary = () => {
     // return data;
 
     return {
-      nozzle_no: e, 
+      nozzle_no: e,
       // totalLiter: data.reduce((sum, current) => sum + current.saleLiter, 0),
       data: data,
       fuel_type: data[0]?.fuelType,
@@ -275,7 +300,9 @@ const SaleSummary = () => {
     // fetchfrom detailsale statement
     // data_g_2?.map((obj) => {
     // data_g?.map((obj) => {
-    nozData?.map((obj) => {
+    //oldVersion
+    // nozData?.map((obj) => {
+    data_g?.map((obj) => {
       if (obj.fuel_type === "001-Octane Ron(92)") {
         ninety2 += Number(obj.devTotalizerDif);
       }
@@ -308,23 +335,66 @@ const SaleSummary = () => {
     }
   }, [data_g, loading_g, error_g]);
 
-  const detailRow = data_g_3?.map((element) => {
-    const matchingEntry = literByNoz.find(
-      (entry) => entry.nozzle_no === element.nozzle_no
-    );
-    const totalLiter = matchingEntry ? matchingEntry.totalLiter : 0;
+  // const detailRow = data_g_3?.map((element) => {
+  //   const matchingEntry = literByNoz.find(
+  //     (entry) => entry.nozzle_no === element.nozzle_no
+  //   );
+  //   const totalLiter = matchingEntry ? matchingEntry.totalLiter : 0;
 
+  //   // console.log("............................");
+  //   // console.log(totalLiter, literByNoz, matchingEntry);
+  //   // console.log("............................");
+  //   return (
+  //     <Table.Tr key={element._id} className=" duration-150 text-sm text-center">
+  //       <Table.Td>{element.nozzle_no || "-"}</Table.Td>
+  //       <Table.Td>
+  //         {element?.fuel_type == "001-Octane Ron(92)"
+  //           ? "92 RON"
+  //           : element?.fuel_type == "002-Octane Ron(95)"
+  //           ? "95 RON"
+  //           : element?.fuel_type == "004-Diesel"
+  //           ? "HSD"
+  //           : element?.fuel_type == "005-Premium Diesel"
+  //           ? "PHSD"
+  //           : ""}
+  //       </Table.Td>
+  //       <Table.Td>{element.daily_price || "-"}</Table.Td>
+  //       <Table.Td>{totalLiter.toFixed(3) || "-"}</Table.Td>
+  //       <Table.Td>
+  //         {(element.daily_price * totalLiter).toLocaleString(undefined, {
+  //           maximumFractionDigits: 3,
+  //         }) || "-"}
+  //       </Table.Td>
+  //     </Table.Tr>
+  //   );
+  // });
+  const detailRow = data_g_2?.map((element) => {
     // console.log("............................");
     // console.log(totalLiter, literByNoz, matchingEntry);
     // console.log("............................");
     return (
       <Table.Tr key={element._id} className=" duration-150 text-sm text-center">
-        <Table.Td>{element.nozzle_no || "-"}</Table.Td>
-        <Table.Td>{element.fuel_type || "-"}</Table.Td>
-        <Table.Td>{element.daily_price || "-"}</Table.Td>
-        <Table.Td>{totalLiter.toFixed(3) || "-"}</Table.Td>
+        <Table.Td>{element.nozzleNo || "-"}</Table.Td>
         <Table.Td>
-          {(element.daily_price * totalLiter).toLocaleString(undefined, {
+          {element?.fuelType == "001-Octane Ron(92)"
+            ? "92 RON"
+            : element?.fuelType == "002-Octane Ron(95)"
+            ? "95 RON"
+            : element?.fuelType == "004-Diesel"
+            ? "HSD"
+            : element?.fuelType == "005-Premium Diesel"
+            ? "PHSD"
+            : ""}
+        </Table.Td>
+        <Table.Td>{element.pricePerLiter || "-"}</Table.Td>
+        <Table.Td>{element.openingTotalizerLiter?.toFixed(3) || "-"}</Table.Td>
+        <Table.Td>{element.closingTotalizerLiter?.toFixed(3) || "-"}</Table.Td>
+        <Table.Td>{element.differentLiter?.toFixed(3) || "-"}</Table.Td>
+        <Table.Td>{element.saleLiter?.toFixed(3) || "-"}</Table.Td>
+        <Table.Td>{element.saleDifferentLiter?.toFixed(3) || "-"}</Table.Td>
+        <Table.Td>{element.totalPrice || "-"}</Table.Td>
+        <Table.Td>
+          {element.priceDifferent.toLocaleString(undefined, {
             maximumFractionDigits: 3,
           }) || "-"}
         </Table.Td>
@@ -397,45 +467,62 @@ const SaleSummary = () => {
   });
 
   return (
-    <div className="w-full pt-28">
-      <div className="flex  flex-wrap gap-4 gap-x-10  justify-between">
-        <CalendarPick date={sDate} setDate={setSDate} label="Start Date" />
-        <CalendarPick date={eDate} setDate={setEDate} label="End Date" />
-        {/* <div className="">
+    <>
+      {(loading_g_2 || loading_g) && <LoaderCom />}
+      <div className="w-full pt-28">
+        <div className="flex  flex-wrap gap-4 gap-x-10  justify-between">
+          <CalendarPick
+            value={sDate}
+            start={true}
+            setValue={setSDate}
+            date={sDate}
+            setDate={setSDate}
+            label="Start Date"
+          />
+          <CalendarPick
+            value={eDate}
+            setValue={setEDate}
+            date={eDate}
+            setDate={setEDate}
+            label="End Date"
+          />
+          {/* <div className="">
           <CalendarPick date={eDate} setDate={setEDate} label="End Date" />
         </div> */}
-        <SearchButton onClick={handleClick} />
-      </div>
-      {isData ? (
-        <div className="">
-          <div className="mt-8">
-            <FilterTable
-              tableRef={tableRef}
-              header={summaryHeader}
-              rows={summaryRow}
-            />
-            <Footer print={handlePrint} onClick={handleDownloadExcel} />
-          </div>
+          <SearchButton onClick={handleClick} />
+        </div>
+        {!loading_g && !loading_g_2 ? (
           <div className="">
             <div className="mt-8">
               <FilterTable
-                tableRef={tableRef2}
-                header={detailHeader}
-                rows={detailRow}
+                tableRef={tableRef}
+                header={summaryHeader}
+                rows={summaryRow}
               />
-              <Footer print={handlePrint2} onClick={handleDownloadExcel2} />
+              <Footer print={handlePrint} onClick={handleDownloadExcel} />
+            </div>
+            <div className="">
+              <div className="mt-8">
+                <FilterTable
+                  type="detail"
+                  tableRef={tableRef2}
+                  header={detailHeader}
+                  rows={detailRow}
+                />
+                <Footer print={handlePrint2} onClick={handleDownloadExcel2} />
+              </div>
             </div>
           </div>
-        </div>
-      ) : (
-        <div className="w-full h-[250px] gap-5 text-nodata flex items-center justify-center border-2 border-nodata mt-10 rounded-xl">
-          <div className="flex items-center gap-4">
-            <RiErrorWarningLine className="text-[6rem]" />
-            <div className="font-mono text-[2.5rem]">NO DATA FOUND</div>
+        ) : (
+          <div className="w-full h-[250px] gap-5 text-detail/40 flex items-center justify-center border-2 border-detail/40 mt-10 rounded-xl">
+            <div className="flex items-center gap-4">
+              <RiErrorWarningLine className="text-[6rem]" />
+              <div className="font-mono text-[2.5rem]">NO DATA FOUND</div>
+            </div>
           </div>
-        </div>
-      )}
-    </div>
+        )}
+      </div>
+    </>
   );
 };
 

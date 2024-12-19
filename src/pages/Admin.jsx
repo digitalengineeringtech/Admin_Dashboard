@@ -237,7 +237,7 @@ const Admin = () => {
     //   !localStorage.getItem("admin") && navigate("/");
     // }
 
-    if (localStorage.getItem("admin") != "true") navigate("/");
+    // if (localStorage.getItem("admin") != "true") navigate("/");
     console.log(
       location.pathname,
       "this is path",

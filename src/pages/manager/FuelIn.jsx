@@ -129,6 +129,7 @@ const FuelIn = () => {
   //   "Balance",
   // ];
   const tableHeader = [
+    "Receive Date",
     "Fuel Type",
     "Fuel in Code",
     "Opening",
@@ -182,7 +183,7 @@ const FuelIn = () => {
   console.log(stock, "This is Stock");
   const tableRow = stock?.map((element) => (
     <Table.Tr key={element.no} className=" duration-150 text-sm text-center">
-      {/* <Table.Td>{element.receive_date}</Table.Td> */}
+      <Table.Td>{element.receive_date}</Table.Td>
       <Table.Td>
         {" "}
         {element?.fuel_type == "001-Octane Ron(92)"
@@ -196,10 +197,10 @@ const FuelIn = () => {
           : ""}
       </Table.Td>
       <Table.Td>{element.fuel_in_code}</Table.Td>
-      <Table.Td>{element.opening || "-"}</Table.Td>
+      <Table.Td>{element.opening.toFixed(3) || "-"}</Table.Td>
       <Table.Td>{element.send_balance || "-"}</Table.Td>
       <Table.Td>{element.receive_balance}</Table.Td>
-      <Table.Td>{element.tank_balance}</Table.Td>
+      <Table.Td>{element.tank_balance.toFixed(3)}</Table.Td>
       <Table.Td>{element.driver}</Table.Td>
       <Table.Td>{element.bowser}</Table.Td>
       <Table.Td>{element.terminal || "-"}</Table.Td>
@@ -241,7 +242,7 @@ const FuelIn = () => {
       <Table.Td>{element.fuel_type}</Table.Td>
       <Table.Td>{element.driver}</Table.Td>
       <Table.Td>{element.bowser}</Table.Td>
-      <Table.Td>{element.opening || 0}</Table.Td>
+      <Table.Td>{element.opening?.toFixed(3) || 0}</Table.Td>
       <Table.Td>{element.receive_balance}</Table.Td>
       <Table.Td>{element.tank_balance?.toFixed(3)}</Table.Td>
       {/* <Table.Td>{element.balance}</Table.Td> */}
@@ -305,7 +306,7 @@ const FuelIn = () => {
         ? data_g_2.find((i) => i?.fuelType == "004-Diesel")
         : fuelType?.fuelType == "005-Premium Diesel"
         ? data_g_2.find((i) => i?.fuelType == "005-Premium Diesel")
-        : "No Fuel Type"
+        : "No Fuel Type";
 
     setFindOpening(finder);
   }, [fuelType, data_g_2]);
@@ -314,6 +315,7 @@ const FuelIn = () => {
   // console.log(tank, "This is tank data")
 
   const handleClick = () => {
+    console.log("handle Click");
     let utcTimeOne = new Date();
     utcTimeOne = utcTimeOne.toLocaleDateString("fr-CA");
     // console.log(utcTimeOne);
@@ -354,6 +356,7 @@ const FuelIn = () => {
     setNumber("");
     setTerminalName("");
     setSendTerminal("");
+    setTank("");
 
     // try {
     //   postToCloud(`/fuelIn`, dataObj, token);
@@ -365,10 +368,10 @@ const FuelIn = () => {
     // }
   };
 
-  // console.log(data, "This is handleClick Data");
+  console.log(data, "This is handleClick Data");
 
   console.log("====================================");
-  console.log(data_g_3);
+  console.log(data_g_3, "This is data_g_3");
   console.log("====================================");
 
   useEffect(() => {
@@ -417,7 +420,7 @@ const FuelIn = () => {
     });
   }
 
-  console.log(fuelType, "This is fueltype data")
+  console.log(fuelType, "This is fueltype data");
 
   const startClick = () => {
     var utcTimeOne = new Date();
@@ -447,7 +450,7 @@ const FuelIn = () => {
     setTerminalName("");
     setSendTerminal("");
     setNumber("");
-    setTank();
+    setTank("");
   };
 
   if (data.con == true && startBtn) {
@@ -473,8 +476,8 @@ const FuelIn = () => {
 
   // console.log(data_g_2);
   // console.log(tank);
-  console.log(data,"This is start btn data")
-  console.log(data_put,"this is data_put");
+  console.log(data, "This is start btn data");
+  console.log(data_put, "this is data_put");
   // console.log(fuelType, "this is fuel Type")
   // console.log(token)
 
@@ -561,7 +564,18 @@ const FuelIn = () => {
         ) : (
           <SearchButton
             title="ADD"
-            onClick={ConAlert("Are you sure ?", true, handleClick)}
+            onClick={ConAlert(
+              "Are you sure ?",
+              receive &&
+                fuelType &&
+                driverName &&
+                number &&
+                terminalName &&
+                sendTerminal !== ""
+                ? true
+                : false,
+              handleClick
+            )}
           />
         )}
       </div>

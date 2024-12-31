@@ -109,11 +109,17 @@ const CreditSaleList = () => {
   const [con, setCon] = useState(false);
   const cusData = [{ customer: { cusName: "All" } }, ...data_g_3];
 
+  const [btnCon, setBtnCon] = useState(true);
+
   useEffect(() => {
     setCon(true);
   }, []);
 
+  const [tableData, setTableData] = useState();
+
   const startRoute = !sCon & !eCon ? `?sDate=${sDate}&eDate=${eDate}` : "";
+
+  // const status
 
   useEffect(() => {
     // fetchItGet(
@@ -133,6 +139,12 @@ const CreditSaleList = () => {
     } else {
       setIsData(false);
     }
+    if (data_g_2?.length > 0) {
+      setIsData(true);
+      setRef(tableRef);
+    } else {
+      setIsData(false);
+    }
     if (data_g_3?.length > 0) {
       setCus(true);
       setRef(tableRef);
@@ -140,6 +152,40 @@ const CreditSaleList = () => {
       setCus(false);
     }
   }, [data_g, data_g_3, loading_g, error_g, fetchItGet]);
+
+  useEffect(() => {
+    if (data_g_2?.length > 0) {
+      if (
+        purposeUse?.name != "All" ||
+        (cusType?.customer?.cusName != undefined &&
+          cusType.customer?.cusName != "All")
+      ) {
+        console.log("in first if");
+        if (purposeUse?.name != "All") {
+          console.log("in second if");
+          setTableData(statusFilter(purposeUse?.value));
+        }
+        if (
+          cusType?.customer?.cusName != undefined &&
+          cusType.customer?.cusName != "All"
+        ) {
+          console.log("in third if");
+          setTableData(nameFilter(cusType?.customer?.cusName));
+        }
+      } else {
+        setTableData(data_g_2);
+      }
+    }
+  }, [data_g_2, loading_g_2, btnCon]);
+
+  console.log(
+    "================================",
+    cusType,
+    purposeUse,
+    purposeUse?.name != "All" ||
+      (cusType?.customer?.cusName != undefined &&
+        cusType.customer?.cusName != "All")
+  );
 
   const tableHeader = [
     "No",
@@ -196,11 +242,11 @@ const CreditSaleList = () => {
     </Table.Tr>
   );
 
-  // console.log(isData, "this is ", data_g);
-
-  const tableRow = data_g_2
+  const tableRow = tableData
     ?.reverse()
-    // ?.filter((e, index) => e?.cashType == "Credit")
+    ?.filter((e, index) =>
+      purposeUse.value == "" ? e : e.isPaid == purposeUse.value
+    )
     ?.map((element, index) => (
       <Table.Tr
         key={index}
@@ -391,6 +437,17 @@ const CreditSaleList = () => {
     });
   }
 
+  const statusFilter = (condi) => {
+    return data_g_2?.filter((e) => e.isPaid == condi);
+  };
+
+  const nameFilter = (name) => {
+    return data_g_2?.filter(
+      (e) => e?.customerCredit?.customer?.cusName == name
+    );
+  };
+  // console.log(data_g_2, "this is data_g_2");
+
   const handlePrint = useReactToPrint({
     content: () => tableRef.current,
   });
@@ -464,8 +521,8 @@ const CreditSaleList = () => {
 
   const status = [
     { name: "All", value: "" },
-    { name: "Paided", value: "true" },
-    { name: "Unpaided", value: "false" },
+    { name: "Paided", value: true },
+    { name: "Unpaided", value: false },
   ];
 
   // console.log(ref?.current, "this is ref");
@@ -548,16 +605,10 @@ const CreditSaleList = () => {
           />
           <SearchButton
             onClick={() => {
-              console.log(
-                `credit-return${startRoute}${cusName}${statusRoute}`,
-                "route........"
-              );
-              fetchItGet2(
-                `credit-return${startRoute}${cusName}${statusRoute}`,
-                token
-              );
+              fetchItGet2(`credit-return${startRoute}${cusName}`, token);
               fetchItGet(`detail-sale/credit/only-pagi/1`, token);
               fetchItGet3(creditRoute, token);
+              setBtnCon((prev) => !prev);
             }}
           />
         </div>

@@ -23,7 +23,7 @@ import { FaPlusCircle } from "react-icons/fa";
 import { localInstance } from "../api/axios.jsx";
 import Swal from "sweetalert2";
 
-const Admin = () => {
+const CustomerCreate = () => {
   // const [path, setPath] = useState();
   const navigate = useNavigate();
 
@@ -237,7 +237,7 @@ const Admin = () => {
     //   !localStorage.getItem("admin") && navigate("/");
     // }
 
-    // if (localStorage.getItem("admin") != "true") navigate("/");
+    if (localStorage.getItem("admin") != "true") navigate("/");
     console.log(
       location.pathname,
       "this is path",
@@ -385,10 +385,12 @@ const Admin = () => {
 
   return (
     <>
-      
+      <div className="mt-28 flex items-start ps-4 border-b-orange-200 border-b py-4 pb-5 gap-5">
+        <div className="text-lg font-semibold">Discount</div>
+      </div>
       <div className="mt-6">
         <SearchButton
-          style={"!w-[200px] ms-4"}
+          style={"!w-[200px]"}
           // icon={<IconsManifest />}
           icon={<FaPlusCircle className="ms-[-18px] text-secondary" />}
           title="Create"
@@ -396,7 +398,7 @@ const Admin = () => {
         />
         <div className="">
           {cus ? (
-            <div className="mt-4 mb-2">
+            <div className="mt-8 mb-2">
               <FilterTable
                 tab={tab}
                 tableRef={tableRef}
@@ -530,4 +532,4 @@ const Admin = () => {
   );
 };
 
-export default Admin;
+export default CustomerCreate;

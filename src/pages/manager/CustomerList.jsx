@@ -106,6 +106,26 @@ const CustomerList = () => {
     setCon(true);
   }, []);
 
+  const vehicleFilter = (carNum) => {
+    return data_g_2?.filter((e) => e.customer.cusCarNo == carNum);
+  };
+
+  const [btnCon, setBtnCon] = useState();
+  const [tableData, setTableData] = useState();
+
+  console.log(data_g_3, num);
+
+  useEffect(() => {
+    if (data_g_3?.length > 0) {
+      if (num) {
+        console.log("in second if");
+        setTableData(vehicleFilter(num));
+      } else {
+        setTableData(data_g_3);
+      }
+    }
+  }, [data_g_3, loading_g_3, btnCon]);
+
   useEffect(() => {
     // fetchItGet(
     //   `detail-sale/pagi/by-date/1?sDate=${start}&eDate=${end}${purposeRoute}${fuelRoute}${nozzleRoute}${casherRoute}${carNo}${cash}`,
@@ -116,6 +136,7 @@ const CustomerList = () => {
     //   token
     // );
     fetchItGet3(creditRoute, token);
+    fetchItGet2(creditRoute, token);
     console.log("hello");
   }, [con]);
 
@@ -167,10 +188,10 @@ const CustomerList = () => {
     "Due Date",
     "Action",
   ];
-  const totalSale = data_g_2
-    ?.filter((e) => e?.cashType == "Credit Card")
-    ?.map((e) => e.saleLiter)
-    .reduce((pv, cv) => pv + cv, 0);
+  // const totalSale = data_g_2
+  //   ?.filter((e) => e?.cashType == "Credit Card")
+  //   ?.map((e) => e.saleLiter)
+  //   .reduce((pv, cv) => pv + cv, 0);
   const tab = (
     <Table.Tr
       //  style={
@@ -182,10 +203,10 @@ const CustomerList = () => {
     >
       <Table.Td>Total Sale</Table.Td>
       <Table.Td>
-        {totalSale.toLocaleString(undefined, {
+        {/* {totalSale.toLocaleString(undefined, {
           maximumFractionDigits: 3,
         })}{" "}
-        kyats
+        kyats */}
       </Table.Td>
     </Table.Tr>
   );
@@ -260,7 +281,8 @@ const CustomerList = () => {
 
   // const nameDrop = data_g_3?.map((e, index)=>e.cusName)
 
-  const creditRow = data_g_3?.map((element, index) => (
+  // const creditRow = data_g_3?.map((element, index) => (
+  const creditRow = tableData?.map((element, index) => (
     <Table.Tr
       key={index}
       style={
@@ -466,7 +488,7 @@ const CustomerList = () => {
         <CustomerDrop
           placeholder="All"
           label="Customer Name"
-          data={data_g_3}
+          data={data_g_2}
           value={customer}
           setValue={setCustomer}
         />
@@ -517,6 +539,7 @@ const CustomerList = () => {
             //   fetchItGet2(route2, token),
             console.log(creditRoute);
             fetchItGet3(creditRoute, token);
+            setCon((prev) => !prev);
           }}
         />
       </div>

@@ -91,7 +91,10 @@ const TotalDif = () => {
     fetchItGet2(`/detail-sale/total_statement?reqDate=${formattedDate}`, token);
     fetchItGet(`/detail-sale/by-date/?sDate=${sDate}&eDate=${eDate}`, token);
 
-    fetchItGet3(`/device`, token);
+    fetchItGet3(
+      `/detail-sale/sale-summary-detail?sDate=${sDate}&eDate=${eDate}`,
+      token
+    );
   }, [con]);
 
   useEffect(() => {
@@ -163,12 +166,15 @@ const TotalDif = () => {
     fetchItGet2(`detail-sale/total_statement?reqDate=${formattedDate}`, token);
     fetchItGet(`/detail-sale/by-date/?sDate=${sDate}&eDate=${eDate}`, token);
 
-    fetchItGet3(`/device`, token);
+    fetchItGet3(
+      `/detail-sale/sale-summary-detail?sDate=${sDate}&eDate=${eDate}`,
+      token
+    );
   };
 
-  //   console.log(data_g_3, "33333333333333333333333");
-  console.log(totalCalcu, data_g_3, data_g);
-  //   console.log(data_g, "1111111111111111111111111");
+  console.log(data_g_3, "33333333333333333333333");
+  console.log(data_g_3);
+  console.log(data_g, "1111111111111111111111111");
 
   useEffect(() => {
     let ninety2 = 0;
@@ -213,7 +219,7 @@ const TotalDif = () => {
     }
   }, [data_g, loading_g, error_g]);
 
-  const detailRow = totalCalcu?.map((element) => {
+  const detailRow = data_g_3?.map((element) => {
     // const matchingEntry = literByNoz.find(
     //   (entry) => entry.nozzle_no === element.nozzle_no
     // );
@@ -224,37 +230,27 @@ const TotalDif = () => {
     // console.log("............................");
     return (
       <Table.Tr key={element._id} className=" duration-150 text-sm text-center">
-        <Table.Td>{element.nozzle_no || "-"}</Table.Td>
+        <Table.Td>{element.nozzleNo}</Table.Td>
         <Table.Td>
           {" "}
-          {element?.fuel_type == "001-Octane Ron(92)"
+          {element?.fuelType == "001-Octane Ron(92)"
             ? "92 RON"
-            : element?.fuel_type == "002-Octane Ron(95)"
+            : element?.fuelType == "002-Octane Ron(95)"
             ? "95 RON"
-            : element?.fuel_type == "004-Diesel"
+            : element?.fuelType == "004-Diesel"
             ? "HSD"
-            : element?.fuel_type == "005-Premium Diesel"
+            : element?.fuelType == "005-Premium Diesel"
             ? "PHSD"
             : ""}
         </Table.Td>
-        <Table.Td>
-          {Number((element.firstTotalizer - element.firstsale)?.toFixed(3)) ||
-            "-"}
-        </Table.Td>
-        <Table.Td>{element.lastTotalizer?.toFixed(3) || "-"}</Table.Td>
-        <Table.Td>
-          {Number(
-            (
-              element.lastTotalizer?.toFixed(3) -
-              (element.firstTotalizer - element.firstsale)?.toFixed(3)
-            )?.toFixed(3)
-          ) || "-"}
-        </Table.Td>
-        <Table.Td>{element.totalLiter.toFixed(2) || "-"}</Table.Td>
+        <Table.Td>{Number(element?.openingTotalizerLiter)}</Table.Td>
+        <Table.Td>{Number(element?.closingTotalizerLiter)}</Table.Td>
+        <Table.Td>{Number(element?.differentLiter)}</Table.Td>
+        <Table.Td>{element.saleLiter}</Table.Td>
         <Table.Td>
           {element.totalPrice.toLocaleString(undefined, {
             maximumFractionDigits: 3,
-          }) || "-"}
+          })}
         </Table.Td>
         {/* <Table.Td>
           {element.daily_price.toLocaleString(undefined, {
@@ -274,13 +270,13 @@ const TotalDif = () => {
         // accept two different data structures
         body: data_g_3.map((element) => {
           const matchingEntry = literByNoz.find(
-            (entry) => entry.nozzle_no === element.nozzle_no
+            (entry) => entry.nozzleNo === element.nozzleNo
           );
           const totalLiter = matchingEntry ? matchingEntry.totalLiter : 0;
 
           return [
-            element.nozzle_no || "-",
-            element.fuel_type || "-",
+            element.nozzleNo || "-",
+            element.fuelType || "-",
             element.daily_price || "-",
             totalLiter?.toFixed(3) || "-",
             (element.daily_price * totalLiter).toLocaleString(undefined, {

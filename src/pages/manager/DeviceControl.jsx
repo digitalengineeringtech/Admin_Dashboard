@@ -29,13 +29,10 @@ const DeviceControl = () => {
   end = new Date(end);
 
   const { loading, setLoading } = useContext(LoadContext);
-<<<<<<< HEAD
-  // const client = mqtt.connect("ws://detpos:asdffdsa@192.168.0.100:9001");
-  const client = mqtt.connect("ws://detpos:asdffdsa@127.0.0.1:9001");
-=======
-  // const client = mqtt.connect("ws://detpos:asdffdsa@127.0.0.1:9001");
+
   const client = mqtt.connect("ws://detpos:asdffdsa@192.168.0.100:9001");
->>>>>>> c1a06c63bd9ba0117672c44506c43ac999586443
+  // const client = mqtt.connect("ws://detpos:asdffdsa@127.0.0.1:9001");
+
   client.setMaxListeners(20);
   const { refresh, setRefresh } = useContext(Re);
 

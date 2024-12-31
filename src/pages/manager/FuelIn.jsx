@@ -287,7 +287,6 @@ const FuelIn = () => {
   //   fetchItGet4(`/fuelin/check/fuel-balance`, token);
   // }, [con]);
   // console.log(con, data);
-
   useEffect(() => {
     fetchItGet3(`/fuelIn/pagi/1`, token);
     fetchItGet2(`/fuel-balance/by-one-date?sDate=${sDate}`, token);

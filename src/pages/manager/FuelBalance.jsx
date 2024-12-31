@@ -99,10 +99,11 @@ const FuelBalance = () => {
 
   useEffect(() => {
     fetchItGet(route, token);
-    // console.log(token, "this");
+    
   }, [con]);
 
   console.log(data_g_2, "hkhkhkkhkhkhkhkhkhkhkhkk");
+  // console.log(token, "this");
   // console.log(fuelRoute);
   // console.log(
   //   `detail-sale/pagi/by-date/1?sDate=${start}&eDate=${end}${purposeRoute}${fuelRoute}${nozzleRoute}${casherRoute}${carNo}`,
@@ -145,11 +146,11 @@ const FuelBalance = () => {
       {/* <Table.Td>{element?.opening?.toFixed(2)}</Table.Td>
       <Table.Td>{element.fuelIn}</Table.Td>
       <Table.Td>{element?.balance?.toFixed(2)}</Table.Td> */}
-      <Table.Td>10000</Table.Td>
-      <Table.Td>2000</Table.Td>
-      <Table.Td>12000</Table.Td>
-      <Table.Td>2000</Table.Td>
-      <Table.Td>10000</Table.Td>
+      <Table.Td>0</Table.Td>
+      <Table.Td>{element.tankBalance}</Table.Td>
+      <Table.Td>0</Table.Td>
+      <Table.Td>{element.salePrice}</Table.Td>
+      <Table.Td>0</Table.Td>
       <Table.Td>0</Table.Td>
     </Table.Tr>
   ));
